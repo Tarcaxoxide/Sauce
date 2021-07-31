@@ -14,7 +14,8 @@ $(X86_64_asm_object_files): build/x86_64/%.o : src/impl/x86_64/%.asm
 default: $(Target)
 
 clean:
-	rm -frv build targets/iso/kernel.bin dist
+	rm -frv build targets/x86_64/iso/boot/kernel.bin dist
+
 run: default
 	qemu-system-x86_64 -cdrom $(Target)
 

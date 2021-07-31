@@ -12,9 +12,5 @@ SECTIONS
     {
         *(.text)
     }
-    .bss : ALIGH(1024*4)
-    {
-        *(.Paging)
-        *(.Stack)
-    }
+    
 }
