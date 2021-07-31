@@ -123,7 +123,7 @@ page_table_l3:
 page_table_l2:
 	resb 4096
 stack_bottom:
-	resb 4096 * 4
+	resb 1024 * 12
 stack_top:
 
 section .rodata
