@@ -1,5 +1,9 @@
 #include "Sauce.hpp"
 
+extern Sauce::Interrupts::IDT64 _idt[256];
+extern uint64_t isr1;
+extern "C" void loadIDT();
+
 namespace Sauce{
     namespace IO{
         void outb(unsigned short port,unsigned char val){
@@ -12,6 +16,42 @@ namespace Sauce{
         }
     };
     namespace Interrupts{
+        
+    };
+    namespace Interrupts{
+        void InitializeIDT(){
+            for(uint64_t t = 0;t<256;t++){
+                _idt[t].offset_low = (uint16_t)(((uint64_t)&isr1 & 0x000000000000ffff));
+			    _idt[t].selector = 0x08;
+			    _idt[t].ist = 0;
+			    _idt[t].types_attr = 0x8e;
+			    _idt[t].offset_mid  = (uint16_t)(((uint64_t)&isr1 & 0x00000000ffff0000) >> 16);
+			    _idt[t].offset_high = (uint32_t)(((uint64_t)&isr1 & 0xffffffff00000000) >> 32);
+			    _idt[t].zero = 0;
+            }
+            Sauce::IO::outb(0x21,0xfd);
+            Sauce::IO::outb(0xa1,0xff);
+            loadIDT();
+        }
+
+        extern "C" void isr1_handler(){
+            //Sauce::Terminal::String(Sauce::Convert::ToString::From_uint8(Sauce::IO::inb(0x60)));
+
+            uint8_t input = 0;
+            
+            do {
+              if(Sauce::IO::inb(0x60) != input) {
+                input = Sauce::IO::inb(0x60);
+
+                if(input > 0) {
+                  Sauce::Terminal::String(Sauce::Convert::ToString::From_uint8(input));
+                }
+              }
+            } while(input != 0);
+
+            Sauce::IO::outb(0x20,0x20);
+            Sauce::IO::outb(0xa0,0x20);
+        }
     };
     namespace Terminal{
         // x = column; y = row;
