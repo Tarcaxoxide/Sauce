@@ -14,21 +14,37 @@ namespace Sauce{
             asm volatile("inb %1, %0": "=a"(Result): "Nd"(port));
             return Result;
         }
+        void RemapPic(){
+            uint8_t a1,a2;
+            a1 = inb(PIC1_DATA);
+            a2 = inb(PIC2_DATA);
+            outb(PIC1_COMMAND, ICW1_INIT|ICW1_ICW4);
+            outb(PIC2_COMMAND, ICW1_INIT|ICW1_ICW4);
+            outb(PIC1_DATA,0);
+            outb(PIC2_DATA,8);
+            outb(PIC1_DATA, 4);
+            outb(PIC2_DATA, 2);
+            outb(PIC1_DATA, ICW4_8086);
+            outb(PIC2_DATA, ICW4_8086);
+
+            outb(PIC1_DATA,a1);
+            outb(PIC2_DATA,a2);
+        }
     };
+   
     namespace Interrupts{
-        
-    };
-    namespace Interrupts{
+        void MapIDT(size_t index,uint64_t &This_isr){
+            _idt[index].offset_low = (uint16_t)(((uint64_t)&This_isr & 0x000000000000ffff));
+			_idt[index].selector = 0x08;
+			_idt[index].ist = 0;
+			_idt[index].types_attr = 0x8e;
+			_idt[index].offset_mid  = (uint16_t)(((uint64_t)&This_isr & 0x00000000ffff0000) >> 16);
+			_idt[index].offset_high = (uint32_t)(((uint64_t)&This_isr & 0xffffffff00000000) >> 32);
+			_idt[index].zero = 0;
+        }
         void InitializeIDT(){
-            for(uint64_t t = 0;t<256;t++){
-                _idt[t].offset_low = (uint16_t)(((uint64_t)&isr1 & 0x000000000000ffff));
-			    _idt[t].selector = 0x08;
-			    _idt[t].ist = 0;
-			    _idt[t].types_attr = 0x8e;
-			    _idt[t].offset_mid  = (uint16_t)(((uint64_t)&isr1 & 0x00000000ffff0000) >> 16);
-			    _idt[t].offset_high = (uint32_t)(((uint64_t)&isr1 & 0xffffffff00000000) >> 32);
-			    _idt[t].zero = 0;
-            }
+            MapIDT(1,isr1);
+            Sauce::IO::RemapPic();
             Sauce::IO::outb(0x21,0xfd);
             Sauce::IO::outb(0xa1,0xff);
             loadIDT();
@@ -44,7 +60,7 @@ namespace Sauce{
                 input = Sauce::IO::inb(0x60);
 
                 if(input > 0) {
-                  Sauce::Terminal::String(Sauce::Convert::ToString::From_uint8(input));
+                  Sauce::Terminal::String(Sauce::Convert::ToString::From_KeyCode(input));
                 }
               }
             } while(input != 0);
@@ -98,9 +114,10 @@ namespace Sauce{
                 }break;
             }
             if(x_pos > MAX_X){
-                    NewLine();
-                }
-                SetCursor();
+                NewLine();
+                ReturnCaret();
+            }
+            SetCursor();   
         }
         void SetCharacterAt(size_t X,size_t Y,char character){
             struct Char FillChar = {(uint8_t)character,color};
@@ -135,7 +152,7 @@ namespace Sauce{
                         SetCharacterAt(col,(row-1),GetCharacterAt(col,row));
                     }
                 }
-                ClearRow(MAX_X);
+                ClearRow(MAX_Y);
             }
             SetCursor();
         }
@@ -233,6 +250,18 @@ namespace Sauce{
                     hxString[size - (i * 2 + 0)]= temp + (temp > 9 ? 55 : 48);
                 }
                 return hxString;
+            }
+            char* From_KeyCode(uint8_t KeyCode){
+                char* KeyRet="?";
+                if(KeyCode == 0x01){
+                    KeyRet="D_Esc";
+                }else if(KeyCode == 0x81){
+                    KeyRet="U_ESC";
+                }else{
+                    KeyRet=From_uint8(KeyCode);
+                }
+                
+                return KeyRet;
             }
         };
         
