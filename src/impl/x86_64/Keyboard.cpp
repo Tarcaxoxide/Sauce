@@ -73,6 +73,10 @@ namespace Sauce{
                 case 0xCC:IVisible = false;break;
                 case 0xC8:IVisible = false;break;
                 case 0xD2:IVisible = false;break;
+                case 0xBE:IVisible = false;break;
+                case 0xCA:IVisible = false;break;
+                case 0xC2:IVisible = false;break;
+                case 0xB6:IVisible = false;break;
             }
             if(!Capital){
                 switch(IKey){
