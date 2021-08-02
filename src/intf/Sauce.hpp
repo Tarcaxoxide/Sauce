@@ -101,6 +101,8 @@ namespace Sauce{
 			char* From_uint32(uint32_t value);
 			char* From_uint64(uint64_t value);
 			char* From_Integer(int64_t value);
+			char* From_Decimal(float value,uint16_t decimalPlaces);
+			char* From_Decimal(double value,uint16_t decimalPlaces);
 		};
 	};
 };

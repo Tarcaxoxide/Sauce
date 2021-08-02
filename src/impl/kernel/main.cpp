@@ -39,6 +39,10 @@ extern "C" void Kernel_Main(){
     Sauce::Terminal::NewLine();
     Sauce::Terminal::ReturnCaret();
     Sauce::Terminal::String(Sauce::Convert::To_String::From_Integer(-123456789));
+    Sauce::Terminal::NewLine();
+    Sauce::Terminal::ReturnCaret();
+    double test=4.50;
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_Decimal(test,2));
     Sauce::Interrupts::InitializeIDT();
 
     while(1){

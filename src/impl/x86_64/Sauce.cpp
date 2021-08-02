@@ -380,14 +380,14 @@ namespace Sauce{
 
     namespace Convert{
         namespace To_String{
-            char hxString[512] = {0};
-            void Clear_hxString(){
+            char haxString[512] = {0};
+            void Clear_haxString(){
                 for(size_t a = 0;(a < 512);a++){
-                    hxString[a] = 0;
+                    haxString[a] = 0;
                 }
             }
             char* From_uint8(uint8_t value){
-                Clear_hxString();
+                Clear_haxString();
                 uint8_t* valPtr = &value;
                 uint8_t* ptr;
                 uint8_t temp;
@@ -396,14 +396,14 @@ namespace Sauce{
                 for(i = 0;(i < size);i++){
                     ptr = ((uint8_t*)valPtr+i);
                     temp = ((*ptr & 0xF0) >> 4);
-                    hxString[(size - (i * 2 + 1))]= (temp + (temp > 9 ? 55 : 48));
+                    haxString[(size - (i * 2 + 1))]= (temp + (temp > 9 ? 55 : 48));
                     temp = ((*ptr & 0x0F));
-                    hxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
+                    haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
                 }
-                return hxString;
+                return haxString;
             }
             char* From_uint16(uint16_t value){
-                Clear_hxString();
+                Clear_haxString();
                 uint16_t* valPtr = &value;
                 uint8_t* ptr;
                 uint8_t temp;
@@ -412,14 +412,14 @@ namespace Sauce{
                 for(i = 0;(i < size);i++){
                     ptr = ((uint8_t*)valPtr+i);
                     temp = ((*ptr & 0xF0) >> 4);
-                    hxString[(size - (i * 2 + 1))]= (temp + (temp > 9 ? 55 : 48));
+                    haxString[(size - (i * 2 + 1))]= (temp + (temp > 9 ? 55 : 48));
                     temp = ((*ptr & 0x0F));
-                    hxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
+                    haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
                 }
-                return hxString;
+                return haxString;
             }
             char* From_uint32(uint32_t value){
-                Clear_hxString();
+                Clear_haxString();
                 uint32_t* valPtr = &value;
                 uint8_t* ptr;
                 uint8_t temp;
@@ -428,14 +428,14 @@ namespace Sauce{
                 for(i = 0;(i < size);i++){
                     ptr = ((uint8_t*)valPtr+i);
                     temp = ((*ptr & 0xF0) >> 4);
-                    hxString[(size - (i * 2 + 1))]= (temp + (temp > 9 ? 55 : 48));
+                    haxString[(size - (i * 2 + 1))]= (temp + (temp > 9 ? 55 : 48));
                     temp = ((*ptr & 0x0F));
-                    hxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
+                    haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
                 }
-                return hxString;
+                return haxString;
             }
             char* From_uint64(uint64_t value){
-                Clear_hxString();
+                Clear_haxString();
                 uint64_t* valPtr = &value;
                 uint8_t* ptr;
                 uint8_t temp;
@@ -444,21 +444,20 @@ namespace Sauce{
                 for(i = 0;(i < size);i++){
                     ptr = ((uint8_t*)valPtr+i);
                     temp = ((*ptr & 0xF0) >> 4);
-                    hxString[(size - (i * 2 + 1))]= (temp + (temp > 9 ? 55 : 48));
+                    haxString[(size - (i * 2 + 1))]= (temp + (temp > 9 ? 55 : 48));
                     temp = ((*ptr & 0x0F));
-                    hxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
+                    haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
                 }
-                return hxString;
+                return haxString;
             }
-
 			char* From_Integer(int64_t value){
-                Clear_hxString();
+                Clear_haxString();
                 uint8_t isNegative = 0;
 
                 if(value < 0){
                     isNegative=1;
                     value*=-1;
-                    hxString[0]='-';
+                    haxString[0]='-';
                 }
 
                 uint8_t size = 0;
@@ -472,12 +471,50 @@ namespace Sauce{
                 while(newValue / 10 > 0){
                     uint8_t remainder = (newValue % 10);
                     newValue /= 10;
-                    hxString[((isNegative + size) - index)] = (remainder + 48);
+                    haxString[((isNegative + size) - index)] = (remainder + 48);
                     index++;
                 }
                 uint8_t remainder = (newValue % 10);
-                hxString[((isNegative + size) - index)] = (remainder + 48);
-                return hxString;
+                haxString[((isNegative + size) - index)] = (remainder + 48);
+                return haxString;
+            }
+            char* From_Decimal(float value,uint16_t decimalPlaces){
+                Clear_haxString();
+                char* intPtr = (char*)From_Integer((int)value);
+                char* floatPtr = haxString;
+                
+                while(*intPtr != 0){
+                    *floatPtr++ = *intPtr++;
+                }
+                *floatPtr++ = '.';
+
+                float newValue = (value - (int)value);
+                for(uint16_t i=0;i<decimalPlaces;i++){
+                    newValue *= 10;
+                    *floatPtr++ = ((int)newValue +48);
+                    newValue -= (int)newValue;
+                }
+                *floatPtr = 0;
+                return haxString;
+            }
+            char* From_Decimal(double value,uint16_t decimalPlaces){
+                Clear_haxString();
+                char* intPtr = (char*)From_Integer((int)value);
+                char* floatPtr = haxString;
+                
+                while(*intPtr != 0){
+                    *floatPtr++ = *intPtr++;
+                }
+                *floatPtr++ = '.';
+
+                float newValue = (value - (int)value);
+                for(uint16_t i=0;i<decimalPlaces;i++){
+                    newValue *= 10;
+                    *floatPtr++ = ((int)newValue +48);
+                    newValue -= (int)newValue;
+                }
+                *floatPtr = 0;
+                return haxString;
             }
         };
     };
