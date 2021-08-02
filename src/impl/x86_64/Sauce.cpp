@@ -206,17 +206,19 @@ namespace Sauce{
                 static bool isShift;
                 static bool isCaps;
                 uint16_t KeyCodeDecoded=404;
+                uint8_t* KeyMapCodes=NULL;
                 switch(KeySet){
-                    case 1:{
-                        for(size_t I=0;I<250;I++){
-                            if(KeyMapCodes_1[I] == KeyCode){
-                                uint16_t X=0;
-                                if((I%2))X=0x1000;
-                                X+=(uint16_t)(I-(I%2));
-                                KeyCodeDecoded=X;
-                            }
-                        }
-                    }break;
+                    case 1: KeyMapCodes=(uint8_t*)&KeyMapCodes_1;break;
+
+                }
+
+                for(size_t I=0;I<250;I++){
+                    if(KeyMapCodes[I] == KeyCode){
+                        uint16_t X=0;
+                        if((I%2))X=0x1000;
+                        X+=(uint16_t)(I-(I%2));
+                        KeyCodeDecoded=X;
+                    }
                 }
                 if(KeyCodeDecoded == 0x103A){
                     isCaps=!isCaps;

@@ -80,7 +80,7 @@ namespace Sauce{
 	};
 	namespace Convert{
 		namespace To_uint16{
-			uint16_t From_KeyCode(uint8_t KeyCode,size_t KeySet=0);
+			uint16_t From_KeyCode(uint8_t KeyCode,size_t KeySet=1);
 		};
 		namespace To_String{
 			char* From_uint8(uint8_t value);
