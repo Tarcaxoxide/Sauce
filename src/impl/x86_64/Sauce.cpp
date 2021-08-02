@@ -51,7 +51,7 @@ namespace Sauce{
         }
 
         extern "C" void isr1_handler(){
-            //Sauce::Terminal::String(Sauce::Convert::ToString::From_uint8(Sauce::IO::inb(0x60)));
+            //Sauce::Terminal::String(Sauce::Convert::To_String::From_uint8(Sauce::IO::inb(0x60)));
 
             uint8_t input = 0;
             
@@ -60,7 +60,8 @@ namespace Sauce{
                 input = Sauce::IO::inb(0x60);
 
                 if(input > 0) {
-                  Sauce::Terminal::String(Sauce::Convert::ToString::From_KeyCode(input));
+                    uint16_t Xinput = Sauce::Convert::To_uint16::From_KeyCode(input);
+                  Sauce::Terminal::String(Sauce::Convert::To_String::From_uint16(Xinput));
                 }
               }
             } while(input != 0);
@@ -176,8 +177,59 @@ namespace Sauce{
         }
     };
 
+    namespace Keyboard{
+        struct Keyboard_KeyPair{
+            uint8_t Make_Code=0x00;
+            uint8_t Break_Code=0x00;
+            char KeyName[64];
+        };
+        const size_t KeyCount=126;
+        Keyboard_KeyPair Keyboard_Map[KeyCount];
+
+
+        void Register_Keyboard_KeyPair(size_t KeyIndex,uint8_t Make_Code,uint8_t Break_Code,char* KeyName){
+            size_t KeyNameSize=Sauce::Terminal::StringLength(KeyName);
+            Keyboard_KeyPair New_Keyboard_KeyPair;
+            for(size_t I=0;(I<KeyNameSize && I<64);I++){
+                New_Keyboard_KeyPair.KeyName[I]=KeyName[I];
+            }
+            
+            New_Keyboard_KeyPair.Make_Code=Make_Code;
+            New_Keyboard_KeyPair.Break_Code=Break_Code;
+            Keyboard_Map[KeyIndex]=New_Keyboard_KeyPair;
+        }
+    };
+
     namespace Convert{
-        namespace ToString{
+        namespace To_uint16{
+            uint16_t From_KeyCode(uint8_t KeyCode,size_t KeySet){
+                static bool isShift;
+                static bool isCaps;
+                uint16_t KeyCodeDecoded=404;
+                for(size_t I=0;I<250;I++){
+                    if(KeyMapCodes[KeySet][I] == KeyCode){
+                        uint16_t X=0;
+                        if((I%2))X=0x1000;
+                        X+=(uint16_t)(I-(I%2));
+                        KeyCodeDecoded=X;
+                    }
+                }
+                if(KeyCodeDecoded == 0x103A){
+                    isCaps=!isCaps;
+                }
+                if(KeyCodeDecoded == 0x0056){
+                    isShift=true;
+                }
+                if(KeyCodeDecoded == 0x1056){
+                    isShift=false;
+                }
+                if(isCaps != isShift){
+                    KeyCodeDecoded+=0x0100;
+                }
+                return KeyCodeDecoded;
+            }
+        };
+        namespace To_String{
             char hxString[256]={0};
             char* From_uint8(uint8_t value){
                 for(size_t a=0;a<256;a++){
@@ -251,19 +303,8 @@ namespace Sauce{
                 }
                 return hxString;
             }
-            char* From_KeyCode(uint8_t KeyCode){
-                char* KeyRet="?";
-                if(KeyCode == 0x01){
-                    KeyRet="D_Esc";
-                }else if(KeyCode == 0x81){
-                    KeyRet="U_ESC";
-                }else{
-                    KeyRet=From_uint8(KeyCode);
-                }
-                
-                return KeyRet;
-            }
         };
         
     };
 };
+

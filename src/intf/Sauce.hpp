@@ -2,6 +2,7 @@
 
 #include<stdint.h>
 #include<stddef.h>
+#include "KeyboardMaps.hpp"
 
 #define PIC1_COMMAND 0x20
 #define PIC1_DATA 0x21
@@ -78,12 +79,16 @@ namespace Sauce{
 		void SetRealCursor(size_t X,size_t Y);
 	};
 	namespace Convert{
-		namespace ToString{
+		namespace To_uint16{
+			uint16_t From_KeyCode(uint8_t KeyCode,size_t KeySet=0);
+		};
+		namespace To_String{
 			char* From_uint8(uint8_t value);
 			char* From_uint16(uint16_t value);
 			char* From_uint32(uint32_t value);
 			char* From_uint64(uint64_t value);
-			char* From_KeyCode(uint8_t KeyCode);
+			
 		};
 	};
 };
+
