@@ -483,6 +483,10 @@ namespace Sauce{
                 char* intPtr = (char*)From_Integer((int)value);
                 char* floatPtr = haxString;
                 
+                if(value < 0){
+                    value *= -1;
+                }
+
                 while(*intPtr != 0){
                     *floatPtr++ = *intPtr++;
                 }
@@ -502,6 +506,10 @@ namespace Sauce{
                 char* intPtr = (char*)From_Integer((int)value);
                 char* floatPtr = haxString;
                 
+                if(value < 0){
+                    value *= -1;
+                }
+
                 while(*intPtr != 0){
                     *floatPtr++ = *intPtr++;
                 }
