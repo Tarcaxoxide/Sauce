@@ -451,8 +451,16 @@ namespace Sauce{
                 return hxString;
             }
 
-			char* From_Integer(uint64_t value){
+			char* From_Integer(int64_t value){
                 Clear_hxString();
+                uint8_t isNegative = 0;
+
+                if(value < 0){
+                    isNegative=1;
+                    value*=-1;
+                    hxString[0]='-';
+                }
+
                 uint8_t size = 0;
                 uint64_t sizeTester = (uint64_t)value;
                 while(sizeTester / 10 > 0){
@@ -464,14 +472,13 @@ namespace Sauce{
                 while(newValue / 10 > 0){
                     uint8_t remainder = (newValue % 10);
                     newValue /= 10;
-                    hxString[size - index] = (remainder + 48);
+                    hxString[((isNegative + size) - index)] = (remainder + 48);
                     index++;
                 }
                 uint8_t remainder = (newValue % 10);
-                hxString[size - index] = (remainder + 48);
+                hxString[((isNegative + size) - index)] = (remainder + 48);
                 return hxString;
             }
         };
-        
     };
 };

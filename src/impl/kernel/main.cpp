@@ -36,6 +36,9 @@ extern "C" void Kernel_Main(){
     Sauce::Terminal::Setcolor(Sauce::Terminal::COLOR_LIGHT_GREEN, Sauce::Terminal::COLOR_BLACK);
     Sauce::Terminal::String("Hello World!\n\r");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_Integer(123456789));
+    Sauce::Terminal::NewLine();
+    Sauce::Terminal::ReturnCaret();
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_Integer(-123456789));
     Sauce::Interrupts::InitializeIDT();
 
     while(1){
