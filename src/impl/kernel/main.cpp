@@ -7,7 +7,14 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
         if(D != NULL && _Key.visible){
             Sauce::Terminal::Character(D);
         }else if(_Key.visible){
-            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint8(_Key.Key));
+            //Sauce::Terminal::String("0x");
+            //Sauce::Terminal::String(Sauce::Convert::To_String::From_uint8(_Key.Key));
+            switch(_Key.Key){
+                case 0xBE:Sauce::Terminal::RelativeSetCursor(true,0,-1);break;//up
+                case 0xCA:Sauce::Terminal::RelativeSetCursor(true,1,0);break;//right
+                case 0xC2:Sauce::Terminal::RelativeSetCursor(true,0,1);break;//down
+                case 0xB6:Sauce::Terminal::RelativeSetCursor(true,-1,0);break;//left
+            }
         }else{
             
             switch(_Key.Key){

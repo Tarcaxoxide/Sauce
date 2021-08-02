@@ -76,6 +76,7 @@ namespace Sauce{
 		void NewLine();
 		void ReturnCaret();
 		void SetCursor(bool adjust=false,size_t X=0,size_t Y=0);
+		void RelativeSetCursor(bool adjust=false,long int X=0,long int Y=0);
 		void SetRealCursor(size_t X,size_t Y);
 		void BackSpace();
 		bool IsSpace();

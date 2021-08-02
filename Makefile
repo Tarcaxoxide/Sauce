@@ -28,7 +28,7 @@ $(X86_64_cpp_object_files): build/x86_64/%.o : src/impl/x86_64/%.cpp
 	mkdir -p $(dir $@)
 	$(compilerPath)-g++ -I src/intf -ffreestanding -c $(patsubst build/x86_64/%.o, src/impl/x86_64/%.cpp, $@) -o $@
 
-.PHONY: run clean
+.PHONY: run clean do
 
 default: $(Target)
 
@@ -37,6 +37,9 @@ clean:
 
 run: default
 	qemu-system-x86_64 -cdrom $(Target)
+
+do:
+	make clean;clear;clear;reset;make default && make run
 
 dist/x86_64/build-x86_64.iso: $(kernel_object_files) $(X86_64_object_files)
 	mkdir -p dist/x86_64

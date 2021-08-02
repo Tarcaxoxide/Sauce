@@ -58,7 +58,10 @@ namespace Sauce{
 
                 if(input > 0) {
                     uint16_t Xinput = Sauce::Keyboard::Translate_KeyCode(input);
-                    NotifyKernelOfKeyPress(Sauce::Keyboard::CodeToKey(Xinput));
+                    if(Xinput != NULL){
+                        Sauce::Keyboard::KeyboardKey Xkey = Sauce::Keyboard::CodeToKey(Xinput);
+                        if(Xkey.Key != NULL)NotifyKernelOfKeyPress(Xkey);
+                    }
                 }
               }
             } while(input != 0);
@@ -159,6 +162,13 @@ namespace Sauce{
             }
             SetRealCursor(x_pos,y_pos);
         }
+        void RelativeSetCursor(bool adjust,long int X, long int Y){
+            if(adjust){
+                x_pos+=X;
+                y_pos+=Y;
+            }
+            SetRealCursor(x_pos,y_pos);
+        }
         void SetRealCursor(size_t X,size_t Y){
             size_t position=(X + MAX_X * Y);
             Sauce::IO::outb(0x3D4, 0x0F);
@@ -188,15 +198,16 @@ namespace Sauce{
         uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet){
                 static bool isShift;
                 static bool isCaps;
-                uint16_t KeyCodeDecoded = 404;
                 uint8_t* KeyMapCodes = NULL;
+                uint16_t KeyCodeDecoded = NULL;
+              
+              
                 switch(KeySet){
                     case 1:KeyMapCodes = (uint8_t*)&KeyMapCodes_1;break;
                 }
-
                 for(size_t I = 0;(I < 250);I++){
+                    uint16_t X = 0;
                     if(KeyMapCodes[I] == KeyCode){
-                        uint16_t X = 0;
                         if(!(I % 2))X = 0x1000;
                         X += (uint16_t)(I - (I % 2));
                         KeyCodeDecoded=X;
@@ -216,6 +227,9 @@ namespace Sauce{
                 }
                 return KeyCodeDecoded;
             }
+
+
+
             KeyboardKey CodeToKey(uint16_t TranslatedKeyCode){
                 uint8_t IPress = (((uint8_t)(TranslatedKeyCode >> 12)) << 4);
                 uint8_t ICapital = (((uint8_t)(TranslatedKeyCode >> 8)) << 4);
