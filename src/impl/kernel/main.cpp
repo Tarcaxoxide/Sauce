@@ -34,6 +34,3 @@ extern "C" void Kernel_Main(){
         asm volatile("hlt");
     }
 }
-
-
-
