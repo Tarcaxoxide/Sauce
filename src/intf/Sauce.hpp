@@ -100,10 +100,7 @@ namespace Sauce{
 			char* From_uint16(uint16_t value);
 			char* From_uint32(uint32_t value);
 			char* From_uint64(uint64_t value);
-			char* From_Integer8(uint8_t value);
-			char* From_Integer16(uint16_t value);
-			char* From_Integer32(uint32_t value);
-			char* From_Integer64(uint64_t value);
+			char* From_Integer(uint64_t value);
 		};
 	};
 };

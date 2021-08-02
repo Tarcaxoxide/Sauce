@@ -451,67 +451,7 @@ namespace Sauce{
                 return hxString;
             }
 
-            char* From_Integer8(uint8_t value){
-                Clear_hxString();
-                uint8_t size = 0;
-                uint64_t sizeTester = (uint64_t)value;
-                while(sizeTester / 10 > 0){
-                    sizeTester /= 10;
-                    size++;
-                }
-                uint8_t index = 0;
-                uint64_t newValue = (uint64_t)value;
-                while(newValue / 10 > 0){
-                    uint8_t remainder = (newValue % 10);
-                    newValue /= 10;
-                    hxString[size - index] = (remainder + 48);
-                    index++;
-                }
-                uint8_t remainder = (newValue % 10);
-                hxString[size - index] = (remainder + 48);
-                return hxString;
-            }
-			char* From_Integer16(uint16_t value){
-                Clear_hxString();
-                uint8_t size = 0;
-                uint64_t sizeTester = (uint64_t)value;
-                while(sizeTester / 10 > 0){
-                    sizeTester /= 10;
-                    size++;
-                }
-                uint8_t index = 0;
-                uint64_t newValue = (uint64_t)value;
-                while(newValue / 10 > 0){
-                    uint8_t remainder = (newValue % 10);
-                    newValue /= 10;
-                    hxString[size - index] = (remainder + 48);
-                    index++;
-                }
-                uint8_t remainder = (newValue % 10);
-                hxString[size - index] = (remainder + 48);
-                return hxString;
-            }
-			char* From_Integer32(uint32_t value){
-                Clear_hxString();
-                uint8_t size = 0;
-                uint64_t sizeTester = (uint64_t)value;
-                while(sizeTester / 10 > 0){
-                    sizeTester /= 10;
-                    size++;
-                }
-                uint8_t index = 0;
-                uint64_t newValue = (uint64_t)value;
-                while(newValue / 10 > 0){
-                    uint8_t remainder = (newValue % 10);
-                    newValue /= 10;
-                    hxString[size - index] = (remainder + 48);
-                    index++;
-                }
-                uint8_t remainder = (newValue % 10);
-                hxString[size - index] = (remainder + 48);
-                return hxString;
-            }
-			char* From_Integer64(uint64_t value){
+			char* From_Integer(uint64_t value){
                 Clear_hxString();
                 uint8_t size = 0;
                 uint64_t sizeTester = (uint64_t)value;
