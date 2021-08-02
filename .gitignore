@@ -1,4 +1,3 @@
-build
-build
+build/*
 dist/x86_64/build-x86_64.iso
 dist/x86_64/kernel.bin
