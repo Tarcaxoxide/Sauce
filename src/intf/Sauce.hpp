@@ -77,11 +77,23 @@ namespace Sauce{
 		void ReturnCaret();
 		void SetCursor(bool adjust=false,size_t X=0,size_t Y=0);
 		void SetRealCursor(size_t X,size_t Y);
+		void BackSpace();
+		bool IsSpace();
 	};
-	namespace Convert{
-		namespace To_uint16{
-			uint16_t From_KeyCode(uint8_t KeyCode,size_t KeySet=1);
+
+	namespace Keyboard{
+		struct KeyboardKey{
+			bool Capital=false;
+			bool Press=false;
+			bool visible=true;
+			uint8_t Key;
+			char Display;
 		};
+		uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet=1);
+		KeyboardKey CodeToKey(uint16_t TranslatedKeyCode);
+	};
+
+	namespace Convert{
 		namespace To_String{
 			char* From_uint8(uint8_t value);
 			char* From_uint16(uint16_t value);
@@ -92,3 +104,4 @@ namespace Sauce{
 	};
 };
 
+extern void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key);
