@@ -1,5 +1,5 @@
 extern _idt
-extern isr1_handler
+
 
 %macro PUSHALL 0
     push rax
@@ -22,16 +22,28 @@ extern isr1_handler
 %endmacro
 
 
+%macro isr 1
+    extern isr%1_handler
+    isr%1:
+        PUSHALL
+        call isr%1_handler
+        POPALL
+        iretq
+    GLOBAL isr%1
+%endmacro
+
 idtDescriptor:
     dw 4095
     dq _idt
 
-isr1:
-    PUSHALL
-    call isr1_handler
-    POPALL
-    iretq
-    GLOBAL isr1
+;isr1:
+;    PUSHALL
+;    call isr1_handler
+;    POPALL
+;    iretq
+;    GLOBAL isr1
+
+isr 1
 
 loadIDT:
     lidt[idtDescriptor]

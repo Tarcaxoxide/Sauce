@@ -1,5 +1,10 @@
 #include "Convert.hpp"
 
+// this file contains conversions from 1 data type to another.
+// currently we only have int types to string but eventually i plan on implementing a way to go the other way as well
+// and even conversions to custom types.
+
+
 namespace Sauce{
     namespace Convert{
         namespace To_String{

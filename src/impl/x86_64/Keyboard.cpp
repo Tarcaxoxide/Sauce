@@ -1,5 +1,8 @@
 #include "Keyboard.hpp"
 
+// this file contains stuff for the keyboard. like keycode conversion.
+// it also uses a custom type 'KeyboardKey'
+
 namespace Sauce{
     namespace Keyboard{
         uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet){

@@ -1,5 +1,6 @@
 #include "IO.hpp"
 
+// this file contains things to communicate with hardware ports.
 
 namespace Sauce{
     namespace IO{

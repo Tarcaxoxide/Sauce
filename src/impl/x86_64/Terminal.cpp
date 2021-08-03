@@ -1,5 +1,9 @@
 #include "Terminal.hpp"
 
+// this file contains stuff to handle the default terminal.
+// eventually this will not be needed because userland will be graphical but
+// this will be used for now and also for the early boot up.
+
 namespace Sauce{
     namespace Terminal{
         // x = column; y = row;

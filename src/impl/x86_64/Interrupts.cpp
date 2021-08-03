@@ -1,8 +1,16 @@
 #include "Interrupts.hpp"
 
+// this file contains everything to due with interrupts. all the interrupts will start here and then get passed to the
+// appropriate kernel handler which then will decide what to do with the interrupt.
+// also contains some conversion code for keycodes and what not.
+
 extern Sauce::Interrupts::IDT64 _idt[256];
 extern uint64_t isr1;
 extern "C" void loadIDT();
+
+extern "C" void isr1_handler(){Sauce::Interrupts::isr_handler(1);Sauce::IO::outb(0x20,0x20);Sauce::IO::outb(0xa0,0x20);}
+
+
 
 
 
@@ -25,24 +33,24 @@ namespace Sauce{
             loadIDT();
         }
 
-        extern "C" void isr1_handler(){
-            uint8_t input = 0;
-            do {
-              if(Sauce::IO::inb(0x60) != input) {
-                input = Sauce::IO::inb(0x60);
-
-                if(input > 0) {
-                    uint16_t Xinput = Sauce::Keyboard::Translate_KeyCode(input);
-                    if(Xinput != NULL){
-                        Sauce::Keyboard::KeyboardKey Xkey = Sauce::Keyboard::CodeToKey(Xinput);
-                        if(Xkey.Key != NULL)NotifyKernelOfKeyPress(Xkey);
-                    }
-                }
-              }
-            } while(input != 0);
-
-            Sauce::IO::outb(0x20,0x20);
-            Sauce::IO::outb(0xa0,0x20);
+        void isr_handler(uint64_t isr_number){
+            switch(isr_number){
+                case 1:{
+                    uint8_t input = 0;
+                    do {
+                      if(Sauce::IO::inb(0x60) != input) {
+                        input = Sauce::IO::inb(0x60);
+                        if(input > 0) {
+                            uint16_t Xinput = Sauce::Keyboard::Translate_KeyCode(input);
+                            if(Xinput != NULL){
+                                Sauce::Keyboard::KeyboardKey Xkey = Sauce::Keyboard::CodeToKey(Xinput);
+                                if(Xkey.Key != NULL)NotifyKernelOfKeyPress(Xkey);
+                            }
+                        }
+                      }
+                    } while(input != 0);
+                }break;
+            }
         }
     };
 };

@@ -18,6 +18,7 @@ namespace Sauce{
 		};
 		void InitializeIDT();
 		void MapIDT(size_t index,uint64_t (*This_isr));
+		void isr_handler(uint64_t isr_number);
 	};
 };
 
