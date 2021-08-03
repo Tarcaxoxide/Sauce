@@ -14,6 +14,8 @@ Target :=dist/x86_64/build-x86_64.iso
 
 compilerPath=~/opt/cross/bin/x86_64-elf
 
+CPP_ARGS=-I src/intf -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib 
+LINK_ARGS= -n -z max-page-size=0x1000
 
 $(X86_64_asm_object_files): build/x86_64/%.o : src/impl/x86_64/%.asm
 	mkdir -p $(dir $@)
@@ -21,12 +23,12 @@ $(X86_64_asm_object_files): build/x86_64/%.o : src/impl/x86_64/%.asm
 
 $(kernel_object_files): build/kernel/%.o : src/impl/kernel/%.cpp
 	mkdir -p $(dir $@)
-	$(compilerPath)-g++ -I src/intf -ffreestanding -c $(patsubst build/kernel/%.o, src/impl/kernel/%.cpp, $@) -o $@
+	$(compilerPath)-g++  $(CPP_ARGS) -c $(patsubst build/kernel/%.o, src/impl/kernel/%.cpp, $@) -o $@
 
 
 $(X86_64_cpp_object_files): build/x86_64/%.o : src/impl/x86_64/%.cpp
 	mkdir -p $(dir $@)
-	$(compilerPath)-g++ -I src/intf -ffreestanding -c $(patsubst build/x86_64/%.o, src/impl/x86_64/%.cpp, $@) -o $@
+	$(compilerPath)-g++ $(CPP_ARGS) -c $(patsubst build/x86_64/%.o, src/impl/x86_64/%.cpp, $@) -o $@
 
 .PHONY: run clean do
 
@@ -43,6 +45,6 @@ do:
 
 dist/x86_64/build-x86_64.iso: $(kernel_object_files) $(X86_64_object_files)
 	mkdir -p dist/x86_64
-	$(compilerPath)-ld -n -o dist/x86_64/kernel.bin -T targets/x86_64/linker.ld $^
+	$(compilerPath)-ld $(LINK_ARGS) -o dist/x86_64/kernel.bin -T targets/x86_64/linker.ld $^
 	cp dist/x86_64/kernel.bin targets/x86_64/iso/boot/kernel.bin
 	grub-mkrescue /usr/lib/grub/i386-pc -o dist/x86_64/build-x86_64.iso targets/x86_64/iso
