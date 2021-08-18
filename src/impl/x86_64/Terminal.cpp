@@ -37,7 +37,7 @@ namespace Sauce{
         void Character(char character){
             switch(character){
                 case '\n':NewLine();break;
-                case '\r':x_pos = 0;break;
+                case '\r':ReturnCaret();break;
                 default:SetCharacterAt(x_pos++,y_pos,character);break;
             }
             if(x_pos > MAX_X){
