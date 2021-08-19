@@ -20,16 +20,16 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
                     Sauce::Terminal::ReturnCaret();
                     }break;
                 case 0xBE:{
-                    Sauce::Terminal::RelativeSetCursor(true,0,-1);//up arrow
+                    Sauce::Terminal::RelativeSetCursor(true,0,-1); //up arrow
                     }break;
                 case 0xCA:{
-                    Sauce::Terminal::RelativeSetCursor(true,1,0);//right arrow
+                    Sauce::Terminal::RelativeSetCursor(true,1,0); //right arrow
                     }break;
                 case 0xC2:{
-                    Sauce::Terminal::RelativeSetCursor(true,0,1);//down arrow
+                    Sauce::Terminal::RelativeSetCursor(true,0,1); //down arrow
                     }break;
                 case 0xB6:{
-                    Sauce::Terminal::RelativeSetCursor(true,-1,0);//left arrow
+                    Sauce::Terminal::RelativeSetCursor(true,-1,0); //left arrow
                     }break;
             }
         }

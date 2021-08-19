@@ -1,9 +1,11 @@
 #pragma once
 
-#include<stdint.h>
-#include<stddef.h>
-#include "IO.hpp"
-#include "Keyboard.hpp"
+#include <stdint.h>
+#include <stddef.h>
+#include <IO.hpp>
+#include <Keyboard.hpp>
+#include <Terminal.hpp>
+#include <Convert.hpp>
 
 namespace Sauce{
     namespace Interrupts{

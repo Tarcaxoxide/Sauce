@@ -1,5 +1,5 @@
 extern _idt
-
+extern _ZN5Sauce10Interrupts11isr_handlerEm
 
 %macro PUSHALL 0
     push rax
@@ -12,21 +12,21 @@ extern _idt
 %endmacro
 
 %macro POPALL 0
-    push r11
-    push r10
-    push r9
-    push r8
-    push rdx
-    push rcx
-    push rax
+    pop r11
+    pop r10
+    pop r9
+    pop r8
+    pop rdx
+    pop rcx
+    pop rax
 %endmacro
 
 
 %macro isr 1
-    extern isr%1_handler
     isr%1:
         PUSHALL
-        call isr%1_handler
+        mov rdi, %1
+        call _ZN5Sauce10Interrupts11isr_handlerEm
         POPALL
         iretq
     GLOBAL isr%1
@@ -35,13 +35,6 @@ extern _idt
 idtDescriptor:
     dw 4095
     dq _idt
-
-;isr1:
-;    PUSHALL
-;    call isr1_handler
-;    POPALL
-;    iretq
-;    GLOBAL isr1
 
 isr 1
 

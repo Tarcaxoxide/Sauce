@@ -17,8 +17,8 @@ namespace Sauce{
                 }
                 for(size_t I = 0;(I < 250);I++){
                     uint16_t X = 0;
-                    if(KeyMapCodes[I] == KeyCode){
-                        if(!(I % 2))X = 0x1000;
+                    if(KeyMapCodes[I] == KeyCode){ //basically we are converting the keycode to the index of the keycode inside the key map.
+                        if(!(I % 2))X = 0x1000;  //and then we are doing some fancy math to seperate press/release (the last 2 bits are the code, the first 2 are the indicators to determine press/release and capital/lowercase)
                         X += (uint16_t)(I - (I % 2));
                         KeyCodeDecoded=X;
                     }
@@ -33,7 +33,7 @@ namespace Sauce{
                     isShift = true;
                 }
                 if(isCaps != isShift){
-                    KeyCodeDecoded += 0x0100;
+                    KeyCodeDecoded += 0x0100; // if we are shifted or capitalized but not at the same time then make the indicator so it's capital letter of what ever key is being pressed.
                 }
                 return KeyCodeDecoded;
             }
@@ -45,7 +45,7 @@ namespace Sauce{
             char IDisplay = NULL;
             bool Press = (IPress == 0x10);
             bool Capital = (ICapital == 0x10);
-            switch(IKey){
+            switch(IKey){ // we check if the key is any of the keys that should not be visible.(visible being anything that you could type into a terminal, the key 'm' is visible but the key 'ctrl' is not visible)
                 case 0xDA:IVisible = false;break;
                 case 0x1E:IVisible = false;break;
                 case 0X3A:IVisible = false;break;
@@ -82,7 +82,7 @@ namespace Sauce{
                 case 0xB6:IVisible = false;break;
             }
             if(!Capital){
-                switch(IKey){
+                switch(IKey){// we set the display character for keys that can be visible.
                     case 0x00:IDisplay = '`';break;
                     case 0x02:IDisplay = '1';break;
                     case 0x04:IDisplay = '2';break;
@@ -133,7 +133,7 @@ namespace Sauce{
                     case 0x78:IDisplay = ' ';break;
                 }
             }else{
-                switch(IKey){
+                switch(IKey){// we set the display character for keys that can be visible.
                     case 0x00:IDisplay = '~';break;
                     case 0x02:IDisplay = '!';break;
                     case 0x04:IDisplay = '@';break;
@@ -184,7 +184,7 @@ namespace Sauce{
                     case 0x78:IDisplay = ' ';break;
                 }
             }
-            return {Capital,Press,IVisible,IKey,IDisplay};
+            return {Capital,Press,IVisible,IKey,IDisplay}; // we return a structure of the values which is defined in Keyboard.hpp
         }
     };
 };

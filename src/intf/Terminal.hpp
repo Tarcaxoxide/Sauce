@@ -1,8 +1,8 @@
 #pragma once
 
-#include<stdint.h>
-#include<stddef.h>
-#include "IO.hpp"
+#include <stdint.h>
+#include <stddef.h>
+#include <IO.hpp>
 
 namespace Sauce{
     namespace Terminal{

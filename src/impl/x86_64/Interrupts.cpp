@@ -5,14 +5,10 @@
 // also contains some conversion code for keycodes and what not.
 
 extern Sauce::Interrupts::IDT64 _idt[256];
+// Interrupts
 extern uint64_t isr1;
+
 extern "C" void loadIDT();
-
-extern "C" void isr1_handler(){Sauce::Interrupts::isr_handler(1);Sauce::IO::outb(0x20,0x20);Sauce::IO::outb(0xa0,0x20);}
-
-
-
-
 
 namespace Sauce{
     namespace Interrupts{
@@ -49,6 +45,13 @@ namespace Sauce{
                         }
                       }
                     } while(input != 0);
+                    Sauce::IO::outb(0x20,0x20);
+                    Sauce::IO::outb(0xa0,0x20);
+                }break;
+                default:{
+                    Sauce::Terminal::String("Unhandled Interrupt #");
+                    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(isr_number));
+                    Sauce::Terminal::String("\n\r");
                 }break;
             }
         }
