@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="1128" height="622" viewBox="0 0 1128 622">
+<style type="text/css"><![CDATA[
+text { font:12px Dialog; }
+]]></style>
+<rect x="-1431" y="-1028" width="4196" height="2958" style="fill:rgb(255,255,255);stroke:none" />
+<clipPath id="clip1"><path d="M388,19 L535,19 L535,98 L388,98 L388,19 Z" /></clipPath>
+<path d="M400,23 C395.5820313,23 392,26.5820313 392,31 L392,85 C392,89.4179688 395.5820313,93 400,93 L522,93 C526.4179688,93 530,89.4179688 530,85 L530,31 C530,26.5820313 526.4179688,23 522,23 Z M400,23" style="fill:rgb(220,230,242);stroke:none" clip-path="url(#clip1)" />
+<clipPath id="clip2"><path d="M388,19 L535,19 L535,98 L388,98 L388,19 Z" /></clipPath>
+<path d="M400,23 C395.5820313,23 392,26.5820313 392,31 L392,85 C392,89.4179688 395.5820313,93 400,93 L522,93 C526.4179688,93 530,89.4179688 530,85 L530,31 C530,26.5820313 526.4179688,23 522,23 Z M400,23" style="fill:none;stroke:rgb(85,142,213);stroke-width:5" clip-path="url(#clip2)" />
+<text x="427" y="62" style="font:18px Open Sans">Sauce</text>
+<clipPath id="clip3"><path d="M14,437 L145,437 L145,495 L14,495 L14,437 Z" /></clipPath>
+<path d="M143,465.5 C143,458.2070313 136.2578125,451.2109375 124.2539063,446.0546875 C112.2539063,440.8984375 95.9726563,438 79,438 C62.0273438,438 45.7460938,440.8984375 33.7460938,446.0546875 C21.7421875,451.2109375 15,458.2070313 15,465.5 C15,472.7929688 21.7421875,479.7890625 33.7460938,484.9453125 C45.7460938,490.1015625 62.0273438,493 79,493 C95.9726563,493 112.2539063,490.1015625 124.2539063,484.9453125 C136.2578125,479.7890625 143,472.7929688 143,465.5 Z M143,465.5 Z M143,465.5" style="fill:rgb(85,142,213);stroke:none" clip-path="url(#clip3)" />
+<text x="31" y="467" style="font:13px Open Sans">Real Kernel</text>
+<clipPath id="clip4"><path d="M809,219 L998,219 L998,281 L809,281 L809,219 Z" /></clipPath>
+<path d="M996,249.5 C996,241.6757813 986.203125,234.171875 968.7617188,228.640625 C951.3203125,223.109375 927.6640625,220 903,220 C878.3359375,220 854.6796875,223.109375 837.2382813,228.640625 C819.796875,234.171875 810,241.6757813 810,249.5 C810,257.3242188 819.796875,264.828125 837.2382813,270.359375 C854.6796875,275.890625 878.3359375,279 903,279 C927.6640625,279 951.3203125,275.890625 968.7617188,270.359375 C986.203125,264.828125 996,257.3242188 996,249.5 Z M996,249.5 Z M996,249.5" style="fill:rgb(85,142,213);stroke:none" clip-path="url(#clip4)" />
+<text x="827" y="251" style="font:13px Open Sans">UserSpace Kernel</text>
+<clipPath id="clip5"><path d="M768,14 L968,14 L968,58 L768,58 L768,14 Z" /></clipPath>
+<path d="M777,15 C772.5820313,15 769,18.5820313 769,23 L769,48 C769,52.4179688 772.5820313,56 777,56 L958,56 C962.4179688,56 966,52.4179688 966,48 L966,23 C966,18.5820313 962.4179688,15 958,15 Z M777,15" style="fill:rgb(85,142,213);stroke:none" clip-path="url(#clip5)" />
+<text x="782" y="38" style="font:13px Open Sans">UserSpace Program</text>
+<clipPath id="clip6"><path d="M765,381 L1113,381 L1113,477 L765,477 Z M963,428.5 C963,421.7382813 958.1523438,415.25 949.5273438,410.46875 C940.8984375,405.6875 929.1992188,403 917,403 C904.8007813,403 893.1015625,405.6875 884.4726563,410.46875 C875.8476563,415.25 871,421.7382813 871,428.5 C871,435.2617188 875.8476563,441.75 884.4726563,446.53125 C893.1015625,451.3125 904.8007813,454 917,454 C929.1992188,454 940.8984375,451.3125 949.5273438,446.53125 C958.1523438,441.75 963,435.2617188 963,428.5 Z M963,428.5 Z M963,428.5 Z M963,428.5" /></clipPath>
+<path d="M958.8398438,417.09375 C963.5429688,413.03125 970.59375,411 980,411" style="fill:none;stroke:rgb(85,142,213)" clip-path="url(#clip6)" />
+<clipPath id="clip7"><path d="M765,381 L1113,381 L1113,477 L765,477 Z M963,428.5 C963,421.7382813 958.1523438,415.25 949.5273438,410.46875 C940.8984375,405.6875 929.1992188,403 917,403 C904.8007813,403 893.1015625,405.6875 884.4726563,410.46875 C875.8476563,415.25 871,421.7382813 871,428.5 C871,435.2617188 875.8476563,441.75 884.4726563,446.53125 C893.1015625,451.3125 904.8007813,454 917,454 C929.1992188,454 940.8984375,451.3125 949.5273438,446.53125 C958.1523438,441.75 963,435.2617188 963,428.5 Z M963,428.5 Z M963,428.5 Z M963,428.5" /></clipPath>
+<path d="M945.6289063,449.703125 C953.265625,466.5664063 964.7226563,475 980,475" style="fill:none;stroke:rgb(85,142,213)" clip-path="url(#clip7)" />
+<clipPath id="clip8"><path d="M765,381 L1113,381 L1113,477 L765,477 Z M963,428.5 C963,421.7382813 958.1523438,415.25 949.5273438,410.46875 C940.8984375,405.6875 929.1992188,403 917,403 C904.8007813,403 893.1015625,405.6875 884.4726563,410.46875 C875.8476563,415.25 871,421.7382813 871,428.5 C871,435.2617188 875.8476563,441.75 884.4726563,446.53125 C893.1015625,451.3125 904.8007813,454 917,454 C929.1992188,454 940.8984375,451.3125 949.5273438,446.53125 C958.1523438,441.75 963,435.2617188 963,428.5 Z M963,428.5 Z M963,428.5 Z M963,428.5" /></clipPath>
+<path d="M875.8945313,417.390625 C870.8085938,413.1289063 863.1757813,411 853,411" style="fill:none;stroke:rgb(85,142,213)" clip-path="url(#clip8)" />
+<clipPath id="clip9"><path d="M870,402 L965,402 L965,456 L870,456 L870,402 Z" /></clipPath>
+<path d="M963,428.5 C963,421.7382813 958.1523438,415.25 949.5273438,410.46875 C940.8984375,405.6875 929.1992188,403 917,403 C904.8007813,403 893.1015625,405.6875 884.4726563,410.46875 C875.8476563,415.25 871,421.7382813 871,428.5 C871,435.2617188 875.8476563,441.75 884.4726563,446.53125 C893.1015625,451.3125 904.8007813,454 917,454 C929.1992188,454 940.8984375,451.3125 949.5273438,446.53125 C958.1523438,441.75 963,435.2617188 963,428.5 Z M963,428.5 Z M963,428.5" style="fill:rgb(85,142,213);stroke:none" clip-path="url(#clip9)" />
+<text x="885" y="430" style="font:13px Open Sans">Drivers</text>
+<clipPath id="clip10"><path d="M977,380 L1114,380 L1114,414 L977,414 L977,380 Z" /></clipPath>
+<path d="M980,411 L1110,411 Z M980,411" style="fill:none;stroke:rgb(85,142,213);stroke-width:3" clip-path="url(#clip10)" />
+<text x="991" y="398" style="font:10px Open Sans">File System Driver</text>
+<clipPath id="clip11"><path d="M977,444 L1100,444 L1100,478 L977,478 L977,444 Z" /></clipPath>
+<path d="M980,475 L1096,475 Z M980,475" style="fill:none;stroke:rgb(85,142,213);stroke-width:3" clip-path="url(#clip11)" />
+<text x="991" y="462" style="font:10px Open Sans">Graphics Driver</text>
+<clipPath id="clip12"><path d="M764,380 L857,380 L857,414 L764,414 L764,380 Z" /></clipPath>
+<path d="M767,411 L853,411 Z M767,411" style="fill:none;stroke:rgb(85,142,213);stroke-width:3" clip-path="url(#clip12)" />
+<text x="778" y="398" style="font:10px Open Sans">Wifi Driver</text>
+<clipPath id="clip13"><path d="M726,52 L1044,52 L1044,129 L726,129 L726,52 Z" /></clipPath>
+<path d="M865.4609375,56 C859,121 912,154 906.15625,220.0117188" style="fill:none;stroke:rgb(119,147,60);stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip13)" />
+<clipPath id="clip14"><path d="M726,145 L1044,145 L1044,224 L726,224 L726,145 Z" /></clipPath>
+<path d="M865.4609375,56 C859,121 912,154 906.15625,220.0117188" style="fill:none;stroke:rgb(119,147,60);stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip14)" />
+<clipPath id="clip15"><path d="M726,127 L1044,127 L1044,147 L726,147 L726,127 Z" /></clipPath>
+<path d="M865.4609375,56 C859,121 912,154 906.15625,220.0117188" style="fill:none;stroke:rgb(119,147,60);opacity:0.09803921568627451;stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip15)" />
+<clipPath id="clip16"><path d="M726,52 L1044,52 L1044,224 L726,224 L726,52 Z" /></clipPath>
+<path d="M901.9375,210.9453125 L906.15625,220.0117188 L911.8984375,211.828125 Z M901.9375,210.9453125" style="fill:rgb(119,147,60);stroke:none" clip-path="url(#clip16)" />
+<clipPath id="clip17"><path d="M726,52 L1044,52 L1044,224 L726,224 L726,52 Z" /></clipPath>
+<path d="M901.9375,210.9453125 L906.15625,220.0117188 L911.8984375,211.828125 Z M901.9375,210.9453125" style="fill:none;stroke:rgb(119,147,60);stroke-width:3" clip-path="url(#clip17)" />
+<text x="729" y="139" style="font:10px Dialog">Communicates with UserSpace kernel to get things done.</text>
+<clipPath id="clip18"><path d="M803,275 L1015,275 L1015,333 L803,333 L803,275 Z" /></clipPath>
+<path d="M897.859375,279.9453125 C889,327 930,355 921.8710938,403.1132813" style="fill:none;stroke:rgb(119,147,60);stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip18)" />
+<clipPath id="clip19"><path d="M803,349 L1015,349 L1015,407 L803,407 L803,349 Z" /></clipPath>
+<path d="M897.859375,279.9453125 C889,327 930,355 921.8710938,403.1132813" style="fill:none;stroke:rgb(119,147,60);stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip19)" />
+<clipPath id="clip20"><path d="M803,331 L1015,331 L1015,351 L803,351 L803,331 Z" /></clipPath>
+<path d="M897.859375,279.9453125 C889,327 930,355 921.8710938,403.1132813" style="fill:none;stroke:rgb(119,147,60);opacity:0.09803921568627451;stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip20)" />
+<clipPath id="clip21"><path d="M803,275 L1015,275 L1015,407 L803,407 L803,275 Z" /></clipPath>
+<path d="M918.3828125,393.7421875 L921.8710938,403.1132813 L928.2460938,395.4101563 Z M918.3828125,393.7421875" style="fill:rgb(119,147,60);stroke:none" clip-path="url(#clip21)" />
+<clipPath id="clip22"><path d="M803,275 L1015,275 L1015,407 L803,407 L803,275 Z" /></clipPath>
+<path d="M918.3828125,393.7421875 L921.8710938,403.1132813 L928.2460938,395.4101563 Z M918.3828125,393.7421875" style="fill:none;stroke:rgb(119,147,60);stroke-width:3" clip-path="url(#clip22)" />
+<text x="806" y="343" style="font:10px Dialog">Uses Drivers for UserSpace Program.</text>
+<clipPath id="clip23"><path d="M133,446 L894,446 L894,537 L133,537 L133,446 Z" /></clipPath>
+<path d="M890.2382813,450.0625 C691,604 426,542 137.0703125,478.625" style="fill:none;stroke:rgb(119,147,60);stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip23)" />
+<clipPath id="clip24"><path d="M133,553 L894,553 L894,608 L133,608 L133,553 Z" /></clipPath>
+<path d="M890.2382813,450.0625 C691,604 426,542 137.0703125,478.625" style="fill:none;stroke:rgb(119,147,60);stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip24)" />
+<clipPath id="clip25"><path d="M133,535 L330,535 L330,555 L133,555 L133,535 Z" /></clipPath>
+<path d="M890.2382813,450.0625 C691,604 426,542 137.0703125,478.625" style="fill:none;stroke:rgb(119,147,60);stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip25)" />
+<clipPath id="clip26"><path d="M766,535 L894,535 L894,555 L766,555 L766,535 Z" /></clipPath>
+<path d="M890.2382813,450.0625 C691,604 426,542 137.0703125,478.625" style="fill:none;stroke:rgb(119,147,60);stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip26)" />
+<clipPath id="clip27"><path d="M328,535 L768,535 L768,555 L328,555 L328,535 Z" /></clipPath>
+<path d="M890.2382813,450.0625 C691,604 426,542 137.0703125,478.625" style="fill:none;stroke:rgb(119,147,60);opacity:0.09803921568627451;stroke-width:3;stroke-dasharray:18,9;stroke-dashoffset:0" clip-path="url(#clip27)" />
+<clipPath id="clip28"><path d="M133,446 L894,446 L894,608 L133,608 L133,446 Z" /></clipPath>
+<path d="M146.5976563,475.5976563 L137.0703125,478.625 L144.4570313,485.3671875 Z M146.5976563,475.5976563" style="fill:rgb(119,147,60);stroke:none" clip-path="url(#clip28)" />
+<clipPath id="clip29"><path d="M133,446 L894,446 L894,608 L133,608 L133,446 Z" /></clipPath>
+<path d="M146.5976563,475.5976563 L137.0703125,478.625 L144.4570313,485.3671875 Z M146.5976563,475.5976563" style="fill:none;stroke:rgb(119,147,60);stroke-width:3" clip-path="url(#clip29)" />
+<text x="331" y="547" style="font:10px Dialog">Request access to neccessary resources. (and Caches resources for later access.)</text>
+</svg>
