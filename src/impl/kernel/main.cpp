@@ -37,7 +37,8 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
     }
 }
 
-extern "C" void Kernel_Main(void* multiboot_structure, uint8_t magic_number){
+
+void tests(){
     Sauce::Terminal::Clear();
     Sauce::Terminal::Setcolor(Sauce::Terminal::COLOR_LIGHT_GREEN, Sauce::Terminal::COLOR_BLACK);
     Sauce::Terminal::String("Hello World!\n\r");
@@ -47,9 +48,14 @@ extern "C" void Kernel_Main(void* multiboot_structure, uint8_t magic_number){
     Sauce::Terminal::String(Sauce::Convert::To_String::From_Integer(-123456789));
     Sauce::Terminal::NewLine();
     Sauce::Terminal::ReturnCaret();
-    float test=-4.50;
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_Decimal(test,2));
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_Decimal(-4.50,2));
     Sauce::Terminal::String("\b");
+}
+
+
+extern "C" void Kernel_Main(void* multiboot_structure, uint8_t magic_number){
+    tests();
+    
     Sauce::Interrupts::InitializeIDT();
     while(1){
         asm volatile("hlt");

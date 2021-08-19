@@ -14,6 +14,8 @@ Target :=dist/x86_64/build-x86_64.iso
 
 compilerPath=~/opt/cross/bin/x86_64-elf
 
+vm_args= -m 4G -smp 4
+
 CPP_ARGS=-I src/intf -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib 
 LINK_ARGS= -n -z max-page-size=0x1000
 
@@ -30,7 +32,7 @@ $(X86_64_cpp_object_files): build/x86_64/%.o : src/impl/x86_64/%.cpp
 	mkdir -p $(dir $@)
 	$(compilerPath)-g++ $(CPP_ARGS) -c $(patsubst build/x86_64/%.o, src/impl/x86_64/%.cpp, $@) -o $@
 
-.PHONY: run clean do
+.PHONY: run-nogui run clean do
 
 default: $(Target)
 
@@ -38,7 +40,10 @@ clean:
 	rm -frv build targets/x86_64/iso/boot/kernel.bin dist
 
 run: default
-	qemu-system-x86_64 -cdrom $(Target)
+	qemu-system-x86_64 ${vm_args} -sdl -cdrom $(Target)
+
+run-nogui: default
+	qemu-system-x86_64 ${vm_args} -curses -cdrom ${Target}
 
 do:
 	make clean;clear;clear;reset;make default && make run
