@@ -49,8 +49,8 @@ extern "C" void Kernel_Main(void* multiboot_structure, uint8_t magic_number){
     Sauce::Terminal::ReturnCaret();
     float test=-4.50;
     Sauce::Terminal::String(Sauce::Convert::To_String::From_Decimal(test,2));
+    Sauce::Terminal::String("\b");
     Sauce::Interrupts::InitializeIDT();
-
     while(1){
         asm volatile("hlt");
     }

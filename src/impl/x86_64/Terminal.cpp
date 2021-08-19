@@ -38,6 +38,7 @@ namespace Sauce{
             switch(character){
                 case '\n':NewLine();break;
                 case '\r':ReturnCaret();break;
+                case '\b':BackSpace();break;
                 default:SetCharacterAt(x_pos++,y_pos,character);break;
             }
             if(x_pos > MAX_X){
