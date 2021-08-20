@@ -1,5 +1,5 @@
 
-ENTRY(SYS_START_POINT)
+ENTRY( get the amount of free memory in virtual 8086)
 
 SECTIONS
 {

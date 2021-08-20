@@ -1,4 +1,4 @@
-[org 0x7e00]
+[org 0x0000:0x7e00]
 ;extern SYS_START_POINT
 db 'h'
 

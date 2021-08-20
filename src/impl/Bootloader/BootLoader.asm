@@ -1,4 +1,4 @@
-[org 0x7c00]
+[org 0x0000:0x7c00]
 
 mov [BOOT_DISK], dl
 
