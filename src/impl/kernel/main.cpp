@@ -37,7 +37,6 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
     }
 }
 
-
 void tests(){
     Sauce::Terminal::Clear();
     Sauce::Terminal::Setcolor(Sauce::Terminal::COLOR_LIGHT_GREEN, Sauce::Terminal::COLOR_BLACK);

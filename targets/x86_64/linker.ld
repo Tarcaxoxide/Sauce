@@ -1,5 +1,5 @@
 
-ENTRY(start)
+ENTRY(SYS_START_POINT)
 
 SECTIONS
 {

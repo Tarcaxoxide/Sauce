@@ -1,9 +1,9 @@
-global start
+global SYS_START_POINT
 extern long_mode_start
 
 section .text
 bits 32
-start:
+SYS_START_POINT:
 	mov esp, stack_top
 
 	call check_multiboot
