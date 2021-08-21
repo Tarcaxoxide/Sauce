@@ -22,7 +22,7 @@ namespace Sauce{
 	    	COLOR_LIGHT_RED = 12,
 	    	COLOR_PINK = 13,
 	    	COLOR_YELLOW = 14,
-	    	COLOR_WHITE = 15,
+	    	COLOR_WHITE = 15
 	    };
 		struct Char{
 	        uint8_t character;
@@ -40,6 +40,7 @@ namespace Sauce{
 		Char GetCharacterAt(size_t X,size_t Y);
 	    void String(char* string);
 	    void Setcolor(uint8_t foreground,uint8_t background);
+		uint8_t Getcolor();
 		size_t StringLength(char* string);
 		void NewLine();
 		void ReturnCaret();

@@ -66,6 +66,9 @@ namespace Sauce{
         void Setcolor(uint8_t foreground,uint8_t background){
             color = (foreground + (background << 4));
         }
+        uint8_t Getcolor(){
+            return color;
+        }
         size_t StringLength(char* string){
             size_t Result = 0;
             for(Result = 0;string[Result] != '\0';Result++);

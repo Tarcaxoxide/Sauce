@@ -37,9 +37,11 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
     }
 }
 
+
 void tests(){
+    
     Sauce::Terminal::Clear();
-    Sauce::Terminal::Setcolor(Sauce::Terminal::COLOR_LIGHT_GREEN, Sauce::Terminal::COLOR_BLACK);
+    Sauce::Terminal::Setcolor(Sauce::Terminal::COLOR_GREEN, Sauce::Terminal::COLOR_BLACK);
     Sauce::Terminal::String("Hello World!\n\r");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_Integer(123456789));
     Sauce::Terminal::NewLine();
@@ -48,7 +50,8 @@ void tests(){
     Sauce::Terminal::NewLine();
     Sauce::Terminal::ReturnCaret();
     Sauce::Terminal::String(Sauce::Convert::To_String::From_Decimal(-4.50,2));
-    Sauce::Terminal::String("\b");
+    Sauce::Terminal::String("\b\n\r");
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint8(Sauce::Terminal::Getcolor()));
 }
 
 
