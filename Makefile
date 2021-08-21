@@ -44,4 +44,4 @@ filesizes:
 	du -b --block-size=512 build/*
 
 run: build/sys.bin
-	qemu-system-x86_64 -drive file=$<,format=raw -m 4G -smp 4 
+	qemu-system-x86_64 -no-reboot -no-shutdown -drive file=$<,format=raw -m 4G -smp 4 
