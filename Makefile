@@ -11,22 +11,27 @@ Objs += build/Kernel.o
 
 
 build/sys.bin: build/Bootloader_First.bin build/kernel.bin
+	mkdir -p $(dir $@)
 	cat $^ > build/sys.bin 
 
 build/kernel.bin: $(Objs)
+	mkdir -p $(dir $@)
 	x86_64-elf-ld -Tsrc/linker.ld $(Objs) -o build/kernel.tmp
 	x86_64-elf-objcopy -O binary build/kernel.tmp build/kernel.bin
 
 
 build/Bootloader_First.bin:src/Bootloader_First.asm
+	mkdir -p $(dir $@)
 	nasm -Ihdr -f bin $< -o $@
 	echo "#$( $@)"
 
 build/%.o:src/%.asm
+	mkdir -p $(dir $@)
 	nasm -Ihdr -f elf64 $< -o $@
 
 
 build/%.o:src/%.cpp
+	mkdir -p $(dir $@)
 	x86_64-elf-g++ ${CPP_ARGS} -c $< -o $@
 
 
