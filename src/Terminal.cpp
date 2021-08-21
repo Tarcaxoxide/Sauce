@@ -34,6 +34,9 @@ namespace Sauce{
         void ClearRow(size_t Row){
             FillRow(Row,' ');
         }
+        void ClearColumn(size_t Column){
+            FillColumn(Column,' ');
+        }
         void Character(char character){
             switch(character){
                 case '\n':NewLine();break;

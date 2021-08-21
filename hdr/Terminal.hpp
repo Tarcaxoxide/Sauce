@@ -34,6 +34,7 @@ namespace Sauce{
 		void FillRow(size_t Row,char character);
 		void FillColumn(size_t column,char character);
 		void ClearRow(size_t Row);
+		void ClearColumn(size_t Column);
 	    void Character(char character);
 		void SetCharacterAt(size_t X,size_t Y,char character);
 		void SetCharacterAt(size_t X,size_t Y,Char character);

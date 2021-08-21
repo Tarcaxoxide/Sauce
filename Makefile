@@ -1,12 +1,12 @@
 CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib
 Objs = build/Bootstrap.o
-
 Objs += build/Convert.o
 Objs += build/IDT.o
 Objs += build/Interrupts.o
 Objs += build/IO.o
 Objs += build/Keyboard.o
 Objs += build/Terminal.o
+Objs += build/Binaries.o
 Objs += build/Kernel.o
 
 
