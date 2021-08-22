@@ -22,8 +22,11 @@ build/kernel.bin: $(Objs)
 	x86_64-elf-objcopy -O binary build/kernel.tmp build/kernel.bin
 
 
-build/Bootloader_First.bin:src/Bootloader_First.asm
+build/Bootloader_First.bin:src/Bootloader_First.asm build/kernel.bin
 	mkdir -p $(dir $@)
+	cat hdr/A_ReadDisk.inc > hdr/ReadDisk.inc
+	echo "        mov al, $(shell ./SectorsToRead.sh)">>hdr/ReadDisk.inc
+	cat hdr/B_ReadDisk.inc >> hdr/ReadDisk.inc
 	nasm -Ihdr -f bin $< -o $@
 	echo "#$( $@)"
 
@@ -37,13 +40,14 @@ build/%.o:src/%.cpp
 	x86_64-elf-g++ ${CPP_ARGS} -c $< -o $@
 
 
-.PHONY: clean filesizes run default do
+.PHONY: clean CheckSizes run default do
 
 clean:
 	rm -frv build/*
 
-filesizes:
+CheckSizes:
 	du -b --block-size=512 build/*
+	@./SizeCheck.sh
 
 default: build/sys.bin
 
