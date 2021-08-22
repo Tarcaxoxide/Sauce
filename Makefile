@@ -25,7 +25,7 @@ build/kernel.bin: $(Objs)
 build/Bootloader_First.bin:src/Bootloader_First.asm build/kernel.bin
 	mkdir -p $(dir $@)
 	cat res/Templates/A_ReadDisk.inc > hdr/ReadDisk.inc
-	echo "        mov al, $(shell ./SectorsToRead.sh)">>hdr/ReadDisk.inc
+	echo "        mov al, $(shell ./SectorCount.sh build/kernel.bin)">>hdr/ReadDisk.inc
 	cat res/Templates/B_ReadDisk.inc >> hdr/ReadDisk.inc
 	nasm -Ihdr -f bin $< -o $@
 	echo "#$( $@)"
