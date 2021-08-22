@@ -8,3 +8,4 @@
 #include <Keyboard.hpp>
 #include <Terminal.hpp>
 #include <Convert.hpp>
+#include <Memory.hpp>

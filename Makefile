@@ -7,7 +7,9 @@ Objs += build/IO.o
 Objs += build/Keyboard.o
 Objs += build/Terminal.o
 Objs += build/Binaries.o
+Objs += build/Memory.o
 Objs += build/Kernel.o
+Objs += build/PreKernel.o
 
 
 build/sys.bin: build/Bootloader_First.bin build/kernel.bin
@@ -35,7 +37,7 @@ build/%.o:src/%.cpp
 	x86_64-elf-g++ ${CPP_ARGS} -c $< -o $@
 
 
-.PHONY: clean filesizes run
+.PHONY: clean filesizes run default do
 
 clean:
 	rm -frv build/*
@@ -43,5 +45,13 @@ clean:
 filesizes:
 	du -b --block-size=512 build/*
 
+default: build/sys.bin
+
 run: build/sys.bin
-	qemu-system-x86_64 -no-reboot -no-shutdown -drive file=$<,format=raw -m 4G -smp 4 
+	qemu-system-x86_64 -no-reboot -no-shutdown -drive file=$<,format=raw -m 4G
+
+do:
+	clear
+	clear
+	reset
+	make clean run

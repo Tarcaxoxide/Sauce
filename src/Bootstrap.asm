@@ -8,9 +8,11 @@ jmp EnterProtectedMode
 %include "PrintString.inc"
 %include "PrintHex.inc"
 %include "gdt.inc"
+%include "DetectMemory.inc"
 
 EnterProtectedMode:
     cli
+    call DetectMemory
     call EnableA20
     lgdt [GDT_Descriptor]
     mov eax, cr0
@@ -56,6 +58,25 @@ StartProtectedMode:
 
 bits 64
 extern _start
+extern _Stack_Top
+extern _Stack_Bottom
+
+tmpvar:dd 0
+GetFreeStack:
+    ;push eax 
+    mov eax, esp
+    sub eax, _Stack_Bottom
+    ret
+GLOBAL GetFreeStack
+
+GetMaxStack:
+    ;push eax
+    
+    mov eax, _Stack_Top
+    sub eax, _Stack_Bottom
+    ret
+GLOBAL GetMaxStack
+
 Start64Bit:
     mov ax, DataSeg
     mov ds, ax
@@ -63,7 +84,9 @@ Start64Bit:
     mov es, ax
     mov fs, ax
     mov gs, ax
-
+    mov ebp, _Stack_Top
+    mov esp,ebp
     call _start
 jmp $
+
 times 2048-($-$$) db 0

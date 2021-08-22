@@ -30,5 +30,10 @@ SECTIONS
         *(COMMON)
         *(.bss)
     }
-    
+    .StackSpace BLOCK(0x2000) : ALIGN(0x1000)
+    {
+        _Stack_Bottom = .;
+        . = . + 0x2000;
+        _Stack_Top = .;
+    }
 }
