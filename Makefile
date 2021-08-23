@@ -1,4 +1,3 @@
-CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib
 Objs = build/Bootstrap.o
 Objs += build/Convert.o
 Objs += build/IDT.o
@@ -11,6 +10,17 @@ Objs += build/Memory.o
 Objs += build/Kernel.o
 Objs += build/PreKernel.o
 
+PREFIX=Compiler/opt/cross
+TARGET=x86_64-elf
+Cross=$(PREFIX)/bin/$(TARGET)
+CompilerHome=Compiler
+Target_gcc=gcc-11.2.0
+Target_binutils=binutils-2.37
+Linker=$(Cross)-ld
+Cpp_Compiler=$(Cross)-g++
+CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib
+
+
 
 build/sys.bin: build/Bootloader_First.bin build/kernel.bin
 	mkdir -p $(dir $@)
@@ -18,8 +28,8 @@ build/sys.bin: build/Bootloader_First.bin build/kernel.bin
 
 build/kernel.bin: $(Objs)
 	mkdir -p $(dir $@)
-	x86_64-elf-ld -Tsrc/linker.ld $(Objs) -o build/kernel.tmp
-	x86_64-elf-objcopy -O binary build/kernel.tmp build/kernel.bin
+	$(Linker) -Tsrc/linker.ld $(Objs) -o build/kernel.tmp
+	$(Cross)-objcopy -O binary build/kernel.tmp build/kernel.bin
 
 
 build/Bootloader_First.bin:src/Bootloader_First.asm build/kernel.bin
@@ -37,17 +47,13 @@ build/%.o:src/%.asm
 
 build/%.o:src/%.cpp
 	mkdir -p $(dir $@)
-	x86_64-elf-g++ ${CPP_ARGS} -c $< -o $@
+	$(Cpp_Compiler) ${CPP_ARGS} -c $< -o $@
 
 
-.PHONY: clean CheckSizes run default do
+.PHONY: clean run default do setup
 
 clean:
 	rm -frv build/*
-
-CheckSizes:
-	du -b --block-size=512 build/*
-	@./SizeCheck.sh
 
 default: build/sys.bin
 
@@ -59,3 +65,16 @@ do:
 	clear
 	reset
 	make clean run
+
+$(CompilerHome)/src/$(Target_binutils).tar.xz:
+	mkdir -p $(dir $@)
+	wget --continue "https://ftp.gnu.org/gnu/binutils/$(Target_binutils).tar.xz" -O $@
+
+$(CompilerHome)/src/$(Target_gcc).tar.xz:
+	mkdir -p $(dir $@)
+	wget --continue "https://ftp.gnu.org/gnu/gcc/$(Target_gcc)/$(Target_gcc).tar.xz" -O $@
+
+
+setup: $(CompilerHome)/src/$(Target_binutils).tar.xz $(CompilerHome)/src/$(Target_gcc).tar.xz
+	./setup.sh "$(CompilerHome)" "$(Target_gcc)" "$(Target_binutils)" "$(TARGET)" "$(PREFIX)"
+
