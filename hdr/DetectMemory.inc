@@ -6,7 +6,7 @@ MemoryMapAddress:dd 0x5000
 GLOBAL MemoryMapAddress
 
 DetectMemory:
-    mov ax,0
+    mov ax, 0
     mov es, ax
     mov di, [MemoryMapAddress] ; location for memory map
     mov edx, 0x534D4150
