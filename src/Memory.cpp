@@ -3,8 +3,8 @@
 extern uint8_t MemoryRegionCount;
 extern uint16_t MemoryMapAddress;
 
-extern "C" uint64_t GetFreeStack();
-extern "C" uint64_t GetMaxStack();
+extern "C" uint64_t GetFreeStack(); // Get the remaining space of the kernel stack
+extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
 
 namespace Sauce{
     namespace Memory{

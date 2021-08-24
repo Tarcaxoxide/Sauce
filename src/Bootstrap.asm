@@ -38,6 +38,7 @@ StartProtectedMode:
     mov fs, ax
     mov gs, ax
     
+    ;Clear the screen.
     xor ecx, ecx
     .Loop:
         mov [0xB8000+ecx], byte ' '
@@ -67,7 +68,6 @@ GLOBAL GetFreeStack
 
 GetMaxStack:
     ;push eax
-    
     mov eax, _Stack_Top
     sub eax, _Stack_Bottom
     ret

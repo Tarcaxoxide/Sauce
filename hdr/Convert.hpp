@@ -14,5 +14,7 @@ namespace Sauce{
 			char* From_Decimal(float value,uint16_t decimalPlaces);
 			char* From_Decimal(double value,uint16_t decimalPlaces);
 		};
+		// TODO: Add conversion to other data types.
+		// ... I should be able to cnvert a uint8_t into a string and then convert it back into a uint8_t for example.
 	};
 };

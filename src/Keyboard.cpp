@@ -18,7 +18,7 @@ namespace Sauce{
                 for(size_t I = 0;(I < 250);I++){
                     uint16_t X = 0;
                     if(KeyMapCodes[I] == KeyCode){ //basically we are converting the keycode to the index of the keycode inside the key map.
-                        if(!(I % 2))X = 0x1000;  //and then we are doing some fancy math to seperate press/release (the last 2 bits are the code, the first 2 are the indicators to determine press/release and capital/lowercase)
+                        if(!(I % 2))X = 0x1000;  //and then we are doing some fancy math to seperate press/release (the last 2 bytes are the code, the first 2 are the indicators to determine press/release and capital/lowercase)
                         X += (uint16_t)(I - (I % 2));
                         KeyCodeDecoded=X;
                     }

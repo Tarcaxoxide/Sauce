@@ -128,3 +128,6 @@ const uint8_t KeyMapCodes_1[]= {
                                     0x46,0xC6,
                                     0x00,0x00,
                                 };  
+
+// TODO: Implement the other key maps. (I think there is 2 other key maps?).
+
