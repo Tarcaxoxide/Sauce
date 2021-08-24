@@ -86,7 +86,7 @@ namespace Sauce{
                         SetCharacterAt(col,(row-1),GetCharacterAt(col,row));
                     }
                 }
-                ClearRow(MAX_Y);
+                ClearRow(MAX_Y -1);
             }
             SetCursor();
         }
