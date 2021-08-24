@@ -52,14 +52,28 @@ void tests(){
     }
     Sauce::Terminal::String("\n\rHeap Testing...\n\r");
     Sauce::Memory::InitializeHead(_HeadOfheap,0x100000);
-    void* TestMemoryMap1 = Sauce::Memory::malloc(0x10);
-    void* TestMemoryMap2 = Sauce::Memory::malloc(0x10);
-    void* TestMemoryMap3 = Sauce::Memory::malloc(0x10);
+    void* TestMemoryMap1 = Sauce::Memory::malloc(0x20);
+    void* TestMemoryMap2 = Sauce::Memory::malloc(0x20);
+    void* TestMemoryMap3 = Sauce::Memory::malloc(0x20);
+    void* TestMemoryMap4 = Sauce::Memory::malloc(0x10);
+    Sauce::Terminal::String("\n\rTestMemoryMap1:");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap1));
-    Sauce::Terminal::String("\n\r");
+    Sauce::Terminal::String("\n\rTestMemoryMap2:");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap2));
-    Sauce::Terminal::String("\n\r");
+    Sauce::Terminal::String("\n\rTestMemoryMap3:");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap3));
+    Sauce::Terminal::String("\n\rTestMemoryMap4:");
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap4));
+    
+    Sauce::Terminal::String("\n\rfree(TestMemoryMap1)");
+    Sauce::Memory::free(TestMemoryMap1);
+    Sauce::Terminal::String("\n\rfree(TestMemoryMap2)");
+    Sauce::Memory::free(TestMemoryMap2);
+    Sauce::Terminal::String("\n\rfree(TestMemoryMap3)");
+    Sauce::Memory::free(TestMemoryMap3);
+    void* TestMemoryMap5 = Sauce::Memory::malloc(0x60);
+    Sauce::Terminal::String("\n\rTestMemoryMap5:");
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap5));
     
     Sauce::Terminal::String("\n\rRemaining stack space available...\n\r");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(GetFreeStack()));

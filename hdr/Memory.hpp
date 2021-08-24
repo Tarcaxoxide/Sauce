@@ -32,5 +32,7 @@ namespace Sauce{
         };
         void InitializeHead(uint64_t HeapAddress,uint64_t HeapLength);
         void* malloc(uint64_t size);
+        void free(void* address);
+        void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b);
     };
 };
