@@ -21,4 +21,16 @@ namespace Sauce{
         void PrintMemoryMap_All();
         MemoryMapEntryMap GetMemoryRegions(uint32_t Type=1);
     };
+    namespace Memory{
+        struct MemorySegmentHeader{
+            uint64_t MemoryLength;
+            MemorySegmentHeader* NextSegment;
+            MemorySegmentHeader* PreviousSegment;
+            MemorySegmentHeader* NextFreeSegment;
+            MemorySegmentHeader* PreviousFreeSegment;
+            bool Free;
+        };
+        void InitializeHead(uint64_t HeapAddress,uint64_t HeapLength);
+        void* malloc(uint64_t size);
+    };
 };

@@ -3,6 +3,8 @@
 extern "C" uint64_t GetFreeStack(); // Get the remaining space of the kernel stack
 extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
 
+extern "C" uint64_t _HeadOfheap;
+
 void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
     // theoretically i should just be able to pass this _Key object to userland.
     if(_Key.Press){ // we just have some testing code here I guess; a prototype key handler.
@@ -48,6 +50,17 @@ void tests(){
         Sauce::Memory::PrintMemoryMap(MemMap.MemoryMapEntries[I]);
         Sauce::Terminal::String("\n\r");
     }
+    Sauce::Terminal::String("\n\rHeap Testing...\n\r");
+    Sauce::Memory::InitializeHead(_HeadOfheap,0x100000);
+    void* TestMemoryMap1 = Sauce::Memory::malloc(0x10);
+    void* TestMemoryMap2 = Sauce::Memory::malloc(0x10);
+    void* TestMemoryMap3 = Sauce::Memory::malloc(0x10);
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap1));
+    Sauce::Terminal::String("\n\r");
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap2));
+    Sauce::Terminal::String("\n\r");
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap3));
+    
     Sauce::Terminal::String("\n\rRemaining stack space available...\n\r");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(GetFreeStack()));
     Sauce::Terminal::String("\n\r");
