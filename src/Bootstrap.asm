@@ -1,8 +1,5 @@
 bits 16
 
-Max_Y equ 50
-Max_X equ 80
-
 jmp EnterProtectedMode
 
 %include "PrintString.inc"
@@ -45,7 +42,7 @@ StartProtectedMode:
     .Loop:
         mov [0xB8000+ecx], byte ' '
         add ecx, 2
-        cmp ecx, (Max_X*Max_Y)
+        cmp ecx, (80*50)
         jne short .Loop
     xor ecx, ecx
 
