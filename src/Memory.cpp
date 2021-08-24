@@ -31,20 +31,13 @@ namespace Sauce{
             }
         }
         MemoryMapEntryMap GetMemoryRegions(uint32_t Type){
-            MemoryMapEntry* MemoryRegions[MemoryRegionCount];
+            MemoryMapEntry* MemoryRegions[24];
             MemoryMapEntryMap ReturnValue ={MemoryRegions,0};
             uint8_t B=0;
             for (uint8_t A = 0; A < MemoryRegionCount;A++){
                 Sauce::Memory::MemoryMapEntry* memMap = (Sauce::Memory::MemoryMapEntry*)MemoryMapAddress;
                 memMap += A;
                 if(memMap->Region_Type == Type){
-                    // there is some witchcraft going on here.
-                        Sauce::Convert::To_String::From_Integer(ReturnValue.MemoryMapEntryCount);
-                        Sauce::Convert::To_String::From_Integer(memMap->BaseAddress);
-                        Sauce::Convert::To_String::From_Integer(memMap->Region_Length);
-                        Sauce::Convert::To_String::From_Integer(memMap->Region_Type);
-                        Sauce::Convert::To_String::From_Integer(memMap->ExtendedAttributes);
-                    
                     ReturnValue.MemoryMapEntries[ReturnValue.MemoryMapEntryCount] = memMap;
                     ReturnValue.MemoryMapEntryCount++;
                 }
