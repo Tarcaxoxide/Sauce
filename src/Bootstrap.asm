@@ -61,7 +61,6 @@ extern _start
 extern _Stack_Top
 extern _Stack_Bottom
 
-tmpvar:dd 0
 GetFreeStack:
     ;push eax 
     mov eax, esp
