@@ -6,6 +6,7 @@
 
 extern Sauce::Interrupts::IDT64 _idt[256];
 // Interrupts
+//extern uint64_t isr0;
 extern uint64_t isr1;
 
 extern "C" void loadIDT();
@@ -22,6 +23,7 @@ namespace Sauce{
 			_idt[index].zero = 0;
         }
         void InitializeIDT(){
+            //MapIDT(0,isr0);
             MapIDT(1,isr1);
             Sauce::IO::RemapPic();
             Sauce::IO::outb(0x21,0xfd);
