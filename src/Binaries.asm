@@ -8,5 +8,5 @@
 %endmacro
 
 
-;IncBin TestText, "res/TestText.txt"
+;IncBin TestText, "res/Includes/TestText.txt"
 
