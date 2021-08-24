@@ -36,6 +36,8 @@ idtDescriptor:
     dw 4095
     dq _idt
 
+
+;isr 0
 isr 1
 
 loadIDT:
