@@ -30,8 +30,12 @@ namespace Sauce{
             MemorySegmentHeader* PreviousFreeSegment;
             bool Free;
         };
+        void memset(void* address,uint64_t val,uint64_t size);
         void InitializeHead(uint64_t HeapAddress,uint64_t HeapLength);
         void* malloc(uint64_t size);
+        void* calloc(uint64_t size);
+        void* realloc(void* address,uint64_t size);
+        void memcpy(void* Source,void* Destination,uint64_t size);
         void free(void* address);
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b);
     };

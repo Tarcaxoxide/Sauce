@@ -6,7 +6,7 @@
     ReadDisk:
         mov ah, 0x02
         mov bx, PROGRAM_SPACE
-        mov al, 42
+        mov al, 51
         mov dl, [BOOT_DISK]
         mov ch, 0x00
         mov dh, 0x00

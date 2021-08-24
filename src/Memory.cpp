@@ -47,6 +47,24 @@ namespace Sauce{
     };
     namespace Memory{
         MemorySegmentHeader* FirstFreeMemorySegment;
+        void memset(void* address,uint64_t val,uint64_t size){
+            if(size >= 8){
+                uint8_t*valPtr = (uint8_t*)&val;
+                for(uint8_t* ptr = (uint8_t*)address;ptr < (uint8_t*)((uint64_t)address+size);ptr++){
+                    *ptr = *valPtr++;
+                }
+                return;
+            }
+            uint64_t proceedingBytes = size%8;
+            uint64_t newsize = size - proceedingBytes;
+            for(uint64_t* ptr = (uint64_t*)address;ptr < (uint64_t*)((uint64_t)address+newsize);ptr++){
+                *ptr == val;
+            }
+            uint8_t* valPtr = (uint8_t*)&val;
+            for(uint8_t* ptr = (uint8_t*)((uint64_t)address+newsize);ptr < (uint8_t*)((uint64_t)address+size);ptr++){
+                *ptr = *valPtr++;
+            }
+        }
         void InitializeHead(uint64_t HeapAddress,uint64_t HeapLength){
             FirstFreeMemorySegment = (MemorySegmentHeader*)HeapAddress+1;
             FirstFreeMemorySegment->MemoryLength=HeapLength-sizeof(MemorySegmentHeader);
@@ -94,6 +112,39 @@ namespace Sauce{
                 currentMemorySegment = currentMemorySegment->NextFreeSegment;
             }
             return 0;
+        }
+        void* calloc(uint64_t size){
+            void* NewMemoryPointer = malloc(size);
+            memset(NewMemoryPointer,0,size);
+            return NewMemoryPointer;
+        }
+        void* realloc(void* address,uint64_t size){
+            MemorySegmentHeader* oldSegment = (MemorySegmentHeader*)address - 1;
+            uint64_t smallerSize = size;
+            if(oldSegment->MemoryLength < smallerSize)smallerSize=oldSegment->MemoryLength;
+            void* newSegment = malloc(size);
+            memcpy(oldSegment,newSegment,smallerSize);
+            free(address);
+            return newSegment;
+        }
+        void memcpy(void* Source,void* Destination,uint64_t size){
+            if(size >= 8){
+                uint8_t*valPtr = (uint8_t*)Source;
+                for(uint8_t* ptr = (uint8_t*)Destination;ptr < (uint8_t*)((uint64_t)Destination+size);ptr++){
+                    *ptr = *valPtr++;
+                }
+                return;
+            }
+            uint64_t proceedingBytes = size%8;
+            uint64_t newsize = size - proceedingBytes;
+            uint64_t* srcptr = (uint64_t*)Source;
+            for(uint64_t* destptr = (uint64_t*)Destination;destptr < (uint64_t*)((uint64_t)Destination+newsize);destptr++){
+                *destptr == *srcptr++;
+            }
+            uint8_t* srcptr8 = (uint8_t*)(Source+newsize);
+            for(uint8_t* destptr8 = (uint8_t*)((uint64_t)Destination+newsize);destptr8 < (uint8_t*)((uint64_t)Destination+size);destptr8++){
+                *destptr8 = *srcptr8++;
+            }
         }
         void free(void* address){
             MemorySegmentHeader* currentMemorySegment = ((MemorySegmentHeader*)address)-1;

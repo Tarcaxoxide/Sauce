@@ -74,6 +74,9 @@ void tests(){
     void* TestMemoryMap5 = Sauce::Memory::malloc(0x60);
     Sauce::Terminal::String("\n\rTestMemoryMap5:");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap5));
+    Sauce::Terminal::String("\n\rreallocate TestMemoryMap5 (+0x20):\n\r");
+    TestMemoryMap5 = Sauce::Memory::realloc(TestMemoryMap5,0x80);
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap5));
     
     Sauce::Terminal::String("\n\rRemaining stack space available...\n\r");
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(GetFreeStack()));
