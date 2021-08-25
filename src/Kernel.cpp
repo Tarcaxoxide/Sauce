@@ -37,7 +37,6 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
                     }break;
             }
         }
-        
     }
 }
 

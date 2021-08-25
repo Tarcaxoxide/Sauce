@@ -119,13 +119,48 @@ namespace Sauce{
             return NewMemoryPointer;
         }
         void* realloc(void* address,uint64_t size){
-            MemorySegmentHeader* oldSegment = (MemorySegmentHeader*)address - 1;
+            //MemorySegmentHeader* oldSegment = (MemorySegmentHeader*)address - 1;
+            MemorySegmentHeader* oldSegment = NULL;
+            AlighnedMemorySegmentHeader* AMSH = (AlighnedMemorySegmentHeader*)address-1;
+            if(AMSH->TheAlignment){
+                oldSegment = (MemorySegmentHeader*)(uint64_t)AMSH->MemorySegmentAddress;
+            }else{
+                oldSegment = ((MemorySegmentHeader*)address)-1;
+            }
+
             uint64_t smallerSize = size;
             if(oldSegment->MemoryLength < smallerSize)smallerSize=oldSegment->MemoryLength;
-            void* newSegment = malloc(size);
+            void* newSegment = NULL;
+            if(AMSH->TheAlignment){ // if it's aligned we should keep it aligned.
+                newSegment = aligned_alloc(AMSH->TheAlignment,size);
+            }else{
+                newSegment = malloc(size);
+            }
             memcpy(oldSegment,newSegment,smallerSize);
             free(address);
             return newSegment;
+        }
+        void* aligned_alloc(uint64_t alighnment, uint64_t size){
+            uint64_t alighnmentRemainder = alighnment % 8;
+            alighnment+=alighnmentRemainder;
+            size+=(8*(alighnmentRemainder != 0));
+
+            uint64_t sizeRemainder = size % 8;
+            size+=sizeRemainder;
+            size+=(8*(sizeRemainder != 0));
+
+            uint64_t fullsize=size+alighnment;
+            void* mallocVal = malloc(fullsize);
+            uint64_t address = (uint64_t)mallocVal;
+            uint64_t remainder = address % alighnment;
+            address-=remainder;
+            if (remainder != 0){
+                address+=alighnment;
+                AlighnedMemorySegmentHeader* AMSH = (AlighnedMemorySegmentHeader*)address-1;
+                AMSH->TheAlignment = alighnment;
+                AMSH->MemorySegmentAddress = (uint64_t)mallocVal - sizeof(MemorySegmentHeader);
+            }
+            return (void*)address;
         }
         void memcpy(void* Source,void* Destination,uint64_t size){
             if(size >= 8){
@@ -147,7 +182,14 @@ namespace Sauce{
             }
         }
         void free(void* address){
-            MemorySegmentHeader* currentMemorySegment = ((MemorySegmentHeader*)address)-1;
+            MemorySegmentHeader* currentMemorySegment = NULL;
+            AlighnedMemorySegmentHeader* AMSH = (AlighnedMemorySegmentHeader*)address-1;
+            if(AMSH->TheAlignment){
+                currentMemorySegment = (MemorySegmentHeader*)(uint64_t)AMSH->MemorySegmentAddress;
+            }else{
+                currentMemorySegment = ((MemorySegmentHeader*)address)-1;
+            }
+            
             currentMemorySegment->Free=true;
             if(currentMemorySegment < FirstFreeMemorySegment)FirstFreeMemorySegment = currentMemorySegment;
 

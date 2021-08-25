@@ -30,11 +30,16 @@ namespace Sauce{
             MemorySegmentHeader* PreviousFreeSegment;
             bool Free;
         };
+        struct AlighnedMemorySegmentHeader{
+            uint64_t MemorySegmentAddress;
+            uint64_t TheAlignment;
+        };
         void memset(void* address,uint64_t val,uint64_t size);
         void InitializeHead(uint64_t HeapAddress,uint64_t HeapLength);
         void* malloc(uint64_t size);
         void* calloc(uint64_t size);
         void* realloc(void* address,uint64_t size);
+        void* aligned_alloc(uint64_t alighnment, uint64_t size);
         void memcpy(void* Source,void* Destination,uint64_t size);
         void free(void* address);
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b);
