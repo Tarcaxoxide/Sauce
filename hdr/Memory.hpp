@@ -40,6 +40,7 @@ namespace Sauce{
         void* calloc(uint64_t size);
         void* realloc(void* address,uint64_t size);
         void* aligned_alloc(uint64_t alighnment, uint64_t size);
+        void* Sauce_alloc(uint64_t size,uint64_t alighnment=0);
         void memcpy(void* Source,void* Destination,uint64_t size);
         void free(void* address);
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b);

@@ -162,6 +162,71 @@ namespace Sauce{
             }
             return (void*)address;
         }
+
+    void* Sauce_alloc(uint64_t size,uint64_t alighnment){
+            uint64_t sizeRemainder = size % 8;
+            size+=sizeRemainder;
+            size+=(8*(sizeRemainder != 0));
+            uint64_t fullsize=0;
+            uint64_t alighnmentRemainder=0;
+            if(alighnment){ // if it's not 0 then the user specified an alignment
+                alighnmentRemainder = alighnment % 8;
+                alighnment+=alighnmentRemainder;
+                size+=(8*(alighnmentRemainder != 0));
+                fullsize=size+alighnment;
+            }else{ // if it is 0 then there is no alignment.
+                fullsize=size;
+                alighnment=1; // please don't try to divide by 0 :)
+            }
+
+            void* mallocVal = NULL;
+
+            MemorySegmentHeader* currentMemorySegment = FirstFreeMemorySegment;
+            
+            while(true){
+                if(currentMemorySegment->MemoryLength >= fullsize){
+                    if(currentMemorySegment->MemoryLength > fullsize + sizeof(MemorySegmentHeader)){
+                        MemorySegmentHeader* newSegmentHeader = (MemorySegmentHeader*)((uint64_t)currentMemorySegment + sizeof(MemorySegmentHeader)+fullsize);
+                        newSegmentHeader->Free=true;
+                        newSegmentHeader->MemoryLength=((uint64_t)currentMemorySegment->MemoryLength - (sizeof(MemorySegmentHeader)+fullsize));
+                        newSegmentHeader->NextFreeSegment = currentMemorySegment->NextFreeSegment;
+                        newSegmentHeader->NextSegment = currentMemorySegment->NextSegment;
+                        newSegmentHeader->PreviousSegment = currentMemorySegment;
+                        newSegmentHeader->PreviousFreeSegment = currentMemorySegment->PreviousFreeSegment;
+                        currentMemorySegment->NextFreeSegment = newSegmentHeader;
+                        currentMemorySegment->NextSegment = newSegmentHeader;
+                        currentMemorySegment->MemoryLength=fullsize;
+                    }
+                    if(currentMemorySegment == FirstFreeMemorySegment){
+                        FirstFreeMemorySegment = currentMemorySegment->NextFreeSegment;
+                    }
+                    currentMemorySegment->Free=false;
+
+                    if(currentMemorySegment->PreviousFreeSegment != 0)currentMemorySegment->PreviousFreeSegment->NextFreeSegment = currentMemorySegment->NextFreeSegment;
+                    if(currentMemorySegment->NextFreeSegment != 0)currentMemorySegment->NextFreeSegment->PreviousFreeSegment =  currentMemorySegment->PreviousFreeSegment;
+                    if(currentMemorySegment->PreviousSegment != 0)currentMemorySegment->PreviousSegment->NextFreeSegment = currentMemorySegment->NextFreeSegment;
+                    if(currentMemorySegment->NextSegment != 0)currentMemorySegment->NextSegment->PreviousFreeSegment = currentMemorySegment->PreviousFreeSegment;
+                    mallocVal = currentMemorySegment+1;
+                    memset(mallocVal,0,fullsize);
+                    uint64_t address = (uint64_t)mallocVal;
+                    uint64_t remainder = address % alighnment;
+                    address-=remainder;
+                    if (remainder != 0){
+                        address+=alighnment;
+                        AlighnedMemorySegmentHeader* AMSH = (AlighnedMemorySegmentHeader*)address-1;
+                        AMSH->TheAlignment = alighnment;
+                        AMSH->MemorySegmentAddress = (uint64_t)mallocVal - sizeof(MemorySegmentHeader);
+                    }
+                    return (void*)address;
+                }
+                if(currentMemorySegment->NextFreeSegment == 0){
+                    return 0;
+                }
+                currentMemorySegment = currentMemorySegment->NextFreeSegment;
+            }
+            return 0;
+        }
+
         void memcpy(void* Source,void* Destination,uint64_t size){
             if(size >= 8){
                 uint8_t*valPtr = (uint8_t*)Source;
