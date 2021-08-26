@@ -74,111 +74,28 @@ namespace Sauce{
             FirstFreeMemorySegment->PreviousFreeSegment=0;
             FirstFreeMemorySegment->Free=true;
         }
-        void* malloc(uint64_t size){
-            uint64_t remainder = size % 8;
-            size -= remainder;
-            size+=(8*(remainder != 0));
-
-            MemorySegmentHeader* currentMemorySegment = FirstFreeMemorySegment;
-            
-            while(true){
-                if(currentMemorySegment->MemoryLength >= size){
-                    if(currentMemorySegment->MemoryLength > size + sizeof(MemorySegmentHeader)){
-                        MemorySegmentHeader* newSegmentHeader = (MemorySegmentHeader*)((uint64_t)currentMemorySegment + sizeof(MemorySegmentHeader)+size);
-                        newSegmentHeader->Free=true;
-                        newSegmentHeader->MemoryLength=((uint64_t)currentMemorySegment->MemoryLength - (sizeof(MemorySegmentHeader)+size));
-                        newSegmentHeader->NextFreeSegment = currentMemorySegment->NextFreeSegment;
-                        newSegmentHeader->NextSegment = currentMemorySegment->NextSegment;
-                        newSegmentHeader->PreviousSegment = currentMemorySegment;
-                        newSegmentHeader->PreviousFreeSegment = currentMemorySegment->PreviousFreeSegment;
-                        currentMemorySegment->NextFreeSegment = newSegmentHeader;
-                        currentMemorySegment->NextSegment = newSegmentHeader;
-                        currentMemorySegment->MemoryLength=size;
-                    }
-                    if(currentMemorySegment == FirstFreeMemorySegment){
-                        FirstFreeMemorySegment = currentMemorySegment->NextFreeSegment;
-                    }
-                    currentMemorySegment->Free=false;
-
-                    if(currentMemorySegment->PreviousFreeSegment != 0)currentMemorySegment->PreviousFreeSegment->NextFreeSegment = currentMemorySegment->NextFreeSegment;
-                    if(currentMemorySegment->NextFreeSegment != 0)currentMemorySegment->NextFreeSegment->PreviousFreeSegment =  currentMemorySegment->PreviousFreeSegment;
-                    if(currentMemorySegment->PreviousSegment != 0)currentMemorySegment->PreviousSegment->NextFreeSegment = currentMemorySegment->NextFreeSegment;
-                    if(currentMemorySegment->NextSegment != 0)currentMemorySegment->NextSegment->PreviousFreeSegment = currentMemorySegment->PreviousFreeSegment;
-                    return currentMemorySegment+1;
-                }
-                if(currentMemorySegment->NextFreeSegment == 0){
-                    return 0;
-                }
-                currentMemorySegment = currentMemorySegment->NextFreeSegment;
-            }
-            return 0;
-        }
-        void* calloc(uint64_t size){
-            void* NewMemoryPointer = malloc(size);
-            memset(NewMemoryPointer,0,size);
-            return NewMemoryPointer;
-        }
         void* realloc(void* address,uint64_t size){
-            //MemorySegmentHeader* oldSegment = (MemorySegmentHeader*)address - 1;
             MemorySegmentHeader* oldSegment = NULL;
-            AlighnedMemorySegmentHeader* AMSH = (AlighnedMemorySegmentHeader*)address-1;
-            if(AMSH->TheAlignment){
-                oldSegment = (MemorySegmentHeader*)(uint64_t)AMSH->MemorySegmentAddress;
-            }else{
-                oldSegment = ((MemorySegmentHeader*)address)-1;
-            }
-
+            MemorySegmentHeader* AMSH = (MemorySegmentHeader*)address-1;
+            oldSegment = (MemorySegmentHeader*)(uint64_t)AMSH->MemorySegmentAddress;
             uint64_t smallerSize = size;
             if(oldSegment->MemoryLength < smallerSize)smallerSize=oldSegment->MemoryLength;
             void* newSegment = NULL;
-            if(AMSH->TheAlignment){ // if it's aligned we should keep it aligned.
-                newSegment = aligned_alloc(AMSH->TheAlignment,size);
-            }else{
-                newSegment = malloc(size);
-            }
+            newSegment = alloc(size,AMSH->TheAlignment);
             memcpy(oldSegment,newSegment,smallerSize);
             free(address);
             return newSegment;
         }
-        void* aligned_alloc(uint64_t alighnment, uint64_t size){
-            uint64_t alighnmentRemainder = alighnment % 8;
-            alighnment+=alighnmentRemainder;
-            size+=(8*(alighnmentRemainder != 0));
-
-            uint64_t sizeRemainder = size % 8;
-            size+=sizeRemainder;
-            size+=(8*(sizeRemainder != 0));
-
-            uint64_t fullsize=size+alighnment;
-            void* mallocVal = malloc(fullsize);
-            uint64_t address = (uint64_t)mallocVal;
-            uint64_t remainder = address % alighnment;
-            address-=remainder;
-            if (remainder != 0){
-                address+=alighnment;
-                AlighnedMemorySegmentHeader* AMSH = (AlighnedMemorySegmentHeader*)address-1;
-                AMSH->TheAlignment = alighnment;
-                AMSH->MemorySegmentAddress = (uint64_t)mallocVal - sizeof(MemorySegmentHeader);
-            }
-            return (void*)address;
-        }
-
-    void* Sauce_alloc(uint64_t size,uint64_t alighnment){
+        void* alloc(uint64_t size,uint64_t alighnment){
             uint64_t sizeRemainder = size % 8;
             size+=sizeRemainder;
             size+=(8*(sizeRemainder != 0));
             uint64_t fullsize=0;
             uint64_t alighnmentRemainder=0;
-            if(alighnment){ // if it's not 0 then the user specified an alignment
-                alighnmentRemainder = alighnment % 8;
-                alighnment+=alighnmentRemainder;
-                size+=(8*(alighnmentRemainder != 0));
-                fullsize=size+alighnment;
-            }else{ // if it is 0 then there is no alignment.
-                fullsize=size;
-                alighnment=1; // please don't try to divide by 0 :)
-            }
-
+            alighnmentRemainder = alighnment % 8;
+            alighnment+=alighnmentRemainder;
+            size+=(8*(alighnmentRemainder != 0));
+            fullsize=size+alighnment;
             void* mallocVal = NULL;
 
             MemorySegmentHeader* currentMemorySegment = FirstFreeMemorySegment;
@@ -211,12 +128,11 @@ namespace Sauce{
                     uint64_t address = (uint64_t)mallocVal;
                     uint64_t remainder = address % alighnment;
                     address-=remainder;
-                    if (remainder != 0){
-                        address+=alighnment;
-                        AlighnedMemorySegmentHeader* AMSH = (AlighnedMemorySegmentHeader*)address-1;
-                        AMSH->TheAlignment = alighnment;
-                        AMSH->MemorySegmentAddress = (uint64_t)mallocVal - sizeof(MemorySegmentHeader);
-                    }
+                    address+=alighnment;
+                    MemorySegmentHeader* AMSH = (MemorySegmentHeader*)address-1;
+                    AMSH->TheAlignment = alighnment;
+                    AMSH->MemorySegmentAddress = (uint64_t)mallocVal - sizeof(MemorySegmentHeader);
+                    
                     return (void*)address;
                 }
                 if(currentMemorySegment->NextFreeSegment == 0){
@@ -247,20 +163,16 @@ namespace Sauce{
             }
         }
         void free(void* address){
-            MemorySegmentHeader* currentMemorySegment = NULL;
-            AlighnedMemorySegmentHeader* AMSH = (AlighnedMemorySegmentHeader*)address-1;
-            if(AMSH->TheAlignment){
-                currentMemorySegment = (MemorySegmentHeader*)(uint64_t)AMSH->MemorySegmentAddress;
-            }else{
-                currentMemorySegment = ((MemorySegmentHeader*)address)-1;
-            }
+            MemorySegmentHeader* currentMemorySegment = ((MemorySegmentHeader*)address)-1;
+            currentMemorySegment = (MemorySegmentHeader*)(uint64_t)currentMemorySegment->MemorySegmentAddress;
             
             currentMemorySegment->Free=true;
             if(currentMemorySegment < FirstFreeMemorySegment)FirstFreeMemorySegment = currentMemorySegment;
-
+            
             if(currentMemorySegment->NextFreeSegment != 0){
                 if(currentMemorySegment->NextFreeSegment->PreviousFreeSegment < currentMemorySegment)currentMemorySegment->NextFreeSegment->PreviousFreeSegment = currentMemorySegment;
             }
+            
             if(currentMemorySegment->PreviousFreeSegment != 0){
                 if(currentMemorySegment->PreviousFreeSegment->NextFreeSegment > currentMemorySegment)currentMemorySegment->PreviousFreeSegment->NextFreeSegment = currentMemorySegment;
             }
@@ -269,7 +181,7 @@ namespace Sauce{
                 if(currentMemorySegment->NextSegment->Free)CombinedSegments(currentMemorySegment,currentMemorySegment->NextSegment);
             }
             if(currentMemorySegment->PreviousSegment != 0){
-                currentMemorySegment->PreviousSegment->NextSegment=currentMemorySegment;
+                currentMemorySegment->PreviousSegment->NextSegment=currentMemorySegment; // this freezes when using unaligned address?
                 if(currentMemorySegment->PreviousSegment->Free)CombinedSegments(currentMemorySegment,currentMemorySegment->PreviousSegment);
             }
         }
