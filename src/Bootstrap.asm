@@ -6,9 +6,11 @@ jmp EnterProtectedMode
 %include "PrintHex.inc"
 %include "gdt.inc"
 %include "DetectMemory.inc"
+%include "SwitchToGraphical.inc"
 
 EnterProtectedMode:
     cli
+    call SwitchToGraphical
     call DetectMemory
     call EnableA20
     lgdt [GDT_Descriptor]
@@ -59,12 +61,35 @@ extern _start
 extern _Stack_Top
 extern _Stack_Bottom
 
+tmpvar:dd 0
 GetFreeStack:
     ;push eax 
     mov eax, esp
     sub eax, _Stack_Bottom
     ret
 GLOBAL GetFreeStack
+
+SetStackBase:
+    mov [tmpvar], rdi
+    mov ebp,[tmpvar]
+    ret
+GLOBAL SetStackBase
+GetStackBase:
+    mov [tmpvar], ebp
+    mov rdi, [tmpvar]
+    ret
+GLOBAL GetStackBase
+
+SetStackPointer:
+    mov [tmpvar], rdi
+    mov esp,[tmpvar]
+    ret
+GLOBAL SetStackPointer
+GetStackPointer:
+    mov [tmpvar], esp
+    mov rdi, [tmpvar]
+    ret
+GLOBAL GetStackPointer
 
 GetMaxStack:
     ;push eax

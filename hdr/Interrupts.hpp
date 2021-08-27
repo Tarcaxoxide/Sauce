@@ -21,8 +21,15 @@ namespace Sauce{
 		void InitializeIDT();
 		void MapIDT(size_t index,uint64_t (*This_isr));
 		void isr_handler(uint64_t isr_number);
+		uint64_t IntHandler(uint64_t Interrupt_Number,uint64_t esp);
 	};
 };
+
+
+extern "C" void SetStackBase(uint64_t address);
+extern "C" void SetStackPointer(uint64_t address);
+extern "C" uint64_t GetStackBase();
+extern "C" uint64_t GetStackPointer();
 
 extern void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key);
 extern void NotifyKernelOfTimer();

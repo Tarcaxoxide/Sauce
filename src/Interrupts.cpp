@@ -60,5 +60,9 @@ namespace Sauce{
             Sauce::IO::outb(0x20,0x20);
             Sauce::IO::outb(0xa0,0x20);
         }
+        uint64_t IntHandler(uint64_t Interrupt_Number,uint64_t esp){
+            // this is for later when i do task switching. (this will likely not be used for the kernel but only for userland tasks, that is why it is its own function.)
+            return esp;
+        }
     };
 };

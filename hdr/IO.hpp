@@ -11,6 +11,7 @@
 #define ICW1_INIT 0x10
 #define ICW1_ICW4 0x01
 #define ICW4_8086 0x01
+#define COMn 0x3f8
 
 namespace Sauce{
     namespace IO{
@@ -21,6 +22,11 @@ namespace Sauce{
 		void outl(uint16_t port,uint32_t val);
 		uint32_t inl(uint16_t port);
 		void RemapPic();
+		int init_serial();
+		int serial_received();
+		char read_serial();
+		int is_transmit_empty();
+		void write_serial(char a);
 	};
 	namespace EIO{ // E for Extended or Extra , basically it's not neccesary but it's nice to have.
 		class _Port{

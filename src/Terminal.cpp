@@ -38,6 +38,7 @@ namespace Sauce{
             FillColumn(Column,' ');
         }
         void Character(char character){
+            Sauce::IO::write_serial(character);
             switch(character){
                 case '\n':NewLine();break;
                 case '\r':ReturnCaret();break;

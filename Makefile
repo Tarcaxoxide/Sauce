@@ -58,7 +58,7 @@ clean:
 default: build/sys.bin
 
 run: build/sys.bin
-	qemu-system-x86_64 -no-reboot -no-shutdown -drive file=$<,format=raw -m 10G -smp 6
+	qemu-system-x86_64 -serial stdio -no-reboot -no-shutdown -drive file=$<,format=raw -m 10G -smp 6
 
 do:
 	clear
