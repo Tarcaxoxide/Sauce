@@ -37,7 +37,7 @@ idtDescriptor:
     dq _idt
 
 
-;isr 0
+isr 0
 isr 1
 
 loadIDT:
