@@ -6,7 +6,7 @@
 
 extern Sauce::Interrupts::IDT64 _idt[256];
 // Interrupts
-//extern uint64_t isr0;
+extern uint64_t isr0;
 extern uint64_t isr1;
 
 extern "C" void loadIDT();
@@ -23,16 +23,19 @@ namespace Sauce{
 			_idt[index].zero = 0;
         }
         void InitializeIDT(){
-            //MapIDT(0,isr0);
+            MapIDT(0,isr0);
             MapIDT(1,isr1);
+            //Sauce::IO::outb(0x21,0xfd);
+            //Sauce::IO::outb(0xa1,0xff);
             Sauce::IO::RemapPic();
-            Sauce::IO::outb(0x21,0xfd);
-            Sauce::IO::outb(0xa1,0xff);
             loadIDT();
         }
 
         void isr_handler(uint64_t isr_number){
             switch(isr_number){
+                case 0:{
+                    NotifyKernelOfTimer();
+                }break;
                 case 1:{
                     uint8_t input = 0;
                     do {
@@ -47,8 +50,6 @@ namespace Sauce{
                         }
                       }
                     } while(input != 0);
-                    Sauce::IO::outb(0x20,0x20);
-                    Sauce::IO::outb(0xa0,0x20);
                 }break;
                 default:{
                     Sauce::Terminal::String("Unhandled Interrupt #");
@@ -56,6 +57,8 @@ namespace Sauce{
                     Sauce::Terminal::String("\n\r");
                 }break;
             }
+            Sauce::IO::outb(0x20,0x20);
+            Sauce::IO::outb(0xa0,0x20);
         }
     };
 };
