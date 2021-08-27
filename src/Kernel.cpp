@@ -53,53 +53,13 @@ void NotifyKernelOfTimer(float rate){
 }
 
 void tests(){
-    Sauce::Terminal::Clear();
-    Sauce::Terminal::String("Hello From Sauce OS.\n\r");
-    Sauce::Memory::MemoryMapEntryMap MemMap = Sauce::Memory::GetMemoryRegions();
-    Sauce::Terminal::String("\n\rUsable Memory Region...\n\r");
-    for(uint8_t I=0;I<MemMap.MemoryMapEntryCount;I++){
-        Sauce::Memory::PrintMemoryMap(MemMap.MemoryMapEntries[I]);
-        Sauce::Terminal::String("\n\r");
-    }
-    Sauce::Terminal::String("\n\rHeap Testing...\n\r");
-    Sauce::Memory::InitializeHead(_HeadOfheap,0x100000);
-    void* TestMemoryMap1 = Sauce::Memory::alloc(0x20);
-    void* TestMemoryMap2 = Sauce::Memory::alloc(0x20);
-    void* TestMemoryMap3 = Sauce::Memory::alloc(0x20);
-    void* TestMemoryMap4 = Sauce::Memory::alloc(0x10);
-    Sauce::Terminal::String("\n\rTestMemoryMap1:");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap1));
-    Sauce::Terminal::String("\n\rTestMemoryMap2:");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap2));
-    Sauce::Terminal::String("\n\rTestMemoryMap3:");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap3));
-    Sauce::Terminal::String("\n\rTestMemoryMap4:");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap4));
-    
-    Sauce::Terminal::String("\n\rfree(TestMemoryMap1)");
-    Sauce::Memory::free(TestMemoryMap1);
-    Sauce::Terminal::String("\n\rfree(TestMemoryMap2)");
-    Sauce::Memory::free(TestMemoryMap2);
-    Sauce::Terminal::String("\n\rfree(TestMemoryMap3)");
-    Sauce::Memory::free(TestMemoryMap3);
-    void* TestMemoryMap5 = Sauce::Memory::alloc(0x60);
-    Sauce::Terminal::String("\n\rTestMemoryMap5:");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap5));
-    Sauce::Terminal::String("\n\rreallocate TestMemoryMap5 (+0x20):\n\r");
-    TestMemoryMap5 = Sauce::Memory::realloc(TestMemoryMap5,0x80);
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)TestMemoryMap5));
-    
-    Sauce::Terminal::String("\n\rRemaining stack space available...\n\r");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(GetFreeStack()));
-    Sauce::Terminal::String("\n\r");
+    Sauce::Graphics::PlacePixel((320/2),(200/2),2);
 }
 
 void Kernel_Main(){
     Sauce::Interrupts::InitializeIDT();
     Sauce::IO::init_serial();
     tests();
-
-    Sauce::Graphics::PlaceRectangle(10,10,20,20,2);
 
     while(1){
         asm volatile("hlt");
