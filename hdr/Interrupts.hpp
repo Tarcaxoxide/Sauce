@@ -25,3 +25,4 @@ namespace Sauce{
 };
 
 extern void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key);
+extern void NotifyKernelOfTimer();
