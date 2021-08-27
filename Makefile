@@ -64,7 +64,7 @@ clean:
 default: build/sys.img
 
 run: build/sys.iso
-	qemu-system-x86_64 -serial stdio -no-reboot -no-shutdown -cdrom build/$< -m 10G -smp 6
+	qemu-system-x86_64 -cpu host -enable-kvm -net user -m 10G -smp 6 -serial stdio -no-reboot -no-shutdown -cdrom build/$<
 
 do:
 	clear
