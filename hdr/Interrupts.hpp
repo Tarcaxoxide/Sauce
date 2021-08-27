@@ -22,6 +22,7 @@ namespace Sauce{
 		void MapIDT(size_t index,uint64_t (*This_isr));
 		void isr_handler(uint64_t isr_number);
 		uint64_t IntHandler(uint64_t Interrupt_Number,uint64_t esp);
+		extern uint64_t PIT_Counter;
 	};
 };
 

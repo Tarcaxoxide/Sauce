@@ -64,5 +64,6 @@ namespace Sauce{
             // this is for later when i do task switching. (this will likely not be used for the kernel but only for userland tasks, that is why it is its own function.)
             return esp;
         }
+        uint64_t PIT_Counter=0;
     };
 };

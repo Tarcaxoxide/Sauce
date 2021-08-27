@@ -41,12 +41,13 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
 }
 
 void NotifyKernelOfTimer(){
-    static uint64_t Counter=0;
-    uint64_t triggerTime=10;
-    if(Counter++ > triggerTime){
-        Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Counter));
+    Sauce::Interrupts::PIT_Counter+=0x0000000000000001;
+    if(!(Sauce::Interrupts::PIT_Counter%0x0000000000000050)){
+        Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Interrupts::PIT_Counter));
         Sauce::Terminal::String("\n\r");
-        Counter=0;
+    }
+    if(Sauce::Interrupts::PIT_Counter > 0x1000000000000000){
+        Sauce::Interrupts::PIT_Counter=0;
     }
 }
 
