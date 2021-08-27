@@ -22,9 +22,15 @@ CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -m
 
 
 
-build/sys.bin: build/Bootloader_First.bin build/kernel.bin
+build/sys.img: build/Bootloader_First.bin build/kernel.bin
 	mkdir -p $(dir $@)
-	cat $^ > build/sys.bin 
+	cat $^ > build/sys.img 
+
+build/sys.iso: build/sys.img
+	mkdir -p build/build
+	cp $< build/$<
+	truncate build/$< -s 1200k
+	mkisofs -o build/$@ -b $< ./build/
 
 build/kernel.bin: $(Objs)
 	mkdir -p $(dir $@)
@@ -55,10 +61,10 @@ build/%.o:src/%.cpp
 clean:
 	rm -frv build/*
 
-default: build/sys.bin
+default: build/sys.img
 
-run: build/sys.bin
-	qemu-system-x86_64 -serial stdio -no-reboot -no-shutdown -drive file=$<,format=raw -m 10G -smp 6
+run: build/sys.iso
+	qemu-system-x86_64 -serial stdio -no-reboot -no-shutdown -cdrom build/$< -m 10G -smp 6
 
 do:
 	clear
