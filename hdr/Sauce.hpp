@@ -10,3 +10,4 @@
 #include <Terminal.hpp>
 #include <Convert.hpp>
 #include <Memory.hpp>
+#include <Graphics.hpp>

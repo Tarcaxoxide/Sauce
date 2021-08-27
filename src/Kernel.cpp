@@ -5,6 +5,7 @@ extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
 
 extern "C" uint64_t _HeadOfheap;
 
+
 void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
     // theoretically i should just be able to pass this _Key object to userland.
     if(_Key.Press){ // we just have some testing code here I guess; a prototype key handler.
@@ -98,7 +99,8 @@ void Kernel_Main(){
     Sauce::IO::init_serial();
     tests();
 
-    
+    Sauce::Graphics::PlaceRectangle(10,10,20,20,2);
+
     while(1){
         asm volatile("hlt");
     }
