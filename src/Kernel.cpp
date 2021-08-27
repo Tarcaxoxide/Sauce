@@ -40,6 +40,16 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
     }
 }
 
+void NotifyKernelOfTimer(){
+    static uint64_t Counter=0;
+    uint64_t triggerTime=10;
+    if(Counter++ > triggerTime){
+        Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Counter));
+        Sauce::Terminal::String("\n\r");
+        Counter=0;
+    }
+}
+
 void tests(){
     Sauce::Terminal::Clear();
     Sauce::Terminal::String("Hello From Sauce OS.\n\r");
