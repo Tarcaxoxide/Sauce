@@ -28,7 +28,10 @@ namespace Sauce{
 		int is_transmit_empty();
 		void write_serial(char a);
 	};
-	namespace EIO{ // E for Extended or Extra , basically it's not neccesary but it's nice to have.
+};
+
+namespace External {
+	namespace IO{
 		class _Port{
 			protected:
 				uint16_t port_number;
@@ -70,4 +73,4 @@ namespace Sauce{
 				virtual void operator>>(uint32_t &Data);
 		};
 	};
-};
+}

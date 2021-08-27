@@ -88,7 +88,10 @@ namespace Sauce{
             outb(COMn,a);
         }
     };
-    namespace EIO{
+};
+
+namespace External{
+    namespace IO{
         _Port::_Port(uint16_t port_number){
             this->port_number=port_number;
         }
@@ -128,3 +131,4 @@ namespace Sauce{
         }
     };
 };
+
