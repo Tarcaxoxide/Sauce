@@ -38,18 +38,21 @@ namespace Sauce{
             FillColumn(Column,' ');
         }
         void Character(char character){
-            Sauce::IO::write_serial(character);
-            switch(character){
-                case '\n':NewLine();break;
-                case '\r':ReturnCaret();break;
-                case '\b':BackSpace();break;
-                default:SetCharacterAt(x_pos++,y_pos,character);break;
+            if(IsGraphical){
+                Sauce::IO::write_serial(character);
+            }else{
+                switch(character){
+                    case '\n':NewLine();break;
+                    case '\r':ReturnCaret();break;
+                    case '\b':BackSpace();break;
+                    default:SetCharacterAt(x_pos++,y_pos,character);break;
+                }
+                if(x_pos > MAX_X){
+                    NewLine();
+                    ReturnCaret();
+                }
+                SetCursor();
             }
-            if(x_pos > MAX_X){
-                NewLine();
-                ReturnCaret();
-            }
-            SetCursor();   
         }
         void SetCharacterAt(size_t X,size_t Y,char character){
             struct Char FillChar = ((struct Char){(uint8_t)character,color});

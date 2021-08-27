@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <IO.hpp>
 
+extern "C" uint8_t IsGraphical;
+
 namespace Sauce{
     namespace Terminal{
 	    enum {
