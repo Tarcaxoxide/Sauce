@@ -43,10 +43,10 @@ void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key){
 
 void NotifyKernelOfTimer(float rate){
     Sauce::Interrupts::PIT_Counter+=0x0000000000000001;
-        Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Interrupts::PIT_Counter));
-        Sauce::Terminal::String(":");
-        Sauce::Terminal::String(Sauce::Convert::To_String::From_Decimal(rate,10));
-        Sauce::Terminal::String("\n\r");
+        //Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Interrupts::PIT_Counter));
+        //Sauce::Terminal::String(":");
+        //Sauce::Terminal::String(Sauce::Convert::To_String::From_Decimal(rate,10));
+        //Sauce::Terminal::String("\n\r");
     if(Sauce::Interrupts::PIT_Counter > 0x1000000000000000){
         Sauce::Interrupts::PIT_Counter=0;
     }

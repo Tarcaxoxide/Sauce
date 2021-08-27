@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <Memory.hpp>
+#include <Convert.hpp>
+#include <Terminal.hpp>
 
 namespace Sauce{
     namespace Graphics{
