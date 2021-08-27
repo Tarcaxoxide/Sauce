@@ -93,8 +93,6 @@ void tests(){
     Sauce::Terminal::String("\n\r");
 }
 
-// Test Commit
-
 void Kernel_Main(){
     Sauce::Interrupts::InitializeIDT();
     Sauce::IO::init_serial();

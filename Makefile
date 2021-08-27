@@ -56,7 +56,7 @@ build/%.o:src/%.cpp
 	$(Cpp_Compiler) ${CPP_ARGS} -c $< -o $@
 
 
-.PHONY: clean run default do setup
+.PHONY: clean run default do setup push
 
 clean:
 	rm -frv build/*
@@ -71,6 +71,12 @@ do:
 	clear
 	reset
 	make clean run
+
+push:
+	git add .
+	EDITOR='vim' git commit -a
+	read -p "press enter to push."
+	git push "https://loganer%40vivaldi.net:$(cat ../git/token.txt)@github.com/Tarcaxoxide/Sauce.git"
 
 $(CompilerHome)/src/$(Target_binutils).tar.xz:
 	mkdir -p $(dir $@)
