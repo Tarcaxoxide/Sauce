@@ -31,10 +31,22 @@ namespace Sauce{
             loadIDT();
         }
 
+
         void isr_handler(uint64_t isr_number){
+            static float tick=0;
+            static uint8_t tock=0;
+            static float trigger=1.25252525252525252525;
+            static float rate=0.67619068904102403556;
             switch(isr_number){
                 case 0:{
-                    NotifyKernelOfTimer();
+                    tick+=rate;
+                    if(tick > trigger){
+                        tock++;
+                        tick-=trigger;
+                        if(!(tock%10)){
+                            NotifyKernelOfTimer(tick);
+                        }
+                    }
                 }break;
                 case 1:{
                     uint8_t input = 0;

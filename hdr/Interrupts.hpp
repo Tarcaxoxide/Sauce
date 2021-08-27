@@ -33,4 +33,4 @@ extern "C" uint64_t GetStackBase();
 extern "C" uint64_t GetStackPointer();
 
 extern void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key);
-extern void NotifyKernelOfTimer();
+extern void NotifyKernelOfTimer(float rate);
