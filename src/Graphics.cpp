@@ -6,6 +6,7 @@ namespace Sauce{
 
         void PlacePixel(uint16_t X,uint16_t Y,uint16_t color){
             GraphicsAddress[(MAX_Xpos*Y)+X]=color;
+            Sauce::Terminal::String("Pixel Placed: ");
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint16(((MAX_Xpos*Y)+X)));
             Sauce::Terminal::String("=");
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint16(color));
