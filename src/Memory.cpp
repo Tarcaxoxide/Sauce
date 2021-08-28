@@ -96,7 +96,7 @@ namespace Sauce{
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(size));
             Sauce::Terminal::String(" : ");
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(alighnment));
-            Sauce::Terminal::String(" \n\r");
+            Sauce::Terminal::String(" = ");
             uint64_t sizeRemainder = size % 8;
             size+=sizeRemainder;
             size+=(8*(sizeRemainder != 0));
@@ -143,13 +143,17 @@ namespace Sauce{
                     AMSH->TheAlignment = alighnment;
                     AMSH->MemorySegmentAddress = (uint64_t)mallocVal - sizeof(MemorySegmentHeader);
                     
+                    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)address));
+                    Sauce::Terminal::String(" \n\r");
                     return (void*)address;
                 }
                 if(currentMemorySegment->NextFreeSegment == 0){
+                    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)0));
                     return 0;
                 }
                 currentMemorySegment = currentMemorySegment->NextFreeSegment;
             }
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)0));
             return 0;
         }
         void* calloc(uint64_t size,uint64_t alighnment){
@@ -212,7 +216,7 @@ namespace Sauce{
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b){
             Sauce::Terminal::String("CombinedSegments : ");
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)a));
-            Sauce::Terminal::String(" to ");
+            Sauce::Terminal::String(" + ");
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)b));
             Sauce::Terminal::String(" \n\r");
             if(a == 0 || b == 0)return;

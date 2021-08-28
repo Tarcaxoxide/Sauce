@@ -32,10 +32,10 @@ SECTIONS
         . = . + (0x512*4);  /* the stack grows in /\ that direction ?right? */
         _Stack_Top = .; /* Symbol for setting the stack pointer and base to the start of the stack space. */
     }
-    .HeapSpace BLOCK(0x100000): ALIGN(0x512)
+    .HeapSpace BLOCK(1M): ALIGN(0x512)
     {
         _HeadOfheap = .;
-        . = 0x1000000;
+        . = 1M;
         _TailOfHeap = .;
     }
 }
