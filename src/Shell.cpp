@@ -10,22 +10,55 @@ namespace Sauce{
 
 
         void ClearBuffer(){
-            for(size_t I=0;I<ShellBufferSize;I++){
-                ShellBuffer[I]=0;
+            
+
+            for(;CshellIndex > 0;){
+                ShellBuffer[CshellIndex--]=0;
             }
-            CshellIndex=0;
         }
 
-        void Command(char* cmd){
-            // do something i guess?
-            if(Sauce::Utils::StringCompare(cmd,(char*)"clear")){
+
+        void split(const char* str, const char d, char** into)
+        {
+            if(str != NULL && into != NULL)
+            {
+                int n = 0;
+                int c = 0;
+                for(int i = 0; str[c] != '\0'; i++,c++)
+                {
+                    
+                    into[n][i] = str[c];
+                    if(str[c] == d)
+                    {
+                        into[n][i] = '\0';
+                        i = -1;
+                        ++n;
+                        for(size_t I=0;I<c;I++){
+                            into[n][I]='\0';
+                        }
+                    }
+                }
+            }
+        }
+
+        
+        void Command(){
+            char* tmstr[ShellBufferSize];
+            char tmcmd[ShellBufferSize];
+         
+            for(size_t I=0;I < ShellBufferSize;I++){
+                tmcmd[I]=ShellBuffer[I];
+            }
+            
+            split((const char*)tmcmd,';',(char**)tmstr);
+            
+            if(Sauce::Utils::StringCompare(tmstr[0],"clear")){
                 Sauce::Terminal::Clear();
             }else{
-                Sauce::Terminal::String("Unknown Command:'");
-                Sauce::Terminal::String(cmd);
-                Sauce::Terminal::String("'\n\r");
+                Sauce::Terminal::String("Uknown:");
+                Sauce::Terminal::String(tmstr[0]);
+                Sauce::Terminal::String("\n\r");
             }
-            ClearBuffer();
         }
 
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
@@ -36,11 +69,14 @@ namespace Sauce{
                 switch(_Key.Key){
                     case 0x1C:{
                         Sauce::Terminal::BackSpace();
+                        CshellIndex--;
                         }break;
                     case 0xD6:{//Enter
                         Sauce::Terminal::NewLine();
                         Sauce::Terminal::ReturnCaret();
-                        Command(ShellBuffer);
+                        ShellBuffer[CshellIndex++]=0;
+                        Command();
+                        ClearBuffer();
                         }break;
                     case 0xBE:{//up arrow
                         //Sauce::Terminal::RelativeSetCursor(true,0,-1); 

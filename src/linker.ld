@@ -26,10 +26,10 @@ SECTIONS
         *(COMMON)
         *(.bss)
     }
-    .StackSpace BLOCK(0x2048) : ALIGN(0x512) /* ALIGN to sector*/
+    .StackSpace BLOCK(0x512*4) : ALIGN(0x512) /* ALIGN to sector*/
     {
         _Stack_Bottom = .; /* Symbol for calculating how much space I have left. */
-        . = . + 0x2048;  /* the stack grows in /\ that direction ?right? */
+        . = . + (0x512*4);  /* the stack grows in /\ that direction ?right? */
         _Stack_Top = .; /* Symbol for setting the stack pointer and base to the start of the stack space. */
     }
     .HeapSpace : ALIGN(0x512) /* ALIGN to sector*/

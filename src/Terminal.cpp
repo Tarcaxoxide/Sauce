@@ -38,9 +38,8 @@ namespace Sauce{
             FillColumn(Column,' ');
         }
         void Character(char character){
-            if(IsGraphical){
-                Sauce::IO::write_serial(character);
-            }else{
+            Sauce::IO::write_serial(character);
+            if(!IsGraphical){
                 switch(character){
                     case '\n':NewLine();break;
                     case '\r':ReturnCaret();break;

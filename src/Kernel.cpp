@@ -21,17 +21,11 @@ void NotifyKernelOfTimer(float rate){
     }
 }
 
-void tests(){
-    
-}
-
 void Kernel_Main(){
     Sauce::Interrupts::InitializeIDT();
     Sauce::IO::init_serial();
     Sauce::Filesystem::InitializeFilesystem();
     Sauce::Memory::InitializeHeap(_HeadOfheap,0x1000000);
-    tests();
-
     while(1){
         asm volatile("hlt");
     }

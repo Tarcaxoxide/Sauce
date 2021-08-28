@@ -142,6 +142,12 @@ namespace Sauce{
             }
             return 0;
         }
+        void* calloc(uint64_t size,uint64_t alighnment){
+            return alloc(size,alighnment);
+        }
+        void* malloc(uint64_t size){
+            return alloc(size);
+        }
 
         void memcpy(void* Source,void* Destination,uint64_t size){
             if(size >= 8){

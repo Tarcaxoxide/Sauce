@@ -2,8 +2,10 @@
 
 #include <stdint.h>
 #include <stddef.h>
+
 #include <Terminal.hpp>
 #include <Convert.hpp>
+
 
 namespace Sauce{
     namespace Memory{
@@ -37,6 +39,8 @@ namespace Sauce{
         void InitializeHeap(uint64_t HeapAddress,uint64_t HeapLength);
         void* realloc(void* address,uint64_t size);
         void* alloc(uint64_t size,uint64_t alighnment=0x0000000000000001);
+        void* calloc(uint64_t size,uint64_t alighnment);
+        void* malloc(uint64_t size);
         void memcpy(void* Source,void* Destination,uint64_t size);
         void free(void* address);
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b);
