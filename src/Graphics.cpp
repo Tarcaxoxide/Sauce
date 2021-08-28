@@ -8,9 +8,9 @@ namespace Sauce{
             GraphicsAddress[(MAX_Xpos*Y)+X]=color;
             Sauce::Terminal::String("Pixel Placed: ");
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint16(((MAX_Xpos*Y)+X)));
-            Sauce::Terminal::String("=");
+            Sauce::Terminal::String(" = ");
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint16(color));
-            Sauce::Terminal::String("\n\r");
+            Sauce::Terminal::String(" \n\r");
         }
         void PlaceRectangle(uint16_t startX,uint16_t startY,uint16_t stopX,uint16_t stopY,uint16_t color){
             for(uint16_t iX=startX;iX<stopX;iX++){

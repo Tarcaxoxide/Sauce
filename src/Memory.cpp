@@ -66,6 +66,11 @@ namespace Sauce{
             }
         }
         void InitializeHeap(uint64_t HeapAddress,uint64_t HeapLength){
+            Sauce::Terminal::String("Initializing Heap: ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(HeapAddress));
+            Sauce::Terminal::String(" : ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(HeapLength));
+            Sauce::Terminal::String("\n\r");
             FirstFreeMemorySegment = (MemorySegmentHeader*)HeapAddress+1;
             FirstFreeMemorySegment->MemoryLength=HeapLength-sizeof(MemorySegmentHeader);
             FirstFreeMemorySegment->NextSegment=0;
@@ -87,6 +92,11 @@ namespace Sauce{
             return newSegment;
         }
         void* alloc(uint64_t size,uint64_t alighnment){
+            Sauce::Terminal::String("alloc : ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(size));
+            Sauce::Terminal::String(" : ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(alighnment));
+            Sauce::Terminal::String(" \n\r");
             uint64_t sizeRemainder = size % 8;
             size+=sizeRemainder;
             size+=(8*(sizeRemainder != 0));
@@ -150,6 +160,11 @@ namespace Sauce{
         }
 
         void memcpy(void* Source,void* Destination,uint64_t size){
+            Sauce::Terminal::String("memcpy : ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)Source));
+            Sauce::Terminal::String(" to ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)Destination));
+            Sauce::Terminal::String(" \n\r");
             if(size >= 8){
                 uint8_t*valPtr = (uint8_t*)Source;
                 for(uint8_t* ptr = (uint8_t*)Destination;ptr < (uint8_t*)((uint64_t)Destination+size);ptr++){
@@ -169,6 +184,9 @@ namespace Sauce{
             }
         }
         void free(void* address){
+            Sauce::Terminal::String("free : ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)address));
+            Sauce::Terminal::String(" \n\r");
             MemorySegmentHeader* currentMemorySegment = ((MemorySegmentHeader*)address)-1;
             currentMemorySegment = (MemorySegmentHeader*)(uint64_t)currentMemorySegment->MemorySegmentAddress;
             
@@ -192,6 +210,11 @@ namespace Sauce{
             }
         }
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b){
+            Sauce::Terminal::String("CombinedSegments : ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)a));
+            Sauce::Terminal::String(" to ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)b));
+            Sauce::Terminal::String(" \n\r");
             if(a == 0 || b == 0)return;
             if(a < b){
                 a->MemoryLength+=b->MemoryLength + sizeof(MemorySegmentHeader);

@@ -62,7 +62,7 @@ void Kernel_Main(){
     Sauce::Interrupts::InitializeIDT();
     Sauce::IO::init_serial();
     Sauce::Filesystem::InitializeFilesystem();
-    //Sauce::Memory::InitializeHeap(_HeadOfheap,0x1000000);
+    Sauce::Memory::InitializeHeap(_HeadOfheap,0x100000);
     tests();
 
     while(1){
