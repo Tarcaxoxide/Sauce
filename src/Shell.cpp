@@ -33,9 +33,6 @@ namespace Sauce{
                         into[n][i] = '\0';
                         i = -1;
                         ++n;
-                        for(size_t I=0;I<c;I++){
-                            into[n][I]='\0';
-                        }
                     }
                 }
             }
@@ -45,19 +42,20 @@ namespace Sauce{
         void Command(){
             char* tmstr[ShellBufferSize];
             char tmcmd[ShellBufferSize];
-         
+
             for(size_t I=0;I < ShellBufferSize;I++){
                 tmcmd[I]=ShellBuffer[I];
+                if(tmcmd[I] == 0 && tmcmd[I-1] != ';' ){tmcmd[I]=';';}
             }
-            
+
             split((const char*)tmcmd,';',(char**)tmstr);
             
             if(Sauce::Utils::StringCompare(tmstr[0],"clear")){
                 Sauce::Terminal::Clear();
             }else{
-                Sauce::Terminal::String("Uknown:");
+                Sauce::Terminal::String("Uknown:'");
                 Sauce::Terminal::String(tmstr[0]);
-                Sauce::Terminal::String("\n\r");
+                Sauce::Terminal::String("'\n\r");
             }
         }
 
@@ -68,13 +66,14 @@ namespace Sauce{
             }else if((!_Key.visible) && _Key.Press){
                 switch(_Key.Key){
                     case 0x1C:{
-                        Sauce::Terminal::BackSpace();
-                        CshellIndex--;
+                            if(CshellIndex){
+                                Sauce::Terminal::BackSpace();
+                                CshellIndex--;
+                            }
                         }break;
                     case 0xD6:{//Enter
                         Sauce::Terminal::NewLine();
                         Sauce::Terminal::ReturnCaret();
-                        ShellBuffer[CshellIndex++]=0;
                         Command();
                         ClearBuffer();
                         }break;
