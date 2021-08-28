@@ -8,6 +8,7 @@ Objs += build/Terminal.o
 Objs += build/Binaries.o
 Objs += build/Memory.o
 Objs += build/Graphics.o
+Objs += build/Filesystem.o
 Objs += build/Kernel.o
 Objs += build/PreKernel.o
 
@@ -65,7 +66,7 @@ clean:
 default: build/sys.img
 
 run: build/sys.iso
-	qemu-system-x86_64 -cpu host -enable-kvm -net user -m 10G -smp 6 -serial stdio -no-reboot -no-shutdown -cdrom build/$<
+	qemu-system-x86_64 -cpu host -enable-kvm -m 10G -smp 6 -serial stdio -no-reboot -no-shutdown -cdrom build/$<
 
 do:
 	clear

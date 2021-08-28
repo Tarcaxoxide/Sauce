@@ -53,12 +53,13 @@ void NotifyKernelOfTimer(float rate){
 }
 
 void tests(){
-    Sauce::Graphics::PlacePixel((320/2),(200/2),2);
+    
 }
 
 void Kernel_Main(){
     Sauce::Interrupts::InitializeIDT();
     Sauce::IO::init_serial();
+    Sauce::Filesystem::InitializeFilesystem();
     tests();
 
     while(1){
