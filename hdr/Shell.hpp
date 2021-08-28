@@ -10,7 +10,7 @@ namespace Sauce{
         
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key);
         void ClockTick();
-        void Command();
+        void Command(char* cmd);
         void ClearBuffer();
     };
 };

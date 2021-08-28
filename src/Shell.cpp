@@ -16,47 +16,15 @@ namespace Sauce{
                 ShellBuffer[CshellIndex--]=0;
             }
         }
-
-
-        void split(const char* str, const char d, char** into)
-        {
-            if(str != NULL && into != NULL)
-            {
-                int n = 0;
-                int c = 0;
-                for(int i = 0; str[c] != '\0'; i++,c++)
-                {
-                    
-                    into[n][i] = str[c];
-                    if(str[c] == d)
-                    {
-                        into[n][i] = '\0';
-                        i = -1;
-                        ++n;
-                    }
-                }
-            }
-        }
-
         
-        void Command(){
-            char* tmstr[ShellBufferSize];
-            char tmcmd[ShellBufferSize];
-
-            for(size_t I=0;I < ShellBufferSize;I++){
-                tmcmd[I]=ShellBuffer[I];
-                if(tmcmd[I] == 0 && tmcmd[I-1] != ';' ){tmcmd[I]=';';}
-            }
-
-            split((const char*)tmcmd,';',(char**)tmstr);
-            
-            if(Sauce::Utils::StringCompare(tmstr[0],"clear")){
+        void Command(char* cmd){
+            if(Sauce::Utils::StringCompare(cmd,(char*)"clear")){
                 Sauce::Terminal::Clear();
-            }else{
-                Sauce::Terminal::String("Uknown:'");
-                Sauce::Terminal::String(tmstr[0]);
-                Sauce::Terminal::String("'\n\r");
+                return;
             }
+            Sauce::Terminal::String("Unkown:");
+            Sauce::Terminal::String(cmd);
+            Sauce::Terminal::String("\n\r");
         }
 
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
@@ -74,7 +42,7 @@ namespace Sauce{
                     case 0xD6:{//Enter
                         Sauce::Terminal::NewLine();
                         Sauce::Terminal::ReturnCaret();
-                        Command();
+                        Command(ShellBuffer);
                         ClearBuffer();
                         }break;
                     case 0xBE:{//up arrow
