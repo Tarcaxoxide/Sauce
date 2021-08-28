@@ -12,5 +12,4 @@
 #include <Memory.hpp>
 #include <Graphics.hpp>
 #include <Filesystem.hpp>
-#include <Shell.hpp>
 #include <Utils.hpp>
