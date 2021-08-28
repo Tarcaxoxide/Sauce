@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <IO.hpp>
+#include <Utils.hpp>
 
 extern "C" uint8_t IsGraphical;
 
@@ -44,7 +45,6 @@ namespace Sauce{
 	    void String(char* string);
 	    void Setcolor(uint8_t foreground,uint8_t background);
 		uint8_t Getcolor();
-		size_t StringLength(char* string);
 		void NewLine();
 		void ReturnCaret();
 		void SetCursor(bool adjust=false,size_t X=0,size_t Y=0);

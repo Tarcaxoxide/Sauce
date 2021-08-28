@@ -1,4 +1,5 @@
 Objs = build/Bootstrap.o
+Objs += build/Utils.o
 Objs += build/Convert.o
 Objs += build/IDT.o
 Objs += build/Interrupts.o
@@ -9,6 +10,7 @@ Objs += build/Binaries.o
 Objs += build/Memory.o
 Objs += build/Graphics.o
 Objs += build/Filesystem.o
+Objs += build/Shell.o
 Objs += build/Kernel.o
 Objs += build/PreKernel.o
 

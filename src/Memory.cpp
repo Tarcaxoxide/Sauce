@@ -65,7 +65,7 @@ namespace Sauce{
                 *ptr = *valPtr++;
             }
         }
-        void InitializeHead(uint64_t HeapAddress,uint64_t HeapLength){
+        void InitializeHeap(uint64_t HeapAddress,uint64_t HeapLength){
             FirstFreeMemorySegment = (MemorySegmentHeader*)HeapAddress+1;
             FirstFreeMemorySegment->MemoryLength=HeapLength-sizeof(MemorySegmentHeader);
             FirstFreeMemorySegment->NextSegment=0;

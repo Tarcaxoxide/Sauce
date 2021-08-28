@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <Terminal.hpp>
 #include <Convert.hpp>
+#include <Utils.hpp>
 
 namespace Sauce{
     namespace Filesystem{

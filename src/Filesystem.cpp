@@ -10,7 +10,7 @@ namespace Sauce{
             AddFile(06,"program2");
         }
         void AddFile(uint64_t Sector,char* Name){
-            size_t nameSize=Sauce::Terminal::StringLength(Name);
+            size_t nameSize=Sauce::Utils::StringLength(Name);
             if(nameSize > _File::NAME_SIZE)return;
             _File nFile;
             size_t A=0;

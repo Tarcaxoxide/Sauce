@@ -19,7 +19,7 @@ namespace Sauce{
         }
         void Clear(){
             Fill(' ');
-            SetCursor();
+            SetCursor(true,0,0);
         }
         void FillRow(size_t Row,char character){
             for(size_t a = 0;(a < MAX_X);a++){
@@ -65,7 +65,7 @@ namespace Sauce{
             return buffer[(X + MAX_X * Y)];
         }
         void String(char* string){
-            size_t stringLen = StringLength(string);
+            size_t stringLen = Sauce::Utils::StringLength(string);
             for(size_t a = 0;(a < stringLen);a++){
                 Character(string[a]);
             }
@@ -76,11 +76,7 @@ namespace Sauce{
         uint8_t Getcolor(){
             return color;
         }
-        size_t StringLength(char* string){
-            size_t Result = 0;
-            for(Result = 0;string[Result] != '\0';Result++);
-            return Result;
-        }
+        
         void NewLine(){
             if(y_pos < MAX_Y -1){
                 y_pos++;
