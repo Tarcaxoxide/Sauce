@@ -53,13 +53,16 @@ void NotifyKernelOfTimer(float rate){
 
 void tests(){
     
+    Sauce::Graphics::PlaceEmptySquare(20,20,100,100,1);
+    Sauce::Graphics::PlaceEmptySquare(10,10,115,115,2);
+    //void PlaceRectangle(uint16_t startX,uint16_t startY,uint16_t stopX,uint16_t stopY,uint16_t color);
 }
 
 void Kernel_Main(){
     Sauce::Interrupts::InitializeIDT();
     Sauce::IO::init_serial();
     Sauce::Filesystem::InitializeFilesystem();
-    Sauce::Memory::InitializeHeap(_HeadOfheap,0x1000000);
+    //Sauce::Memory::InitializeHeap(_HeadOfheap,0x1000000);
     tests();
 
     while(1){

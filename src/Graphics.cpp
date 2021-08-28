@@ -18,5 +18,35 @@ namespace Sauce{
                 }
             }
         }
+        void PlaceVector(_Vector Vector,uint16_t color){
+            uint16_t X,Y,StopX,StopY;
+            if(Vector.StopX > Vector.StartX){
+                StopX=Vector.StopX;
+                X=Vector.StartX;
+            }else{
+                StopX=Vector.StartX;
+                X=Vector.StopX;
+            }
+            if(Vector.StopY > Vector.StartY){
+                StopY=Vector.StopY;
+                Y=Vector.StartY;
+            }else{
+                StopY=Vector.StartY;
+                Y=Vector.StopY;
+            }
+            while(1){
+                PlacePixel(X,Y,color);
+
+                if(X<StopX)X++;
+                if(Y<StopY)Y++;
+                if( (!(Y<StopY)) && (!(X<StopX)) )break;
+            }
+        }
+        void PlaceEmptySquare(uint16_t Xs,uint16_t Ys,uint16_t Xp,uint16_t Yp,uint16_t color){
+            PlaceVector({Xp+(1*Xs),Yp+(1*Ys),Xp+(1*Xs),Yp+(2*Ys)},color);
+            PlaceVector({Xp+(1*Xs),Yp+(2*Ys),Xp+(2*Xs),Yp+(2*Ys)},color);
+            PlaceVector({Xp+(2*Xs),Yp+(2*Ys)+1,Xp+(2*Xs),Yp+(1*Ys)},color);
+            PlaceVector({Xp+(2*Xs),Yp+(1*Ys),Xp+(1*Xs),Yp+(1*Ys)},color);
+        }
     };
 };
