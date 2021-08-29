@@ -38,7 +38,7 @@ namespace Sauce{
         void memset(void* address,uint64_t val,uint64_t size);
         void InitializeHeap(uint64_t HeapAddress,uint64_t HeapLength);
         void* realloc(void* address,uint64_t size);
-        void* alloc(uint64_t size,uint64_t alighnment=sizeof(char));
+        void* alloc(uint64_t size,uint64_t alighnment=0);
         void* calloc(uint64_t size,uint64_t alighnment);
         void* malloc(uint64_t size);
         void memcpy(void* Source,void* Destination,uint64_t size);

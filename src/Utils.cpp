@@ -2,9 +2,6 @@
 
 namespace Sauce{
     namespace Utils{
-        static char *temp_ptr = NULL;
-
-
         size_t StringLength(char* string){
             size_t Result = 0;
             for(Result = 0;string[Result] != '\0';Result++);
@@ -35,31 +32,29 @@ namespace Sauce{
             }
             return NewString;
         }
-        char** split(char* str, char* delim) {
-            char** res = NULL;
-            char* p = strtok(str, delim);
-            int nspaces = 0, i;
-            while(p) {
-                if(res == NULL){
-                    res = (char**)Sauce::Memory::alloc(sizeof(char*) * ++nspaces);
-                }else{
-                    res = (char**)Sauce::Memory::realloc(res, sizeof(char*) * ++nspaces);
-                }
-                if(res == NULL) {
-                    //fprintf(stderr, "out of memory.\n");
-                    Sauce::Terminal::String("out of memory.\n");
-                    //exit(1);
-                }
-                res[nspaces-1] = p;
+        size_t split(char* str, char delim,char** res) {
 
-                p = strtok(NULL, delim);
+            char tmstr[500];
+            size_t tmstrCounter=0;
+            size_t nspaces=0;
+            for(size_t II=0;II<StringLength(tmstr);II++){
+                tmstr[II]=0;
             }
-
-            res = (char**)Sauce::Memory::realloc(res, sizeof(char*) * (nspaces+1));
-            res[nspaces] = 0;
-
-            return res;
+            for(size_t I=0;I<StringLength(str);I++){
+                if(str[I] != delim){
+                    tmstr[tmstrCounter++]=str[I];
+                }else{
+                    tmstr[tmstrCounter++]=0;
+                    res[nspaces++]=tmstr;
+                    tmstrCounter=0;
+                    for(size_t II=0;II<StringLength(tmstr);II++){
+                        tmstr[II]=0;
+                    }
+                }
+            }
+            return nspaces;
         }
+        static char *temp_ptr = NULL;
         char *strtok(char *str, char *delimiter){
             char *final_ptr = NULL;
             static int flag = 0;

@@ -2,9 +2,10 @@
 
 namespace Sauce{
     namespace Shell{
-        
-        char LineBuffer[320];
+        const size_t LineBufferSize=320;
+        char LineBuffer[LineBufferSize];
         size_t LineBufferCounter=0;
+        char** Parts=NULL;
 
         void ClearBuffer(){
             for(size_t I=0;I<320;I++){
@@ -14,8 +15,13 @@ namespace Sauce{
         }
 
         void Command(){
-            char** Parts = Sauce::Utils::split(LineBuffer," ");
+            Sauce::Memory::memset(Parts,0,LineBufferSize);
+            Sauce::Utils::split(LineBuffer,' ',Parts);
 
+            Sauce::Terminal::String("Cmd : ");
+            Sauce::Terminal::String((char*)Parts[0]);
+            Sauce::Terminal::String(" \n\r");
+            return;
 
             if(Sauce::Utils::StringCompare(LineBuffer,"clear")){
                 Sauce::Terminal::Clear();
@@ -29,6 +35,10 @@ namespace Sauce{
             }
         }
 
+
+        void Init(){
+            Parts = (char**)Sauce::Memory::alloc(LineBufferSize*sizeof(char*),sizeof(char*));
+        }
 
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
             if(_Key.Press){ // we just have some testing code here I guess; a prototype key handler.

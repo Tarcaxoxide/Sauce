@@ -10,5 +10,6 @@
 namespace Sauce{
     namespace Shell{
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key);
+        void Init();
     };
 };

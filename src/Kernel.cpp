@@ -31,6 +31,7 @@ void Kernel_Main(){
     Sauce::Filesystem::InitializeFilesystem();
     Sauce::Memory::InitializeHeap(0x100000,0x100000);
     tests();
+    Sauce::Shell::Init();
 
     while(1){
         asm volatile("hlt");

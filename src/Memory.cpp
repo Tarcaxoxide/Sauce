@@ -89,6 +89,11 @@ namespace Sauce{
             return newMem;
         }
         void* alloc(uint64_t size,uint64_t Alignment){
+            Sauce::Terminal::String("alloc:: ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(size));
+            Sauce::Terminal::String(" : ");
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Alignment));
+            Sauce::Terminal::String(" = ");
             uint64_t fullSize = 0;
             void* Address=0;
             bool isAligned=false;
@@ -147,11 +152,13 @@ namespace Sauce{
                 fullAddress-=addressRemainer;
                 if(addressRemainer != 0){
                     fullAddress+=Alignment;
-                    MemorySegmentHeader* AMSH = (MemorySegmentHeader*)fullAddress - 1;
-                    AMSH->Alignment = Alignment;
-                    AMSH->MemorySegmentAddress = (uint64_t)Address - sizeof(MemorySegmentHeader);
                 }
+                MemorySegmentHeader* AMSH = (MemorySegmentHeader*)fullAddress - sizeof(MemorySegmentHeader);;
+                AMSH->Alignment = Alignment;
+                AMSH->MemorySegmentAddress = fullAddress;//(uint64_t)Address - sizeof(MemorySegmentHeader);
             }
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(fullAddress));
+            Sauce::Terminal::String(" \n\r");
             return (void*)fullAddress;
         }
         void* calloc(uint64_t size,uint64_t alighnment){
@@ -187,7 +194,7 @@ namespace Sauce{
         }
         void free(void* address){
             Sauce::Terminal::String("free : ");
-            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)address-1));
+            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)address));
             Sauce::Terminal::String(" \n\r");
             MemorySegmentHeader* currentMemorySegment = ((MemorySegmentHeader*)address)-1;
             currentMemorySegment = (MemorySegmentHeader*)(uint64_t)currentMemorySegment->MemorySegmentAddress;
