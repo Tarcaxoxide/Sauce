@@ -13,3 +13,4 @@
 #include <Graphics.hpp>
 #include <Filesystem.hpp>
 #include <Utils.hpp>
+#include <Shell.hpp>
