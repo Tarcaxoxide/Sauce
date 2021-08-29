@@ -2,8 +2,6 @@
 
 extern "C" uint64_t GetFreeStack(); // Get the remaining space of the kernel stack
 extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
-
-extern "C" uint64_t _HeadOfheap;
 extern "C" uint8_t IsGraphical;
 
 
@@ -40,7 +38,7 @@ void Kernel_Main(){
     Sauce::Interrupts::InitializeIDT();
     Sauce::IO::init_serial();
     Sauce::Filesystem::InitializeFilesystem();
-    Sauce::Memory::InitializeHeap(_HeadOfheap,0x100000);
+    Sauce::Memory::InitializeHeap(0x100000,0x100000);
     tests();
 
     while(1){

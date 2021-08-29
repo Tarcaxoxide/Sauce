@@ -2,6 +2,9 @@
 
 namespace Sauce{
     namespace Utils{
+        static char *temp_ptr = NULL;
+
+
         size_t StringLength(char* string){
             size_t Result = 0;
             for(Result = 0;string[Result] != '\0';Result++);
@@ -31,6 +34,62 @@ namespace Sauce{
                 NewString[Counter++]=StringB[I];
             }
             return NewString;
+        }
+        char** split(char* str, char* delim) {
+            char** res = NULL;
+            char* p = strtok(str, delim);
+            int nspaces = 0, i;
+            while(p) {
+                if(res != NULL){
+                    res = (char**)Sauce::Memory::realloc(res, sizeof(char*) * ++nspaces);
+                }else{
+                    res = (char**)Sauce::Memory::alloc(sizeof(char*) * ++nspaces);
+                }
+                if(res == NULL) {
+                    //fprintf(stderr, "out of memory.\n");
+                    Sauce::Terminal::String("out of memory.\n");
+                    //exit(1);
+                }
+                res[nspaces-1] = p;
+
+                p = strtok(NULL, delim);
+            }
+
+            res = (char**)Sauce::Memory::realloc(res, sizeof(char*) * (nspaces+1));
+            res[nspaces] = 0;
+
+            return res;
+        }
+        char *strtok(char *str, char *delimiter){
+            char *final_ptr = NULL;
+            static int flag = 0;
+            int i, j;
+            if (delimiter == NULL) {
+                return NULL;
+            }
+            if (flag == 1) {
+                return NULL;
+            }
+            if (str != NULL) { 
+                temp_ptr = str; 
+            }
+            final_ptr = temp_ptr;
+            for (i = 0; i <= StringLength(temp_ptr); i++)
+            {
+                for (j = 0; j < StringLength(delimiter); j++) {
+                
+                    if (temp_ptr[i] == '\0') {
+                        flag = 1;
+                        return final_ptr;
+                    }
+                    if ((temp_ptr[i] == delimiter[j])) {
+                        temp_ptr[i] = '\0';
+                        temp_ptr += i+1;
+                        return final_ptr;
+                    }
+                }
+            }
+            return NULL;
         }
     };
 };

@@ -14,6 +14,11 @@ namespace Sauce{
         }
 
         void Command(){
+
+            //char** Parts = (char**)Sauce::Memory::alloc(320*sizeof(char*),sizeof(char*));
+            //Parts = Sauce::Utils::split(LineBuffer," ");
+
+
             if(Sauce::Utils::StringCompare(LineBuffer,"clear")){
                 Sauce::Terminal::Clear();
             }else if(Sauce::Utils::StringCompare(LineBuffer,"test")){
@@ -24,6 +29,7 @@ namespace Sauce{
                 Sauce::Terminal::String(LineBuffer);
                 Sauce::Terminal::String("\n\r");
             }
+            //Sauce::Memory::free(Parts);
         }
 
 
