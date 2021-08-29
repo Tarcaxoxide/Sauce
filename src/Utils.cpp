@@ -40,11 +40,7 @@ namespace Sauce{
             char* p = strtok(str, delim);
             int nspaces = 0, i;
             while(p) {
-                if(res != NULL){
-                    res = (char**)Sauce::Memory::realloc(res, sizeof(char*) * ++nspaces);
-                }else{
-                    res = (char**)Sauce::Memory::alloc(sizeof(char*) * ++nspaces);
-                }
+                res = (char**)Sauce::Memory::realloc(res, sizeof(char*) * ++nspaces);
                 if(res == NULL) {
                     //fprintf(stderr, "out of memory.\n");
                     Sauce::Terminal::String("out of memory.\n");
