@@ -26,19 +26,19 @@ namespace Sauce{
     namespace Memory{
         struct MemorySegmentHeader{
             uint64_t MemoryLength;
-            MemorySegmentHeader* NextSegment=0;
-            MemorySegmentHeader* PreviousSegment=0;
-            MemorySegmentHeader* NextFreeSegment=0;
-            MemorySegmentHeader* PreviousFreeSegment=0;
-            uint64_t TheAlignment;
             uint64_t MemorySegmentAddress;
+            uint64_t Alignment;
+            MemorySegmentHeader* NextSegment;
+            MemorySegmentHeader* NextFreeSegment;
+            MemorySegmentHeader* PreviousFreeSegment;
+            MemorySegmentHeader* PreviousSegment;
             bool Free;
         };
 
         void memset(void* address,uint64_t val,uint64_t size);
         void InitializeHeap(uint64_t HeapAddress,uint64_t HeapLength);
         void* realloc(void* address,uint64_t size);
-        void* alloc(uint64_t size,uint64_t alighnment=0x0000000000000001);
+        void* alloc(uint64_t size,uint64_t alighnment=sizeof(char));
         void* calloc(uint64_t size,uint64_t alighnment);
         void* malloc(uint64_t size);
         void memcpy(void* Source,void* Destination,uint64_t size);

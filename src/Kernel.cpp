@@ -23,15 +23,6 @@ void NotifyKernelOfTimer(float rate){
 }
 
 void tests(){
-    
-    if(IsGraphical)Sauce::Graphics::PlaceEmptySquare(20,20,100,100,1);
-    if(IsGraphical)Sauce::Graphics::PlaceEmptySquare(10,10,115,115,2);
-    void* test = Sauce::Memory::alloc(0x12,0x100);
-    void* test2 = Sauce::Memory::alloc(0x12,0x100);
-    Sauce::Memory::free(test);
-    void* test3 = Sauce::Memory::alloc(0x12,0x100);
-    Sauce::Memory::free(test2);
-    Sauce::Memory::free(test3);
 }
 
 void Kernel_Main(){

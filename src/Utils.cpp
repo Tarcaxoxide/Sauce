@@ -19,7 +19,7 @@ namespace Sauce{
             return *(const unsigned char*)s1 - *(const unsigned char*)s2;
         }
         bool StringCompare(char* StringA,char* StringB){
-            return (strCmp((const char*)StringA,(const char*)StringB) == 0); // I don't care which character in the string does not match. does the string match or not was the question :)
+            return (strCmp((const char*)StringA,(const char*)StringB) == 0);
         }
         char* CombinedStrings(char* StringA,char* StringB){
             size_t SizeA=StringLength(StringA);
@@ -40,7 +40,11 @@ namespace Sauce{
             char* p = strtok(str, delim);
             int nspaces = 0, i;
             while(p) {
-                res = (char**)Sauce::Memory::realloc(res, sizeof(char*) * ++nspaces);
+                if(res == NULL){
+                    res = (char**)Sauce::Memory::alloc(sizeof(char*) * ++nspaces);
+                }else{
+                    res = (char**)Sauce::Memory::realloc(res, sizeof(char*) * ++nspaces);
+                }
                 if(res == NULL) {
                     //fprintf(stderr, "out of memory.\n");
                     Sauce::Terminal::String("out of memory.\n");
