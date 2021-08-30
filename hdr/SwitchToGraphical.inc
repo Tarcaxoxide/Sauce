@@ -6,8 +6,7 @@ IsGraphical:db 0
 GLOBAL IsGraphical
 
 SwitchToGraphical:
-    mov ah,00h ; config is video mode
-    mov al, 13h
+    mov ax, 0013H
     int 0x10    ; do it
     mov byte [IsGraphical], al
     ret

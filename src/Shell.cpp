@@ -43,8 +43,9 @@ namespace Sauce{
             }
         }
 
+        size_t XX=0,YY=0;
+
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
-            if(IsGraphical)return;//placed untill i have an ability to display a shell in graphics mode.
             if(_Key.Press){ // we just have some testing code here I guess; a prototype key handler.
                     char D=_Key.Display;
                     if(_Key.visible){

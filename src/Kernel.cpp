@@ -19,8 +19,21 @@ void NotifyKernelOfTimer(float rate){
     }
 }
 
+
+//TEST
+
+
+
+//TEST
+
+
+
+
 void test(){
-    
+    char _Char='a';
+    size_t XX=0;
+    // 40x25
+    Sauce::Graphics::Place_String("HELLO WORLD!",2);
 }
 
 void Kernel_Main(){
@@ -28,7 +41,7 @@ void Kernel_Main(){
     Sauce::IO::init_serial();
     Sauce::Filesystem::InitializeFilesystem();
     Sauce::Memory::InitializeHeap(0x100000,0x100000);
-    
+    test();
 
     while(1){
         asm volatile("hlt");

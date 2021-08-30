@@ -15,9 +15,16 @@ namespace Sauce{
             uint16_t StopX;
             uint16_t StopY;
         };
-        void PlacePixel(uint16_t X,uint16_t Y,uint16_t color);
-        void PlaceRectangle(uint16_t startX,uint16_t startY,uint16_t stopX,uint16_t stopY,uint16_t color);
-        void PlaceVector(_Vector Vector,uint16_t color);
-        void PlaceEmptySquare(uint16_t Xs,uint16_t Ys,uint16_t Xp,uint16_t Yp,uint16_t color);
+
+        typedef int16_t Gchar[8][8];
+
+        void Store_GChar(Gchar Val);
+        void Place_Char(char Char,uint16_t color);
+        void Store_GChar(Gchar Val);
+        void Place_String(char* Str,uint16_t color);
+        void Place_Pixel(uint16_t X,uint16_t Y,uint16_t color);
+        void Place_Rectangle(uint16_t startX,uint16_t startY,uint16_t stopX,uint16_t stopY,uint16_t color);
+        void Place_Vector(_Vector Vector,uint16_t color);
+        void Place_EmptySquare(uint16_t Xs,uint16_t Ys,uint16_t Xp,uint16_t Yp,uint16_t color);
     };
 };

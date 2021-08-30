@@ -10,7 +10,7 @@ jmp EnterProtectedMode
 
 EnterProtectedMode:
     cli
-    ;call SwitchToGraphical
+    call SwitchToGraphical
     call DetectMemory
     call EnableA20
     lgdt [GDT_Descriptor]

@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <IO.hpp>
 #include <Utils.hpp>
+#include <Graphics.hpp>
 
 extern "C" uint8_t IsGraphical;
 
