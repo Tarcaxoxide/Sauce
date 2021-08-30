@@ -1,5 +1,7 @@
 #include <Shell.hpp>
 
+extern "C" uint8_t IsGraphical;
+
 namespace Sauce{
     namespace Shell{
         const size_t LineBufferSize=320;
@@ -38,6 +40,7 @@ namespace Sauce{
         }
 
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
+            if(IsGraphical)return;//placed untill i have an ability to display a shell in graphics mode.
             if(_Key.Press){ // we just have some testing code here I guess; a prototype key handler.
                     char D=_Key.Display;
                     if(_Key.visible){
