@@ -32,11 +32,11 @@ namespace Sauce{
             }
             return NewString;
         }
-        void split(char* str, char d, char** into) {
+        size_t split(char* str, char d, char** into) {
+            size_t n = 0;
+            size_t c = 0;
             if(str != NULL && into != NULL){
-                int n = 0;
-                int c = 0;
-                for(int i = 0; str[c] != '\0'; i++,c++)
+                for(size_t i = 0; str[c] != '\0'; i++,c++)
                 {
                     into[n][i] = str[c];
                     if(str[c] == d)
@@ -47,6 +47,7 @@ namespace Sauce{
                     }
                 }
             }
+            return n;
         }
         static char *temp_ptr = NULL;
         char *strtok(char *str, char *delimiter){

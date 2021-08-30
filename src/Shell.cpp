@@ -17,11 +17,12 @@ namespace Sauce{
         }
 
         void Command(){
+            LineBuffer[LineBufferCounter++]=' ';
             if(Parts == NULL){
                 Parts = (char**)Sauce::Memory::malloc(50*sizeof(char*),sizeof(char*));
             }
             Sauce::Memory::allocarr(Parts, 512, 50);
-            Sauce::Utils::split(LineBuffer,' ',Parts);
+            size_t PartCount = Sauce::Utils::split(LineBuffer,' ',Parts);
 
             if(Sauce::Utils::StringCompare(Parts[0],"clear")){
                 Sauce::Terminal::Clear();
@@ -34,7 +35,10 @@ namespace Sauce{
             }
             else{
                 Sauce::Terminal::String("Unknown command:");
-                Sauce::Terminal::String(Parts[0]);
+                for(size_t I=0;I<PartCount;I++){
+                    Sauce::Terminal::String(Parts[I]);
+                    Sauce::Terminal::String(" ");
+                }
                 Sauce::Terminal::String("\n\r");
             }
         }
