@@ -11,7 +11,7 @@ namespace Sauce{
         int strCmp(const char* s1, const char* s2);
         bool StringCompare(char* StringA,char* StringB);
         char* CombinedStrings(char* StringA,char* StringB);
-        size_t split(char* str, char delim,char** res);
+        void split(char* str, char d, char** into);
         char *strtok(char *str, char *delimiter);
     };
 };

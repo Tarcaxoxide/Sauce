@@ -32,27 +32,21 @@ namespace Sauce{
             }
             return NewString;
         }
-        size_t split(char* str, char delim,char** res) {
-
-            char tmstr[500];
-            size_t tmstrCounter=0;
-            size_t nspaces=0;
-            for(size_t II=0;II<StringLength(tmstr);II++){
-                tmstr[II]=0;
-            }
-            for(size_t I=0;I<StringLength(str);I++){
-                if(str[I] != delim){
-                    tmstr[tmstrCounter++]=str[I];
-                }else{
-                    tmstr[tmstrCounter++]=0;
-                    res[nspaces++]=tmstr;
-                    tmstrCounter=0;
-                    for(size_t II=0;II<StringLength(tmstr);II++){
-                        tmstr[II]=0;
+        void split(char* str, char d, char** into) {
+            if(str != NULL && into != NULL){
+                int n = 0;
+                int c = 0;
+                for(int i = 0; str[c] != '\0'; i++,c++)
+                {
+                    into[n][i] = str[c];
+                    if(str[c] == d)
+                    {
+                        into[n][i] = '\0';
+                        i = -1;
+                        ++n;
                     }
                 }
             }
-            return nspaces;
         }
         static char *temp_ptr = NULL;
         char *strtok(char *str, char *delimiter){

@@ -35,14 +35,22 @@ namespace Sauce{
             bool Free;
         };
 
+
+        static bool MemoryRegionsGot = false;
+        static uint64_t UsableMemoryRegionCount=0;
+        static MemoryMapEntry* UsableMemoryRegions[10];
+
+
         void memset(void* address,uint64_t val,uint64_t size);
         void InitializeHeap(uint64_t HeapAddress,uint64_t HeapLength);
         void* realloc(void* address,uint64_t size);
-        void* alloc(uint64_t size,uint64_t alighnment=0);
         void* calloc(uint64_t size,uint64_t alighnment);
-        void* malloc(uint64_t size);
+        void* alloc(uint64_t size,uint32_t Alignment);
+        void* malloc(uint64_t size,uint32_t Alignment);
         void memcpy(void* Source,void* Destination,uint64_t size);
         void free(void* address);
+        void allocarr(char** pointers, int bytes, int slots);
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b);
+        MemoryMapEntry** GetUsableMemoryRegions();
     };
 };

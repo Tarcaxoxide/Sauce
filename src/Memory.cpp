@@ -71,7 +71,7 @@ namespace Sauce{
             Sauce::Terminal::String(" : ");
             Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(HeapLength));
             Sauce::Terminal::String("\n\r");
-            FirstFreeMemorySegment = (MemorySegmentHeader*)HeapAddress+1;
+            FirstFreeMemorySegment = (MemorySegmentHeader*)HeapAddress;
             FirstFreeMemorySegment->MemoryLength=HeapLength-sizeof(MemorySegmentHeader);
             FirstFreeMemorySegment->NextSegment=0;
             FirstFreeMemorySegment->PreviousSegment=0;
@@ -88,12 +88,10 @@ namespace Sauce{
             free(address);
             return newMem;
         }
-        void* alloc(uint64_t size,uint64_t Alignment){
-            Sauce::Terminal::String("alloc:: ");
-            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(size));
-            Sauce::Terminal::String(" : ");
-            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Alignment));
-            Sauce::Terminal::String(" = ");
+        void* alloc(uint64_t size,uint32_t Alignment){
+            return malloc(size,Alignment);
+        }
+        void* malloc(uint64_t size,uint32_t Alignment){
             uint64_t fullSize = 0;
             void* Address=0;
             bool isAligned=false;
@@ -152,20 +150,36 @@ namespace Sauce{
                 fullAddress-=addressRemainer;
                 if(addressRemainer != 0){
                     fullAddress+=Alignment;
+                    MemorySegmentHeader* AMSH = (MemorySegmentHeader*)fullAddress - 1;
+                    AMSH->Alignment = Alignment;
+                    AMSH->MemorySegmentAddress = (uint64_t)Address - sizeof(MemorySegmentHeader);
                 }
-                MemorySegmentHeader* AMSH = (MemorySegmentHeader*)fullAddress - sizeof(MemorySegmentHeader);;
-                AMSH->Alignment = Alignment;
-                AMSH->MemorySegmentAddress = fullAddress;//(uint64_t)Address - sizeof(MemorySegmentHeader);
             }
-            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(fullAddress));
-            Sauce::Terminal::String(" \n\r");
             return (void*)fullAddress;
         }
-        void* calloc(uint64_t size,uint64_t alighnment){
-            return alloc(size,alighnment);
+        void CombineFreeSegments(MemorySegmentHeader* A,MemorySegmentHeader* B){
+            if(A == 0 || B == 0)return;
+            if(A < B){
+                A->MemoryLength += B->MemoryLength + sizeof(MemorySegmentHeader);
+                A->NextSegment = B->NextSegment;
+                A->NextFreeSegment = B->NextFreeSegment;
+                B->NextSegment->PreviousSegment=A;
+                B->NextSegment->PreviousFreeSegment=A;
+                B->NextFreeSegment->PreviousFreeSegment=A;
+            }else{
+                B->MemoryLength += A->MemoryLength + sizeof(MemorySegmentHeader);
+                B->NextSegment = A->NextSegment;
+                B->NextFreeSegment = A->NextFreeSegment;
+                A->NextSegment->PreviousSegment=B;
+                A->NextSegment->PreviousFreeSegment=B;
+                A->NextFreeSegment->PreviousFreeSegment=B;
+            }
         }
-        void* malloc(uint64_t size){
-            return alloc(size);
+        void* calloc(uint64_t size,uint64_t alighnment){
+            void* allmem = alloc(size,alighnment);
+            MemorySegmentHeader* allmom = (MemorySegmentHeader*)allmem;
+            memset(allmem,0,allmom->MemoryLength);
+            return allmem;
         }
 
         void memcpy(void* Source,void* Destination,uint64_t size){
@@ -193,29 +207,23 @@ namespace Sauce{
             }
         }
         void free(void* address){
-            Sauce::Terminal::String("free : ");
-            Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)address));
-            Sauce::Terminal::String(" \n\r");
-            MemorySegmentHeader* currentMemorySegment = ((MemorySegmentHeader*)address)-1;
-            currentMemorySegment = (MemorySegmentHeader*)(uint64_t)currentMemorySegment->MemorySegmentAddress;
-            
+            MemorySegmentHeader* currentMemorySegment = ((MemorySegmentHeader*)address) -1;
+
             currentMemorySegment->Free=true;
-            if(currentMemorySegment < FirstFreeMemorySegment)FirstFreeMemorySegment = currentMemorySegment;
-            Sauce::Terminal::String("DEBUG?");
+            if(currentMemorySegment < FirstFreeMemorySegment)FirstFreeMemorySegment=currentMemorySegment;
             if(currentMemorySegment->NextFreeSegment != 0){
                 if(currentMemorySegment->NextFreeSegment->PreviousFreeSegment < currentMemorySegment)currentMemorySegment->NextFreeSegment->PreviousFreeSegment = currentMemorySegment;
             }
-            Sauce::Terminal::String("DEBUG?");
             if(currentMemorySegment->PreviousFreeSegment != 0){
-                if(currentMemorySegment->PreviousFreeSegment->NextFreeSegment > currentMemorySegment)currentMemorySegment->PreviousFreeSegment->NextFreeSegment = currentMemorySegment;
+                if(currentMemorySegment->PreviousFreeSegment->NextFreeSegment > currentMemorySegment)currentMemorySegment->PreviousFreeSegment->NextFreeSegment=currentMemorySegment;
             }
             if(currentMemorySegment->NextSegment != 0){
                 currentMemorySegment->NextSegment->PreviousSegment=currentMemorySegment;
-                if(currentMemorySegment->NextSegment->Free)CombinedSegments(currentMemorySegment,currentMemorySegment->NextSegment);
+                if(currentMemorySegment->NextSegment->Free)CombineFreeSegments(currentMemorySegment,currentMemorySegment->NextSegment);
             }
             if(currentMemorySegment->PreviousSegment != 0){
-                currentMemorySegment->PreviousSegment->NextSegment=currentMemorySegment; // this freezes when using unaligned address?
-                if(currentMemorySegment->PreviousSegment->Free)CombinedSegments(currentMemorySegment,currentMemorySegment->PreviousSegment);
+                currentMemorySegment->PreviousSegment->NextSegment=currentMemorySegment;
+                if(currentMemorySegment->PreviousSegment->Free)CombineFreeSegments(currentMemorySegment,currentMemorySegment->PreviousSegment);
             }
         }
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b){
@@ -239,6 +247,32 @@ namespace Sauce{
                 a->NextSegment->PreviousSegment = b;
                 a->NextSegment->PreviousFreeSegment = b;
                 a->NextFreeSegment->PreviousFreeSegment = b;
+            }
+        }
+        
+        MemoryMapEntry** GetUsableMemoryRegions(){
+            if(MemoryRegionsGot){
+                return UsableMemoryRegions;
+            }
+            uint8_t Rindex=0;
+            for(uint8_t i=0; i < MemoryRegionCount;i++){
+                MemoryMapEntry* memMap = (MemoryMapEntry*)0x5000;
+                memMap+=i;
+                if(memMap->Region_Type == 1){
+                    UsableMemoryRegions[Rindex] = memMap;
+                    Rindex++;
+                }
+                UsableMemoryRegionCount=Rindex;
+                MemoryRegionsGot=true;
+                return UsableMemoryRegions;
+            }
+        }
+        void allocarr(char** pointers, int bytes, int slots){
+            int i = 0;
+            while(i <= slots)
+            {
+                pointers[i] = (char*)calloc(1, bytes);
+                ++i;
             }
         }
     };

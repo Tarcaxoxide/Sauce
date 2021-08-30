@@ -15,29 +15,26 @@ namespace Sauce{
         }
 
         void Command(){
-            Sauce::Memory::memset(Parts,0,LineBufferSize);
+            if(Parts == NULL){
+                Parts = (char**)Sauce::Memory::malloc(50*sizeof(char*),sizeof(char*));
+            }
+            Sauce::Memory::allocarr(Parts, 512, 50);
             Sauce::Utils::split(LineBuffer,' ',Parts);
 
-            Sauce::Terminal::String("Cmd : ");
-            Sauce::Terminal::String((char*)Parts[0]);
-            Sauce::Terminal::String(" \n\r");
-            return;
-
-            if(Sauce::Utils::StringCompare(LineBuffer,"clear")){
+            if(Sauce::Utils::StringCompare(Parts[0],"clear")){
                 Sauce::Terminal::Clear();
-            }else if(Sauce::Utils::StringCompare(LineBuffer,"test")){
+            }else if(Sauce::Utils::StringCompare(Parts[0],"test")){
                 Sauce::Terminal::String("Working?!?");
                 Sauce::Terminal::String("\n\r");
-            }else{
-                Sauce::Terminal::String("Unknown command:");
-                Sauce::Terminal::String(LineBuffer);
+            }else if(Sauce::Utils::StringCompare(Parts[0],"echo")){
+                Sauce::Terminal::String(Parts[1]);
                 Sauce::Terminal::String("\n\r");
             }
-        }
-
-
-        void Init(){
-            Parts = (char**)Sauce::Memory::alloc(LineBufferSize*sizeof(char*),sizeof(char*));
+            else{
+                Sauce::Terminal::String("Unknown command:");
+                Sauce::Terminal::String(Parts[0]);
+                Sauce::Terminal::String("\n\r");
+            }
         }
 
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
