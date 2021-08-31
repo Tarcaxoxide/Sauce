@@ -24,13 +24,13 @@
             or eax, 1 << 5
             mov cr4, eax
 
-             mov ecx, 0xc0000080
-             rdmsr
-             or eax, 1 << 8
-             wrmsr
+            mov ecx, 0xc0000080
+            rdmsr
+            or eax, 1 << 8
+            wrmsr
 
-             mov eax, cr0
-             or eax, 1 << 31
-             mov cr0, eax
+            mov eax, cr0
+            or eax, 1 << 31
+            mov cr0, eax
         ret
 %endif

@@ -52,5 +52,7 @@ namespace Sauce{
         void allocarr(char** pointers, int bytes, int slots);
         void CombinedSegments(MemorySegmentHeader* a,MemorySegmentHeader* b);
         MemoryMapEntry** GetUsableMemoryRegions();
+        uint64_t GetFreeHeap();
+        
     };
 };

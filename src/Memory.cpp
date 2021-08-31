@@ -275,6 +275,9 @@ namespace Sauce{
                 ++i;
             }
         }
+        uint64_t GetFreeHeap(){
+            return FirstFreeMemorySegment->MemoryLength;
+        }
     };
 };
 
