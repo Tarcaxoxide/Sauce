@@ -25,6 +25,7 @@ void Kernel_Main(){
     Sauce::Filesystem::InitializeFilesystem();
     Sauce::Memory::InitializeHeap(0x100000,0x100000);
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Memory::GetFreeHeap()));
+    Sauce::Graphics::Place_String(Sauce::Convert::To_String::From_Integer(59),4);// why does this print 5004 XD
 
     while(1){
         asm volatile("hlt");
