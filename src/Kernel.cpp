@@ -25,9 +25,13 @@ void Kernel_Main(){
     Sauce::Filesystem::InitializeFilesystem();
     Sauce::Memory::InitializeHeap(0x100000,0x100000);
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Memory::GetFreeHeap()));
-    Sauce::Graphics::Place_String(Sauce::Convert::To_String::From_Integer(59),4);// why does this print 5004 XD
+    Sauce::Terminal::String(" \n\r");
+    
+    uint8_t Atest = Sauce::Convert::To_uint8::From_Char('5');
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_Integer(Atest));
+    Sauce::Terminal::String(" \n\r");
 
-    while(1){
+    while(true){
         asm volatile("hlt");
     }
 }

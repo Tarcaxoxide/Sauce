@@ -153,5 +153,10 @@ namespace Sauce{
                 return haxString;
             }
         };
+        namespace To_uint8{
+            uint8_t From_Char(char value){
+                return (uint8_t)(value-48);
+            }
+        };
     };
 };

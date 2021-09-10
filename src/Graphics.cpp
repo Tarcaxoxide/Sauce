@@ -34,6 +34,9 @@ namespace Sauce{
         }
 
         void Place_Char(char Char,uint16_t color){
+            Sauce::Terminal::String("Place_Char: ");
+            Sauce::Terminal::Character(Char);
+            Sauce::Terminal::String(" \n\r");
             switch(Char){
                 default:{
                     Gchar GG={
