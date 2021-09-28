@@ -2,12 +2,12 @@
 
 namespace Sauce{
     namespace Utils{
-        size_t StringLength(char* string){
+        size_t String_Length(char* string){
             size_t Result = 0;
             for(Result = 0;string[Result] != '\0';Result++);
             return Result;
         }
-        int strCmp(const char* s1, const char* s2){
+        int String_Compare(const char* s1, const char* s2){
             while(*s1 && (*s1 == *s2))
             {
                 s1++;
@@ -15,12 +15,12 @@ namespace Sauce{
             }
             return *(const unsigned char*)s1 - *(const unsigned char*)s2;
         }
-        bool StringCompare(char* StringA,char* StringB){
-            return (strCmp((const char*)StringA,(const char*)StringB) == 0);
+        bool String_Compare_ReturnBool(char* StringA,char* StringB){
+            return (String_Compare((const char*)StringA,(const char*)StringB) == 0);
         }
-        char* CombinedStrings(char* StringA,char* StringB){
-            size_t SizeA=StringLength(StringA);
-            size_t SizeB=StringLength(StringB);
+        char* Combined_Strings(char* StringA,char* StringB){
+            size_t SizeA=String_Length(StringA);
+            size_t SizeB=String_Length(StringB);
             size_t Size=SizeA+SizeB;
             char NewString[Size];
             size_t Counter=0;
@@ -30,9 +30,9 @@ namespace Sauce{
             for(size_t I=0;I<SizeB;I++){
                 NewString[Counter++]=StringB[I];
             }
-            return NewString;
+            return NewString; // warning: address of local variable 'NewString' returned [-Wreturn-local-addr]
         }
-        size_t split(char* str, char d, char** into) {
+        size_t Split(char* str, char d, char** into) {
             size_t n = 0;
             size_t c = 0;
             if(str != NULL && into != NULL){
@@ -49,8 +49,8 @@ namespace Sauce{
             }
             return n;
         }
-        static char *temp_ptr = NULL;
-        char *strtok(char *str, char *delimiter){
+        static char *TmpPtr = NULL;
+        char *String_Tokenizer(char *str, char *delimiter){
             char *final_ptr = NULL;
             static int flag = 0;
             int i, j;
@@ -61,25 +61,30 @@ namespace Sauce{
                 return NULL;
             }
             if (str != NULL) { 
-                temp_ptr = str; 
+                TmpPtr = str; 
             }
-            final_ptr = temp_ptr;
-            for (i = 0; i <= StringLength(temp_ptr); i++)
+            final_ptr = TmpPtr;
+            for (i = 0; i <= String_Length(TmpPtr); i++)
             {
-                for (j = 0; j < StringLength(delimiter); j++) {
+                for (j = 0; j < String_Length(delimiter); j++) {
                 
-                    if (temp_ptr[i] == '\0') {
+                    if (TmpPtr[i] == '\0') {
                         flag = 1;
                         return final_ptr;
                     }
-                    if ((temp_ptr[i] == delimiter[j])) {
-                        temp_ptr[i] = '\0';
-                        temp_ptr += i+1;
+                    if ((TmpPtr[i] == delimiter[j])) {
+                        TmpPtr[i] = '\0';
+                        TmpPtr += i+1;
                         return final_ptr;
                     }
                 }
             }
             return NULL;
+        }
+        void Move_By_Factor(uint64_t* Value,uint64_t ByValue){
+            for(uint64_t iA=0;iA<ByValue;iA++){
+                *Value*=10;
+            }
         }
     };
 };

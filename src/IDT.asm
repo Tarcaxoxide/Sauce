@@ -1,5 +1,5 @@
 extern _idt
-extern _ZN5Sauce10Interrupts11isr_handlerEm
+extern _ZN5Sauce10Interrupts28Interrupt_SubRoutine_HandlerEm
 
 %macro PUSHALL 0
     push rax
@@ -26,7 +26,7 @@ extern _ZN5Sauce10Interrupts11isr_handlerEm
     isr%1:
         PUSHALL
         mov rdi, %1
-        call _ZN5Sauce10Interrupts11isr_handlerEm
+        call _ZN5Sauce10Interrupts28Interrupt_SubRoutine_HandlerEm
         POPALL
         iretq
     GLOBAL isr%1
@@ -40,8 +40,8 @@ idtDescriptor:
 isr 0
 isr 1
 
-loadIDT:
+Load_Interrupt_Descriptor_Table:
     lidt[idtDescriptor]
     sti
     ret
-    GLOBAL loadIDT
+    GLOBAL Load_Interrupt_Descriptor_Table

@@ -18,6 +18,4 @@ GetFontFromBios:
 		mov			cx, 256*16/4
 		rep			movsd
 		pop			ds
-
-
 %endif

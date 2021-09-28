@@ -158,5 +158,30 @@ namespace Sauce{
                 return (uint8_t)(value-48);
             }
         };
+        namespace To_uint16{
+			uint16_t From_Char(char value){
+                return (uint16_t)(value-48);
+            }
+		};
+        namespace To_uint32{
+			uint32_t From_Char(char value){
+                return (uint32_t)(value-48);
+            }
+		};
+        namespace To_uint64{
+			uint64_t From_Char(char value){
+                return (uint64_t)(value-48);
+            }
+            uint64_t From_String(char* value){
+                size_t result=0;
+                size_t Digitz=Sauce::Utils::String_Length(value);
+                size_t tmpvalintnum=1;
+                for(size_t iA=0;iA<Digitz;iA++){
+                    tmpvalintnum=1;
+                    Sauce::Utils::Move_By_Factor(&tmpvalintnum,Digitz-iA);
+                    result+=(Sauce::Convert::To_uint64::From_Char(value[iA])*tmpvalintnum);
+                }
+            }
+		};
     };
 };

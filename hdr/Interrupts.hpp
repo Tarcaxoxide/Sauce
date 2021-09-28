@@ -18,19 +18,19 @@ namespace Sauce{
 			uint32_t offset_high;
 			uint32_t zero;
 		};
-		void InitializeIDT();
-		void MapIDT(size_t index,uint64_t (*This_isr));
-		void isr_handler(uint64_t isr_number);
-		uint64_t IntHandler(uint64_t Interrupt_Number,uint64_t esp);
-		extern uint64_t PIT_Counter;
+		void Initialize_Interrupt_Descriptor_Table();
+		void Map_Interrupt_Descriptor_Table(size_t index,uint64_t (*This_isr));
+		void Interrupt_SubRoutine_Handler(uint64_t isr_number);
+		uint64_t Interrupt_Handler(uint64_t Interrupt_Number,uint64_t esp);
+		extern uint64_t ProgrammableInterruptTimerCounter;
 	};
 };
 
 
-extern "C" void SetStackBase(uint64_t address);
-extern "C" void SetStackPointer(uint64_t address);
-extern "C" uint64_t GetStackBase();
-extern "C" uint64_t GetStackPointer();
+extern "C" void Set_Stack_Base(uint64_t address);
+extern "C" void Set_Stack_Pointer(uint64_t address);
+extern "C" uint64_t Get_Stack_Base();
+extern "C" uint64_t Get_Stack_Pointer();
 
-extern void NotifyKernelOfKeyPress(Sauce::Keyboard::KeyboardKey _Key);
-extern void NotifyKernelOfTimer(float rate);
+extern void Notify_Kernel_Of_KeyPress(Sauce::Keyboard::KeyboardKey _Key);
+extern void Notify_Kernel_Of_Timer(float rate);

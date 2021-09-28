@@ -28,7 +28,7 @@ namespace Sauce{
         }
 
         void Place_String(char* Str,uint16_t color){
-            for(size_t I=0;I<Sauce::Utils::StringLength(Str);I++){
+            for(size_t I=0;I<Sauce::Utils::String_Length(Str);I++){
                 Place_Char(Str[I],color);
             }
         }

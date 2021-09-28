@@ -83,52 +83,52 @@ namespace Sauce{
         int is_transmit_empty(){
             return inb(COMn + 5) & 0x20;
         }
-        void write_serial(char a){
+        void Write_Serial(char a){
             while (is_transmit_empty() == 0);
             outb(COMn,a);
         }
     };
 };
 
-namespace External{
-    namespace IO{
-        _Port::_Port(uint16_t port_number){
-            this->port_number=port_number;
-        }
-        _Port::~_Port(){}
-
-        _8Bit_Port::_8Bit_Port(uint16_t port_number):_Port(port_number){}
-        _8Bit_Port::~_8Bit_Port(){}
-        void _8Bit_Port::operator<<(uint8_t Data){
-            Sauce::IO::outb(port_number,Data);
-        }
-		void _8Bit_Port::operator>>(uint8_t &Data){
-            Data = Sauce::IO::inb(port_number);
-        }
-
-        _8BitSlow_Port::_8BitSlow_Port(uint16_t port_number):_8Bit_Port(port_number){}
-        _8BitSlow_Port::~_8BitSlow_Port(){}
-        void _8BitSlow_Port::operator<<(uint8_t Data){
-            Sauce::IO::outb(port_number,Data,true);
-        }
-
-        _16Bit_Port::_16Bit_Port(uint16_t port_number):_Port(port_number){}
-        _16Bit_Port::~_16Bit_Port(){}
-        void _16Bit_Port::operator<<(uint16_t Data){
-            Sauce::IO::outw(port_number,Data);
-        }
-		void _16Bit_Port::operator>>(uint16_t &Data){
-            Data = Sauce::IO::inw(port_number);
-        }
-
-        _32Bit_Port::_32Bit_Port(uint16_t port_number):_Port(port_number){}
-        _32Bit_Port::~_32Bit_Port(){}
-        void _32Bit_Port::operator<<(uint32_t Data){
-            Sauce::IO::outl(port_number,Data);
-        }
-		void _32Bit_Port::operator>>(uint32_t &Data){
-            Data = Sauce::IO::inl(port_number);
-        }
-    };
-};
+//namespace External{
+//    namespace IO{
+//        _Port::_Port(uint16_t port_number){
+//            this->port_number=port_number;
+//        }
+//        _Port::~_Port(){}
+//
+//        _8Bit_Port::_8Bit_Port(uint16_t port_number):_Port(port_number){}
+//        _8Bit_Port::~_8Bit_Port(){}
+//        void _8Bit_Port::operator<<(uint8_t Data){
+//            Sauce::IO::outb(port_number,Data);
+//        }
+//		void _8Bit_Port::operator>>(uint8_t &Data){
+//            Data = Sauce::IO::inb(port_number);
+//        }
+//
+//        _8BitSlow_Port::_8BitSlow_Port(uint16_t port_number):_8Bit_Port(port_number){}
+//        _8BitSlow_Port::~_8BitSlow_Port(){}
+//        void _8BitSlow_Port::operator<<(uint8_t Data){
+//            Sauce::IO::outb(port_number,Data,true);
+//        }
+//
+//        _16Bit_Port::_16Bit_Port(uint16_t port_number):_Port(port_number){}
+//        _16Bit_Port::~_16Bit_Port(){}
+//        void _16Bit_Port::operator<<(uint16_t Data){
+//            Sauce::IO::outw(port_number,Data);
+//        }
+//		void _16Bit_Port::operator>>(uint16_t &Data){
+//            Data = Sauce::IO::inw(port_number);
+//        }
+//
+//        _32Bit_Port::_32Bit_Port(uint16_t port_number):_Port(port_number){}
+//        _32Bit_Port::~_32Bit_Port(){}
+//        void _32Bit_Port::operator<<(uint32_t Data){
+//            Sauce::IO::outl(port_number,Data);
+//        }
+//		void _32Bit_Port::operator>>(uint32_t &Data){
+//            Data = Sauce::IO::inl(port_number);
+//        }
+//    };
+//};
 

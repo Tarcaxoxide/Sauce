@@ -5,12 +5,11 @@ namespace Sauce{
         _File FileTable[50];
         uint64_t FileTableIndex=0;
 
-        void InitializeFilesystem(){
-            AddFile(04,"Calculator");
-            AddFile(06,"program2");
-        }
+        void Initialize_Filesystem(){
+        	Sauce::Terminal::String("Filesystem Init; Currently we do nothing for this.\n\r");
+	}
         void AddFile(uint64_t Sector,char* Name){
-            size_t nameSize=Sauce::Utils::StringLength(Name);
+            size_t nameSize=Sauce::Utils::String_Length(Name);
             if(nameSize > _File::NAME_SIZE)return;
             _File nFile;
             size_t A=0;

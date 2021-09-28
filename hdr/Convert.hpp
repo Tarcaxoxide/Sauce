@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <Utils.hpp>
 
 namespace Sauce{
 	namespace Convert{
@@ -16,6 +17,16 @@ namespace Sauce{
 		};
 		namespace To_uint8{
 			uint8_t From_Char(char value);
+		};
+		namespace To_uint16{
+			uint16_t From_Char(char value);
+		};
+		namespace To_uint32{
+			uint32_t From_Char(char value);
+		};
+		namespace To_uint64{
+			uint64_t From_Char(char value);
+			uint64_t From_String(char* value);
 		};
 	};
 };

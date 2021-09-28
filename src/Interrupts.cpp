@@ -9,11 +9,11 @@ extern Sauce::Interrupts::IDT64 _idt[256];
 extern uint64_t isr0;
 extern uint64_t isr1;
 
-extern "C" void loadIDT();
+extern "C" void Load_Interrupt_Descriptor_Table();
 
 namespace Sauce{
     namespace Interrupts{
-        void MapIDT(size_t index,uint64_t &This_isr){
+        void Map_Interrupt_Descriptor_Table(size_t index,uint64_t &This_isr){
             _idt[index].offset_low = ((uint16_t)(((uint64_t)&This_isr & 0x000000000000ffff)));
 			_idt[index].selector = 0x08;
 			_idt[index].ist = 0;
@@ -22,17 +22,17 @@ namespace Sauce{
 			_idt[index].offset_high = ((uint32_t)(((uint64_t)&This_isr & 0xffffffff00000000) >> 32));
 			_idt[index].zero = 0;
         }
-        void InitializeIDT(){
-            MapIDT(0,isr0);
-            MapIDT(1,isr1);
+        void Initialize_Interrupt_Descriptor_Table(){
+            Map_Interrupt_Descriptor_Table(0,isr0);
+            Map_Interrupt_Descriptor_Table(1,isr1);
             //Sauce::IO::outb(0x21,0xfd);
             //Sauce::IO::outb(0xa1,0xff);
             Sauce::IO::RemapPic();
-            loadIDT();
+            Load_Interrupt_Descriptor_Table();
         }
 
 
-        void isr_handler(uint64_t isr_number){
+        void Interrupt_SubRoutine_Handler(uint64_t isr_number){
             static float tick=0;
             static uint8_t tock=0;
             static float trigger=1.25252525252525252525;
@@ -44,7 +44,7 @@ namespace Sauce{
                         tock++;
                         tick-=trigger;
                         if(!(tock%10)){
-                            NotifyKernelOfTimer(tick);
+                            Notify_Kernel_Of_Timer(tick);
                         }
                     }
                 }break;
@@ -57,7 +57,7 @@ namespace Sauce{
                             uint16_t Xinput = Sauce::Keyboard::Translate_KeyCode(input);
                             if(Xinput != NULL){
                                 Sauce::Keyboard::KeyboardKey Xkey = Sauce::Keyboard::CodeToKey(Xinput);
-                                if(Xkey.Key != NULL)NotifyKernelOfKeyPress(Xkey);
+                                if(Xkey.Key != NULL)Notify_Kernel_Of_KeyPress(Xkey);
                             }
                         }
                       }
@@ -72,10 +72,10 @@ namespace Sauce{
             Sauce::IO::outb(0x20,0x20);
             Sauce::IO::outb(0xa0,0x20);
         }
-        uint64_t IntHandler(uint64_t Interrupt_Number,uint64_t esp){
+        uint64_t Interrupt_Handler(uint64_t Interrupt_Number,uint64_t esp){
             // this is for later when i do task switching. (this will likely not be used for the kernel but only for userland tasks, that is why it is its own function.)
             return esp;
         }
-        uint64_t PIT_Counter=0;
+        uint64_t ProgrammableInterruptTimerCounter=0;
     };
 };

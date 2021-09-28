@@ -26,51 +26,51 @@ namespace Sauce{
 		int serial_received();
 		char read_serial();
 		int is_transmit_empty();
-		void write_serial(char a);
+		void Write_Serial(char a);
 	};
 };
 
-namespace External {
-	namespace IO{
-		class _Port{
-			protected:
-				uint16_t port_number;
-				_Port(uint16_t port_number);
-				~_Port();
-		};
-
-		class _8Bit_Port : public _Port{
-			public:
-				_8Bit_Port(uint16_t port_number);
-				~_8Bit_Port();
-				virtual void operator<<(uint8_t Data);
-				virtual void operator>>(uint8_t &Data);
-
-		};
-
-		class _8BitSlow_Port : public _8Bit_Port{
-			public:
-				_8BitSlow_Port(uint16_t port_number);
-				~_8BitSlow_Port();
-				virtual void operator<<(uint8_t Data);
-
-		};
-
-		class _16Bit_Port : public _Port{
-			public:
-				_16Bit_Port(uint16_t port_number);
-				~_16Bit_Port();
-				virtual void operator<<(uint16_t Data);
-				virtual void operator>>(uint16_t &Data);
-				
-		};
-
-		class _32Bit_Port : public _Port{
-			public:
-				_32Bit_Port(uint16_t port_number);
-				~_32Bit_Port();
-				virtual void operator<<(uint32_t Data);
-				virtual void operator>>(uint32_t &Data);
-		};
-	};
-}
+//namespace External {
+//	namespace IO{
+//		class _Port{
+//			protected:
+//				uint16_t port_number;
+//				_Port(uint16_t port_number);
+//				~_Port();
+//		};
+//
+//		class _8Bit_Port : public _Port{
+//			public:
+//				_8Bit_Port(uint16_t port_number);
+//				~_8Bit_Port();
+//				virtual void operator<<(uint8_t Data);
+//				virtual void operator>>(uint8_t &Data);
+//
+//		};
+//
+//		class _8BitSlow_Port : public _8Bit_Port{
+//			public:
+//				_8BitSlow_Port(uint16_t port_number);
+//				~_8BitSlow_Port();
+//				virtual void operator<<(uint8_t Data);
+//
+//		};
+//
+//		class _16Bit_Port : public _Port{
+//			public:
+//				_16Bit_Port(uint16_t port_number);
+//				~_16Bit_Port();
+//				virtual void operator<<(uint16_t Data);
+//				virtual void operator>>(uint16_t &Data);
+//				
+//		};
+//
+//		class _32Bit_Port : public _Port{
+//			public:
+//				_32Bit_Port(uint16_t port_number);
+//				~_32Bit_Port();
+//				virtual void operator<<(uint32_t Data);
+//				virtual void operator>>(uint32_t &Data);
+//		};
+//	};
+//}
