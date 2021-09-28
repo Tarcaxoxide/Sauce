@@ -25,8 +25,8 @@ namespace Sauce{
         void Initialize_Interrupt_Descriptor_Table(){
             Map_Interrupt_Descriptor_Table(0,isr0);
             Map_Interrupt_Descriptor_Table(1,isr1);
-            //Sauce::IO::outb(0x21,0xfd);
-            //Sauce::IO::outb(0xa1,0xff);
+            Sauce::IO::outb(0x21,0xfd);// masking our timer interrupt, timer interrupt is causing a crash?
+            Sauce::IO::outb(0xa1,0xff);// masking our timer interrupt, timer interrupt is causing a crash?
             Sauce::IO::RemapPic();
             Load_Interrupt_Descriptor_Table();
         }
@@ -56,7 +56,7 @@ namespace Sauce{
                         if(input > 0) {
                             uint16_t Xinput = Sauce::Keyboard::Translate_KeyCode(input);
                             if(Xinput != NULL){
-                                Sauce::Keyboard::KeyboardKey Xkey = Sauce::Keyboard::CodeToKey(Xinput);
+                                Sauce::Keyboard::KeyboardKey Xkey = Sauce::Keyboard::Code_To_Key(Xinput);
                                 if(Xkey.Key != NULL)Notify_Kernel_Of_KeyPress(Xkey);
                             }
                         }

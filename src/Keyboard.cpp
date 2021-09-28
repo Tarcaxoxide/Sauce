@@ -37,7 +37,7 @@ namespace Sauce{
                 }
                 return KeyCodeDecoded;
             }
-        KeyboardKey CodeToKey(uint16_t TranslatedKeyCode){
+        KeyboardKey Code_To_Key(uint16_t TranslatedKeyCode){
             uint8_t IPress = (((uint8_t)(TranslatedKeyCode >> 12)) << 4);
             uint8_t ICapital = (((uint8_t)(TranslatedKeyCode >> 8)) << 4);
             uint8_t IKey = ((uint8_t)TranslatedKeyCode);

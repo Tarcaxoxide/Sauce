@@ -20,7 +20,6 @@ void Notify_Kernel_Of_Timer(float rate){
 void Kernel_Main(){
     Sauce::IO::init_serial();
     Sauce::Interrupts::Initialize_Interrupt_Descriptor_Table();
-    Sauce::Filesystem::Initialize_Filesystem();
     Sauce::Memory::InitializeHeap(0x100000,0x100000);
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Memory::GetFreeHeap()));
     Sauce::Terminal::String(" \n\r");
