@@ -14,3 +14,10 @@
 #include <Filesystem.hpp>
 #include <Utils.hpp>
 #include <Shell.hpp>
+
+#ifndef BIOS_STUFF
+#define BIOS_STUFF
+    extern "C" uint64_t GetFreeStack(); // Get the remaining space of the kernel stack
+    extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
+    extern "C" uint8_t IsGraphical;
+#endif

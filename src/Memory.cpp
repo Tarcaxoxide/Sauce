@@ -83,13 +83,13 @@ namespace Sauce{
             MemorySegmentHeader* oldSegmentHeader=(MemorySegmentHeader*)address -1;
             uint64_t smallerSize = newSize;
             if(oldSegmentHeader->MemoryLength < newSize)smallerSize=oldSegmentHeader->MemoryLength;
-            void* newMem = alloc(newSize,oldSegmentHeader->Alignment);
+            void* newMem = malloc(newSize,oldSegmentHeader->Alignment);
             memcpy(address,newMem,smallerSize);
             free(address);
             return newMem;
         }
-        void* alloc(uint64_t size,uint32_t Alignment){
-            return malloc(size,Alignment);
+        void* alloc(uint64_t size){
+            return malloc(size,0x0000000000000001);
         }
         void* malloc(uint64_t size,uint32_t Alignment){
             uint64_t fullSize = 0;
@@ -176,7 +176,7 @@ namespace Sauce{
             }
         }
         void* calloc(uint64_t size,uint64_t alighnment){
-            void* allmem = alloc(size,alighnment);
+            void* allmem = malloc(size,alighnment);
             MemorySegmentHeader* allmom = (MemorySegmentHeader*)allmem;
             memset(allmem,0,allmom->MemoryLength);
             return allmem;

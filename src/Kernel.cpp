@@ -1,8 +1,5 @@
 #include <Sauce.hpp>
-
-extern "C" uint64_t GetFreeStack(); // Get the remaining space of the kernel stack
-extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
-extern "C" uint8_t IsGraphical;
+#include <Container.hpp>
 
 
 void Notify_Kernel_Of_KeyPress(Sauce::Keyboard::KeyboardKey _Key){
@@ -31,6 +28,17 @@ void Kernel_Main(){
     Atest+=5;
     Sauce::Terminal::String(Sauce::Convert::To_String::From_Integer(Atest));
     Sauce::Terminal::String(" \n\r");
+
+
+    //Testing
+        Sauce::Container::Vector<int> TestVector;
+        TestVector.Push(5);
+        TestVector.Push(10);
+        TestVector.Push(15);
+
+        Sauce::Terminal::String(Sauce::Convert::To_String::From_Integer(TestVector[0]));
+    //Testing
+
 
     while(true){
         asm volatile("hlt");
