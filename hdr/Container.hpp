@@ -26,14 +26,12 @@ namespace Sauce{
                 void Push(T data){
                     if(current == capacity){
                         T* temp = new T[capacity+1];
-                        //T* temp = new T[2 * capacity];
                         for(size_t i = 0; i < capacity;i++){
                             temp[i] = arr[i];
                         }
                         delete[] arr;
                         capacity+=1;
                         arr = temp;
-                        //capacity *= 2;
                     }
                     arr[current] = data;
                     current++;
@@ -46,7 +44,7 @@ namespace Sauce{
                     }
                 }
                 void Pop(){
-                    arr[--current]=(T)NULL; // the documentation only says to decrease the current but im setting the "current" old data to NULL aka 0 casted to type T
+                    current--;
                 }
                 size_t Size(){
                     return current;

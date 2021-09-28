@@ -10,6 +10,9 @@ void operator delete[](void*, size_t);
 
 
 static inline void __STOP__(){
-    while(true){}
+    while(true){
+        asm volatile("cli"); // stop interrupts.
+        asm volatile("hlt"); // halt the cpu.
+    }
 }
 
