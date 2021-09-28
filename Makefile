@@ -2,6 +2,7 @@ Objs = build/Bootstrap.o
 Objs += build/IDT.o
 
 Objs+= build/Overrides.o
+Objs+= build/Math.o
 Objs += build/Utils.o
 Objs += build/Convert.o
 Objs += build/Interrupts.o
@@ -24,8 +25,8 @@ Target_gcc=gcc-9.4.0
 Target_binutils=binutils-2.37
 Linker=$(Cross)-ld
 Cpp_Compiler=$(Cross)-g++
-CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib
-
+#CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib
+CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -O0 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib
 
 
 build/sys.img: build/Bootloader_First.bin build/kernel.bin

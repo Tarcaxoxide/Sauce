@@ -21,3 +21,5 @@
     extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
     extern "C" uint8_t IsGraphical;
 #endif
+
+#include <Overrides.hpp>

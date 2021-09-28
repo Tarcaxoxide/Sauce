@@ -25,21 +25,22 @@ namespace Sauce{
                 }
                 void Push(T data){
                     if(current == capacity){
-                        //T* tmp = new T[capacity+1];
-                        T* temp = new T[2 * capacity];
+                        T* temp = new T[capacity+1];
+                        //T* temp = new T[2 * capacity];
                         for(size_t i = 0; i < capacity;i++){
                             temp[i] = arr[i];
                         }
                         delete[] arr;
-                        //capacity+=1;
-                        capacity *= 2;
+                        capacity+=1;
+                        arr = temp;
+                        //capacity *= 2;
                     }
                     arr[current] = data;
                     current++;
                 }
-                T operator[](size_t index){
+                T* operator[](size_t index){
                     if(index < current){
-                        return arr[index];
+                        return &arr[index];
                     }else{
                         // TODO: Throw !ERROR!
                     }
@@ -52,6 +53,15 @@ namespace Sauce{
                 }
                 size_t Capacity(){
                     return capacity;
+                }
+                void Resize(size_t newSize,T data){
+                    T* temp = new T[newSize*sizeof(T)];
+                    for(size_t i = 0; i < capacity;i++){
+                        temp[i] = arr[i];
+                    }
+                    delete[] arr;
+                    capacity = newSize;
+                    arr = temp;
                 }
         };
     };
