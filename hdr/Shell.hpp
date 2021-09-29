@@ -11,6 +11,7 @@
 #include <Memory.hpp>
 #include <Graphics.hpp>
 #include <Utils.hpp>
+#include <Misc.hpp>
 
 namespace Sauce{
     namespace Shell{

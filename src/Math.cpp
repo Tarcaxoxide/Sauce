@@ -14,7 +14,7 @@ namespace Sauce{
         }
         Matrix Matrix::Multiply(Matrix& target){
             //assert(_columns == target._rows);
-                if(_columns != target._rows)__STOP__(); // temporary replacement
+                if(_columns != target._rows)Sauce::STOP(true); // we have fail, stop.
             
             Matrix output(target._columns,_rows);
             for(uint32_t y =0;y < output._rows;y++)
@@ -44,7 +44,7 @@ namespace Sauce{
         }
         Matrix Matrix::Add(Matrix& target){
             //assert(_rows == target._rows && _columns == target._columns);
-                if(_rows != target._rows || _columns != target._columns)__STOP__(); // temporary replacement
+                if(_rows != target._rows || _columns != target._columns)Sauce::STOP(true); // we have fail, stop.
             
             Matrix output(target._columns,_rows);
             for(uint32_t y =0;y < output._rows;y++)
@@ -68,6 +68,11 @@ namespace Sauce{
                     *output.At(y,x) = (*At(x,y));
                 }
             return output;
+        }
+        void Move_By_Factor(uint64_t* Value,uint64_t ByValue){
+            for(uint64_t iA=0;iA<ByValue;iA++){
+                *Value*=10;
+            }
         }
     };
 };

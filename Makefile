@@ -1,7 +1,7 @@
 Objs = build/Bootstrap.o
 Objs += build/IDT.o
 
-Objs+= build/Overrides.o
+Objs+= build/Misc.o
 Objs+= build/Math.o
 Objs += build/Utils.o
 Objs += build/Convert.o

@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <Utils.hpp>
+#include <Math.hpp>
 
 namespace Sauce{
 	namespace Convert{

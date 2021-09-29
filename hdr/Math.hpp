@@ -3,9 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <Container.hpp> //for vector
-//#include <cmath>
-//#include <cassert>
-#include <Overrides.hpp>
+#include <Misc.hpp>
 
 
 namespace Sauce{
@@ -26,5 +24,6 @@ namespace Sauce{
                 Matrix Negative();
                 Matrix Transpose();
         };
+        void Move_By_Factor(uint64_t* Value,uint64_t ByValue);
     };
 };

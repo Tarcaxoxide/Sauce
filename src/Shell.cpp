@@ -2,62 +2,55 @@
 
 namespace Sauce{
     namespace Shell{
-        const size_t LineBufferSize=320;
-        char LineBuffer[LineBufferSize];
-        size_t LineBufferCounter=0;
-        char** Parts=NULL;
 
-        void ClearBuffer(){
-            for(size_t I=0;I<320;I++){
-                LineBuffer[I]=0;
-            }
-            LineBufferCounter=0;
-        }
-
+        Sauce::Container::String LineBuffer;
+        Sauce::Container::Vector<Sauce::Container::String> Words;
+        Sauce::Container::String NewString;
+        
         void Command(){
-            LineBuffer[LineBufferCounter++]=' ';
-            if(Parts == NULL){
-                Parts = (char**)Sauce::Memory::malloc(50*sizeof(char*),sizeof(char*));
+           LineBuffer.Push(' ');
+           Words.Clear();
+           size_t WordCount=0;
+           size_t j=0;
+           for(size_t i=0;i<LineBuffer.Size();i++){
+               if(*LineBuffer[i] != ' '){
+                   NewString.Push(*LineBuffer[i]);
+               }else{
+                   Words.Push(NewString);
+                   WordCount++;
+                   NewString.Clear();
+               }
             }
-            Sauce::Memory::allocarr(Parts, 512, 50);
-            size_t PartCount = Sauce::Utils::Split(LineBuffer,' ',Parts);
 
-            if(Sauce::Utils::String_Compare_ReturnBool(Parts[0],"clear")){
+            if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"clear")){
                 Sauce::Terminal::Clear();
-            }else if(Sauce::Utils::String_Compare_ReturnBool(Parts[0],"test")){
-                Sauce::Terminal::String("Working?!?");
-                Sauce::Terminal::String("\n\r");
-            }else if(Sauce::Utils::String_Compare_ReturnBool(Parts[0],"echo")){
-                Sauce::Terminal::String(Parts[1]);
-                Sauce::Terminal::String("\n\r");
-            }
-            else{
-                Sauce::Terminal::String("Unknown command:");
-                for(size_t I=0;I<PartCount;I++){
-                    Sauce::Terminal::String(Parts[I]);
-                    Sauce::Terminal::String(" ");
-                }
-                Sauce::Terminal::String("\n\r");
+            }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"test")){
+                Sauce::Terminal::String("It worked!\n\r");
+            }else{
+                Sauce::Terminal::String("Uknown:\'");
+                Sauce::Terminal::String( (*Words[0]).Raw() );
+                Sauce::Terminal::String("\'\n\r");
             }
         }
 
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
-            if(_Key.Press){ // we just have some testing code here I guess; a prototype key handler.
+            if(_Key.Press){ 
                     char D=_Key.Display;
                     if(_Key.visible){
-                        LineBuffer[LineBufferCounter++]=_Key.Display;
+                        LineBuffer.Push(_Key.Display);
                         Sauce::Terminal::Character(_Key.Display);
                     }else{
                         switch(_Key.Key){
                             case 0x1C:{
                                 Sauce::Terminal::BackSpace();
-                                LineBuffer[LineBufferCounter--]=0;
+                                //LineBuffer[LineBufferCounter--]=0;
+                                LineBuffer.Pop();
                                 }break;
                             case 0xD6:{
                                 Sauce::Terminal::NewLine();
                                 Sauce::Terminal::ReturnCaret();
                                 Command();
-                                ClearBuffer();
+                                LineBuffer.Clear();
                                 }break;
                             case 0xBE:{
                                 //Sauce::Terminal::RelativeSetCursor(true,0,-1); //up arrow

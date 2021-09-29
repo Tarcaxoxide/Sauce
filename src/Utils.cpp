@@ -81,10 +81,5 @@ namespace Sauce{
             }
             return NULL;
         }
-        void Move_By_Factor(uint64_t* Value,uint64_t ByValue){
-            for(uint64_t iA=0;iA<ByValue;iA++){
-                *Value*=10;
-            }
-        }
     };
 };

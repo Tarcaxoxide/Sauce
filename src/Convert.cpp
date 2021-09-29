@@ -178,7 +178,7 @@ namespace Sauce{
                 size_t tmpvalintnum=1;
                 for(size_t iA=0;iA<Digitz;iA++){
                     tmpvalintnum=1;
-                    Sauce::Utils::Move_By_Factor(&tmpvalintnum,Digitz-iA);
+                    Sauce::Math::Move_By_Factor(&tmpvalintnum,Digitz-iA);
                     result+=(Sauce::Convert::To_uint64::From_Char(value[iA])*tmpvalintnum);
                 }
             }
