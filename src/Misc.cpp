@@ -9,8 +9,13 @@ void operator delete[](void* pointer){
 }
 namespace Sauce{
     void STOP(bool fail){
+        Sauce::Terminal::String("\n\r System halted");
         while(true){
-            if(fail)asm volatile("cli"); // stop interrupts.
+            if(fail){
+                asm volatile("cli");// stop interrupts.
+                Sauce::Terminal::String(" and stopped interrupts");
+            }
+            Sauce::Terminal::String(" \n\r");
             asm volatile("hlt"); // halt the cpu.
         }
     }
