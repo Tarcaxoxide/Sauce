@@ -27,7 +27,7 @@ namespace Sauce{
             }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"test")){
                 Sauce::Terminal::String("It worked!\n\r");
             }else{
-                Sauce::Terminal::String("Uknown:\'");
+                Sauce::Terminal::String("Unknown:\'");
                 Sauce::Terminal::String( (*Words[0]).Raw() );
                 Sauce::Terminal::String("\'\n\r");
             }
