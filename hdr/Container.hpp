@@ -28,7 +28,7 @@ namespace Sauce{
                 //}
                 void Push(T data){
                     if(current == capacity){
-                        T* temp = new T[capacity+1];
+                        T* temp = new T[(capacity+1)*sizeof(T)];
                         for(size_t i = 0; i < capacity;i++){
                             temp[i] = arr[i];
                         }
@@ -78,6 +78,6 @@ namespace Sauce{
                 }
         };
 
-        typedef Sauce::Container::Vector<char> String;
+        typedef Vector<char> String;
     };
 };

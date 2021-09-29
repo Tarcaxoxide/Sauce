@@ -5,10 +5,13 @@
 #include <Memory.hpp>
 #include <Convert.hpp>
 #include <Terminal.hpp>
+#include <Container.hpp>
 
 namespace Sauce{
     namespace Graphics{
         const uint16_t MAX_Xpos=320,MAX_Ypos=200;
+        typedef uint16_t vertex[3];
+        
         struct _Vector{
             uint16_t StartX;
             uint16_t StartY;
@@ -23,7 +26,5 @@ namespace Sauce{
         void Place_String(char* Str,uint16_t color);
         void Place_Pixel(uint16_t X,uint16_t Y,uint16_t color);
         void Place_Rectangle(uint16_t startX,uint16_t startY,uint16_t stopX,uint16_t stopY,uint16_t color);
-        void Place_Vector(_Vector Vector,uint16_t color);
-        void Place_EmptySquare(uint16_t Xs,uint16_t Ys,uint16_t Xp,uint16_t Yp,uint16_t color);
     };
 };

@@ -589,34 +589,6 @@ namespace Sauce{
                 }
             }
         }
-        void Place_Vector(_Vector Vector,uint16_t color){
-            uint16_t X,Y,StopX,StopY,StartX,StartY;
-
-            StopX=Vector.StopX;
-            StartX=Vector.StartX;
-            X=Vector.StartX;
-            StopY=Vector.StopY;
-            StartY=Vector.StartY;
-            Y=Vector.StartY;
-
-            while(1){
-                Place_Pixel(X,Y,color);
-
-                if(StartX<StopX && X<StopX)X++;
-                if(StartY<StopY && Y<StopY)Y++;
-
-                if(StartX>StopX && X>StopX)X--;
-                if(StartY>StopY && Y>StopY)Y--;
-
-                if( (Y==StopY) && (X==StopX) )break;
-            }
-        }
-        void Place_EmptySquare(uint16_t Xs,uint16_t Ys,uint16_t Xp,uint16_t Yp,uint16_t color){
-            Place_Vector({Xp+(1*Xs),Yp+(1*Ys),Xp+(1*Xs),Yp+(2*Ys)},color);
-            Place_Vector({Xp+(1*Xs),Yp+(2*Ys),Xp+(2*Xs),Yp+(2*Ys)},color);
-            Place_Vector({Xp+(2*Xs),Yp+(2*Ys)+1,Xp+(2*Xs),Yp+(1*Ys)},color);
-            Place_Vector({Xp+(2*Xs),Yp+(1*Ys),Xp+(1*Xs),Yp+(1*Ys)},color);
-        }
         
     };
 };
