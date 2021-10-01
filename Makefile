@@ -12,6 +12,7 @@ Objs += build/Terminal.o
 Objs += build/Binaries.o
 Objs += build/Memory.o
 Objs += build/Graphics.o
+#Objs += build/ExpLang.o
 Objs += build/Shell.o
 Objs += build/Kernel.o
 Objs += build/PreKernel.o
