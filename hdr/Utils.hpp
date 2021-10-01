@@ -13,6 +13,5 @@ namespace Sauce{
         char* Combined_Strings(char* StringA,char* StringB);
         size_t Split(char* str, char d, char** into);
         char *String_Tokenizer(char *str, char *delimiter);
-        
     };
 };
