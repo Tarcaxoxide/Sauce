@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <Utils.hpp>
 #include <Math.hpp>
+#include <Misc.hpp>
 
 namespace Sauce{
 	namespace Convert{

@@ -24,7 +24,8 @@ Target_gcc=gcc-9.4.0
 Target_binutils=binutils-2.37
 Linker=$(Cross)-ld
 Cpp_Compiler=$(Cross)-g++
-CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib
+#Cpp_Compiler=clang++
+CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib 
 
 
 build/sys.img: build/Bootloader_First.bin build/kernel.bin

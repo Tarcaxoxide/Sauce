@@ -16,4 +16,3 @@ extern "C" uint8_t IsGraphical;
 
 void STOP(uint64_t code);
 void REBOOT();
-

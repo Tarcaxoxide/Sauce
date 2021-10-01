@@ -200,9 +200,10 @@ namespace Sauce{
             uint64_t newsize = size - proceedingBytes;
             uint64_t* srcptr = (uint64_t*)Source;
             for(uint64_t* destptr = (uint64_t*)Destination;destptr < (uint64_t*)((uint64_t)Destination+newsize);destptr++){
-                *destptr == *srcptr++;
+                *destptr = *srcptr++;
             }
-            uint8_t* srcptr8 = (uint8_t*)(Source+newsize);
+            uint64_t* U64BT_Source = (uint64_t*)Source;
+            uint8_t* srcptr8 = (uint8_t*)(U64BT_Source+newsize);
             for(uint8_t* destptr8 = (uint8_t*)((uint64_t)Destination+newsize);destptr8 < (uint8_t*)((uint64_t)Destination+size);destptr8++){
                 *destptr8 = *srcptr8++;
             }

@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <Memory.hpp>
+#include <Misc.hpp>
 
 
 namespace Sauce{
