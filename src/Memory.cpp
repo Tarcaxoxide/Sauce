@@ -140,7 +140,8 @@ namespace Sauce{
                     Address=currentMemorySegment + 1;break;
                 }
                 if (currentMemorySegment->NextFreeSegment == 0){
-                    Address=0;break; // no memory remaining.
+                    Address=0;
+                    STOP(3);
                 }
                 currentMemorySegment = currentMemorySegment->NextFreeSegment;
             }

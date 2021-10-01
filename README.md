@@ -12,4 +12,5 @@
 - 0 : nothing wrong.
 - 1 : trying to retrieve from index bugger then DynamicArray.
 - 2 : shape error for matrix.
+- 3 : out of memory.
 - FFFFFFFFFFFFFFFF : stop called by shell.

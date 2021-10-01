@@ -5,7 +5,7 @@
 
 #include <Terminal.hpp>
 #include <Convert.hpp>
-
+#include <Misc.hpp>
 
 namespace Sauce{
     namespace Memory{
