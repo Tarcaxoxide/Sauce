@@ -8,10 +8,12 @@ void operator delete[](void* pointer){
     Sauce::Memory::free(pointer);
 }
 
-void STOP(bool fail){
-    Sauce::Terminal::String("\n\r System halted");
+void STOP(uint64_t code){
+    Sauce::Terminal::String("\n\r [");
+    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(code));
+    Sauce::Terminal::String("] System halted");
     while(true){
-        if(fail){
+        if(code){
             asm volatile("cli");// stop interrupts.
             Sauce::Terminal::String(" and stopped interrupts");
         }

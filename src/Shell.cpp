@@ -12,10 +12,12 @@ namespace Sauce{
            Words.Clear();
            size_t WordCount=0;
            size_t j=0;
+           bool trig=false;
            for(size_t i=0;i<LineBuffer.Size();i++){
                if(*LineBuffer[i] != ' '){
                    NewString.Push(*LineBuffer[i]);
                }else{
+                   trig=true;
                    Words.Push(NewString);
                    WordCount++;
                    NewString.Clear();
@@ -27,7 +29,7 @@ namespace Sauce{
             }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"test")){
                 Sauce::Terminal::String("It worked!\n\r");
             }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"stop")){
-                STOP(true);
+                STOP(0xFFFFFFFFFFFFFFFF);
             }else{
                 Sauce::Terminal::String("Unknown:\'");
                 Sauce::Terminal::String( (*Words[0]).Raw() );

@@ -34,11 +34,11 @@ namespace Sauce{
                     if(index < current){
                         return &arr[index];
                     }else{
-                        STOP(true); // stop, we have failed somewhere.
+                        STOP(1); // stop, we have failed somewhere.
                     }
                 }
                 void Pop(){
-                    --current;
+                    current--;
                 }
                 size_t Size(){
                     return current;

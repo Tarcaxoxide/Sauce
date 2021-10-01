@@ -6,3 +6,10 @@
 >> your system's compiler might introduce some unexpected bugs, even if it's the same architecture.
 >- `make do`
 >> this will clear the terminal, then it will clean the build directory, then it will build sys.bin and boot it with qemu-system-x86_64.
+
+
+# codes/
+- 0 : nothing wrong.
+- 1 : trying to retrieve from index bugger then DynamicArray.
+- 2 : shape error for matrix.
+- FFFFFFFFFFFFFFFF : stop called by shell.

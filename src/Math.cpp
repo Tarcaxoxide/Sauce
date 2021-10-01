@@ -13,7 +13,7 @@ namespace Sauce{
             return _values[row*_columns + column];
         }
         Matrix Matrix::Multiply(Matrix& target){
-                if(_columns != target._rows)STOP(true);
+                if(_columns != target._rows)STOP(2);
             
             Matrix output(target._columns,_rows);
             for(uint32_t y =0;y < output._rows;y++)
@@ -42,7 +42,7 @@ namespace Sauce{
             return output;
         }
         Matrix Matrix::Add(Matrix& target){
-                if(_rows != target._rows || _columns != target._columns)STOP(true);
+                if(_rows != target._rows || _columns != target._columns)STOP(2);
             
             Matrix output(target._columns,_rows);
             for(uint32_t y =0;y < output._rows;y++)

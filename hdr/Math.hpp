@@ -25,9 +25,5 @@ namespace Sauce{
                 Matrix Transpose();
         };
         void Move_By_Factor(uint64_t* Value,uint64_t ByValue);
-        //struct Vertex{
-        //    size_t X,Y,Z;
-        //};
-        //typedef Sauce::Container::Vector<Vertex> Vertices;
     };
 };

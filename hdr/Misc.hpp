@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <Memory.hpp>
 #include <Terminal.hpp>
+#include <Convert.hpp>
 
 #ifndef __OVER_RIDES__
 #define __OVER_RIDES__
@@ -13,6 +14,6 @@ extern "C" uint64_t GetFreeStack(); // Get the remaining space of the kernel sta
 extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
 extern "C" uint8_t IsGraphical;
 
-void STOP(bool fail);
+void STOP(uint64_t code);
 void REBOOT();
 
