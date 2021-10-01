@@ -6,13 +6,13 @@
 
 namespace Sauce{
     namespace Container{
-        template <typename T> class Vector{
+        template <typename T> class DynamicArray{
             T* arr;
             T* result;
             size_t capacity;
             size_t current;
             public:
-                Vector(){
+                DynamicArray(){
                     arr = new T[1];
                     capacity = 1;
                     current = 0;
@@ -34,7 +34,7 @@ namespace Sauce{
                     if(index < current){
                         return &arr[index];
                     }else{
-                        Sauce::STOP(true); // stop, we have failed somewhere.
+                        STOP(true); // stop, we have failed somewhere.
                     }
                 }
                 void Pop(){
@@ -68,5 +68,6 @@ namespace Sauce{
                     arr = temp;
                 }
         };
+        typedef DynamicArray<char> String;
     };
 };

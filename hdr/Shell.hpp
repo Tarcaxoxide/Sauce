@@ -12,8 +12,7 @@
 #include <Graphics.hpp>
 #include <Utils.hpp>
 #include <Misc.hpp>
-#include <Vector.hpp>
-#include <String.hpp>
+#include <Container.hpp>
 
 namespace Sauce{
     namespace Shell{

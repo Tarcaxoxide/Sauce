@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <Vector.hpp> //for vector
+#include <Container.hpp>
 #include <Misc.hpp>
 
 
@@ -12,7 +12,7 @@ namespace Sauce{
             public:
                 uint32_t _columns;
                 uint32_t _rows;
-                Sauce::Container::Vector<float> _values;
+                Sauce::Container::DynamicArray<float> _values;
             public:
                 Matrix(uint32_t columns,uint32_t rows);
                 float* At(uint32_t column,uint32_t row);

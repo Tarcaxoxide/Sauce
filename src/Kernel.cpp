@@ -1,6 +1,18 @@
-#include <Sauce.hpp>
-#include <Vector.hpp>
-#include <String.hpp>
+#include <stdint.h>
+#include <stddef.h>
+#include <KeyboardMaps.hpp>
+#include <IO.hpp>
+#include <Interrupts.hpp>
+#include <Keyboard.hpp>
+#include <Terminal.hpp>
+#include <Convert.hpp>
+#include <Memory.hpp>
+#include <Graphics.hpp>
+#include <Utils.hpp>
+#include <Shell.hpp>
+#include <Misc.hpp>
+#include <Container.hpp>
+
 
 
 void Notify_Kernel_Of_KeyPress(Sauce::Keyboard::KeyboardKey _Key){
@@ -20,5 +32,5 @@ void Notify_Kernel_Of_Timer(float rate){
 void Kernel_Main(){
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Memory::GetFreeHeap()));
     Sauce::Terminal::String(" \n\r");
-    Sauce::STOP(false);
+    STOP(false);
 }

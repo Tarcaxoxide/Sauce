@@ -4,7 +4,7 @@ namespace Sauce{
     namespace Shell{
 
         Sauce::Container::String LineBuffer;
-        Sauce::Container::Vector<Sauce::Container::String> Words;
+        Sauce::Container::DynamicArray<Sauce::Container::String> Words;
         Sauce::Container::String NewString;
         
         void Command(){
@@ -27,7 +27,7 @@ namespace Sauce{
             }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"test")){
                 Sauce::Terminal::String("It worked!\n\r");
             }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"stop")){
-                Sauce::STOP(true);
+                STOP(true);
             }else{
                 Sauce::Terminal::String("Unknown:\'");
                 Sauce::Terminal::String( (*Words[0]).Raw() );
