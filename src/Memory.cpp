@@ -95,23 +95,18 @@ namespace Sauce{
             uint64_t fullSize = 0;
             void* Address=0;
             bool isAligned=false;
-            if(Alignment == 0){ // since you can't align with 0 (or at least i don't think its a good idea)
-                                // i'll use 0 for not set.
-                uint64_t remainder = size % 8;
-                size -= remainder;
-                if(remainder != 0)size+=8;
-                fullSize=size;
-            }else{
-                isAligned=true;
-                uint64_t alignmentRemainder = Alignment%8;
-                Alignment-=alignmentRemainder;
-                if(alignmentRemainder != 0)Alignment+=8;
-
-                uint64_t sizeRemainder = size%8;
-                size-=sizeRemainder;
-                if(sizeRemainder != 0)size+=8;
-                fullSize=size+Alignment;
-            }
+            
+            if(Alignment == 0)STOP(Alignment_unspecified);
+            if(size == 0)STOP(Size_unspecified);
+            
+            isAligned=true;
+            uint64_t alignmentRemainder = Alignment%8;
+            Alignment-=alignmentRemainder;
+            if(alignmentRemainder != 0)Alignment+=8;
+            uint64_t sizeRemainder = size%8;
+            size-=sizeRemainder;
+            if(sizeRemainder != 0)size+=8;
+            fullSize=size+Alignment;
 
             MemorySegmentHeader* currentMemorySegment = FirstFreeMemorySegment;
             while(true){
@@ -141,7 +136,7 @@ namespace Sauce{
                 }
                 if (currentMemorySegment->NextFreeSegment == 0){
                     Address=0;
-                    STOP(3);
+                    STOP(Out_of_memory);
                 }
                 currentMemorySegment = currentMemorySegment->NextFreeSegment;
             }
@@ -159,7 +154,7 @@ namespace Sauce{
             return (void*)fullAddress;
         }
         void CombineFreeSegments(MemorySegmentHeader* A,MemorySegmentHeader* B){
-            if(A == 0 || B == 0)return;
+            if(A == 0 || B == 0)STOP(Combined_segment_with_null);
             if(A < B){
                 A->MemoryLength += B->MemoryLength + sizeof(MemorySegmentHeader);
                 A->NextSegment = B->NextSegment;

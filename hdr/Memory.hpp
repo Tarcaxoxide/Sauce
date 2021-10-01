@@ -1,11 +1,10 @@
 #pragma once
-
+#include <Misc.hpp>
 #include <stdint.h>
 #include <stddef.h>
-
 #include <Terminal.hpp>
 #include <Convert.hpp>
-#include <Misc.hpp>
+
 
 namespace Sauce{
     namespace Memory{

@@ -1,9 +1,8 @@
 #pragma once
-
+#include <Misc.hpp>
 #include <stdint.h>
 #include <stddef.h>
 #include <Container.hpp>
-#include <Misc.hpp>
 
 
 namespace Sauce{

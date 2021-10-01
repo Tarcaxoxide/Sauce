@@ -1,5 +1,5 @@
 #pragma once
-
+#include <Misc.hpp>
 #include <stdint.h>
 #include <stddef.h>
 #include <KeyboardMaps.hpp>
@@ -11,7 +11,6 @@
 #include <Memory.hpp>
 #include <Graphics.hpp>
 #include <Utils.hpp>
-#include <Misc.hpp>
 #include <Container.hpp>
 
 namespace Sauce{

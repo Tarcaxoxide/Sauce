@@ -34,7 +34,7 @@ namespace Sauce{
                     if(index < current){
                         return &arr[index];
                     }else{
-                        STOP(1); // stop, we have failed somewhere.
+                        Sauce::STOP(Sauce::Index_too_big); // stop, we have failed somewhere.
                     }
                 }
                 void Pop(){

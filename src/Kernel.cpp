@@ -5,7 +5,7 @@
 #include <Misc.hpp>
 #include <Container.hpp>
 
-
+using namespace Sauce;
 
 void Notify_Kernel_Of_KeyPress(Sauce::Keyboard::KeyboardKey _Key){
     
@@ -24,5 +24,5 @@ void Notify_Kernel_Of_Timer(float rate){
 void Kernel_Main(){
     Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Memory::GetFreeHeap()));
     Sauce::Terminal::String(" \n\r");
-    STOP(0);
+    STOP(Nothing);
 }

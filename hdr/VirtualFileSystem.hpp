@@ -1,4 +1,5 @@
 #pragma once
+#include <Misc.hpp>
 #include <stdint.h>
 #include <stddef.h>
 #include <Convert.hpp>
