@@ -1,16 +1,16 @@
-#include <stdint.h>
-#include <stddef.h>
-#include <KeyboardMaps.hpp>
+//#include <stdint.h>
+//#include <stddef.h>
+//#include <KeyboardMaps.hpp>
 #include <IO.hpp>
 #include <Interrupts.hpp>
-#include <Keyboard.hpp>
-#include <Terminal.hpp>
-#include <Convert.hpp>
+//#include <Keyboard.hpp>
+//#include <Terminal.hpp>
+//#include <Convert.hpp>
 #include <Memory.hpp>
-#include <Graphics.hpp>
-#include <Utils.hpp>
-#include <Shell.hpp>
-#include <Misc.hpp>
+//#include <Graphics.hpp>
+//#include <Utils.hpp>
+//#include <Shell.hpp>
+//#include <Misc.hpp>
 
 extern void Kernel_Main();
 
