@@ -81,5 +81,91 @@ namespace Sauce{
             }
             return NULL;
         }
+        bool Is_White_Space(char value){
+            switch(value){
+                case ' ':
+                case '\n':
+                case '\t':
+                case '\r':return true;
+            }
+            return false;
+        }
+        bool Is_Alpha_Numeric(char value){
+            return (Is_Alpha(value) || Is_Numeric(value));
+        }
+        bool Is_Numeric(char value){
+            switch(value){
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                case '0':return true;
+            }
+            return false;
+        }
+        bool Is_Alpha(char value){
+            switch(value){
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'g':
+                case 'h':
+                case 'i':
+                case 'j':
+                case 'k':
+                case 'l':
+                case 'm':
+                case 'n':
+                case 'o':
+                case 'p':
+                case 'q':
+                case 'r':
+                case 's':
+                case 't':
+                case 'u':
+                case 'v':
+                case 'w':
+                case 'x':
+                case 'y':
+                case 'z':return true;
+            }
+            switch(value){
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                case 'G':
+                case 'H':
+                case 'I':
+                case 'J':
+                case 'K':
+                case 'L':
+                case 'M':
+                case 'N':
+                case 'O':
+                case 'P':
+                case 'Q':
+                case 'R':
+                case 'S':
+                case 'T':
+                case 'U':
+                case 'V':
+                case 'W':
+                case 'X':
+                case 'Y':
+                case 'Z':return true;
+            }
+            return false;
+        }
     };
 };

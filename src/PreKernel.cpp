@@ -23,12 +23,6 @@ extern "C" void _start(){
     Sauce::IO::init_serial();
     Sauce::Interrupts::Initialize_Interrupt_Descriptor_Table();
     Sauce::Memory::InitializeHeap(0x100000,0x100000);
-    Sauce::Terminal::String("\n\r _Stack_Bottom:");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)_Stack_Bottom));
-    Sauce::Terminal::String("\n\r _Stack_Top   :");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64((uint64_t)_Stack_Top));
-    Sauce::Terminal::String("\n\r GetFreeHeap():");
-    Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(Sauce::Memory::GetFreeHeap()));
-    Sauce::Terminal::String(" \n\r");
+    
     Kernel_Main();
 }
