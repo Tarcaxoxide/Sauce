@@ -7,6 +7,7 @@
 
 using namespace Sauce;
 
+
 void Notify_Kernel_Of_KeyPress(Sauce::Keyboard::KeyboardKey _Key){
     
     Sauce::Shell::KeyPress(_Key);
@@ -22,5 +23,6 @@ void Notify_Kernel_Of_Timer(float rate){
 }
 
 void Kernel_Main(){
+    
     STOP(Nothing);
 }
