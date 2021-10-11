@@ -24,7 +24,7 @@ Target_gcc=gcc-9.4.0
 Target_binutils=binutils-2.37
 Linker=$(Cross)-ld
 Cpp_Compiler=$(Cross)-g++
-CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -O2 -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib 
+CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -O0 -fno-elide-constructors -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib -Wno-unused-parameter -Wno-unused
 
 
 build/sys.img: build/Bootloader_First.bin build/kernel.bin
@@ -66,7 +66,7 @@ build/%.o:src/%.cpp
 clean:
 	rm -frv build/*
 
-default: build/sys.img
+default: build/sys.iso
 
 run: build/sys.iso
 	qemu-system-x86_64 -sdl -cpu host -enable-kvm -m 20G -smp 6 -serial stdio -no-reboot -no-shutdown -cdrom build/$<

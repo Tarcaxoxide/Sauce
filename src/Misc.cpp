@@ -7,6 +7,9 @@ void* operator new[](size_t size){
 void operator delete[](void* pointer){
     Sauce::Memory::free(pointer);
 }
+void operator delete[](void* pointer, size_t Some_Size_I_Guess){
+    Sauce::Memory::free(pointer);
+}
 
 namespace Sauce{
     void STOP(ERROR_CODES code){

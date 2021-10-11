@@ -2,7 +2,7 @@
 
 namespace Sauce{
     namespace Utils{
-        size_t String_Length(char* string){
+        size_t String_Length(const char* string){
             size_t Result = 0;
             for(Result = 0;string[Result] != '\0';Result++);
             return Result;
@@ -22,7 +22,7 @@ namespace Sauce{
             size_t SizeA=String_Length(StringA);
             size_t SizeB=String_Length(StringB);
             size_t Size=SizeA+SizeB;
-            char NewString[Size];
+            char* NewString = new char[Size];
             size_t Counter=0;
             for(size_t I=0;I<SizeA;I++){
                 NewString[Counter++]=StringA[I];
@@ -53,7 +53,7 @@ namespace Sauce{
         char *String_Tokenizer(char *str, char *delimiter){
             char *final_ptr = NULL;
             static int flag = 0;
-            int i, j;
+            size_t i, j;
             if (delimiter == NULL) {
                 return NULL;
             }

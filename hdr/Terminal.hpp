@@ -39,11 +39,11 @@ namespace Sauce{
 		void FillColumn(size_t column,char character);
 		void ClearRow(size_t Row);
 		void ClearColumn(size_t Column);
-	    void Character(char character);
+	    void Character(const char character);
 		void SetCharacterAt(size_t X,size_t Y,char character);
 		void SetCharacterAt(size_t X,size_t Y,Char character);
 		Char GetCharacterAt(size_t X,size_t Y);
-	    void String(char* string);
+	    void String(const char* string);
 	    void Setcolor(uint8_t foreground,uint8_t background);
 		uint8_t Getcolor();
 		void NewLine();

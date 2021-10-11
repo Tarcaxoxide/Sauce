@@ -10,19 +10,19 @@ using namespace Sauce;
 
 void Notify_Kernel_Of_KeyPress(Sauce::Keyboard::KeyboardKey _Key){
     
-    Sauce::Shell::KeyPress(_Key);
+    Shell::KeyPress(_Key);
     
 }
 
 void Notify_Kernel_Of_Timer(float rate){
-    Sauce::Interrupts::ProgrammableInterruptTimerCounter+=rate;
+    Interrupts::ProgrammableInterruptTimerCounter+=rate;
         
-    if(Sauce::Interrupts::ProgrammableInterruptTimerCounter > 0x1000000000000000){
-        Sauce::Interrupts::ProgrammableInterruptTimerCounter=0;
+    if(Interrupts::ProgrammableInterruptTimerCounter > 0x1000000000000000){
+        Interrupts::ProgrammableInterruptTimerCounter=0;
     }
 }
 
 void Kernel_Main(){
-    
+    Memory::PrintMemoryMap_All();
     STOP(Nothing);
 }

@@ -8,6 +8,7 @@ void* operator new[](size_t);
 void operator delete[](void*, size_t);
 
 
+
 extern "C" uint64_t GetFreeStack(); // Get the remaining space of the kernel stack
 extern "C" uint64_t GetMaxStack(); // Get the total size of the kernel stack
 extern "C" uint8_t IsGraphical;

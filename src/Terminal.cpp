@@ -43,7 +43,7 @@ namespace Sauce{
             FillColumn(Column,' ');
         }
 
-        void Character(char character){
+        void Character(const char character){
             Sauce::IO::Write_Serial(character);
             if(!IsGraphical){
                 switch(character){
@@ -73,7 +73,7 @@ namespace Sauce{
             return buffer[(X + MAX_X * Y)];
         }
 
-        void String(char* string){
+        void String(const char* string){
             size_t stringLen = Sauce::Utils::String_Length(string);
             for(size_t a = 0;(a < stringLen);a++){
                 Character(string[a]);

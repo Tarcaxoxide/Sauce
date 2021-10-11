@@ -8,7 +8,7 @@
 namespace Sauce{
     namespace Convert{
         namespace To_String{
-            char haxString[512] = {0};
+            static unsigned char haxString[512] = {0};
             void Clear_haxString(){
                 for(size_t a = 0;(a < 512);a++){
                     haxString[a] = 0;
@@ -28,7 +28,7 @@ namespace Sauce{
                     temp = ((*ptr & 0x0F));
                     haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
                 }
-                return haxString;
+                return (char*)haxString;
             }
             char* From_uint16(uint16_t value){
                 Clear_haxString();
@@ -44,7 +44,7 @@ namespace Sauce{
                     temp = ((*ptr & 0x0F));
                     haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
                 }
-                return haxString;
+                return (char*)haxString;
             }
             char* From_uint32(uint32_t value){
                 Clear_haxString();
@@ -60,7 +60,7 @@ namespace Sauce{
                     temp = ((*ptr & 0x0F));
                     haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
                 }
-                return haxString;
+                return (char*)haxString;
             }
             char* From_uint64(uint64_t value){
                 Clear_haxString();
@@ -76,7 +76,7 @@ namespace Sauce{
                     temp = ((*ptr & 0x0F));
                     haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
                 }
-                return haxString;
+                return (char*)haxString;
             }
 			char* From_Integer(int64_t value){
                 Clear_haxString();
@@ -104,12 +104,12 @@ namespace Sauce{
                 }
                 uint8_t remainder = (newValue % 10);
                 haxString[((isNegative + size) - index)] = (remainder + 48);
-                return haxString;
+                return (char*)haxString;
             }
             char* From_Decimal(float value,uint16_t decimalPlaces){
                 Clear_haxString();
                 char* intPtr = (char*)From_Integer((int)value);
-                char* floatPtr = haxString;
+                char* floatPtr = (char*)haxString;
                 
                 if(value < 0){
                     value *= -1;
@@ -127,12 +127,12 @@ namespace Sauce{
                     newValue -= (int)newValue;
                 }
                 *floatPtr = 0;
-                return haxString;
+                return (char*)haxString;
             }
             char* From_Decimal(double value,uint16_t decimalPlaces){
                 Clear_haxString();
                 char* intPtr = (char*)From_Integer((int)value);
-                char* floatPtr = haxString;
+                char* floatPtr = (char*)haxString;
                 
                 if(value < 0){
                     value *= -1;
@@ -150,7 +150,7 @@ namespace Sauce{
                     newValue -= (int)newValue;
                 }
                 *floatPtr = 0;
-                return haxString;
+                return (char*)haxString;
             }
         };
         namespace To_uint8{
@@ -181,6 +181,7 @@ namespace Sauce{
                     Sauce::Math::Move_By_Factor(&tmpvalintnum,Digitz-iA);
                     result+=(Sauce::Convert::To_uint64::From_Char(value[iA])*tmpvalintnum);
                 }
+                return result;
             }
 		};
     };

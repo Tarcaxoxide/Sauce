@@ -8,7 +8,7 @@
 
 namespace Sauce{
     namespace Utils{
-        size_t String_Length(char* string);
+        size_t String_Length(const char* string);
         int String_Compare(const char* s1, const char* s2);
         bool String_Compare_ReturnBool(char* StringA,char* StringB);
         char* Combined_Strings(char* StringA,char* StringB);

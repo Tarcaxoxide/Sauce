@@ -34,11 +34,10 @@ namespace Sauce{
                     current++;// increase the current.
                 }
                 T* operator[](size_t index){
-                    if(index < current){
-                        return &arr[index];
-                    }else{
+                    if(!(index < current)){
                         Sauce::STOP(Sauce::Index_too_big); // stop, we have failed somewhere.
                     }
+                    return &arr[index];
                 }
                 void Pop(){
                     current--;
