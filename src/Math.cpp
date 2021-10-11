@@ -6,7 +6,7 @@ namespace Sauce{
         :_columns(columns),
          _rows(rows),
          _values({}){
-            _values.Resize(_columns*_rows,0.0f);
+            _values.Resize(_columns*_rows);
 
         }
         float* Matrix::At(uint32_t column,uint32_t row){

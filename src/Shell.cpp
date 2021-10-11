@@ -8,28 +8,27 @@ namespace Sauce{
         Sauce::Container::String NewString;
         
         void Command(){
-           LineBuffer.Push(' ');
-           Words.Clear();
-           size_t WordCount=0;
-           size_t j=0;
-           bool trig=false;
-           for(size_t i=0;i<LineBuffer.Size();i++){
-               if(*LineBuffer[i] != ' '){
-                   NewString.Push(*LineBuffer[i]);
-               }else{
-                   trig=true;
-                   Words.Push(NewString);
-                   WordCount++;
-                   NewString.Clear();
-               }
+            LineBuffer.Push(' ');
+            Words.Clear();
+            size_t WordCount=0;
+            size_t j=0;
+            for(size_t i=0;i<LineBuffer.Size();i++){
+                if(*LineBuffer[i] != ' '){
+                    NewString.Push(*LineBuffer[i]);
+                }else{
+                    Words.Push(NewString);
+                    Sauce::Terminal::String("test Command Execution\n\r");
+                    WordCount++;
+                    NewString.Clear();
+                }
             }
 
             if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"clear")){
-                Sauce::Terminal::Clear();
+                 Sauce::Terminal::Clear();
             }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"test")){
-                Sauce::Terminal::String("It worked!\n\r");
+                 Sauce::Terminal::String("It worked!\n\r");
             }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"stop")){
-                STOP(User_Executed);
+                 STOP(User_Executed);
             }else{
                 Sauce::Terminal::String("Unknown:\'");
                 Sauce::Terminal::String( (*Words[0]).Raw() );

@@ -17,26 +17,32 @@ namespace Sauce{
                 FillRow(a,character);
             }
         }
+        
         void Clear(){
             Fill(' ');
             SetCursor(true,0,0);
         }
+
         void FillRow(size_t Row,char character){
             for(size_t a = 0;(a < MAX_X);a++){
                 SetCharacterAt(a,Row,character);
             }
         }
+
         void FillColumn(size_t column,char character){
             for(size_t a = 0;(a < MAX_X);a++){
                 SetCharacterAt(column,a,character);
             }
         }
+
         void ClearRow(size_t Row){
             FillRow(Row,' ');
         }
+
         void ClearColumn(size_t Column){
             FillColumn(Column,' ');
         }
+
         void Character(char character){
             Sauce::IO::Write_Serial(character);
             if(!IsGraphical){
@@ -53,25 +59,31 @@ namespace Sauce{
                 SetCursor();
             }
         }
+
         void SetCharacterAt(size_t X,size_t Y,char character){
             struct Char FillChar = ((struct Char){(uint8_t)character,color});
             buffer[(X + MAX_X * Y)] = FillChar;
         }
+
         void SetCharacterAt(size_t X,size_t Y,Char character){
             buffer[(X + MAX_X * Y)] = character;
         }
+
         Char GetCharacterAt(size_t X,size_t Y){
             return buffer[(X + MAX_X * Y)];
         }
+
         void String(char* string){
             size_t stringLen = Sauce::Utils::String_Length(string);
             for(size_t a = 0;(a < stringLen);a++){
                 Character(string[a]);
             }
         }
+
         void Setcolor(uint8_t foreground,uint8_t background){
             color = (foreground + (background << 4));
         }
+
         uint8_t Getcolor(){
             return color;
         }
@@ -89,10 +101,12 @@ namespace Sauce{
             }
             SetCursor();
         }
+
         void ReturnCaret(){
             x_pos = 0;
             SetCursor();
         }
+
         void SetCursor(bool adjust,size_t X, size_t Y){
             if(adjust){
                 x_pos=X;
@@ -100,6 +114,7 @@ namespace Sauce{
             }
             SetRealCursor(x_pos,y_pos);
         }
+
         void RelativeSetCursor(bool adjust,long int X, long int Y){
             if(adjust){
                 x_pos+=X;
@@ -107,6 +122,7 @@ namespace Sauce{
             }
             SetRealCursor(x_pos,y_pos);
         }
+
         void SetRealCursor(size_t X,size_t Y){
             size_t position=(X + MAX_X * Y);
             Sauce::IO::outb(0x3D4, 0x0F);
@@ -114,6 +130,7 @@ namespace Sauce{
             Sauce::IO::outb(0x3D4,0x0E);
             Sauce::IO::outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
         }
+
         void BackSpace(){
             if(x_pos > 0){
                 x_pos--;
@@ -127,6 +144,7 @@ namespace Sauce{
                 SetCursor();
             }
         }
+
         bool IsSpace(){
             return (GetCharacterAt(x_pos,y_pos).character == ' ');
         }
