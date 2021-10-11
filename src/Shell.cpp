@@ -17,7 +17,6 @@ namespace Sauce{
                     NewString.Push(*LineBuffer[i]);
                 }else{
                     Words.Push(NewString);
-                    Sauce::Terminal::String("test Command Execution\n\r");
                     WordCount++;
                     NewString.Clear();
                 }
