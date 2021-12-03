@@ -3,36 +3,14 @@
 namespace Sauce{
     namespace Shell{
 
-        Sauce::Container::String LineBuffer;
-        Sauce::Container::DynamicArray<Sauce::Container::String> Words;
-        Sauce::Container::String NewString;
+        static Sauce::Container::String LineBuffer;
+        //static Sauce::Container::DynamicArray<Sauce::Container::DynamicArray<char>> wordlist;
         
         void Command(){
+            // 
             LineBuffer.Push(' ');
-            Words.Clear();
-            size_t WordCount=0;
-            size_t j=0;
-            for(size_t i=0;i<LineBuffer.Size();i++){
-                if(*LineBuffer[i] != ' '){
-                    NewString.Push(*LineBuffer[i]);
-                }else{
-                    Words.Push(NewString);
-                    WordCount++;
-                    NewString.Clear();
-                }
-            }
-
-            if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"clear")){
-                 Sauce::Terminal::Clear();
-            }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"test")){
-                 Sauce::Terminal::String("It worked!\n\r");
-            }else if(Sauce::Utils::String_Compare_ReturnBool((*Words[0]).Raw(),(char*)"stop")){
-                 STOP(User_Executed);
-            }else{
-                Sauce::Terminal::String("Unknown:\'");
-                Sauce::Terminal::String( (*Words[0]).Raw() );
-                Sauce::Terminal::String("\'\n\r");
-            }
+            Sauce::Terminal::String(LineBuffer.Value());
+            Sauce::Terminal::NewLine();Sauce::Terminal::ReturnCaret();
         }
 
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
@@ -45,7 +23,6 @@ namespace Sauce{
                         switch(_Key.Key){
                             case 0x1C:{
                                 Sauce::Terminal::BackSpace();
-                                //LineBuffer[LineBufferCounter--]=0;
                                 LineBuffer.Pop();
                                 }break;
                             case 0xD6:{

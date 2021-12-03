@@ -62,6 +62,13 @@ namespace Sauce{
                         result[I] = arr[I];
                     return (T*)result; // return a pointer to the temporary space
                 }
+                const T* Value(){
+                    delete[] result; // Delete the temporary space.
+                    result = new T[current]; // Create a new temporary space.
+                    for(size_t I=0;I<current;I++) // copy the data over to the temporary space
+                        result[I] = arr[I];
+                    return (const T*)result; // return a pointer to the temporary space
+                }
                 void Resize(size_t newSize){
                     T* temp = new T[newSize*sizeof(T)]; // Create a temprary space of size newSize
                     for(size_t i = 0; i < newSize;i++){
