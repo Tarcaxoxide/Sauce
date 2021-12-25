@@ -3,14 +3,21 @@
 namespace Sauce{
     namespace Shell{
 
-        static Sauce::Container::String LineBuffer;
-        //static Sauce::Container::DynamicArray<Sauce::Container::DynamicArray<char>> wordlist;
-        
-        void Command(){
-            // 
-            LineBuffer.Push(' ');
-            Sauce::Terminal::String(LineBuffer.Value());
-            Sauce::Terminal::NewLine();Sauce::Terminal::ReturnCaret();
+    Sauce::Container::String LineBuffer;
+	Sauce::Container::String Word;
+	void Command(){
+		
+		if(Sauce::Utils::String_Compare_ReturnBool(LineBuffer.Raw(),"test")){
+			Sauce::Terminal::String("Hello World!\n\r");
+		}else if(Sauce::Utils::String_Compare_ReturnBool(LineBuffer.Raw(),"clear")){
+            Sauce::Terminal::Clear();
+        }
+        else{
+            Sauce::Terminal::String("Uknown Command: '");
+            Sauce::Terminal::String(LineBuffer.Raw());
+            Sauce::Terminal::String("'\n\r");
+        }
+		LineBuffer.Clear();
         }
 
         void KeyPress(Sauce::Keyboard::KeyboardKey _Key){
@@ -29,7 +36,6 @@ namespace Sauce{
                                 Sauce::Terminal::NewLine();
                                 Sauce::Terminal::ReturnCaret();
                                 Command();
-                                LineBuffer.Clear();
                                 }break;
                             case 0xBE:{
                                 //Sauce::Terminal::RelativeSetCursor(true,0,-1); //up arrow

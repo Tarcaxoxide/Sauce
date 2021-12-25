@@ -40,7 +40,7 @@ namespace Sauce{
                     return &arr[index];
                 }
                 void Pop(){
-                    current--;
+                    arr[current--]=(T)NULL;
                 }
                 size_t Size(){
                     return current;
@@ -49,10 +49,10 @@ namespace Sauce{
                     return capacity;
                 }
                 void Clear(){
-                    current=0;
-                    //while(current){
-                    //    Pop();
-                    //}
+                    //current=0;
+                    while(current){
+                        Pop();
+                    }
                     //Resize(1);
                 }
                 T* Raw(){
