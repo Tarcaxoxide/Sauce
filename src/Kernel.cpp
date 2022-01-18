@@ -24,6 +24,5 @@ void Notify_Kernel_Of_Timer(float rate){
 
 void Kernel_Main(){
     Memory::PrintMemoryMap_All();
-
     STOP(Nothing);
 }

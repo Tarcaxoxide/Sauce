@@ -69,7 +69,8 @@ clean:
 default: build/sys.iso
 
 run: build/sys.iso
-	qemu-system-x86_64 -sdl -cpu host -enable-kvm -m 20G -smp 6 -serial stdio -no-reboot -no-shutdown -cdrom build/$<
+	qemu-img resize -f raw build/$< +15G
+	qemu-system-x86_64 -display sdl -cpu host -enable-kvm -m 20G -smp 6 -serial stdio -no-reboot -no-shutdown -cdrom build/$<
 
 do:
 	clear

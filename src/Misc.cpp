@@ -13,7 +13,7 @@ void operator delete[](void* pointer, size_t Some_Size_I_Guess){
 
 namespace Sauce{
     void STOP(ERROR_CODES code){
-        Sauce::Terminal::String("\n\r [");
+        Sauce::Terminal::String("\n\r[");
         Sauce::Terminal::String(Sauce::Convert::To_String::From_uint64(code));
 	Sauce::Terminal::String("] System halted");
 	if(code != Nothing){
