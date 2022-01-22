@@ -7,10 +7,10 @@
 namespace Sauce{
     namespace Container{
         template <typename T> class DynamicArray{
-            T* arr;
-            T* result;
-            size_t capacity;
-            size_t current;
+            T* arr=NULL;
+            T* result=NULL;
+            size_t capacity=0;
+            size_t current=0;
             public:
                 DynamicArray(){
                     arr = new T[1];
@@ -56,17 +56,19 @@ namespace Sauce{
                     //Resize(1);
                 }
                 T* Raw(){
-                    delete[] result; // Delete the temporary space.
-                    result = new T[current]; // Create a new temporary space.
+                    if(result != NULL){delete[] result;result=NULL;} // Delete the temporary space.
+                    result = new T[current+1]; // Create a new temporary space.
                     for(size_t I=0;I<current;I++) // copy the data over to the temporary space
                         result[I] = arr[I];
+                    result[current]=NULL;
                     return (T*)result; // return a pointer to the temporary space
                 }
                 const T* Value(){
-                    delete[] result; // Delete the temporary space.
-                    result = new T[current]; // Create a new temporary space.
+                    if(result != NULL){delete[] result;result=NULL;} // Delete the temporary space.
+                    result = new T[current+1]; // Create a new temporary space.
                     for(size_t I=0;I<current;I++) // copy the data over to the temporary space
                         result[I] = arr[I];
+                    result[current]=NULL;
                     return (const T*)result; // return a pointer to the temporary space
                 }
                 void Resize(size_t newSize){
