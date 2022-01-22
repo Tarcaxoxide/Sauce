@@ -24,7 +24,8 @@ extern "C" uint8_t IsGraphical;
             Combined_segment_with_null, //4
             Alignment_unspecified, //5
             Size_unspecified, //6
-            User_Executed //7
+            Size_Invalid, //7
+            User_Executed //8
         };
         void STOP(ERROR_CODES code);
         void REBOOT();

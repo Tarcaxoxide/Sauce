@@ -4,17 +4,16 @@ namespace Sauce{
     namespace Shell{
 
     Sauce::Container::String LineBuffer;
-	Sauce::Container::String Word;
 	void Command(){
-		
-		if(Sauce::Utils::String_Compare_ReturnBool(LineBuffer.Raw(),"test")){
+
+		if(Sauce::Utils::String_Compare_ReturnBool(LineBuffer(),"test")){
 			Sauce::Terminal::String("Hello World!\n\r");
-		}else if(Sauce::Utils::String_Compare_ReturnBool(LineBuffer.Raw(),"clear")){
+		}else if( Sauce::Utils::String_Compare_ReturnBool(LineBuffer(),"clear") ){
             Sauce::Terminal::Clear();
         }
         else{
             Sauce::Terminal::String("Uknown Command: '");
-            Sauce::Terminal::String(LineBuffer.Raw());
+            Sauce::Terminal::String(LineBuffer());
             Sauce::Terminal::String("'\n\r");
         }
 		LineBuffer.Clear();

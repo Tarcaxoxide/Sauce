@@ -3,12 +3,12 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <Misc.hpp>
+#include <Utils.hpp>
 
 namespace Sauce{
     namespace Container{
         template <typename T> class DynamicArray{
             T* arr=NULL;
-            T* result=NULL;
             size_t capacity=0;
             size_t current=0;
             public:
@@ -40,8 +40,10 @@ namespace Sauce{
                     return &arr[index];
                 }
                 void Pop(){
-                    arr[current--]=(T)NULL;
+                    current--;
+                    arr[current]=NULL;
                 }
+                //TODO:: Implement Pop_front() to remove the first element from the list
                 size_t Size(){
                     return current;
                 }
@@ -55,36 +57,36 @@ namespace Sauce{
                     }
                     //Resize(1);
                 }
-                T* Raw(){
-                    if(result != NULL){delete[] result;result=NULL;} // Delete the temporary space.
-                    result = new T[current+1]; // Create a new temporary space.
-                    for(size_t I=0;I<current;I++) // copy the data over to the temporary space
-                        result[I] = arr[I];
-                    result[current]=NULL;
-                    return (T*)result; // return a pointer to the temporary space
-                }
-                const T* Value(){
-                    if(result != NULL){delete[] result;result=NULL;} // Delete the temporary space.
-                    result = new T[current+1]; // Create a new temporary space.
-                    for(size_t I=0;I<current;I++) // copy the data over to the temporary space
-                        result[I] = arr[I];
-                    result[current]=NULL;
-                    return (const T*)result; // return a pointer to the temporary space
+
+                T* operator()(){
+                    return (T*)(const T*)arr;
                 }
                 void Resize(size_t newSize){
-                    T* temp = new T[newSize*sizeof(T)]; // Create a temprary space of size newSize
+                    T* temp = new T[newSize+1]; // Create a temprary space of size newSize
                     for(size_t i = 0; i < newSize;i++){
                         temp[i] = arr[i]; // copy the data over to the temporary space
                     }
+                    temp[newSize]=NULL;
                     delete[] arr; // delete the old space
                     capacity = newSize; // make the current capacity be the same as the newSize
-                    arr = new T[newSize*sizeof(T)]; // create a new space.
+                    arr = new T[newSize+1]; // create a new space.
                     for(size_t i = 0; i < newSize;i++){
                         arr[i] = temp[i]; // copy the data back over
                     }
+                    arr[newSize]=NULL;
                     delete[] temp;
                 }
         };
         typedef DynamicArray<char> String;
+        struct StringList{
+            String Words;
+            //TODO:: Implement Push(Word) to add a new word to the list.
+            //TODO:: Implement Pop() to remove last word from list and Pop_front() to remove the first word.
+            //TODO:: Implement Clear() to remove all words from list.
+            //TODO:: Implement Size() to get the count of words in the list.
+            //TODO:: Implement operator[]() to get specific word from list.
+            //TODO:: Implement operator==() to check if a word exist in the list and return the index+1 (0 for false)
+
+        };
     };
 };

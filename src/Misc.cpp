@@ -26,6 +26,7 @@ namespace Sauce{
 		if(code == Combined_segment_with_null)Sauce::Terminal::String("(Combined segment with null)");
 		if(code == Alignment_unspecified)Sauce::Terminal::String("(Alignment unspecified)");
 		if(code == Size_unspecified)Sauce::Terminal::String("(Size unspecified)");
+		if(code == Size_Invalid)Sauce::Terminal::String("(Size invalid)");
 		if(code == User_Executed)Sauce::Terminal::String("(User Executed)");
 	
     	while(true){
