@@ -16,15 +16,13 @@ Objs += build/Shell.o
 Objs += build/Kernel.o
 Objs += build/PreKernel.o
 
-PREFIX=Compiler/opt/cross
-TARGET=x86_64-elf
-Cross=$(PREFIX)/bin/$(TARGET)
-CompilerHome=Compiler
-Target_gcc=gcc-9.4.0
-Target_binutils=binutils-2.37
-Linker=$(Cross)-ld
-Cpp_Compiler=$(Cross)-g++
+
+Linker=ld
+Cpp_Compiler=g++
 CPP_ARGS= -Ihdr -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -O0 -fno-elide-constructors -Wall -Wextra -fno-exceptions -fno-rtti -nostdlib -Wno-unused-parameter -Wno-unused
+
+# TODO:: Add stack protection.
+CPP_ARGS += -fno-stack-protector
 
 
 build/sys.img: build/Bootloader_First.bin build/kernel.bin
@@ -40,7 +38,7 @@ build/sys.iso: build/sys.img
 build/kernel.bin: $(Objs)
 	mkdir -p $(dir $@)
 	$(Linker) -Tsrc/linker.ld $(Objs) -o build/kernel.tmp
-	$(Cross)-objcopy -O binary build/kernel.tmp build/kernel.bin
+	objcopy -O binary build/kernel.tmp build/kernel.bin
 
 
 build/Bootloader_First.bin:src/Bootloader_First.asm build/kernel.bin
@@ -76,21 +74,9 @@ do:
 	clear
 	clear
 	reset
-	make clean run
+	make clean run 
 
 push:
 	./push.sh
 	
-
-$(CompilerHome)/src/$(Target_binutils).tar.xz:
-	mkdir -p $(dir $@)
-	curl "https://ftp.gnu.org/gnu/binutils/$(Target_binutils).tar.xz" --output $@
-
-$(CompilerHome)/src/$(Target_gcc).tar.xz:
-	mkdir -p $(dir $@)
-	curl "https://ftp.gnu.org/gnu/gcc/$(Target_gcc)/$(Target_gcc).tar.xz" --output $@
-
-
-setup: $(CompilerHome)/src/$(Target_binutils).tar.xz $(CompilerHome)/src/$(Target_gcc).tar.xz
-	./setup.sh "$(CompilerHome)" "$(Target_gcc)" "$(Target_binutils)" "$(TARGET)" "$(PREFIX)"
 
