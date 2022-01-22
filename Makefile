@@ -84,11 +84,11 @@ push:
 
 $(CompilerHome)/src/$(Target_binutils).tar.xz:
 	mkdir -p $(dir $@)
-	wget --continue "https://ftp.gnu.org/gnu/binutils/$(Target_binutils).tar.xz" -O $@
+	curl "https://ftp.gnu.org/gnu/binutils/$(Target_binutils).tar.xz" --output $@
 
 $(CompilerHome)/src/$(Target_gcc).tar.xz:
 	mkdir -p $(dir $@)
-	wget --continue "https://ftp.gnu.org/gnu/gcc/$(Target_gcc)/$(Target_gcc).tar.xz" -O $@
+	curl "https://ftp.gnu.org/gnu/gcc/$(Target_gcc)/$(Target_gcc).tar.xz" --output $@
 
 
 setup: $(CompilerHome)/src/$(Target_binutils).tar.xz $(CompilerHome)/src/$(Target_gcc).tar.xz
