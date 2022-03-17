@@ -6,8 +6,8 @@ OVMFDIR = ../OVMFbin
 LDS = kernel.ld
 CC = g++
 
-CFLAGS = -ffreestanding -fshort-wchar
-LDFLAGS = -T $(LDS) -shared -Bsymbolic -nostdlib
+CFLAGS = -Iinc -ffreestanding -fshort-wchar
+LDFLAGS = -T $(LDS) -static -Bsymbolic -nostdlib
 
 SRCDIR := src
 OBJDIR := lib
