@@ -1,5 +1,5 @@
 
-OSNAME = CustomOS
+OSNAME = Sauce
 
 GNUEFI = ../gnu-efi
 OVMFDIR = ../OVMFbin
@@ -33,9 +33,9 @@ link: $(OBJS)
 	ld $(LDFLAGS) -o $(BUILDDIR)/kernel.elf $^
 
 setup:
-	@mkdir $(BUILDDIR)
-	@mkdir $(SRCDIR)
-	@mkdir $(OBJDIR)
+	@mkdir -p $(BUILDDIR)
+	@mkdir -p $(SRCDIR)
+	@mkdir -p $(OBJDIR)
 
 .PHONY: clean
 clean:

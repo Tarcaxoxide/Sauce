@@ -1,3 +1,3 @@
-cd gnu-efi
+cd kernel
 make run
 cd ..
