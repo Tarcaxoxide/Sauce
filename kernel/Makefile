@@ -20,14 +20,22 @@ SRC = $(call rwildcard,$(SRCDIR),*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
 DIRS = $(wildcard $(SRCDIR)/*)
 
-kernel:$(OBJS) link
+$(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
+	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=93750
+	@#mformat -i $(BUILDDIR)/$(OSNAME).img -f 1440 ::
+	mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
+	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
+	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
+	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
+	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::
+	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo ##$^ -> $@
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-link: $(OBJS)
+$(BUILDDIR)/kernel.elf: $(OBJS)
 	@echo ##$^ -> $@
 	@mkdir -p $(@D)
 	ld $(LDFLAGS) -o $(BUILDDIR)/kernel.elf $^
@@ -41,14 +49,5 @@ setup:
 clean:
 	rm -frv bin/* lib/*
 
-buildimg:
-	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=93750
-	@#mformat -i $(BUILDDIR)/$(OSNAME).img -f 1440 ::
-	mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
-	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
-	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
-	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
-	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::
-
-run:
+run: $(BUILDDIR)/$(OSNAME).img
 	qemu-system-x86_64 -drive file=$(BUILDDIR)/$(OSNAME).img -m 256M -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd" -net none
