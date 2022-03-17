@@ -23,12 +23,12 @@ DIRS = $(wildcard $(SRCDIR)/*)
 kernel:$(OBJS) link
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
-	@echo $^ -> $@
+	@echo ##$^ -> $@
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 link: $(OBJS)
-	@echo $^ -> $@
+	@echo ##$^ -> $@
 	@mkdir -p $(@D)
 	ld $(LDFLAGS) -o $(BUILDDIR)/kernel.elf $^
 
