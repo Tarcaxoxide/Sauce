@@ -4,7 +4,7 @@ OSNAME = CustomOS
 GNUEFI = ../gnu-efi
 OVMFDIR = ../OVMFbin
 LDS = 
-CC = gcc
+CC = g++
 
 CFLAGS = -ffreestanding -fshort-wchar
 LDFLAGS = -T $(LDS) -shared -Bsymbolic -nostdlib
@@ -20,6 +20,18 @@ SRC = $(call rwildcard,$(SRCDIR),*.c)
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 DIRS = $(wildcard $(SRCDIR)/*)
 
+kernel:$(OBJS) link
+
+$(OBJDIR)/%.o:$(SRCDIR)/%.cpp
+	@echo $^ -> $@
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $^ -o $@
+
+link: $(OBJS)
+	@echo $^ -> $@
+	@mkdir -p $(@D)
+	ld $(LDFLAGS) -o $(BUILDDIR)/kernel.elf $^
+
 setup:
 	@mkdir $(BUILDDIR)
 	@mkdir $(SRCDIR)
@@ -27,7 +39,8 @@ setup:
 
 buildimg:
 	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=93750
-	mformat -i $(BUILDDIR)/$(OSNAME).img -f 1440 ::
+	@#mformat -i $(BUILDDIR)/$(OSNAME).img -f 1440 ::
+	mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
 	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
 	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
