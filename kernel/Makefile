@@ -3,7 +3,7 @@ OSNAME = CustomOS
 
 GNUEFI = ../gnu-efi
 OVMFDIR = ../OVMFbin
-LDS = 
+LDS = kernel.ld
 CC = g++
 
 CFLAGS = -ffreestanding -fshort-wchar
@@ -16,8 +16,8 @@ BOOTEFI := $(GNUEFI)/x86_64/bootloader/main.efi
 
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
-SRC = $(call rwildcard,$(SRCDIR),*.c)          
-OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+SRC = $(call rwildcard,$(SRCDIR),*.cpp)          
+OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
 DIRS = $(wildcard $(SRCDIR)/*)
 
 kernel:$(OBJS) link
@@ -36,6 +36,10 @@ setup:
 	@mkdir $(BUILDDIR)
 	@mkdir $(SRCDIR)
 	@mkdir $(OBJDIR)
+
+.PHONY: clean
+clean:
+	rm -frv bin/* lib/*
 
 buildimg:
 	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=93750
