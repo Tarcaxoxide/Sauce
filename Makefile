@@ -1,7 +1,7 @@
 
-.PHONY: default compile setup clean
+.PHONY: default compile setup clean run
 
-default: clean setup compile
+default: compile run
 
 compile:
 	cd kernel && make clean
@@ -16,5 +16,5 @@ clean:
 	cd kernel && make clean
 	cd gnu-efi && make clean
 
-run:
+run: 
 	cd kernel && make run
