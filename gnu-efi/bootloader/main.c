@@ -143,7 +143,7 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 
 				Print(L"Starting Kernel now!\n\r");
 				int64_t return_code=KernelStart(&nDFBL);
-				Print(L"Kernel Exit: 0x%x\n\r",return_code);
+				Print(L"Kernel Exit: 0x%x\n\rOK code:0x12345678\n\r",return_code);
 		}
 	}
 
