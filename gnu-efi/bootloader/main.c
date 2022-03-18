@@ -1,7 +1,7 @@
-#include <efi.h>
-#include <efilib.h>
-#include <elf.h>
-#include <Sauce/Common.h>
+#include<efi.h>
+#include<efilib.h>
+#include<elf.h>
+#include<Sauce/Common.h>
 
 EFI_HANDLE _ImageHandle;
 EFI_SYSTEM_TABLE *_SystemTable;
@@ -49,8 +49,36 @@ FrameBufferStructure* InitializeGOP(){
 	FrameBuffer.Width = gop->Mode->Info->HorizontalResolution;
 	FrameBuffer.Height = gop->Mode->Info->VerticalResolution;
 	FrameBuffer.PixelsPerScanLine = gop->Mode->Info->PixelsPerScanLine;
-	FrameBuffer.BytesPerPixel=4; //TODO:: figure out the BPP from gop.
+	FrameBuffer.BytesPerPixel=4; //TODO:: Figure this out programmatically;
 	return &FrameBuffer;
+}
+
+PSF1_FONT* Load_PSF1_FONT(EFI_FILE* Directory,CHAR16* Path){
+	EFI_FILE* font = LoadFile(Directory,Path);
+	if(font == NULL)return NULL;
+	PSF1_HEADER* fontHeader;
+	_SystemTable->BootServices->AllocatePool(EfiLoaderData,sizeof(PSF1_HEADER),(void**)&fontHeader);
+	UINTN size = sizeof(PSF1_HEADER);
+	font->Read(font,&size,fontHeader);
+	if(fontHeader->magic[0] != PSF1_MAGIC0 || fontHeader->magic[1] != PSF1_MAGIC1)return NULL;
+
+	UINTN glyphBufferSize = fontHeader->char_size * 256;
+	if(fontHeader->mode == 1){
+		glyphBufferSize = fontHeader->char_size * 512;
+	}
+	void* glyphBuffer;
+	{
+		font->SetPosition(font,sizeof(PSF1_HEADER));
+		_SystemTable->BootServices->AllocatePool(EfiLoaderData,glyphBufferSize,(void**)&glyphBuffer);
+		font->Read(font,&glyphBufferSize,glyphBuffer);
+	}
+	PSF1_FONT* finishedFont;
+	_SystemTable->BootServices->AllocatePool(EfiLoaderData,sizeof(PSF1_FONT),(void**)&finishedFont);
+	finishedFont->psf1_header=fontHeader;
+	finishedFont->glyphBuffer = glyphBuffer;
+	finishedFont->psf1_header->char_width=8; //TODO:: Figure this out programmatically;
+	finishedFont->psf1_header->char_height=16; //TODO:: Figure this out programmatically;
+	return finishedFont;
 }
 
 int memcmp(const void* aptr,const void* bptr,size_t n){
@@ -127,24 +155,46 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 				DataStructure nDFBL;
 				int64_t (*KernelStart)(DataStructure* DFBL) = ((__attribute__((sysv_abi)) int64_t (*)(DataStructure* DFBL) ) Kernel_header.e_entry);
 
-				nDFBL.TestNumber=0x12345678;
+				nDFBL.TestNumber=0x0123456789ABCDEF;
 				nDFBL.FrameBuffer=InitializeGOP();
-
-				Print(L"\n\r\
+				nDFBL.Font=Load_PSF1_FONT(NULL,L"zap-light16.psf");
+				
+				if(nDFBL.Font == NULL){
+					Print(L"Font is not valid or found!\n\r");
+				}else{
+					Print(L"\n\r\
 						Base: 0x%x\n\r\
 						Size: 0x%x\n\r\
 						Width: %d\n\r\
 						Height: %d\n\r\
+						Font Char Size: %d\n\r\
 						\n\r",
 						nDFBL.FrameBuffer->BaseAddress,
 						nDFBL.FrameBuffer->BufferSize,
 						nDFBL.FrameBuffer->Width,
 						nDFBL.FrameBuffer->Height,
-						nDFBL.FrameBuffer->PixelsPerScanLine);
+						nDFBL.FrameBuffer->PixelsPerScanLine,
+						nDFBL.Font->psf1_header->char_size);
+					
+					EFI_MEMORY_DESCRIPTOR* Map = NULL;
+					UINTN MapSize,MapKey;
+					UINTN DescriptorSize;
+					UINT32 DescriptorVersion;
+					{
+						_SystemTable->BootServices->GetMemoryMap(&MapSize,Map,&MapKey,&DescriptorSize,&DescriptorVersion);
+						_SystemTable->BootServices->AllocatePool(EfiLoaderData,MapSize,(void**)&Map);
+						_SystemTable->BootServices->GetMemoryMap(&MapSize,Map,&MapKey,&DescriptorSize,&DescriptorVersion);
 
-				Print(L"Starting Kernel now!\n\r");
-				int64_t return_code=KernelStart(&nDFBL);
-				Print(L"Kernel Exit:0x%x\n\r    OK code:0x12345678\n\r",return_code);
+					}
+					
+					nDFBL.mMap=Map;
+					nDFBL.mMapSize = MapSize;
+					nDFBL.mDescriptorSize=DescriptorSize;
+					Print(L"Starting Kernel now!\n\r");
+					_SystemTable->BootServices->ExitBootServices(_ImageHandle,MapKey);
+					int64_t return_code=KernelStart(&nDFBL);
+					Print(L"Kernel Exit:0x%x\n\r    OK code:0x12345678\n\r",return_code);
+					}
 		}
 	}
 

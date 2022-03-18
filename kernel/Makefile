@@ -6,7 +6,8 @@ OVMFDIR = ../OVMFbin
 LDS = kernel.ld
 CC = g++
 
-CFLAGS = -Iinc -ffreestanding -fshort-wchar
+INCDIR=inc
+CFLAGS = -I$(INCDIR) -ffreestanding -fshort-wchar
 LDFLAGS = -T $(LDS) -static -Bsymbolic -nostdlib
 
 SRCDIR := src
@@ -29,6 +30,7 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
 	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::
+	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo ##$^ -> $@

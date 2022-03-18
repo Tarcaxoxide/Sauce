@@ -1,5 +1,7 @@
 #!/bin/bash
-
+clear
+clear
+reset
 let test=0
 pushd gnu-efi
     make bootloader || let test=1
@@ -13,5 +15,7 @@ fi
 pushd kernel
     make clean
     make
-    make run
+    if [ "!$1" == "!run" ] ;then
+        make run
+    fi
 popd

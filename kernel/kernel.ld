@@ -3,6 +3,7 @@ ENTRY(_start)
 
 SECTIONS
 {
+    _KernelStartRef = .;
     .text : ALIGN(0x512) /* ALIGN to sector*/
     {
         *(.text)
@@ -20,4 +21,5 @@ SECTIONS
         *(COMMON)
         *(.bss)
     }
+    _KernelEndRef = .;
 }
