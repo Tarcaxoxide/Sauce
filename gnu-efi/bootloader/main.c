@@ -49,6 +49,7 @@ FrameBufferStructure* InitializeGOP(){
 	FrameBuffer.Width = gop->Mode->Info->HorizontalResolution;
 	FrameBuffer.Height = gop->Mode->Info->VerticalResolution;
 	FrameBuffer.PixelsPerScanLine = gop->Mode->Info->PixelsPerScanLine;
+	FrameBuffer.BytesPerPixel=4; //TODO:: figure out the BPP from gop.
 	return &FrameBuffer;
 }
 
@@ -143,7 +144,7 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 
 				Print(L"Starting Kernel now!\n\r");
 				int64_t return_code=KernelStart(&nDFBL);
-				Print(L"Kernel Exit: 0x%x\n\rOK code:0x12345678\n\r",return_code);
+				Print(L"Kernel Exit:0x%x\n\r    OK code:0x12345678\n\r",return_code);
 		}
 	}
 
