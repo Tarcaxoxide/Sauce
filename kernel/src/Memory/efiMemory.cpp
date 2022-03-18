@@ -1,4 +1,4 @@
-#include<Sauce/efiMemory.hpp>
+#include<Sauce/Memory/efiMemory.hpp>
 
 namespace Sauce{
     const char* EFI_MEMORY_TYPE_STRINGS[] {

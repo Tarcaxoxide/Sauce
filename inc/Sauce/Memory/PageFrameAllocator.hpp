@@ -2,9 +2,9 @@
 
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/efiMemory.hpp>
+#include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Bitmap.hpp>
-#include<Sauce/Memory.hpp>
+#include<Sauce/Memory/Memory.hpp>
 
 namespace Sauce{
     class PageFrameAllocator{

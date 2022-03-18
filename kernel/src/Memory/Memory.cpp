@@ -1,4 +1,4 @@
-#include<Sauce/Memory.hpp>
+#include<Sauce/Memory/Memory.hpp>
 
 namespace Sauce{
     uint64_t GetMemorySize(Sauce::EFI_MEMORY_DESCRIPTOR*mMap,uint64_t mMapEntries,uint64_t mDescriptorSize){

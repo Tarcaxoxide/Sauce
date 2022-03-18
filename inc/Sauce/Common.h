@@ -7,7 +7,7 @@
 #include<iso646.h>
 #include<limits.h>
 #include<stdarg.h>
-#include<Sauce/efiMemory.hpp>
+#include<Sauce/Memory/efiMemory.hpp>
 
 typedef struct {
     uint8_t Blue;
