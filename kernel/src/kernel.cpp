@@ -26,7 +26,7 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
 
     Sauce::PageTable* PML4 = (Sauce::PageTable*)Sauce::GlobalAllocator.RequestPage();
     Sauce::memset(PML4,0,0x1000);
-    Sauce::PageTableManager pageTableManager = PageTableManager(PML4);
+    Sauce::PageTableManager pageTableManager = Sauce::PageTableManager(PML4);
 
     for(uint64_t t=0;t<Sauce::GetMemorySize(DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
         pageTableManager.MapMemory((void*)t,(void*)t);
@@ -39,7 +39,7 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
     }
     asm volatile("mov %0, %%cr3" : : "r" (PML4));
 
-    Term.DFBL=&DFBL;
+    Term.DFBL=DFBL;
 
     Term.Clear();
     Term.SetCursor(0,0);
