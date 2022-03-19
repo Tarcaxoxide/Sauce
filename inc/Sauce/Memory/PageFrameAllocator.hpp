@@ -26,4 +26,5 @@ namespace Sauce{
         void ReservePages(void* address,uint64_t pageCount);
         void ReleasePages(void* address,uint64_t pageCount);
     };
+    extern PageFrameAllocator GlobalAllocator;
 };

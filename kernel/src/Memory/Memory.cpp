@@ -10,4 +10,9 @@ namespace Sauce{
         }
         return memorySizeBytes;
     }
+    void memset(void* address,uint8_t value,uint64_t size){
+        for(uint64_t i=0;i<size;i++){
+            *(uint8_t*)((uint64_t)address+i)=value;
+        }
+    }
 };

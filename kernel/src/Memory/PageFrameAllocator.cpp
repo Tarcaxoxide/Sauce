@@ -1,6 +1,7 @@
 #include<Sauce/Memory/PageFrameAllocator.hpp>
 
 namespace Sauce{
+    PageFrameAllocator GlobalAllocator;
     uint64_t freeMemory;
     uint64_t reservedMemory;
     uint64_t usedMemory;

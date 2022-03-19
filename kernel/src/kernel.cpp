@@ -13,16 +13,14 @@ extern uint64_t _KernelEndRef;
 
 extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
     Sauce::Terminal Term(DFBL);
-    {
-        Term.Clear();
-        Term.SetCursor(0,0);
-        uint64_t mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
-        Sauce::PageFrameAllocator PageAllocator;
-        PageAllocator.ReadEfiMemoryMap(DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
-        uint64_t kernelSize = ((uint64_t)&_KernelEndRef)-((uint64_t)&_KernelStartRef);
-        uint64_t kernelPages = (uint64_t)kernelSize/4096 +1;
-        PageAllocator.LockPages(&_KernelStartRef,kernelPages);
-    }
+    Sauce::GlobalAllocator = Sauce::PageFrameAllocator();
+    Term.Clear();
+    Term.SetCursor(0,0);
+    uint64_t mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
+    Sauce::GlobalAllocator.ReadEfiMemoryMap(DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
+    uint64_t kernelSize = ((uint64_t)&_KernelEndRef)-((uint64_t)&_KernelStartRef);
+    uint64_t kernelPages = (uint64_t)kernelSize/4096 +1;
+    Sauce::GlobalAllocator.LockPages(&_KernelStartRef,kernelPages);
 
     Sauce::PageMapIndexer pageIndexer = Sauce::PageMapIndexer(0x1000 * 52 + 0x50000 * 7);
 
