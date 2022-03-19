@@ -34,8 +34,7 @@ namespace Sauce{
 
     }
     void Terminal::PutCharAt(char chr,size_t X,size_t Y){
-        Cursor_X=X;
-        Cursor_Y=Y;
+        SetCursor(X,Y);
         PutChar(chr);
     }
     void Terminal::PutString(char* str){
@@ -56,29 +55,23 @@ namespace Sauce{
         PutChar(' ');
         Cursor_X-=DFBL->Font->psf1_header->char_width;
     }
-    void Terminal::Fill(char character){
-       for (size_t a = 0;(a < DFBL->FrameBuffer->Height);a+=DFBL->Font->psf1_header->char_height){
-            FillRow(a,character);
-        }
-    }
-    void Terminal::FillRow(size_t Row,char character){
-        for(size_t a = 0;(a < DFBL->FrameBuffer->PixelsPerScanLine);a+=DFBL->Font->psf1_header->char_width){
-            PutCharAt(character,a,Row);
-        }
-    }
-    void Terminal::FillColumn(size_t column,char character){
-        for(size_t a = 0;(a < DFBL->FrameBuffer->Height);a+=DFBL->Font->psf1_header->char_height){
-            PutCharAt(character,column,a);
-        }
-    }
     void Terminal::Clear(){
         Fill(' ');
     }
-    void Terminal::ClearRow(size_t Row){
-        FillRow(Row,' ');
+    void Terminal::FillRow(char chr,size_t Row){
+        for(size_t X=0;X<DFBL->FrameBuffer->PixelsPerScanLine-DFBL->Font->psf1_header->char_width;X+=DFBL->Font->psf1_header->char_width){
+           PutCharAt(chr,X,Row);
+        }
     }
-    void Terminal::ClearColumn(size_t Column){
-        FillColumn(Column,' ');
+    void Terminal::FillColumn(char chr,size_t Column){
+        for(size_t Y=0;Y<DFBL->FrameBuffer->Height-DFBL->Font->psf1_header->char_height;Y+=DFBL->Font->psf1_header->char_height){
+            PutCharAt(chr,Column,Y);
+        }
+    }
+    void Terminal::Fill(char chr){
+        for(size_t X=0;X<DFBL->FrameBuffer->Width-DFBL->Font->psf1_header->char_width;X+=DFBL->Font->psf1_header->char_width){
+           FillColumn(chr,X);
+        }
     }
     void Terminal::SetColor(GOP_PixelStructure Fcolor,GOP_PixelStructure Bcolor){
         this->Fcolor=Fcolor;
