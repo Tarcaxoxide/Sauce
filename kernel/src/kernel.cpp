@@ -7,6 +7,8 @@
 #include<Sauce/Bitmap.hpp>
 #include<Sauce/Memory/PageFrameAllocator.hpp>
 #include<Sauce/Memory/PageMapIndexer.hpp>
+#include<Sauce/Memory/Paging.hpp>
+#include<Sauce/Memory/PageTableManager.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;
@@ -22,18 +24,26 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
     uint64_t kernelPages = (uint64_t)kernelSize/4096 +1;
     Sauce::GlobalAllocator.LockPages(&_KernelStartRef,kernelPages);
 
-    Sauce::PageMapIndexer pageIndexer = Sauce::PageMapIndexer(0x1000 * 52 + 0x50000 * 7);
+    Sauce::PageTable* PML4 = (Sauce::PageTable*)Sauce::GlobalAllocator.RequestPage();
+    Sauce::memset(PML4,0,0x1000);
+    Sauce::PageTableManager pageTableManager = PageTableManager(PML4);
 
-    //Sauce::PageMapIndexer pageIndexer = Sauce::PageMapIndexer(0x1000);
+    for(uint64_t t=0;t<Sauce::GetMemorySize(DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
+        pageTableManager.MapMemory((void*)t,(void*)t);
+    } 
 
-    Term.PutString(Sauce::Convert::To_String::From_Integer(pageIndexer.P_i));
-    Term.PutString(" - ");
-    Term.PutString(Sauce::Convert::To_String::From_Integer(pageIndexer.PT_i));
-    Term.PutString(" - ");
-    Term.PutString(Sauce::Convert::To_String::From_Integer(pageIndexer.PD_i));
-    Term.PutString(" - ");
-    Term.PutString(Sauce::Convert::To_String::From_Integer(pageIndexer.PDP_i));
-    Term.PutString("\n\r");
+    uint64_t fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
+    uint64_t fbSize = (uint64_t)DFBL->FrameBuffer->BufferSize + 0x1000;
+    for(uint64_t t=fbBase;t<fbBase+fbSize;t+=0x1000){
+        pageTableManager.MapMemory((void*)t,(void*)t);
+    }
+    asm volatile("mov %0, %%cr3" : : "r" (PML4));
+
+    Term.DFBL=&DFBL;
+
+    Term.Clear();
+    Term.SetCursor(0,0);
+    Term.PutString("Hello World?");
 
 
     while(true){

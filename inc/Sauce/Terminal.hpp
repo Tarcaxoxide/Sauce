@@ -6,10 +6,11 @@ namespace Sauce{
     class Terminal{
         size_t Cursor_X;
         size_t Cursor_Y;
-        DataStructure* DFBL;
+        
         GOP_PixelStructure Fcolor;
         GOP_PixelStructure Bcolor;
         public:
+        DataStructure* DFBL;
         Terminal(DataStructure* DFBL);
         void PutChar(char chr);
         void PutCharAt(char chr,size_t X,size_t Y);
