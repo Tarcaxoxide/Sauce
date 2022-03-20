@@ -1,4 +1,4 @@
-#include<Sauce/Bitmap.hpp>
+#include<Sauce/Memory/Bitmap.hpp>
 
 namespace Sauce{
     bool Bitmap::Get(uint64_t index){

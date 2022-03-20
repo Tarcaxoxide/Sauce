@@ -5,7 +5,7 @@
 #include<Sauce/Convert.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Memory/Memory.hpp>
-#include<Sauce/Bitmap.hpp>
+#include<Sauce/Memory/Bitmap.hpp>
 #include<Sauce/Memory/PageFrameAllocator.hpp>
 #include<Sauce/Memory/PageMapIndexer.hpp>
 #include<Sauce/Memory/Paging.hpp>
