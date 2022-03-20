@@ -84,5 +84,5 @@ namespace Sauce{
         Cursor_X=X;
         Cursor_Y=Y;
     }
-
+    Terminal* GlobalTerminal;
 };

@@ -3,17 +3,19 @@
 namespace Sauce{
     _Kernel::_Kernel(DataStructure* DFBL)
         :Term(DFBL){
+        GlobalTerminal=&Term;
         Term.Clear();
         Term.SetCursor(0,0);
-        Term.PutString("Kernel Init...\n\r");
+        if(Debug)Term.PutString("Kernel Init...\n\r");
         this->DFBL=DFBL;
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
-        
-        Term.PutString("Kernel init finished.\n\r");
+        Prep_GDT();
+        Prep_Interrupts();
+        if(Debug)Term.PutString("Kernel init finished.\n\r");
     }
     void _Kernel::Prep_GlobalAllocator(){
-        Term.PutString("Preping Allocator...\n\r");
+        if(Debug)Term.PutString("Preping Allocator...\n\r");
         Sauce::GlobalAllocator = Sauce::PageFrameAllocator();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
         Sauce::GlobalAllocator.ReadEfiMemoryMap(DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
@@ -25,7 +27,7 @@ namespace Sauce{
         pageTableManager.Initialize(PML4);
     }
     void _Kernel::Prep_VirtualAddresses(){
-        Term.PutString("Preping Virtual Addresses...\n\r");
+        if(Debug)Term.PutString("Preping Virtual Addresses...\n\r");
         for(uint64_t t=0;t<Sauce::GetMemorySize(DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             pageTableManager.MapMemory((void*)t,(void*)t);
         }
@@ -36,6 +38,25 @@ namespace Sauce{
             pageTableManager.MapMemory((void*)t,(void*)t);
         }
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
+    }
+    void _Kernel::Prep_GDT(){
+        if(Debug)Term.PutString("Preping GlobalDescriptorTable...\n\r");
+        gdtDescriptor.Size=sizeof(GDT)-1;
+        gdtDescriptor.Offset= (uint64_t)&DefaultGDT;
+        LoadGDT(&gdtDescriptor);
+    }
+    void _Kernel::Prep_Interrupts(){
+        if(Debug)Term.PutString("Preping Interrupts...\n\r");
+        idtr.Limit = 0x0FFF;
+        idtr.Offset= (uint64_t)GlobalAllocator.RequestPage();
+
+        //
+        IDTDescriptorEntry* int_PageFault = (IDTDescriptorEntry*)(idtr.Offset + 0xE * sizeof(IDTDescriptorEntry));
+        int_PageFault->SetOffset((uint64_t)PageFault_handler);
+        int_PageFault->type_attr = IDT_TA_InterruptGate;
+        int_PageFault->selector=0x08;
+        //
+        asm("lidt %0" : : "m" (idtr));
     }
     void _Kernel::Stop(){
         while(true){

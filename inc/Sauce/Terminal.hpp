@@ -26,4 +26,5 @@ namespace Sauce{
         void SetColor(GOP_PixelStructure Fcolor);
         void SetCursor(size_t X,size_t Y);
     };
+    extern Terminal* GlobalTerminal;
 };

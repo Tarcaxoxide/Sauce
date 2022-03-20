@@ -4,10 +4,12 @@ OSNAME = Sauce
 GNUEFI = ../gnu-efi
 OVMFDIR = ../OVMFbin
 LDS = kernel.ld
+ASMC=nasm
 CC = g++
 
 INCDIR=inc
 CFLAGS = -I$(INCDIR) -ffreestanding -fshort-wchar
+ASMFLAGS = -I$(INCDIR)
 LDFLAGS = -T $(LDS) -static -Bsymbolic -nostdlib
 
 SRCDIR := src
@@ -17,8 +19,10 @@ BOOTEFI := $(GNUEFI)/x86_64/bootloader/main.efi
 
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
-SRC = $(call rwildcard,$(SRCDIR),*.cpp)          
-OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
+SRC = $(call rwildcard,$(SRCDIR),*.cpp)
+ASMSRC = $(call rwildcard,$(SRCDIR),*.asm)
+OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%_cpp.o, $(SRC))
+OBJS += $(patsubst $(SRCDIR)/%.asm, $(OBJDIR)/%_asm.o, $(ASMSRC))
 DIRS = $(wildcard $(SRCDIR)/*)
 
 $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
@@ -32,10 +36,21 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::
 
-$(OBJDIR)/%.o:$(SRCDIR)/%.cpp
+
+$(OBJDIR)/Interrupts/Interrupts_cpp.o:$(SRCDIR)/Interrupts/Interrupts.cpp
+	@echo ##$^ -> $@
+	@mkdir -p $(@D)
+	$(CC) -I$(INCDIR) -mno-red-zone -mgeneral-regs-only -ffreestanding -c $^ -o $@
+
+$(OBJDIR)/%_cpp.o:$(SRCDIR)/%.cpp
 	@echo ##$^ -> $@
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@
+
+$(OBJDIR)/%_asm.o:$(SRCDIR)/%.asm
+	@echo ##$^ -> $@
+	@mkdir -p $(@D)
+	$(ASMC) $(ASMFLAGS) $^ -f elf64 -o $@
 
 $(BUILDDIR)/kernel.elf: $(OBJS)
 	@echo ##$^ -> $@
