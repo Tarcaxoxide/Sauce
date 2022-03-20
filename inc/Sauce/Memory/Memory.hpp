@@ -6,6 +6,8 @@
 
 
 namespace Sauce{
-    uint64_t GetMemorySize(Sauce::EFI_MEMORY_DESCRIPTOR*mMap,uint64_t mMapEntries,uint64_t mDescriptorSize);
-    void memset(void* address,uint8_t value,uint64_t size);
+    namespace Memory{
+        uint64_t GetMemorySize(Sauce::Memory::EFI_MEMORY_DESCRIPTOR*mMap,uint64_t mMapEntries,uint64_t mDescriptorSize);
+        void memset(void* address,uint8_t value,uint64_t size);
+    };
 };

@@ -44,7 +44,7 @@ typedef struct{
     uint64_t TestNumber;
     FrameBufferStructure* FrameBuffer;
     PSF1_FONT* Font;
-    Sauce::EFI_MEMORY_DESCRIPTOR* mMap;
+    Sauce::Memory::EFI_MEMORY_DESCRIPTOR* mMap;
     uint64_t mMapSize;
     uint64_t mDescriptorSize;
 }DataStructure;

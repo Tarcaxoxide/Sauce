@@ -4,13 +4,15 @@
 #include<stdint.h>
 
 namespace Sauce{
-    class Bitmap{
-        public:
-        size_t Size;
-        uint8_t* Buffer;
-        bool operator[](uint64_t index);
-        bool Get(uint64_t index);
-        bool Set(uint64_t index,bool value);
-        void Flip(uint64_t index);
+    namespace Memory{
+        class Bitmap{
+            public:
+            size_t Size;
+            uint8_t* Buffer;
+            bool operator[](uint64_t index);
+            bool Get(uint64_t index);
+            bool Set(uint64_t index,bool value);
+            void Flip(uint64_t index);
+        };
     };
 };

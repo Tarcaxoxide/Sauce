@@ -10,10 +10,12 @@
 #include<Sauce/Memory/PageFrameAllocator.hpp>
 
 namespace Sauce{
-    class PageTableManager{
-        public:
-        void Initialize(PageTable* PML4Address);
-        PageTable* PML4Address=NULL;
-        void MapMemory(void* virtualMemory,void* physicalMemory);
+    namespace Memory{
+        class PageTableManager{
+            public:
+            void Initialize(PageTable* PML4Address);
+            PageTable* PML4Address=NULL;
+            void MapMemory(void* virtualMemory,void* physicalMemory);
+        };
     };
 };

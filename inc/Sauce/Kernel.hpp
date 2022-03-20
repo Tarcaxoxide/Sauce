@@ -23,15 +23,15 @@ namespace Sauce{
     class _Kernel{
         private: //private variables
             DataStructure* DFBL;
-            Sauce::PageTableManager pageTableManager;
-            Sauce::PageTable* PML4;
+            Sauce::Memory::PageTableManager pageTableManager;
+            Sauce::Memory::PageTable* PML4;
             uint64_t mMapEntries;
             uint64_t kernelSize;
             uint64_t kernelPages;
             uint64_t fbBase;
             uint64_t fbSize;
-            GDTDescriptor gdtDescriptor;
-            IDTR idtr;
+            Sauce::GDT::GDTDescriptor gdtDescriptor;
+            Sauce::Interrupts::IDTR idtr;
         private: //private functions
             void Prep_GlobalAllocator();
             void Prep_VirtualAddresses();
