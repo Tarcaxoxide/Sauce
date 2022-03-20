@@ -68,13 +68,24 @@ namespace Sauce{
         int_GeneralProtectionFault->type_attr = IDT_TA_InterruptGate;
         int_GeneralProtectionFault->selector=0x08;
         //
+        //
+        Sauce::Interrupts::IDTDescriptorEntry* int_KeyboardInterrupt = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + 0x21 * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
+        int_KeyboardInterrupt->SetOffset((uint64_t)Sauce::Interrupts::KeyboardInterrupt_handler);
+        int_KeyboardInterrupt->type_attr = IDT_TA_InterruptGate;
+        int_KeyboardInterrupt->selector=0x08;
+        //
+        asm volatile("lidt %0" : : "m" (idtr));
+        GlobalTerminal->PutString(" Remaping Pic...\n\r");
+        Sauce::Interrupts::RemapPic();
 
-        
-        asm("lidt %0" : : "m" (idtr));
+        GlobalTerminal->PutString(" enabling keyboard...\n\r");
+        Sauce::outb(PIC1_DATA,0b11111101);
+        Sauce::outb(PIC2_DATA,0b11111111);
+        asm volatile("sti");
     }
     void _Kernel::Stop(){
         while(true){
-            asm volatile("cli;hlt");
+            asm volatile("hlt");
         }
     }
 };

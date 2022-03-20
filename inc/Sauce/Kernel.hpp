@@ -2,7 +2,7 @@
 
 #include<Sauce/Common.h>
 #include<Sauce/Terminal.hpp>
-#include<Sauce/Convert.hpp>
+#include<Sauce/Convert/To_String.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/Memory/Bitmap.hpp>
@@ -14,6 +14,7 @@
 #include<Sauce/Interrupts/IDT.hpp>
 #include<Sauce/Interrupts/Interrupts.hpp>
 #include<Sauce/Panic.hpp>
+#include<Sauce/IO.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;
