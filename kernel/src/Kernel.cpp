@@ -14,8 +14,7 @@ _Kernel::_Kernel(DataStructure* DFBL)
         Sauce::GlobalAllocator.LockPages(&_KernelStartRef,kernelPages);
         PML4 = (Sauce::PageTable*)Sauce::GlobalAllocator.RequestPage();
         Sauce::memset(PML4,0,0x1000);
-        Sauce::PageTableManager pageTableManager = Sauce::PageTableManager(PML4);
-        this->pageTableManager=&pageTableManager;
+        pageTableManager.Initialize(PML4);
         for(uint64_t t=0;t<Sauce::GetMemorySize(DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             pageTableManager.MapMemory((void*)t,(void*)t);
         }

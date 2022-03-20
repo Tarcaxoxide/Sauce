@@ -19,7 +19,7 @@ extern uint64_t _KernelEndRef;
 struct _Kernel{
     Sauce::Terminal Term;
     DataStructure* DFBL;
-    Sauce::PageTableManager* pageTableManager;
+    Sauce::PageTableManager pageTableManager;
     Sauce::PageTable* PML4;
     _Kernel(DataStructure* DFBL);
 };

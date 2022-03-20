@@ -1,7 +1,8 @@
 #include<Sauce/Memory/PageTableManager.hpp>
 
 namespace Sauce{
-    PageTableManager::PageTableManager(PageTable* PML4Address){
+    void PageTableManager::Initialize(PageTable* PML4Address){
+        if(this->PML4Address != NULL)return;
         this->PML4Address=PML4Address;
     }
     void PageTableManager::MapMemory(void* virtualMemory,void* physicalMemory){
