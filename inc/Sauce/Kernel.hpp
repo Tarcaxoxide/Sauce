@@ -13,6 +13,7 @@
 #include<Sauce/GDT/GDT.hpp>
 #include<Sauce/Interrupts/IDT.hpp>
 #include<Sauce/Interrupts/Interrupts.hpp>
+#include<Sauce/Panic.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;

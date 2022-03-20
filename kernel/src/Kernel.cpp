@@ -56,11 +56,25 @@ namespace Sauce{
         int_PageFault->type_attr = IDT_TA_InterruptGate;
         int_PageFault->selector=0x08;
         //
+        //
+        IDTDescriptorEntry* int_DoubleFault = (IDTDescriptorEntry*)(idtr.Offset + 0x8 * sizeof(IDTDescriptorEntry));
+        int_DoubleFault->SetOffset((uint64_t)DoubleFault_handler);
+        int_DoubleFault->type_attr = IDT_TA_InterruptGate;
+        int_DoubleFault->selector=0x08;
+        //
+        //
+        IDTDescriptorEntry* int_GeneralProtectionFault = (IDTDescriptorEntry*)(idtr.Offset + 0xD * sizeof(IDTDescriptorEntry));
+        int_GeneralProtectionFault->SetOffset((uint64_t)GeneralProtectionFault_handler);
+        int_GeneralProtectionFault->type_attr = IDT_TA_InterruptGate;
+        int_GeneralProtectionFault->selector=0x08;
+        //
+
+        
         asm("lidt %0" : : "m" (idtr));
     }
     void _Kernel::Stop(){
         while(true){
-            asm volatile("hlt");
+            asm volatile("cli;hlt");
         }
     }
 };

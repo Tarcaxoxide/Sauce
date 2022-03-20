@@ -2,9 +2,12 @@
 
 namespace Sauce{
     __attribute__((interrupt)) void PageFault_handler(struct interrupt_frame* frame){
-        GlobalTerminal->PutString("PageFault!\n\r");
-        while(true){
-            asm volatile("cli;hlt");
-        }
+        Panic("Page Fault Detected!\n\r");
+    }
+    __attribute__((interrupt)) void DoubleFault_handler(struct interrupt_frame* frame){
+        Panic("Double Fault Detected!\n\r");
+    }
+    __attribute__((interrupt)) void GeneralProtectionFault_handler(struct interrupt_frame* frame){
+        Panic("General Protection Fault Detected!\n\r");
     }
 };

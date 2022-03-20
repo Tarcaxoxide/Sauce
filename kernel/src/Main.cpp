@@ -6,7 +6,7 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
 
     Kernel.Term.PutString("Test\n\r");
 
-    //asm ("int $0x0e");
+    //asm ("int $0x0d");
 
     Kernel.Stop();
     return DFBL->TestNumber;
