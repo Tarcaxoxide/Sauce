@@ -2,6 +2,7 @@
 
 namespace Sauce{
     PageFrameAllocator GlobalAllocator;
+    uint64_t pageBitmapIndex=0;
     uint64_t freeMemory;
     uint64_t reservedMemory;
     uint64_t usedMemory;
@@ -48,6 +49,7 @@ namespace Sauce{
         uint64_t index = (uint64_t)address / 4096;
         if(PageBitmap[index] == false)return;
         if(PageBitmap.Set(index,false)){
+            if(index < pageBitmapIndex)pageBitmapIndex=index;
             freeMemory+=4096;
             usedMemory-=4096;
         }
@@ -60,11 +62,11 @@ namespace Sauce{
             usedMemory+=4096;
         }
     }
-
     void PageFrameAllocator::ReleasePage(void* address){
         uint64_t index = (uint64_t)address / 4096;
         if(PageBitmap[index] == false)return;
         if(PageBitmap.Set(index,false)){
+            if(index < pageBitmapIndex)pageBitmapIndex=index;
             freeMemory+=4096;
             reservedMemory-=4096;
         }
@@ -107,10 +109,10 @@ namespace Sauce{
         return reservedMemory;
     }
     void* PageFrameAllocator::RequestPage(){
-        for(uint64_t index=0;index<PageBitmap.Size*8;index++){
-            if(PageBitmap[index] == true)continue;
-            LockPage((void*)(index*4096));
-            return (void*)(index*4096);
+        for(;pageBitmapIndex<PageBitmap.Size*8;pageBitmapIndex++){
+            if(PageBitmap[pageBitmapIndex] == true)continue;
+            LockPage((void*)(pageBitmapIndex*4096));
+            return (void*)(pageBitmapIndex*4096);
         }
         //TODO::Page Frame Swap to file
         return NULL;

@@ -3,7 +3,7 @@
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/Memory/efiMemory.hpp>
-#include<Sauce/Bitmap.hpp>
+#include<Sauce/Memory/Bitmap.hpp>
 #include<Sauce/Memory/Memory.hpp>
 
 namespace Sauce{
