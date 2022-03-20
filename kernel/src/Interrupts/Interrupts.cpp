@@ -1,4 +1,5 @@
 #include<Sauce/Interrupts/Interrupts.hpp>
+#include<Sauce/Kernel.hpp>
 
 namespace Sauce{
     namespace Interrupts{
@@ -12,10 +13,19 @@ namespace Sauce{
             Panic("General Protection Fault Detected!\n\r");
         }
         __attribute__((interrupt)) void KeyboardInterrupt_handler(struct interrupt_frame* frame){
-            uint8_t scancode = inb(0x60);
-            GlobalTerminal->PutString("[");
-            GlobalTerminal->PutString(Sauce::Convert::To_String::From_uint8(scancode));
-            GlobalTerminal->PutString("]");
+            uint8_t input = 0;
+                    do {
+                      if(Sauce::inb(0x60) != input) {
+                        input = Sauce::inb(0x60);
+                        if(input > 0) {
+                            uint16_t Xinput = Sauce::Keyboard::Translate_KeyCode(input);
+                            if(Xinput != NULL){
+                                Sauce::Keyboard::KeyboardKey Xkey = Sauce::Keyboard::Code_To_Key(Xinput);
+                                if(Xkey.Key != NULL)_Kernel::Notify_Of_KeyPress(Xkey);
+                            }
+                        }
+                      }
+                    } while(input != 0);
             PIC1_Done();
         }
         void PIC1_Done(){

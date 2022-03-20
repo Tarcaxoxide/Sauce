@@ -1,5 +1,7 @@
 #pragma once
 
+#include<stddef.h>
+#include<stdint.h>
 #include<Sauce/Common.h>
 #include<Sauce/Terminal.hpp>
 #include<Sauce/Convert/To_String.hpp>
@@ -15,6 +17,7 @@
 #include<Sauce/Interrupts/Interrupts.hpp>
 #include<Sauce/Panic.hpp>
 #include<Sauce/IO.hpp>
+#include<Sauce/Keyboard/Keyboard.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;
@@ -33,6 +36,7 @@ namespace Sauce{
             uint64_t fbSize;
             Sauce::GDT::GDTDescriptor gdtDescriptor;
             Sauce::Interrupts::IDTR idtr;
+            static _Kernel* Self;
         private: //private functions
             void Prep_GlobalAllocator();
             void Prep_VirtualAddresses();
@@ -44,5 +48,6 @@ namespace Sauce{
         public: //public functions
             _Kernel(DataStructure* DFBL);
             void Stop();
+            static void Notify_Of_KeyPress(Sauce::Keyboard::KeyboardKey Xkey);
     };
 };

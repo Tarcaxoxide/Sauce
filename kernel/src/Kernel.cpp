@@ -1,8 +1,11 @@
 #include<Sauce/Kernel.hpp>
 
 namespace Sauce{
+    _Kernel* _Kernel::Self; // pointer to the active kernel to be used by the kernel 
+                            //when being updated by the hardware (Example: interrupts)
     _Kernel::_Kernel(DataStructure* DFBL)
         :Term(DFBL){
+        Self=this;
         GlobalTerminal=&Term;
         Term.Clear();
         Term.SetCursor(0,0);
@@ -82,6 +85,10 @@ namespace Sauce{
         Sauce::outb(PIC1_DATA,0b11111101);
         Sauce::outb(PIC2_DATA,0b11111111);
         asm volatile("sti");
+    }
+    void _Kernel::Notify_Of_KeyPress(Sauce::Keyboard::KeyboardKey Xkey){
+        //if(Xkey.visible && Xkey.Press)GlobalTerminal->PutChar(Xkey.Display);
+        if(Xkey.visible && Xkey.Press)_Kernel::Self->Term.PutChar(Xkey.Display);
     }
     void _Kernel::Stop(){
         while(true){
