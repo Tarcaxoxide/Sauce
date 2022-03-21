@@ -8,7 +8,7 @@ ASMC=nasm
 CC = g++
 
 INCDIR=inc
-CFLAGS = -I$(INCDIR) -ffreestanding -fshort-wchar -fmax-errors=1
+CFLAGS = -I$(INCDIR) -ffreestanding -fshort-wchar -mno-red-zone -fmax-errors=1
 ASMFLAGS = -I$(INCDIR)
 LDFLAGS = -T $(LDS) -static -Bsymbolic -nostdlib
 

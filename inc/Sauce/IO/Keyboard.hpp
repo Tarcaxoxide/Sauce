@@ -4,7 +4,7 @@
 #include<stdint.h>
 
 namespace Sauce{
-    namespace Keyboard{
+    namespace IO{
         struct KeyboardKey{
 			bool Capital=false;
 			bool Press=false;

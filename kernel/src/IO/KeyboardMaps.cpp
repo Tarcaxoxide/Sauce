@@ -1,8 +1,8 @@
-#include<Sauce/Keyboard/Keyboard.hpp>
+#include<Sauce/IO/Keyboard.hpp>
 
 
 namespace Sauce{
-    namespace Keyboard{
+    namespace IO{
         const uint8_t KeyMapCodes_1[]= {
                                     0x29,0xA9,
                                     0x02,0x82,

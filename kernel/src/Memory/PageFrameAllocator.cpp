@@ -29,7 +29,7 @@ namespace Sauce{
             uint64_t bitmapSize = memorySize / 4096 / 8 + 1;
             InitializeBitmap(bitmapSize,LargestFreeMemorySegment);
 
-            LockPages(&PageBitmap,PageBitmap.Size/4096 + 1);
+            LockPages(PageBitmap.Buffer,PageBitmap.Size/4096 + 1);
             for(int i=0;i<mMapEntries;i++){
                 EFI_MEMORY_DESCRIPTOR* descriptor = (EFI_MEMORY_DESCRIPTOR*)((uint64_t)mMap + (i*mDescriptorSize));
                 if(descriptor->type != EfiMemoryType_EfiConventionalMemory){

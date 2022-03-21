@@ -3,7 +3,7 @@
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/Common.h>
-#include<Sauce/Terminal.hpp>
+#include<Sauce/IO/Terminal.hpp>
 #include<Sauce/Convert/To_String.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Memory/Memory.hpp>
@@ -15,9 +15,10 @@
 #include<Sauce/GDT/GDT.hpp>
 #include<Sauce/Interrupts/IDT.hpp>
 #include<Sauce/Interrupts/Interrupts.hpp>
-#include<Sauce/Panic.hpp>
-#include<Sauce/IO.hpp>
-#include<Sauce/Keyboard/Keyboard.hpp>
+#include<Sauce/IO/Panic.hpp>
+#include<Sauce/IO/IO.hpp>
+#include<Sauce/IO/Keyboard.hpp>
+#include<Sauce/IO/Mouse.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;
@@ -42,12 +43,14 @@ namespace Sauce{
             void Prep_VirtualAddresses();
             void Prep_GDT();
             void Prep_Interrupts();
+            void Prep_IO();
+            void Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector);
         public: //public variables
-            Sauce::Terminal Term;
+            Sauce::IO::Terminal Term;
             bool Debug=true;
         public: //public functions
             _Kernel(DataStructure* DFBL);
             void Stop();
-            static void Notify_Of_KeyPress(Sauce::Keyboard::KeyboardKey Xkey);
+            static void Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey);
     };
 };

@@ -6,7 +6,9 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
 
     Kernel.Term.PutString("Test\n\r");
 
-    //asm ("int $0x0d");
+    while(true){
+        Sauce::IO::ProcessMousePacket();
+    }
 
     Kernel.Stop();
     return DFBL->TestNumber;

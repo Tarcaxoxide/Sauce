@@ -5,8 +5,9 @@ namespace Sauce{
                             //when being updated by the hardware (Example: interrupts)
     _Kernel::_Kernel(DataStructure* DFBL)
         :Term(DFBL){
+        asm volatile("cli");
         Self=this;
-        GlobalTerminal=&Term;
+        Sauce::IO::GlobalTerminal=&Term;
         Term.Clear();
         Term.SetCursor(0,0);
         if(Debug)Term.PutString("Kernel Init...\n\r");
@@ -15,6 +16,11 @@ namespace Sauce{
         Prep_VirtualAddresses();
         Prep_GDT();
         Prep_Interrupts();
+        Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
+                  // or at least that's what it looks like because it wont type the finish text till then.
+        Sauce::IO::outb(PIC1_DATA,0b11111001);
+        Sauce::IO::outb(PIC2_DATA,0b11101111);
+        asm volatile("sti");
         if(Debug)Term.PutString("Kernel init finished.\n\r");
     }
     void _Kernel::Prep_GlobalAllocator(){
@@ -48,54 +54,39 @@ namespace Sauce{
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
         LoadGDT(&gdtDescriptor);
     }
+    void _Kernel::Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector){
+        Sauce::Interrupts::IDTDescriptorEntry* Interrupt = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + Interrupt_Number * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
+        Interrupt->SetOffset((uint64_t)Interrupt_Handler);
+        Interrupt->type_attr = type_attr;
+        Interrupt->selector=selector;
+    }
     void _Kernel::Prep_Interrupts(){
         if(Debug)Term.PutString("Preping Interrupts...\n\r");
         idtr.Limit = 0x0FFF;
         idtr.Offset= (uint64_t)Sauce::Memory::GlobalAllocator.RequestPage();
 
-        //
-        Sauce::Interrupts::IDTDescriptorEntry* int_PageFault = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + 0xE * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
-        int_PageFault->SetOffset((uint64_t)Sauce::Interrupts::PageFault_handler);
-        int_PageFault->type_attr = IDT_TA_InterruptGate;
-        int_PageFault->selector=0x08;
-        //
-        //
-        Sauce::Interrupts::IDTDescriptorEntry* int_DoubleFault = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + 0x8 * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
-        int_DoubleFault->SetOffset((uint64_t)Sauce::Interrupts::DoubleFault_handler);
-        int_DoubleFault->type_attr = IDT_TA_InterruptGate;
-        int_DoubleFault->selector=0x08;
-        //
-        //
-        Sauce::Interrupts::IDTDescriptorEntry* int_GeneralProtectionFault = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + 0xD * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
-        int_GeneralProtectionFault->SetOffset((uint64_t)Sauce::Interrupts::GeneralProtectionFault_handler);
-        int_GeneralProtectionFault->type_attr = IDT_TA_InterruptGate;
-        int_GeneralProtectionFault->selector=0x08;
-        //
-        //
-        Sauce::Interrupts::IDTDescriptorEntry* int_KeyboardInterrupt = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + 0x21 * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
-        int_KeyboardInterrupt->SetOffset((uint64_t)Sauce::Interrupts::KeyboardInterrupt_handler);
-        int_KeyboardInterrupt->type_attr = IDT_TA_InterruptGate;
-        int_KeyboardInterrupt->selector=0x08;
-        //
-        asm volatile("lidt %0" : : "m" (idtr));
-        GlobalTerminal->PutString(" Remaping Pic...\n\r");
-        Sauce::Interrupts::RemapPic();
+        Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
+        Add_Interrupt((void*)&Sauce::Interrupts::DoubleFault_handler,0x8,IDT_TA_InterruptGate,0x08);
+        Add_Interrupt((void*)&Sauce::Interrupts::GeneralProtectionFault_handler,0xD,IDT_TA_InterruptGate,0x08);
+        Add_Interrupt((void*)&Sauce::Interrupts::KeyboardInterrupt_handler,0x21,IDT_TA_InterruptGate,0x08);
+        Add_Interrupt((void*)&Sauce::Interrupts::MouseInterrupt_handler,0x2C,IDT_TA_InterruptGate,0x08);
 
-        GlobalTerminal->PutString(" enabling keyboard...\n\r");
-        Sauce::outb(PIC1_DATA,0b11111101);
-        Sauce::outb(PIC2_DATA,0b11111111);
-        asm volatile("sti");
+        asm volatile("lidt %0" : : "m" (idtr));
     }
-    void _Kernel::Notify_Of_KeyPress(Sauce::Keyboard::KeyboardKey Xkey){
-        //if(Xkey.visible && Xkey.Press)GlobalTerminal->PutChar(Xkey.Display);
+    void _Kernel::Prep_IO(){
+        Sauce::IO::GlobalTerminal->PutString("Preping IO...\n\r");
+        Sauce::Interrupts::RemapPic();
+        Sauce::IO::PS2MouseInitialize();
+    }
+    void _Kernel::Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey){
         if(!Xkey.Press)return;//ignoring key releases for now.
         if(Xkey.visible && Xkey.Press){
-            GlobalTerminal->PutChar(Xkey.Display);
+            Sauce::IO::GlobalTerminal->PutChar(Xkey.Display);
             return;
         }
         switch(Xkey.Key){
             case 0x1C:{
-                GlobalTerminal->BackSpace();
+                Sauce::IO::GlobalTerminal->BackSpace();
             }break;
 
             case 0x56:{/*Left Shift*/}break;
@@ -112,9 +103,9 @@ namespace Sauce{
             case 0xCC:{/*page down*/}break;
 
             default:{
-                GlobalTerminal->PutChar('[');
-                GlobalTerminal->PutString(Sauce::Convert::To_String::From_uint8(Xkey.Key));
-                GlobalTerminal->PutChar(']');
+                Sauce::IO::GlobalTerminal->PutChar('[');
+                Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::To_String::From_uint8(Xkey.Key));
+                Sauce::IO::GlobalTerminal->PutChar(']');
             }break;
         }
     }

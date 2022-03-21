@@ -1,8 +1,8 @@
-#include<Sauce/Keyboard/Keyboard.hpp>
+#include<Sauce/IO/Keyboard.hpp>
 
 
 namespace Sauce{
-    namespace Keyboard{
+    namespace IO{
         uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet){
                 static bool isShift;
                 static bool isCaps;
