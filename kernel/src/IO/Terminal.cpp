@@ -1,12 +1,10 @@
 #include<Sauce/IO/Terminal.hpp>
 namespace Sauce{
     namespace IO{
-        GOP_PixelStructure* Terminal::DoubleBuffer;
         Terminal::Terminal(DataStructure* DFBL){
             this->DFBL=DFBL;
             Fcolor=GOP_GREEN;
             Bcolor={0x33,0x22,0x22,0xFF};
-            DoubleBuffer[DFBL->Font->psf1_header->char_height*DFBL->Font->psf1_header->char_width];
         }
         void Terminal::PutChar(char chr){
             switch(chr){
@@ -81,6 +79,7 @@ namespace Sauce{
         }
         void Terminal::Clear(){
             Fill(' ');
+            SetCursor(0,0);
         }
         void Terminal::FillRow(char chr,size_t Row){
             //for(size_t X=0;X<DFBL->FrameBuffer->PixelsPerScanLine-DFBL->Font->psf1_header->char_width;X+=DFBL->Font->psf1_header->char_width){

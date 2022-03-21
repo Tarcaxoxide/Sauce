@@ -47,7 +47,6 @@ namespace Sauce{
             void Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector);
         public: //public variables
             Sauce::IO::Terminal Term;
-            bool Debug=true;
         public: //public functions
             _Kernel(DataStructure* DFBL);
             void Stop();

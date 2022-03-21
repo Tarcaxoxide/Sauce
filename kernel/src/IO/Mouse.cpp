@@ -3,8 +3,7 @@
 
 namespace Sauce{
     namespace IO{
-        Point64_t MousePosition {0,0,0};
-        Point64_t OldMousePosition {0,0,0};
+        Point64_t MousePosition {100,100,0};
         void MouseWait(){
             uint64_t timeout=100000;
             while(timeout--){

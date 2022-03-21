@@ -13,7 +13,7 @@ namespace Sauce{
             DataStructure* DFBL;
             GOP_PixelStructure Fcolor;
             GOP_PixelStructure Bcolor;
-            static GOP_PixelStructure* DoubleBuffer;
+            GOP_PixelStructure DoubleBuffer[200];
             Point64_t OldMousePosition {0,0,0};
             private:
                 void RemoveMouse(size_t X,size_t Y);

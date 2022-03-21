@@ -5,26 +5,25 @@ namespace Sauce{
                             //when being updated by the hardware (Example: interrupts)
     _Kernel::_Kernel(DataStructure* DFBL)
         :Term(DFBL){
-        asm volatile("cli");
+        this->DFBL=DFBL;
         Self=this;
+        asm volatile("cli");
         Sauce::IO::GlobalTerminal=&Term;
         Term.Clear();
-        Term.SetCursor(0,0);
-        if(Debug)Term.PutString("Kernel Init...\n\r");
-        this->DFBL=DFBL;
+        
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
         Prep_Interrupts();
+        Term.Clear();
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         Sauce::IO::outb(PIC1_DATA,0b11111001);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
+        Term.Clear();
         asm volatile("sti");
-        if(Debug)Term.PutString("Kernel init finished.\n\r");
     }
     void _Kernel::Prep_GlobalAllocator(){
-        if(Debug)Term.PutString("Preping Allocator...\n\r");
         Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
         Sauce::Memory::GlobalAllocator.ReadEfiMemoryMap(DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
@@ -36,7 +35,6 @@ namespace Sauce{
         pageTableManager.Initialize(PML4);
     }
     void _Kernel::Prep_VirtualAddresses(){
-        if(Debug)Term.PutString("Preping Virtual Addresses...\n\r");
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize(DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             pageTableManager.MapMemory((void*)t,(void*)t);
         }
@@ -49,7 +47,6 @@ namespace Sauce{
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
     void _Kernel::Prep_GDT(){
-        if(Debug)Term.PutString("Preping GlobalDescriptorTable...\n\r");
         gdtDescriptor.Size= sizeof(Sauce::GDT::GDT)-1;
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
         LoadGDT(&gdtDescriptor);
@@ -61,7 +58,6 @@ namespace Sauce{
         Interrupt->selector=selector;
     }
     void _Kernel::Prep_Interrupts(){
-        if(Debug)Term.PutString("Preping Interrupts...\n\r");
         idtr.Limit = 0x0FFF;
         idtr.Offset= (uint64_t)Sauce::Memory::GlobalAllocator.RequestPage();
 
@@ -74,7 +70,6 @@ namespace Sauce{
         asm volatile("lidt %0" : : "m" (idtr));
     }
     void _Kernel::Prep_IO(){
-        Sauce::IO::GlobalTerminal->PutString("Preping IO...\n\r");
         Sauce::Interrupts::RemapPic();
         Sauce::IO::PS2MouseInitialize();
     }
@@ -101,6 +96,7 @@ namespace Sauce{
             case 0xCE:{/*del*/}break;
             case 0xB8:{/*end*/}break;
             case 0xCC:{/*page down*/}break;
+            case 0xDA:{Sauce::IO::GlobalTerminal->Clear();}break;
 
             default:{
                 Sauce::IO::GlobalTerminal->PutChar('[');
