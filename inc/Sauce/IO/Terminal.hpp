@@ -19,6 +19,7 @@ namespace Sauce{
                 void RemoveMouse(size_t X,size_t Y);
                 void PlaceMouse(size_t X,size_t Y);
             public:
+            bool DisableMouse=false;
             Terminal(DataStructure* DFBL);
             void PutChar(char chr);
             void PutCharAt(char chr,size_t X,size_t Y);

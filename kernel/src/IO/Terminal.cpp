@@ -60,11 +60,13 @@ namespace Sauce{
             PutChar(chr);
         }
         void Terminal::PutString(char* str){
+            DisableMouse=true;
             while(*str){
                 PutChar(*str);
                 str++;
                 //Cursor.X+=DFBL->Font->psf1_header->char_width;
             }
+            DisableMouse=false;
         }
         void Terminal::NewLine(){
             Cursor.Y+=DFBL->Font->psf1_header->char_height;
@@ -78,26 +80,32 @@ namespace Sauce{
             Cursor.X-=DFBL->Font->psf1_header->char_width;
         }
         void Terminal::Clear(){
+            DisableMouse=true;
             Fill(' ');
             SetCursor(0,0);
+            DisableMouse=false;
         }
         void Terminal::FillRow(char chr,size_t Row){
+            DisableMouse=true;
             //for(size_t X=0;X<DFBL->FrameBuffer->PixelsPerScanLine-DFBL->Font->psf1_header->char_width;X+=DFBL->Font->psf1_header->char_width){
             for(size_t X=0;X<MaxX((uint64_t)DFBL->Font->psf1_header->char_width);X+=DFBL->Font->psf1_header->char_width){
                PutCharAt(chr,X,Row);
             }
+            DisableMouse=false;
         }
         void Terminal::FillColumn(char chr,size_t Column){
-            //for(size_t Y=0;Y<DFBL->FrameBuffer->Height-DFBL->Font->psf1_header->char_height;Y+=DFBL->Font->psf1_header->char_height){
+            DisableMouse=true;
             for(size_t Y=0;Y<MaxY(DFBL->Font->psf1_header->char_height);Y+=DFBL->Font->psf1_header->char_height){
                 PutCharAt(chr,Column,Y);
             }
+            DisableMouse=false;
         }
         void Terminal::Fill(char chr){
-            //for(size_t X=0;X<DFBL->FrameBuffer->Width-DFBL->Font->psf1_header->char_width;X+=DFBL->Font->psf1_header->char_width){
+            DisableMouse=true;
             for(size_t X=0;X<MaxX((uint64_t)DFBL->Font->psf1_header->char_width);X+=DFBL->Font->psf1_header->char_width){
                FillColumn(chr,X);
             }
+            DisableMouse=false;
         }
         void Terminal::SetColor(GOP_PixelStructure Fcolor,GOP_PixelStructure Bcolor){
             this->Fcolor=Fcolor;
@@ -123,6 +131,7 @@ namespace Sauce{
             return (uint8_t)DFBL->Font->psf1_header->char_height;
         }
         void Terminal::Mouse(Point64_t NewMousePosition){
+            if(DisableMouse)return;
             if(NewMousePosition.X < 0)NewMousePosition.X=0;
             if(NewMousePosition.Y < 0)NewMousePosition.Y=0;
             if(NewMousePosition.X > MaxX(CharX()))NewMousePosition.X=MaxX(CharX());
