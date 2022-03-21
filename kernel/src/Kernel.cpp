@@ -88,7 +88,35 @@ namespace Sauce{
     }
     void _Kernel::Notify_Of_KeyPress(Sauce::Keyboard::KeyboardKey Xkey){
         //if(Xkey.visible && Xkey.Press)GlobalTerminal->PutChar(Xkey.Display);
-        if(Xkey.visible && Xkey.Press)_Kernel::Self->Term.PutChar(Xkey.Display);
+        if(!Xkey.Press)return;//ignoring key releases for now.
+        if(Xkey.visible && Xkey.Press){
+            GlobalTerminal->PutChar(Xkey.Display);
+            return;
+        }
+        switch(Xkey.Key){
+            case 0x1C:{
+                GlobalTerminal->BackSpace();
+            }break;
+
+            case 0x56:{/*Left Shift*/}break;
+            case 0x70:{/*Right Shift*/}break;
+            case 0x3A:{/*caps lock*/}break;
+            case 0xD6:{/*enter*/}break;
+            case 0xF8:{/*scr lk*/}break;
+            case 0x7E:{/*pause break*/}break;
+            case 0xC4:{/*ins*/}break;
+            case 0xB4:{/*home*/}break;
+            case 0xC8:{/*page up*/}break;
+            case 0xCE:{/*del*/}break;
+            case 0xB8:{/*end*/}break;
+            case 0xCC:{/*page down*/}break;
+
+            default:{
+                GlobalTerminal->PutChar('[');
+                GlobalTerminal->PutString(Sauce::Convert::To_String::From_uint8(Xkey.Key));
+                GlobalTerminal->PutChar(']');
+            }break;
+        }
     }
     void _Kernel::Stop(){
         while(true){
