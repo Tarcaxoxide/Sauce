@@ -26,7 +26,7 @@ namespace Sauce{
     void _Kernel::Prep_GlobalAllocator(){
         Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
-        Sauce::Memory::GlobalAllocator.ReadEfiMemoryMap(DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
+        Sauce::Memory::GlobalAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
         kernelSize = ((uint64_t)&_KernelEndRef)-((uint64_t)&_KernelStartRef);
         kernelPages = (uint64_t)kernelSize/4096 +1;
         Sauce::Memory::GlobalAllocator.LockPages(&_KernelStartRef,kernelPages);
@@ -35,7 +35,7 @@ namespace Sauce{
         pageTableManager.Initialize(PML4);
     }
     void _Kernel::Prep_VirtualAddresses(){
-        for(uint64_t t=0;t<Sauce::Memory::GetMemorySize(DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
+        for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             pageTableManager.MapMemory((void*)t,(void*)t);
         }
         fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
@@ -97,12 +97,19 @@ namespace Sauce{
             case 0xB8:{/*end*/}break;
             case 0xCC:{/*page down*/}break;
             case 0xDA:{Sauce::IO::GlobalTerminal->Clear();}break;
+            case 0x7A:{/*alt*/}break;
 
             default:{
                 Sauce::IO::GlobalTerminal->PutChar('[');
                 Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::To_String::From_uint8(Xkey.Key));
                 Sauce::IO::GlobalTerminal->PutChar(']');
             }break;
+        }
+    }
+    void _Kernel::Notify_Of_Mouse(Sauce::IO::MouseData Xmouse){
+        Sauce::IO::GlobalTerminal->Mouse(Xmouse.Position);
+        if(Xmouse.LeftButton){
+            Sauce::IO::GlobalTerminal->PutString("!Click!");
         }
     }
     void _Kernel::Stop(){

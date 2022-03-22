@@ -7,7 +7,7 @@
 #include<iso646.h>
 #include<limits.h>
 #include<stdarg.h>
-#include<Sauce/Memory/efiMemory.hpp>
+#include<Sauce/Memory/efiMemory.h>
 
 typedef struct {
     uint8_t Blue;
@@ -44,7 +44,8 @@ typedef struct{
     uint64_t TestNumber;
     FrameBufferStructure* FrameBuffer;
     PSF1_FONT* Font;
-    Sauce::Memory::EFI_MEMORY_DESCRIPTOR* mMap;
+    EFI_MEMORY_DESCRIPTOR* mMap;
     uint64_t mMapSize;
     uint64_t mDescriptorSize;
+    void* rsdp;
 }DataStructure;

@@ -3,7 +3,7 @@
 
 namespace Sauce{
     namespace IO{
-        Point64_t MousePosition {100,100,0};
+        Point64_t MousePosition {0,0,0};
         void MouseWait(){
             uint64_t timeout=100000;
             while(timeout--){
@@ -54,8 +54,10 @@ namespace Sauce{
                 }break;
             }
         }
-        void ProcessMousePacket(){
-            if(!MousePacketReady)return;
+        MouseData ProcessMousePacket(){
+            MouseData nMouseData {false,false,false,false,{0,0,0}};
+            if(!MousePacketReady)return nMouseData;
+            nMouseData.New=true;
 
             bool xNegative,yNegative,xOverflow,yOverflow;
             
@@ -91,7 +93,20 @@ namespace Sauce{
             }
             MousePacketReady=false;
 
-            Sauce::IO::GlobalTerminal->Mouse(MousePosition);
+            //Sauce::IO::GlobalTerminal->Mouse(MousePosition);
+            nMouseData.Position.X=MousePosition.X;
+            nMouseData.Position.Y=MousePosition.Y;
+            nMouseData.Position.Z=MousePosition.Z;
+            if(MousePacket[0] & PS2LeftButton){
+                nMouseData.LeftButton=true;
+            }
+            if(MousePacket[0] & PS2MiddleButton){
+                nMouseData.CenterButton=true;
+            }
+            if(MousePacket[0] & PS2RightButton){
+                nMouseData.RightButton=true;
+            }
+            return nMouseData;
         }
         void PS2MouseInitialize(){
             outb(0x64,0xA8); // enable auxiliary device - mouse

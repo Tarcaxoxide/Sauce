@@ -6,6 +6,7 @@
 #include<Sauce/IO/Terminal.hpp>
 #include<Sauce/Convert/To_String.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
+#include<Sauce/Memory/efiMemory.h>
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/Memory/Bitmap.hpp>
 #include<Sauce/Memory/PageFrameAllocator.hpp>
@@ -51,5 +52,6 @@ namespace Sauce{
             _Kernel(DataStructure* DFBL);
             void Stop();
             static void Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey);
+            static void Notify_Of_Mouse(Sauce::IO::MouseData Xmouse);
     };
 };

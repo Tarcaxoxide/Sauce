@@ -95,14 +95,14 @@ namespace Sauce{
         }
         void Terminal::FillColumn(char chr,size_t Column){
             DisableMouse=true;
-            for(size_t Y=0;Y<MaxY(DFBL->Font->psf1_header->char_height);Y+=DFBL->Font->psf1_header->char_height){
+            for(size_t Y=0;Y<MaxY(DFBL->Font->psf1_header->char_height-1);Y+=DFBL->Font->psf1_header->char_height){
                 PutCharAt(chr,Column,Y);
             }
             DisableMouse=false;
         }
         void Terminal::Fill(char chr){
             DisableMouse=true;
-            for(size_t X=0;X<MaxX((uint64_t)DFBL->Font->psf1_header->char_width);X+=DFBL->Font->psf1_header->char_width){
+            for(size_t X=0;X<MaxX(DFBL->Font->psf1_header->char_width-1);X+=DFBL->Font->psf1_header->char_width){
                FillColumn(chr,X);
             }
             DisableMouse=false;
@@ -137,9 +137,9 @@ namespace Sauce{
             if(NewMousePosition.X > MaxX(CharX()))NewMousePosition.X=MaxX(CharX());
             if(NewMousePosition.Y > MaxY(CharY()))NewMousePosition.Y=MaxY(CharY());
             
-            RemoveMouse(OldMousePosition.X,OldMousePosition.Y);
+            if(OldMousePosition.Z)RemoveMouse(OldMousePosition.X,OldMousePosition.Y);
             PlaceMouse(NewMousePosition.X,NewMousePosition.Y);
-            OldMousePosition.Z=NewMousePosition.Z;
+            OldMousePosition.Z=1;
             OldMousePosition.Y=NewMousePosition.Y;
             OldMousePosition.X=NewMousePosition.X;
         }

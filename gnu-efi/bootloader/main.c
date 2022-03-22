@@ -90,6 +90,13 @@ int memcmp(const void* aptr,const void* bptr,size_t n){
 	return 0;
 }
 
+UINTN strncmp(CHAR8* a,CHAR8* b,UINTN length){
+	for(UINTN I=0;I<length;I++){
+		if(*(a+I) != *(b+I))return 0;
+	}
+	return 1;
+}
+
 EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 	_ImageHandle=ImageHandle;
 	_SystemTable=SystemTable;
@@ -186,7 +193,20 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 						_SystemTable->BootServices->GetMemoryMap(&MapSize,Map,&MapKey,&DescriptorSize,&DescriptorVersion);
 
 					}
-					
+					EFI_CONFIGURATION_TABLE* configTable = _SystemTable->ConfigurationTable;
+					void* rsdp =NULL;
+					EFI_GUID Acpi2TableGuid = ACPI_20_TABLE_GUID;
+
+					for(UINTN index = 0;index < _SystemTable->NumberOfTableEntries;index++){
+						if(CompareGuid(&configTable[index].VendorGuid,&Acpi2TableGuid)){
+							if(strncmp((CHAR8*)"RSD PTR ",(CHAR8*)configTable->VendorTable,8)){
+								rsdp = (void*)configTable->VendorTable;
+								break;
+							}
+						}
+						configTable++;
+					}
+					nDFBL.rsdp = rsdp;
 					nDFBL.mMap=Map;
 					nDFBL.mMapSize = MapSize;
 					nDFBL.mDescriptorSize=DescriptorSize;
