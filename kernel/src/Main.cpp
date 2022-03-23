@@ -17,10 +17,10 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
     Sauce::IO::GlobalTerminal->PutChar(*((uint8_t*)DFBL->rsdp+6));
     Sauce::IO::GlobalTerminal->PutChar(*((uint8_t*)DFBL->rsdp+7));
 
-    while(true){
+    do{
         Sauce::IO::MouseData NM = Sauce::IO::ProcessMousePacket();
         if(NM.New)Sauce::_Kernel::Notify_Of_Mouse(NM);
-    }
+    }while(true);
 
     Kernel.Stop();
     return DFBL->TestNumber;

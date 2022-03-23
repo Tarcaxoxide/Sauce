@@ -7,8 +7,14 @@
 #include<iso646.h>
 #include<limits.h>
 #include<stdarg.h>
-#include<Sauce/Memory/efiMemory.h>
 
+#ifndef Compiling_PureC
+    #include<Sauce/Memory/efiMemory.hpp>
+    #include<Sauce/IO/ACPI/ACPI.hpp>
+#else
+    #include<Sauce/Memory/efiMemory.h>
+    #include<Sauce/IO/ACPI/ACPI.h>
+#endif
 typedef struct {
     uint8_t Blue;
     uint8_t Green;
@@ -40,12 +46,24 @@ typedef struct{
     void* glyphBuffer;
 }PSF1_FONT;
 
-typedef struct{
-    uint64_t TestNumber;
-    FrameBufferStructure* FrameBuffer;
-    PSF1_FONT* Font;
-    EFI_MEMORY_DESCRIPTOR* mMap;
-    uint64_t mMapSize;
-    uint64_t mDescriptorSize;
-    void* rsdp;
-}DataStructure;
+#ifndef Compiling_PureC
+    typedef struct{
+        uint64_t TestNumber;
+        FrameBufferStructure* FrameBuffer;
+        PSF1_FONT* Font;
+        Sauce::Memory::EFI_MEMORY_DESCRIPTOR* mMap;
+        uint64_t mMapSize;
+        uint64_t mDescriptorSize;
+        Sauce::IO::ACPI::RSDP2* rsdp;
+    }DataStructure;
+#else
+    typedef struct{
+        uint64_t TestNumber;
+        FrameBufferStructure* FrameBuffer;
+        PSF1_FONT* Font;
+        EFI_MEMORY_DESCRIPTOR* mMap;
+        uint64_t mMapSize;
+        uint64_t mDescriptorSize;
+        RSDP2* rsdp;
+    }DataStructure;
+#endif

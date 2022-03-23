@@ -37,7 +37,12 @@ namespace Sauce{
             for(unsigned long Y=_Y;Y < _Y+DFBL->Font->psf1_header->char_height;Y++){
                 for(unsigned long X=_X;X<_X+DFBL->Font->psf1_header->char_width;X++){
                     DoubleBuffer[(BufferX + DFBL->FrameBuffer->PixelsPerScanLine * BufferY)] = DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))];
-                    DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))] = Fcolor;
+                    GOP_PixelStructure nPixel;
+                    nPixel.Red = (0xFF)-DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))].Red;
+                    nPixel.Green = (0xFF)-DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))].Green;
+                    nPixel.Blue = (0xFF)-DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))].Blue;
+                    nPixel.Alpha = DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))].Alpha;
+                    DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))] = nPixel;
                     BufferX++;
                 }
                 BufferY++;
@@ -87,22 +92,21 @@ namespace Sauce{
         }
         void Terminal::FillRow(char chr,size_t Row){
             DisableMouse=true;
-            //for(size_t X=0;X<DFBL->FrameBuffer->PixelsPerScanLine-DFBL->Font->psf1_header->char_width;X+=DFBL->Font->psf1_header->char_width){
-            for(size_t X=0;X<MaxX((uint64_t)DFBL->Font->psf1_header->char_width);X+=DFBL->Font->psf1_header->char_width){
+            for(size_t X=0;X<MaxX(DFBL->Font->psf1_header->char_width/2);X+=DFBL->Font->psf1_header->char_width){
                PutCharAt(chr,X,Row);
             }
             DisableMouse=false;
         }
         void Terminal::FillColumn(char chr,size_t Column){
             DisableMouse=true;
-            for(size_t Y=0;Y<MaxY(DFBL->Font->psf1_header->char_height-1);Y+=DFBL->Font->psf1_header->char_height){
+            for(size_t Y=0;Y<MaxY(DFBL->Font->psf1_header->char_height/2);Y+=DFBL->Font->psf1_header->char_height){
                 PutCharAt(chr,Column,Y);
             }
             DisableMouse=false;
         }
         void Terminal::Fill(char chr){
             DisableMouse=true;
-            for(size_t X=0;X<MaxX(DFBL->Font->psf1_header->char_width-1);X+=DFBL->Font->psf1_header->char_width){
+            for(size_t X=0;X<MaxX(DFBL->Font->psf1_header->char_width/2);X+=DFBL->Font->psf1_header->char_width){
                FillColumn(chr,X);
             }
             DisableMouse=false;

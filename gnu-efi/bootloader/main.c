@@ -1,3 +1,4 @@
+#define Compiling_PureC
 #include<efi.h>
 #include<efilib.h>
 #include<elf.h>
@@ -28,9 +29,7 @@ EFI_FILE* LoadFile(EFI_FILE* Directory,CHAR16* Path){
 	Print(L"[Success]\n\r");
 	return LoadedFile;
 }
-
 FrameBufferStructure FrameBuffer;
-
 FrameBufferStructure* InitializeGOP(){
 	EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
 	EFI_GRAPHICS_OUTPUT_PROTOCOL* gop;
@@ -52,7 +51,6 @@ FrameBufferStructure* InitializeGOP(){
 	FrameBuffer.BytesPerPixel=4; //TODO:: Figure this out programmatically;
 	return &FrameBuffer;
 }
-
 PSF1_FONT* Load_PSF1_FONT(EFI_FILE* Directory,CHAR16* Path){
 	EFI_FILE* font = LoadFile(Directory,Path);
 	if(font == NULL)return NULL;
@@ -93,6 +91,7 @@ int memcmp(const void* aptr,const void* bptr,size_t n){
 UINTN strncmp(CHAR8* a,CHAR8* b,UINTN length){
 	for(UINTN I=0;I<length;I++){
 		if(*(a+I) != *(b+I))return 0;
+		//if(*a != *b)return 0;
 	}
 	return 1;
 }
@@ -161,11 +160,9 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 				Print(L" Done\n\r");
 				DataStructure nDFBL;
 				int64_t (*KernelStart)(DataStructure* DFBL) = ((__attribute__((sysv_abi)) int64_t (*)(DataStructure* DFBL) ) Kernel_header.e_entry);
-
 				nDFBL.TestNumber=0x0123456789ABCDEF;
 				nDFBL.FrameBuffer=InitializeGOP();
 				nDFBL.Font=Load_PSF1_FONT(NULL,L"zap-light16.psf");
-				
 				if(nDFBL.Font == NULL){
 					Print(L"Font is not valid or found!\n\r");
 				}else{
@@ -196,12 +193,11 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 					EFI_CONFIGURATION_TABLE* configTable = _SystemTable->ConfigurationTable;
 					void* rsdp =NULL;
 					EFI_GUID Acpi2TableGuid = ACPI_20_TABLE_GUID;
-
 					for(UINTN index = 0;index < _SystemTable->NumberOfTableEntries;index++){
 						if(CompareGuid(&configTable[index].VendorGuid,&Acpi2TableGuid)){
 							if(strncmp((CHAR8*)"RSD PTR ",(CHAR8*)configTable->VendorTable,8)){
 								rsdp = (void*)configTable->VendorTable;
-								break;
+								//break;
 							}
 						}
 						configTable++;

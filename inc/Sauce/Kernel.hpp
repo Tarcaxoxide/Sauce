@@ -20,6 +20,7 @@
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Mouse.hpp>
+#include<Sauce/IO/ACPI/ACPI.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;
@@ -45,6 +46,7 @@ namespace Sauce{
             void Prep_GDT();
             void Prep_Interrupts();
             void Prep_IO();
+            void Prep_ACPI();
             void Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector);
         public: //public variables
             Sauce::IO::Terminal Term;

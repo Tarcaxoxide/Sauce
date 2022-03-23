@@ -22,6 +22,7 @@ namespace Sauce{
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Term.Clear();
         asm volatile("sti");
+        Prep_ACPI();
     }
     void _Kernel::Prep_GlobalAllocator(){
         Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
@@ -72,6 +73,19 @@ namespace Sauce{
     void _Kernel::Prep_IO(){
         Sauce::Interrupts::RemapPic();
         Sauce::IO::PS2MouseInitialize();
+    }
+    void _Kernel::Prep_ACPI(){
+        Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
+
+        int entries = (xsdt->Length - sizeof(Sauce::IO::ACPI::SDTHeader)) / 8;
+        for(int t=0;t<entries;t++){
+            Sauce::IO::ACPI::SDTHeader* nSDTHeader = (Sauce::IO::ACPI::SDTHeader*)*(uint64_t*)((uint64_t)xsdt + sizeof(Sauce::IO::ACPI::SDTHeader) + (t * 8));
+            for(int i=0;i<4;i++){
+                Sauce::IO::GlobalTerminal->PutChar(nSDTHeader->Signature[i]);
+            }
+            Sauce::IO::GlobalTerminal->PutChar(' ');
+        }
+        Sauce::IO::GlobalTerminal->PutString("\n\r");
     }
     void _Kernel::Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey){
         if(!Xkey.Press)return;//ignoring key releases for now.
