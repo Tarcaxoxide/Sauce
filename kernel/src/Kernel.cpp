@@ -122,12 +122,13 @@ namespace Sauce{
     }
     void _Kernel::Notify_Of_Mouse(Sauce::IO::MouseData Xmouse){
         Sauce::IO::GlobalTerminal->Mouse(Xmouse.Position);
-        if(Xmouse.LeftButton){
-            Sauce::IO::GlobalTerminal->PutString("!Click!");
+        if(Xmouse.RightButton){
+            Sauce::IO::GlobalTerminal->PutPoint(Xmouse.Position);
         }
     }
-    void _Kernel::Stop(){
+    void _Kernel::Stop(bool ClearInterrupts){
         while(true){
+            if(ClearInterrupts)asm volatile("cli");
             asm volatile("hlt");
         }
     }

@@ -93,7 +93,6 @@ namespace Sauce{
             }
             MousePacketReady=false;
 
-            //Sauce::IO::GlobalTerminal->Mouse(MousePosition);
             nMouseData.Position.X=MousePosition.X;
             nMouseData.Position.Y=MousePosition.Y;
             nMouseData.Position.Z=MousePosition.Z;

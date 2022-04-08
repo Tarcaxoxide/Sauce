@@ -9,8 +9,8 @@ namespace Sauce{
                     haxString[a] = 0;
                 }
             }
-            char* From_uint8(uint8_t value){
-                Clear_haxString();
+            char* From_uint8(uint8_t value,bool ClearBefore){
+                if(ClearBefore)Clear_haxString();
                 uint8_t* valPtr = &value;
                 uint8_t* ptr;
                 uint8_t temp;
@@ -25,8 +25,8 @@ namespace Sauce{
                 }
                 return (char*)haxString;
             }
-            char* From_uint16(uint16_t value){
-                Clear_haxString();
+            char* From_uint16(uint16_t value,bool ClearBefore){
+                if(ClearBefore)Clear_haxString();
                 uint16_t* valPtr = &value;
                 uint8_t* ptr;
                 uint8_t temp;
@@ -41,8 +41,8 @@ namespace Sauce{
                 }
                 return (char*)haxString;
             }
-            char* From_uint32(uint32_t value){
-                Clear_haxString();
+            char* From_uint32(uint32_t value,bool ClearBefore){
+                if(ClearBefore)Clear_haxString();
                 uint32_t* valPtr = &value;
                 uint8_t* ptr;
                 uint8_t temp;
@@ -57,8 +57,8 @@ namespace Sauce{
                 }
                 return (char*)haxString;
             }
-            char* From_uint64(uint64_t value){
-                Clear_haxString();
+            char* From_uint64(uint64_t value,bool ClearBefore){
+                if(ClearBefore)Clear_haxString();
                 uint64_t* valPtr = &value;
                 uint8_t* ptr;
                 uint8_t temp;
@@ -73,7 +73,7 @@ namespace Sauce{
                 }
                 return (char*)haxString;
             }
-			char* From_Integer(int64_t value){
+			char* From_Integer(int64_t value,bool ClearBefore){
                 Clear_haxString();
                 uint8_t isNegative = 0;
 

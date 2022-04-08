@@ -21,6 +21,7 @@
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/IO/ACPI/ACPI.hpp>
+#include<Sauce/Math.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;
@@ -52,7 +53,7 @@ namespace Sauce{
             Sauce::IO::Terminal Term;
         public: //public functions
             _Kernel(DataStructure* DFBL);
-            void Stop();
+            void Stop(bool ClearInterrupts=false);
             static void Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey);
             static void Notify_Of_Mouse(Sauce::IO::MouseData Xmouse);
     };

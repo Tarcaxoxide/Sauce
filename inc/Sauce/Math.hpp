@@ -21,7 +21,6 @@ namespace Sauce{
         uint64_t Y;
         uint64_t Z;
     };
-    
     struct Point8_t{
         int8_t X;
         int8_t Y;

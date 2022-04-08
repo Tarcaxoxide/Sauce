@@ -13,6 +13,7 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
     Sauce::IO::GlobalTerminal->PutChar(*((uint8_t*)DFBL->rsdp+2));
     Sauce::IO::GlobalTerminal->PutChar(*((uint8_t*)DFBL->rsdp+3));
     Sauce::IO::GlobalTerminal->PutChar(*((uint8_t*)DFBL->rsdp+4));
+    //inc/Sauce/IO/
     Sauce::IO::GlobalTerminal->PutChar(*((uint8_t*)DFBL->rsdp+5));
     Sauce::IO::GlobalTerminal->PutChar(*((uint8_t*)DFBL->rsdp+6));
     Sauce::IO::GlobalTerminal->PutChar(*((uint8_t*)DFBL->rsdp+7));
@@ -22,7 +23,7 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
         if(NM.New)Sauce::_Kernel::Notify_Of_Mouse(NM);
     }while(true);
 
-    Kernel.Stop();
+    Kernel.Stop(true);
     return DFBL->TestNumber;
     //test
 }

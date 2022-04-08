@@ -3,6 +3,7 @@
 #include<Sauce/Common.h>
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/Math.hpp>
+#include<Sauce/Convert/To_String.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -39,6 +40,14 @@ namespace Sauce{
             uint8_t CharY();
             void Mouse(Point64_t NewMousePosition);
             void SetCursor(size_t X,size_t Y);
+            void PutPoint(Sauce::uPoint8_t aPoint);
+            void PutPoint(Sauce::uPoint16_t aPoint);
+            void PutPoint(Sauce::uPoint32_t aPoint);
+            void PutPoint(Sauce::uPoint64_t aPoint);
+            void PutPoint(Sauce::Point8_t aPoint);
+            void PutPoint(Sauce::Point16_t aPoint);
+            void PutPoint(Sauce::Point32_t aPoint);
+            void PutPoint(Sauce::Point64_t aPoint);
         };
         extern Terminal* GlobalTerminal;
         static const GOP_PixelStructure GOP_RED={0x00,0x00,0xff,0xff};
