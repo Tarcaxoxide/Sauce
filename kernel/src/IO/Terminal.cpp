@@ -136,87 +136,87 @@ namespace Sauce{
         }
         void Terminal::Mouse(Point64_t NewMousePosition){
             if(DisableMouse)return;
-            if(NewMousePosition.X < 0)NewMousePosition.X=0;
-            if(NewMousePosition.Y < 0)NewMousePosition.Y=0;
-            if(NewMousePosition.X > MaxX(CharX()))NewMousePosition.X=MaxX(CharX());
-            if(NewMousePosition.Y > MaxY(CharY()))NewMousePosition.Y=MaxY(CharY());
+            if(NewMousePosition.X < 0)NewMousePosition.X=0;//< Don't draw the mouse too far to the right.
+            if(NewMousePosition.Y < 0)NewMousePosition.Y=0;//< Don't draw the mouse too high up.
+            if(NewMousePosition.X > MaxX(CharX()))NewMousePosition.X=MaxX(CharX());//< Don't draw the mouse too far to the left.
+            if(NewMousePosition.Y > MaxY(CharY()))NewMousePosition.Y=MaxY(CharY());//< Don't draw the mouse too far down.
             
-            if(OldMousePosition.Z)RemoveMouse(OldMousePosition.X,OldMousePosition.Y);
+            if(OldMousePosition.Z)RemoveMouse(OldMousePosition.X,OldMousePosition.Y);//< if this isn't the first time then remove the old mouse first.
             PlaceMouse(NewMousePosition.X,NewMousePosition.Y);
-            OldMousePosition.Z=1;
+            OldMousePosition.Z=1;//<using Z to determine of this is the first time we have been here.
             OldMousePosition.Y=NewMousePosition.Y;
             OldMousePosition.X=NewMousePosition.X;
         }
         void Terminal::PutPoint(Sauce::uPoint8_t aPoint){
             PutString("[X:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.X));
+            PutString(Sauce::Convert::ToString(aPoint.X));
             PutString(",Y:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Y));
             PutString(",Z:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Z));
             PutChar(']');
         }
         void Terminal::PutPoint(Sauce::uPoint16_t aPoint){
             PutString("[X:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.X));
+            PutString(Sauce::Convert::ToString(aPoint.X));
             PutString(",Y:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Y));
             PutString(",Z:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Z));
             PutChar(']');
         }
         void Terminal::PutPoint(Sauce::uPoint32_t aPoint){
             PutString("[X:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.X));
+            PutString(Sauce::Convert::ToString(aPoint.X));
             PutString(",Y:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Y));
             PutString(",Z:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Z));
             PutChar(']');
         }
         void Terminal::PutPoint(Sauce::uPoint64_t aPoint){
             PutString("[X:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.X));
+            PutString(Sauce::Convert::ToString(aPoint.X));
             PutString(",Y:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Y));
             PutString(",Z:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Z));
             PutChar(']');
         }
         void Terminal::PutPoint(Sauce::Point8_t aPoint){
             PutString("[X:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.X));
+            PutString(Sauce::Convert::ToString(aPoint.X));
             PutString(",Y:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Y));
             PutString(",Z:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Z));
             PutChar(']');
         }
         void Terminal::PutPoint(Sauce::Point16_t aPoint){
             PutString("[X:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.X));
+            PutString(Sauce::Convert::ToString(aPoint.X));
             PutString(",Y:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Y));
             PutString(",Z:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Z));
             PutChar(']');
         }
         void Terminal::PutPoint(Sauce::Point32_t aPoint){
             PutString("[X:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.X));
+            PutString(Sauce::Convert::ToString(aPoint.X));
             PutString(",Y:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Y));
             PutString(",Z:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Z));
             PutChar(']');
         }
         void Terminal::PutPoint(Sauce::Point64_t aPoint){
             PutString("[X:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.X));
+            PutString(Sauce::Convert::ToString(aPoint.X));
             PutString(",Y:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Y));
             PutString(",Z:");
-            PutString(Sauce::Convert::To_String::From_Integer(aPoint.Y));
+            PutString(Sauce::Convert::ToString(aPoint.Z));
             PutChar(']');
         }
         Terminal* GlobalTerminal;

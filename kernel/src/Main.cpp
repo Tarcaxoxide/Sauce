@@ -5,7 +5,7 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader
     Sauce::_Kernel Kernel(DFBL);
 
     Sauce::IO::GlobalTerminal->PutString("\n\r");
-    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::To_String::From_uint64((uint64_t)DFBL->rsdp));
+    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)DFBL->rsdp));
     Sauce::IO::GlobalTerminal->PutString("\n\r");
     
     Sauce::IO::GlobalTerminal->PutChar(*(uint8_t*)DFBL->rsdp);

@@ -6,14 +6,23 @@
 
 namespace Sauce{
 	namespace Convert{
-		namespace To_String{
-			char* From_uint8(uint8_t value,bool ClearBefore=true);
-			char* From_uint16(uint16_t value,bool ClearBefore=true);
-			char* From_uint32(uint32_t value,bool ClearBefore=true);
-			char* From_uint64(uint64_t value,bool ClearBefore=true);
-			char* From_Integer(int64_t value,bool ClearBefore=true);
-			char* From_Decimal(float value,uint16_t decimalPlaces);
-			char* From_Decimal(double value,uint16_t decimalPlaces);
-		};
+		//Hex 0x0123456789ABC
+		char* HexToString(uint8_t value,bool ClearBefore=true);
+		char* HexToString(uint16_t value,bool ClearBefore=true);
+		char* HexToString(uint32_t value,bool ClearBefore=true);
+		char* HexToString(uint64_t value,bool ClearBefore=true);
+		//Numeric 1234567890
+		char* ToString(int8_t value,bool ClearBefore=true);
+		char* ToString(int16_t value,bool ClearBefore=true);
+		char* ToString(int32_t value,bool ClearBefore=true);
+		char* ToString(int64_t value,bool ClearBefore=true);
+		char* ToString(uint8_t value,bool ClearBefore=true);
+		char* ToString(uint16_t value,bool ClearBefore=true);
+		char* ToString(uint32_t value,bool ClearBefore=true);
+		char* ToString(uint64_t value,bool ClearBefore=true);
+
+		//Decimal 0.0
+		char* ToString(float value,uint16_t decimalPlaces);
+		char* ToString(double value,uint16_t decimalPlaces);
     };
 };

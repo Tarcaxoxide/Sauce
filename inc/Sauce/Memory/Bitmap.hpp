@@ -5,8 +5,7 @@
 
 namespace Sauce{
     namespace Memory{
-        class Bitmap{
-            public:
+        struct Bitmap_t{
             size_t Size;
             uint8_t* Buffer;
             bool operator[](uint64_t index);

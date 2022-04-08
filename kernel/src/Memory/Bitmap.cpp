@@ -2,7 +2,7 @@
 
 namespace Sauce{
     namespace Memory{
-        bool Bitmap::Get(uint64_t index){
+        bool Bitmap_t::Get(uint64_t index){
             if(index > Size*8)return false;
             uint64_t byteIndex = index/8;
             uint8_t bitIndex = index%8;
@@ -10,10 +10,10 @@ namespace Sauce{
             if((Buffer[byteIndex] & bitIndexer) > 0)return true;
             return false;
         }
-        bool Bitmap::operator[](uint64_t index){
+        bool Bitmap_t::operator[](uint64_t index){
             return Get(index);
         }
-        bool Bitmap::Set(uint64_t index,bool value){
+        bool Bitmap_t::Set(uint64_t index,bool value){
             if(index > Size*8)return false;
             uint64_t byteIndex = index/8;
             uint8_t bitIndex = index%8;
@@ -22,7 +22,7 @@ namespace Sauce{
             if(value)Buffer[byteIndex] |= bitIndexer;
             return true;
         }
-        void Bitmap::Flip(uint64_t index){
+        void Bitmap_t::Flip(uint64_t index){
             Set(index,!Get(index));
         }
     };

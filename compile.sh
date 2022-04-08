@@ -15,7 +15,4 @@ fi
 pushd kernel
     make clean
     make
-    if [ "!$1" == "!run" ] ;then
-        make run
-    fi
 popd

@@ -48,7 +48,7 @@ namespace Sauce{
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
     void _Kernel::Prep_GDT(){
-        gdtDescriptor.Size= sizeof(Sauce::GDT::GDT)-1;
+        gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_t)-1;
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
         LoadGDT(&gdtDescriptor);
     }
@@ -115,7 +115,7 @@ namespace Sauce{
 
             default:{
                 Sauce::IO::GlobalTerminal->PutChar('[');
-                Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::To_String::From_uint8(Xkey.Key));
+                Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString(Xkey.Key));
                 Sauce::IO::GlobalTerminal->PutChar(']');
             }break;
         }

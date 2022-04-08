@@ -58,6 +58,9 @@ namespace Sauce{
             MouseData nMouseData {false,false,false,false,{0,0,0}};
             if(!MousePacketReady)return nMouseData;
             nMouseData.New=true;
+            nMouseData.Position.X=0;
+            nMouseData.Position.Y=0;
+            nMouseData.Position.Z=0;
 
             bool xNegative,yNegative,xOverflow,yOverflow;
             
@@ -91,6 +94,7 @@ namespace Sauce{
                     MousePosition.Y+=255;
                 }
             }
+            MousePosition.Z=0;
             MousePacketReady=false;
 
             nMouseData.Position.X=MousePosition.X;
