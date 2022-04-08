@@ -38,7 +38,7 @@ namespace Sauce{
             uint64_t MaxX(uint64_t Margin=0);
             uint8_t CharX();
             uint8_t CharY();
-            void Mouse(Point64_t NewMousePosition);
+            void Mouse(Point64_t* NewMousePosition);
             void SetCursor(size_t X,size_t Y);
             void PutPoint(Sauce::uPoint8_t aPoint);
             void PutPoint(Sauce::uPoint16_t aPoint);

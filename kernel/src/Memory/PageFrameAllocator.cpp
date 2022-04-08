@@ -108,6 +108,9 @@ namespace Sauce{
         uint64_t PageFrameAllocator::GetReservedRAM(){
             return reservedMemory;
         }
+        uint64_t PageFrameAllocator::GetTotalRAM(){
+            return GetFreeRAM()+GetUsedRAM()+GetReservedRAM();
+        }
         void* PageFrameAllocator::RequestPage(){
             for(;pageBitmapIndex<PageBitmap.Size*8;pageBitmapIndex++){
                 if(PageBitmap[pageBitmapIndex] == true)continue;

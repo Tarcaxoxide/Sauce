@@ -20,6 +20,7 @@ namespace Sauce{
             uint64_t GetFreeRAM();
             uint64_t GetUsedRAM();
             uint64_t GetReservedRAM();
+            uint64_t GetTotalRAM();
             private:
             void InitializeBitmap(size_t bitmapSize,void* bufferAddress);
             void ReservePage(void* address);

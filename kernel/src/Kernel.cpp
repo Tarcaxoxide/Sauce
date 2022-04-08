@@ -23,6 +23,7 @@ namespace Sauce{
         Term.Clear();
         asm volatile("sti");
         Prep_ACPI();
+        
     }
     void _Kernel::Prep_GlobalAllocator(){
         Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
@@ -120,10 +121,10 @@ namespace Sauce{
             }break;
         }
     }
-    void _Kernel::Notify_Of_Mouse(Sauce::IO::MouseData Xmouse){
-        Sauce::IO::GlobalTerminal->Mouse(Xmouse.Position);
-        if(Xmouse.RightButton){
-            Sauce::IO::GlobalTerminal->PutPoint(Xmouse.Position);
+    void _Kernel::Notify_Of_Mouse(Sauce::IO::MouseData* Xmouse){
+        Sauce::IO::GlobalTerminal->Mouse(Xmouse->Position);
+        if(Xmouse->RightButton){
+            Sauce::IO::GlobalTerminal->PutPoint(*Xmouse->Position);
         }
     }
     void _Kernel::Stop(bool ClearInterrupts){

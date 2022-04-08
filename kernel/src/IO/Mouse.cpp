@@ -54,13 +54,12 @@ namespace Sauce{
                 }break;
             }
         }
-        MouseData ProcessMousePacket(){
-            MouseData nMouseData {false,false,false,false,{0,0,0}};
-            if(!MousePacketReady)return nMouseData;
+
+        MouseData nMouseData;
+        MouseData* ProcessMousePacket(){
+            nMouseData = (MouseData){false,false,false,false,&MousePosition};
+            if(!MousePacketReady)return &nMouseData;
             nMouseData.New=true;
-            nMouseData.Position.X=0;
-            nMouseData.Position.Y=0;
-            nMouseData.Position.Z=0;
 
             bool xNegative,yNegative,xOverflow,yOverflow;
             
@@ -97,9 +96,7 @@ namespace Sauce{
             MousePosition.Z=0;
             MousePacketReady=false;
 
-            nMouseData.Position.X=MousePosition.X;
-            nMouseData.Position.Y=MousePosition.Y;
-            nMouseData.Position.Z=MousePosition.Z;
+            
             if(MousePacket[0] & PS2LeftButton){
                 nMouseData.LeftButton=true;
             }
@@ -109,7 +106,7 @@ namespace Sauce{
             if(MousePacket[0] & PS2RightButton){
                 nMouseData.RightButton=true;
             }
-            return nMouseData;
+            return &nMouseData;
         }
         void PS2MouseInitialize(){
             outb(0x64,0xA8); // enable auxiliary device - mouse

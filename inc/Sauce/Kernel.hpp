@@ -55,6 +55,6 @@ namespace Sauce{
             _Kernel(DataStructure* DFBL);
             void Stop(bool ClearInterrupts=false);
             static void Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey);
-            static void Notify_Of_Mouse(Sauce::IO::MouseData Xmouse);
+            static void Notify_Of_Mouse(Sauce::IO::MouseData* Xmouse);
     };
 };
