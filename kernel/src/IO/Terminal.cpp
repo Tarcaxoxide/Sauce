@@ -220,5 +220,13 @@ namespace Sauce{
             PutChar(']');
         }
         Terminal* GlobalTerminal;
+        const GOP_PixelStructure GOP_RED={0x00,0x00,0xff,0xff};
+        const GOP_PixelStructure GOP_GREEN={0x00,0xff,0x00,0xff};
+        const GOP_PixelStructure GOP_BLUE={0xff,0x00,0x00,0xff};
+        const GOP_PixelStructure GOP_YELLOW={0x00,0xff,0xff,0xff};
+        const GOP_PixelStructure GOP_PURPLE={0xff,0x00,0xff,0xff};
+        const GOP_PixelStructure GOP_CYAN={0xff,0xff,0x00,0xff};
+        const GOP_PixelStructure GOP_WHITE={0xff,0xff,0xff,0xff};
+        const GOP_PixelStructure GOP_BLACK={0x00,0x00,0x00,0xff};
     };
 };
