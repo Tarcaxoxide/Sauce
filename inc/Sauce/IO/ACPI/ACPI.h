@@ -3,6 +3,8 @@
 #include<stddef.h>
 #include<stdint.h>
 
+// Pure C doesn't have namespaces ;(
+
 //namespace Sauce{
 //    namespace IO{
 //        namespace ACPI{

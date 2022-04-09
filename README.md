@@ -11,8 +11,8 @@
         - qemu-system-x86_64
     - dosfstools
         - mkfs.fat
-
-
+    - cdrtools
+        - mkisofs
 
 # notes
 - the namespace is a hint to where you can find a header file. examples...

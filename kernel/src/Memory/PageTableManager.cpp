@@ -2,7 +2,8 @@
 
 namespace Sauce{
     namespace Memory{
-        void PageTableManager::Initialize(PageTable* PML4Address){
+        PageTableManager GlobalPageTableManager = NULL;
+        PageTableManager::PageTableManager(PageTable* PML4Address){
             if(this->PML4Address != NULL)return;
             this->PML4Address=PML4Address;
         }

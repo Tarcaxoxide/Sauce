@@ -21,6 +21,7 @@
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/IO/ACPI/ACPI.hpp>
+#include<Sauce/IO/PCI.hpp>
 #include<Sauce/Math.hpp>
 
 extern uint64_t _KernelStartRef;
@@ -31,7 +32,6 @@ namespace Sauce{
     class _Kernel{
         private: //private variables
             DataStructure* DFBL;
-            Sauce::Memory::PageTableManager pageTableManager;
             Sauce::Memory::PageTable* PML4;
             uint64_t mMapEntries;
             uint64_t kernelSize;

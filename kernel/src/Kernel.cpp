@@ -34,17 +34,17 @@ namespace Sauce{
         Sauce::Memory::GlobalAllocator.LockPages(&_KernelStartRef,kernelPages);
         PML4 = (Sauce::Memory::PageTable*)Sauce::Memory::GlobalAllocator.RequestPage();
         Sauce::Memory::memset(PML4,0,0x1000);
-        pageTableManager.Initialize(PML4);
+        Sauce::Memory::GlobalPageTableManager = Sauce::Memory::PageTableManager(PML4);
     }
     void _Kernel::Prep_VirtualAddresses(){
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
-            pageTableManager.MapMemory((void*)t,(void*)t);
+            Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
         fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
         fbSize = (uint64_t)DFBL->FrameBuffer->BufferSize + 0x1000;
         Sauce::Memory::GlobalAllocator.LockPages((void*)fbBase,fbSize/0x1000 +1);
         for(uint64_t t=fbBase;t<fbBase+fbSize;t+=0x1000){
-            pageTableManager.MapMemory((void*)t,(void*)t);
+            Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
@@ -77,16 +77,12 @@ namespace Sauce{
     }
     void _Kernel::Prep_ACPI(){
         Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
-
-        int entries = (xsdt->Length - sizeof(Sauce::IO::ACPI::SDTHeader)) / 8;
-        for(int t=0;t<entries;t++){
-            Sauce::IO::ACPI::SDTHeader* nSDTHeader = (Sauce::IO::ACPI::SDTHeader*)*(uint64_t*)((uint64_t)xsdt + sizeof(Sauce::IO::ACPI::SDTHeader) + (t * 8));
-            for(int i=0;i<4;i++){
-                Sauce::IO::GlobalTerminal->PutChar(nSDTHeader->Signature[i]);
-            }
-            Sauce::IO::GlobalTerminal->PutChar(' ');
+        Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
+        
+        for(int i=0;i<4;i++){
+            Sauce::IO::GlobalTerminal->PutChar(mcfg->Header.Signature[i]);
         }
-        Sauce::IO::GlobalTerminal->PutString("\n\r");
+        Sauce::IO::EnumeratePCI(mcfg);
     }
     void _Kernel::Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey){
         if(!Xkey.Press)return;//ignoring key releases for now.

@@ -8,14 +8,16 @@
 #include<Sauce/Memory/Paging.hpp>
 #include<Sauce/Memory/PageMapIndexer.hpp>
 #include<Sauce/Memory/PageFrameAllocator.hpp>
+#include<Sauce/Convert/To_String.hpp>
 
 namespace Sauce{
     namespace Memory{
         class PageTableManager{
             public:
-            void Initialize(PageTable* PML4Address);
+            PageTableManager(PageTable* PML4Address);
             PageTable* PML4Address=NULL;
             void MapMemory(void* virtualMemory,void* physicalMemory);
         };
+        extern PageTableManager GlobalPageTableManager;
     };
 };
