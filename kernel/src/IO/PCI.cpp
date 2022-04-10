@@ -13,6 +13,8 @@ namespace Sauce{
             Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString(pciDeviceHeader->VendorID));
             Sauce::IO::GlobalTerminal->PutString(" ");
             Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString(pciDeviceHeader->DeviceID));
+            Sauce::IO::GlobalTerminal->PutString(" ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::DeviceClasses[pciDeviceHeader->Class]);
             Sauce::IO::GlobalTerminal->PutString("\n\r");
         }
         void EnumerateDevice(uint64_t busAddress,uint64_t device){
@@ -39,12 +41,34 @@ namespace Sauce{
         }
         void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg){
             int entries = ((mcfg->Header.Length) - sizeof(Sauce::IO::ACPI::MCFGHeader)) / sizeof(Sauce::IO::ACPI::DeviceConfig);
-            for(int i=0;i<entries;i++){
-                Sauce::IO::ACPI::DeviceConfig *nDeviceConfig = (Sauce::IO::ACPI::DeviceConfig*)((uint64_t)mcfg + sizeof(Sauce::IO::ACPI::MCFGHeader)+sizeof(Sauce::IO::ACPI::DeviceConfig)*i);
+            for(int t=0;t<entries;t++){
+                Sauce::IO::ACPI::DeviceConfig *nDeviceConfig = (Sauce::IO::ACPI::DeviceConfig*)((uint64_t)mcfg + sizeof(Sauce::IO::ACPI::MCFGHeader)+sizeof(Sauce::IO::ACPI::DeviceConfig)*t);
                 for(uint64_t Bus = nDeviceConfig->StartBus;Bus<nDeviceConfig->EndBus;Bus++){
                     EnumerateBus(nDeviceConfig->BaseAddress,Bus);
                 }
             }
         }
+        const char* DeviceClasses[]{
+            "Unclassified",
+            "Mass Storage Controller",
+            "Network Controller",
+            "Display Controller",
+            "Multimedia Controller",
+            "Memory Controller",
+            "Bridge Device",
+            "Simple Communication Controller",
+            "Base System Peripheral",
+            "Input Device Controller",
+            "Docking Station",
+            "Processor",
+            "Serial Bus Controller",
+            "Wireless Controller",
+            "Intelligent Controller",
+            "Satellite Communication Controller",
+            "Encryption Controller",
+            "Signal Processing Controller",
+            "Processing Accelerator",
+            "Non Essential Instrumentation"
+        };
     };
 };

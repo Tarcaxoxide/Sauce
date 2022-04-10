@@ -79,9 +79,7 @@ namespace Sauce{
         Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
         Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
         
-        for(int i=0;i<4;i++){
-            Sauce::IO::GlobalTerminal->PutChar(mcfg->Header.Signature[i]);
-        }
+        
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void _Kernel::Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey){

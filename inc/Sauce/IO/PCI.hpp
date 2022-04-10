@@ -27,5 +27,6 @@ namespace Sauce{
         void EnumerateDevice(uint64_t busAddress,uint64_t device);
         void EnumerateBus(uint64_t baseAddress,uint64_t bus);
         void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg);
+        extern const char* DeviceClasses[];
     };
 };
