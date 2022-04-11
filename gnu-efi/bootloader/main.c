@@ -140,11 +140,14 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 				UINTN size = Kernel_header.e_phnum * Kernel_header.e_phentsize;
 				_SystemTable->BootServices->AllocatePool(EfiLoaderData,size,(void**)&phdrs);
 				Kernel->Read(Kernel,&size,phdrs);
+				int64_t cccc=0;
+				Print(L"S%d\n\r",cccc++);
 				for(
 					Elf64_Phdr* phdr = phdrs;
 					(char*)phdr < (char*)phdrs+Kernel_header.e_phnum*Kernel_header.e_phentsize;
 					phdr= (Elf64_Phdr*)((char*)phdr+Kernel_header.e_phentsize)
 				){
+					Print(L"S%d\n\r",cccc++);
 					switch(phdr->p_type){
 						case PT_LOAD:{
 							int pages = (phdr->p_memsz + 0x1000 - 1) / 0x1000;
@@ -153,11 +156,14 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 							Kernel->SetPosition(Kernel,phdr->p_offset);
 							UINTN size = phdr->p_filesz;
 							Kernel->Read(Kernel,&size,(void*)segment);
-							break;
-						}
+						}break;
 					}
+					Print(L"phdr->p_type == %x\n\r",phdr->p_type);
+					Print(L"target p_type == %x\n\r",PT_LOAD);
 				}
 				Print(L" Done\n\r");
+				//__asm__ volatile("cli");
+				//__asm__ volatile("hlt");
 				DataStructure nDFBL;
 				int64_t (*KernelStart)(DataStructure* DFBL) = ((__attribute__((sysv_abi)) int64_t (*)(DataStructure* DFBL) ) Kernel_header.e_entry);
 				nDFBL.TestNumber=0x0123456789ABCDEF;
