@@ -29,13 +29,16 @@ namespace Sauce{
             uint64_t bitmapSize = memorySize / 4096 / 8 + 1;
             InitializeBitmap(bitmapSize,LargestFreeMemorySegment);
 
-            LockPages(PageBitmap.Buffer,PageBitmap.Size/4096 + 1);
+            ReservePages(0,memorySize/4096+1);
+            
             for(int i=0;i<mMapEntries;i++){
                 EFI_MEMORY_DESCRIPTOR* descriptor = (EFI_MEMORY_DESCRIPTOR*)((uint64_t)mMap + (i*mDescriptorSize));
-                if(descriptor->type != EfiMemoryType_EfiConventionalMemory){
-                    ReservePages(descriptor->physAddr,descriptor->numPages);
+                if(descriptor->type == EfiMemoryType_EfiConventionalMemory){
+                    ReleasePages(descriptor->physAddr,descriptor->numPages);
                 }
             }
+            ReservePages(0,0X100);// reserver between 0 and 0x100000 , protect the bios!
+            LockPages(PageBitmap.Buffer,PageBitmap.Size/4096 + 1);
             // reserve pages of unusable/reserved memory
         }
         void PageFrameAllocator::InitializeBitmap(size_t bitmapSize,void* bufferAddress){

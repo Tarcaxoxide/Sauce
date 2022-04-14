@@ -158,12 +158,9 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 							Kernel->Read(Kernel,&size,(void*)segment);
 						}break;
 					}
-					Print(L"phdr->p_type == %x\n\r",phdr->p_type);
-					Print(L"target p_type == %x\n\r",PT_LOAD);
+					// IDK why but on real hardware the system seems to stop here during the 2nd loop around?
 				}
 				Print(L" Done\n\r");
-				//__asm__ volatile("cli");
-				//__asm__ volatile("hlt");
 				DataStructure nDFBL;
 				int64_t (*KernelStart)(DataStructure* DFBL) = ((__attribute__((sysv_abi)) int64_t (*)(DataStructure* DFBL) ) Kernel_header.e_entry);
 				nDFBL.TestNumber=0x0123456789ABCDEF;

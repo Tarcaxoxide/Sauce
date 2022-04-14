@@ -23,6 +23,7 @@
 #include<Sauce/IO/ACPI/ACPI.hpp>
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Math.hpp>
+#include<Sauce/Memory/Heap.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;

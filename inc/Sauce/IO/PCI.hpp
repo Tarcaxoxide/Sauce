@@ -6,6 +6,7 @@
 #include<Sauce/IO/ACPI/ACPI.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/IO/Terminal.hpp>
+#include<Sauce/Convert/To_String.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -28,5 +29,9 @@ namespace Sauce{
         void EnumerateBus(uint64_t baseAddress,uint64_t bus);
         void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg);
         extern const char* DeviceClasses[];
+       const char* GetVenderName(uint16_t VendorID);
+       const char* GetDeviceName(uint16_t VendorID,uint16_t DeviceID);
+       const char* GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode);
+       const char* GetProgIFName(uint8_t ClassCode,uint8_t SubClassCode,uint8_t ProgIFCode);
     };
 };

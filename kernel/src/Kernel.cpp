@@ -14,7 +14,9 @@ namespace Sauce{
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
+        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
         Prep_Interrupts();
+
         Term.Clear();
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
@@ -23,6 +25,12 @@ namespace Sauce{
         Term.Clear();
         asm volatile("sti");
         Prep_ACPI();
+
+       
+
+        Term.PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
+        Term.PutString("\n\r");
+        //Term.PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
         
     }
     void _Kernel::Prep_GlobalAllocator(){

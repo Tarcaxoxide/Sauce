@@ -1,5 +1,5 @@
 #include<Sauce/IO/Mouse.hpp>
-
+#include<Sauce/Kernel.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -33,11 +33,12 @@ namespace Sauce{
         uint8_t MouseCycle=0;
         uint8_t MousePacket[4];
         bool MousePacketReady=false;
+
         void HandlePS2Mouse(uint8_t data){
             switch(MouseCycle){
                 case 0:{
                     if(MousePacketReady)break;
-                    if(data & 0b00001000 == 0)break;
+                    if((data & 0b00001000) == 0)break;
                     MousePacket[0]=data;
                     MouseCycle++;
                 }break;
