@@ -16,5 +16,13 @@ namespace Sauce{
                 *(uint8_t*)((uint64_t)address+i)=value;
             }
         }
+        int64_t memcmp(const void* aptr,const void* bptr,size_t s){
+            const unsigned char *a=(const unsigned char *)aptr,*b=(const unsigned char *)bptr;
+            for(size_t i=0;i<s;i++){// my memcmp is special, it returns the index of the first difference.
+                if(a[i] < b[i])return (int64_t)-i;
+                if(a[i] > b[i])return (int64_t)i;
+            }
+            return (int64_t)0;
+        }
     };
 };

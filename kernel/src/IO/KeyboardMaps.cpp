@@ -3,6 +3,11 @@
 
 namespace Sauce{
     namespace IO{
+        // this is the qwert keyboard layout.
+        // key codes are
+        // press,release
+        // press,release
+        // etc...
         const uint8_t KeyMapCodes_1[]= {
                                     0x29,0xA9,
                                     0x02,0x82,

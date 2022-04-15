@@ -2,7 +2,7 @@
 
 namespace Sauce{
     namespace Convert{
-        static unsigned char haxString[512] = {0};
+        static unsigned char haxString[512] = {0};// instead of having seperate char arrays for every function, i just define 1 global char array.
         void Clear_haxString(){
             for(size_t a = 0;(a < 512);a++){
                 haxString[a] = 0;
