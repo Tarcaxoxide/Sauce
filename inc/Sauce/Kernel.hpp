@@ -30,7 +30,7 @@ extern uint64_t _KernelEndRef;
 
 
 namespace Sauce{
-    class _Kernel{
+    class Kernel_cl{
         private: //private variables
             DataStructure* DFBL;
             Sauce::Memory::PageTable* PML4;
@@ -41,7 +41,7 @@ namespace Sauce{
             uint64_t fbSize;
             Sauce::GDT::GDTDescriptor_t gdtDescriptor;
             Sauce::Interrupts::IDTR idtr;
-            static _Kernel* Self;
+            static Kernel_cl* Self;
         private: //private functions
             void Prep_GlobalAllocator();
             void Prep_VirtualAddresses();
@@ -53,9 +53,9 @@ namespace Sauce{
         public: //public variables
             Sauce::IO::Terminal Term;
         public: //public functions
-            _Kernel(DataStructure* DFBL);
+            Kernel_cl(DataStructure* DFBL);
             void Stop(bool ClearInterrupts=false);
-            static void Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey);
-            static void Notify_Of_Mouse(Sauce::IO::MouseData* Xmouse);
+            static void Notify_Of_KeyPress(Sauce::IO::KeyboardKey_st Xkey);
+            static void Notify_Of_Mouse(Sauce::IO::MouseData_st* Xmouse);
     };
 };

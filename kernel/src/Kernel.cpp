@@ -1,9 +1,9 @@
 #include<Sauce/Kernel.hpp>
 
 namespace Sauce{
-    _Kernel* _Kernel::Self; // pointer to the active kernel to be used by the kernel 
+    Kernel_cl* Kernel_cl::Self; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
-    _Kernel::_Kernel(DataStructure* DFBL)
+    Kernel_cl::Kernel_cl(DataStructure* DFBL)
         :Term(DFBL){
         this->DFBL=DFBL;
         Self=this;
@@ -33,7 +33,7 @@ namespace Sauce{
         //Term.PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
         
     }
-    void _Kernel::Prep_GlobalAllocator(){
+    void Kernel_cl::Prep_GlobalAllocator(){
         Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
         Sauce::Memory::GlobalAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
@@ -44,7 +44,7 @@ namespace Sauce{
         Sauce::Memory::memset(PML4,0,0x1000);
         Sauce::Memory::GlobalPageTableManager = Sauce::Memory::PageTableManager(PML4);
     }
-    void _Kernel::Prep_VirtualAddresses(){
+    void Kernel_cl::Prep_VirtualAddresses(){
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
@@ -56,18 +56,18 @@ namespace Sauce{
         }
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
-    void _Kernel::Prep_GDT(){
+    void Kernel_cl::Prep_GDT(){
         gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_t)-1;
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
         LoadGDT(&gdtDescriptor);
     }
-    void _Kernel::Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector){
+    void Kernel_cl::Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector){
         Sauce::Interrupts::IDTDescriptorEntry* Interrupt = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + Interrupt_Number * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
         Interrupt->SetOffset((uint64_t)Interrupt_Handler);
         Interrupt->type_attr = type_attr;
         Interrupt->selector=selector;
     }
-    void _Kernel::Prep_Interrupts(){
+    void Kernel_cl::Prep_Interrupts(){
         idtr.Limit = 0x0FFF;
         idtr.Offset= (uint64_t)Sauce::Memory::GlobalAllocator.RequestPage();
 
@@ -79,18 +79,18 @@ namespace Sauce{
 
         asm volatile("lidt %0" : : "m" (idtr));
     }
-    void _Kernel::Prep_IO(){
+    void Kernel_cl::Prep_IO(){
         Sauce::Interrupts::RemapPic();
         Sauce::IO::PS2MouseInitialize();
     }
-    void _Kernel::Prep_ACPI(){
+    void Kernel_cl::Prep_ACPI(){
         Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
         Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
         
         
         Sauce::IO::EnumeratePCI(mcfg);
     }
-    void _Kernel::Notify_Of_KeyPress(Sauce::IO::KeyboardKey Xkey){
+    void Kernel_cl::Notify_Of_KeyPress(Sauce::IO::KeyboardKey_st Xkey){
         if(!Xkey.Press)return;//ignoring key releases for now.
         if(Xkey.visible && Xkey.Press){
             Sauce::IO::GlobalTerminal->PutChar(Xkey.Display);
@@ -123,13 +123,13 @@ namespace Sauce{
             }break;
         }
     }
-    void _Kernel::Notify_Of_Mouse(Sauce::IO::MouseData* Xmouse){
+    void Kernel_cl::Notify_Of_Mouse(Sauce::IO::MouseData_st* Xmouse){
         Sauce::IO::GlobalTerminal->Mouse(Xmouse->Position);
         if(Xmouse->RightButton){
             Sauce::IO::GlobalTerminal->PutPoint(*Xmouse->Position);
         }
     }
-    void _Kernel::Stop(bool ClearInterrupts){
+    void Kernel_cl::Stop(bool ClearInterrupts){
         while(true){
             if(ClearInterrupts)asm volatile("cli");
             asm volatile("hlt");

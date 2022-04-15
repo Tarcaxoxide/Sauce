@@ -56,9 +56,9 @@ namespace Sauce{
             }
         }
 
-        MouseData nMouseData;
-        MouseData* ProcessMousePacket(){
-            nMouseData = (MouseData){false,false,false,false,&MousePosition};
+        MouseData_st nMouseData;
+        MouseData_st* ProcessMousePacket(){
+            nMouseData = (MouseData_st){false,false,false,false,&MousePosition};
             if(!MousePacketReady)return &nMouseData;
             nMouseData.New=true;
 

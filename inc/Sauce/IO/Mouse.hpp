@@ -18,7 +18,7 @@
 
 namespace Sauce{
     namespace IO{
-        struct MouseData{
+        struct MouseData_st{
             bool RightButton;
             bool LeftButton;
             bool CenterButton;
@@ -31,7 +31,7 @@ namespace Sauce{
         void MouseWrite(uint8_t value);
         uint8_t MouseRead();
         void HandlePS2Mouse(uint8_t data);
-        MouseData* ProcessMousePacket();
+        MouseData_st* ProcessMousePacket();
         void PS2MouseInitialize();
         extern Point64_t MousePosition;
     };

@@ -19,3 +19,11 @@
     - `Sauce::Memory::GlobalAllocator` can be found in a file in the directory `./inc/Sauce/Memory/`
     - `Sauce::IO::GlobalTerminal` can be found in a file in the directory `./inc/Sauce/IO/`
 
+
+
+
+
+
+
+
+not exactly my dream keyboard however i would classify it under 'pretty damn decent'
