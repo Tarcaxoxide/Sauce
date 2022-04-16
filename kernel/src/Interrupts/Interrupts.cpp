@@ -20,8 +20,8 @@ namespace Sauce{
                 if(input > 0) {
                     uint16_t Xinput = Sauce::IO::Translate_KeyCode(input);
                     if(Xinput != 0){
-                        Sauce::IO::KeyboardKey_st Xkey = Sauce::IO::Code_To_Key(Xinput);
-                        if(Xkey.Key != 0)Kernel_cl::Notify_Of_KeyPress(Xkey);
+                        Sauce::IO::Keyboard_st xKeyboard = Sauce::IO::Code_To_Key(Xinput);
+                        if(xKeyboard.Key != 0)Kernel_cl::Notify_Of_KeyPress(xKeyboard);
                     }
                 }
               }
@@ -31,6 +31,7 @@ namespace Sauce{
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame){
             uint8_t mouseData = Sauce::IO::inb(0x60);
             Sauce::IO::HandlePS2Mouse(mouseData);
+            Kernel_cl::Notify_Of_Mouse();
             PIC2_Done();
         }
         void PIC1_Done(){

@@ -50,6 +50,8 @@ typedef struct{
     typedef struct{
         uint64_t TestNumber;
         FrameBufferStructure* FrameBuffer;
+        uint64_t fbBase;
+        uint64_t fbSize;
         PSF1_FONT* Font;
         Sauce::Memory::EFI_MEMORY_DESCRIPTOR* mMap;
         uint64_t mMapSize;
@@ -60,6 +62,8 @@ typedef struct{
     typedef struct{
         uint64_t TestNumber;
         FrameBufferStructure* FrameBuffer;
+        uint64_t fbBase;
+        uint64_t fbSize;
         PSF1_FONT* Font;
         EFI_MEMORY_DESCRIPTOR* mMap;
         uint64_t mMapSize;

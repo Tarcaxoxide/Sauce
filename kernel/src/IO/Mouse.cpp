@@ -56,11 +56,12 @@ namespace Sauce{
             }
         }
 
-        MouseData_st nMouseData;
-        MouseData_st* ProcessMousePacket(){
-            nMouseData = (MouseData_st){false,false,false,false,&MousePosition};
+        Sauce::IO::Mouse_st nMouseData;
+        Sauce::IO::Mouse_st* ProcessMousePacket(){
+            //nMouseData.New=false;
+            
             if(!MousePacketReady)return &nMouseData;
-            nMouseData.New=true;
+            //nMouseData.New=true;
 
             bool xNegative,yNegative,xOverflow,yOverflow;
             
@@ -97,7 +98,6 @@ namespace Sauce{
             MousePosition.Z=0;
             MousePacketReady=false;
 
-            
             if(MousePacket[0] & PS2LeftButton){
                 nMouseData.LeftButton=true;
             }
@@ -107,9 +107,11 @@ namespace Sauce{
             if(MousePacket[0] & PS2RightButton){
                 nMouseData.RightButton=true;
             }
+            
             return &nMouseData;
         }
         void PS2MouseInitialize(){
+            nMouseData.Position=&MousePosition;
             outb(0x64,0xA8); // enable auxiliary device - mouse
             MouseWait();
             outb(0x64,0x20); // tell keyboard controller that we want to send a command to the mouse

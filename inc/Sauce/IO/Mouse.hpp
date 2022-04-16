@@ -5,7 +5,7 @@
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/IO/Terminal.hpp>
 #include<Sauce/Math.hpp>
-
+#include<Sauce/IO/InputData.hpp>
 
 
 #define PS2LeftButton 0b00000001
@@ -18,20 +18,13 @@
 
 namespace Sauce{
     namespace IO{
-        struct MouseData_st{
-            bool RightButton;
-            bool LeftButton;
-            bool CenterButton;
-            bool New;
-            Point64_t* Position;
-        };
 
         void MouseWait();
         void MouseWaitInput();
         void MouseWrite(uint8_t value);
         uint8_t MouseRead();
         void HandlePS2Mouse(uint8_t data);
-        MouseData_st* ProcessMousePacket();
+        Sauce::IO::Mouse_st* ProcessMousePacket();
         void PS2MouseInitialize();
         extern Point64_t MousePosition;
     };

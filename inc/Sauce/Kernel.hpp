@@ -24,6 +24,7 @@
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Math.hpp>
 #include<Sauce/Memory/Heap.hpp>
+#include<Sauce/IO/Shell.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;
@@ -33,15 +34,13 @@ namespace Sauce{
     class Kernel_cl{
         private: //private variables
             DataStructure* DFBL;
-            Sauce::Memory::PageTable* PML4;
+            Sauce::Memory::PageTable* PML4=NULL;
             uint64_t mMapEntries;
             uint64_t kernelSize;
             uint64_t kernelPages;
-            uint64_t fbBase;
-            uint64_t fbSize;
-            Sauce::GDT::GDTDescriptor_st gdtDescriptor;
-            Sauce::Interrupts::IDTR idtr;
-            static Kernel_cl* Self;
+            Sauce::GDT::GDTDescriptor_st gdtDescriptor; //global descriptor table
+            Sauce::Interrupts::IDTR idtr; // interrupt descriptor table.
+            static Kernel_cl* Self; // Pointer to the kernel itself , used in static functions. it kind of acts like python's self.
         private: //private functions
             void Prep_GlobalAllocator();
             void Prep_VirtualAddresses();
@@ -50,12 +49,16 @@ namespace Sauce{
             void Prep_IO();
             void Prep_ACPI();
             void Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector);
+            void PreLoop(); // execute before the main loop
+            void MainLoop(); // the main loop 
         public: //public variables
-            Sauce::IO::Terminal Term;
+            Sauce::Shell::Kshell kShell;
         public: //public functions
             Kernel_cl(DataStructure* DFBL);
             void Stop(bool ClearInterrupts=false);
-            static void Notify_Of_KeyPress(Sauce::IO::KeyboardKey_st Xkey);
-            static void Notify_Of_Mouse(Sauce::IO::MouseData_st* Xmouse);
+            static void Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
+            static void Notify_Of_Mouse();
+            void oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
+            void oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse);
     };
 };

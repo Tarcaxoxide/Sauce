@@ -4,12 +4,12 @@ namespace Sauce{
     Kernel_cl* Kernel_cl::Self; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
     Kernel_cl::Kernel_cl(DataStructure* DFBL)
-        :Term(DFBL){
+    :kShell(DFBL){
         this->DFBL=DFBL;
-        Self=this;
+        if(Self == NULL)Self=this;
         asm volatile("cli");
-        Sauce::IO::GlobalTerminal=&Term;
-        Term.Clear();
+        //Sauce::IO::GlobalTerminal=&Term;
+        Sauce::IO::GlobalTerminal->Clear();
         
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
@@ -17,21 +17,25 @@ namespace Sauce{
         Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
         Prep_Interrupts();
 
-        Term.Clear();
+        Sauce::IO::GlobalTerminal->Clear();
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         Sauce::IO::outb(PIC1_DATA,0b11111001);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
-        Term.Clear();
+        Sauce::IO::GlobalTerminal->Clear();
         asm volatile("sti");
         Prep_ACPI();
-
-       
-
-        Term.PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
-        Term.PutString("\n\r");
-        //Term.PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
-        
+        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
+        Sauce::IO::GlobalTerminal->PutString("\n\r");
+        PreLoop();
+        MainLoop();
+    }
+    void Kernel_cl::PreLoop(){
+    }
+    void Kernel_cl::MainLoop(){
+        do{
+            //just don't let the kernel exit ok :)
+        }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
         Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
@@ -48,10 +52,10 @@ namespace Sauce{
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
-        fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
-        fbSize = (uint64_t)DFBL->FrameBuffer->BufferSize + 0x1000;
-        Sauce::Memory::GlobalAllocator.LockPages((void*)fbBase,fbSize/0x1000 +1);
-        for(uint64_t t=fbBase;t<fbBase+fbSize;t+=0x1000){
+        DFBL->fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
+        DFBL->fbSize = (uint64_t)DFBL->FrameBuffer->BufferSize + 0x1000;
+        Sauce::Memory::GlobalAllocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
+        for(uint64_t t=DFBL->fbBase;t<DFBL->fbBase+DFBL->fbSize;t+=0x1000){
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
@@ -86,48 +90,20 @@ namespace Sauce{
     void Kernel_cl::Prep_ACPI(){
         Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
         Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
-        
-        
         Sauce::IO::EnumeratePCI(mcfg);
     }
-    void Kernel_cl::Notify_Of_KeyPress(Sauce::IO::KeyboardKey_st Xkey){
-        if(!Xkey.Press)return;//ignoring key releases for now.
-        if(Xkey.visible && Xkey.Press){
-            Sauce::IO::GlobalTerminal->PutChar(Xkey.Display);
-            return;
-        }
-        switch(Xkey.Key){
-            case 0x1C:{
-                Sauce::IO::GlobalTerminal->BackSpace();
-            }break;
-
-            case 0x56:{/*Left Shift*/}break;
-            case 0x70:{/*Right Shift*/}break;
-            case 0x3A:{/*caps lock*/}break;
-            case 0xD6:{/*enter*/}break;
-            case 0xF8:{/*scr lk*/}break;
-            case 0x7E:{/*pause break*/}break;
-            case 0xC4:{/*ins*/}break;
-            case 0xB4:{/*home*/}break;
-            case 0xC8:{/*page up*/}break;
-            case 0xCE:{/*del*/}break;
-            case 0xB8:{/*end*/}break;
-            case 0xCC:{/*page down*/}break;
-            case 0xDA:{Sauce::IO::GlobalTerminal->Clear();}break;
-            case 0x7A:{/*alt*/}break;
-
-            default:{
-                Sauce::IO::GlobalTerminal->PutChar('[');
-                Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString(Xkey.Key));
-                Sauce::IO::GlobalTerminal->PutChar(']');
-            }break;
-        }
+    void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
+        kShell.InputKeyboard(xKeyboard);
     }
-    void Kernel_cl::Notify_Of_Mouse(Sauce::IO::MouseData_st* Xmouse){
-        Sauce::IO::GlobalTerminal->Mouse(Xmouse->Position);
-        if(Xmouse->RightButton){
-            Sauce::IO::GlobalTerminal->PutPoint(*Xmouse->Position);
-        }
+    void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
+        kShell.InputMouse(xMouse);
+    }
+    void Kernel_cl::Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
+        Self->oNotify_Of_KeyPress(xKeyboard);
+        
+    }
+    void Kernel_cl::Notify_Of_Mouse(){
+        Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
     }
     void Kernel_cl::Stop(bool ClearInterrupts){
         while(true){
