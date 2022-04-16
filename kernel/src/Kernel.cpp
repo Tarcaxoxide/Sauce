@@ -21,15 +21,8 @@ namespace Sauce{
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
-        
-        
-        //Disabled mouse
-        ////Sauce::IO::outb(PIC1_DATA,0b11111001);
-        ////Sauce::IO::outb(PIC2_DATA,0b11101111);
-        Sauce::IO::outb(PIC1_DATA,0b11111101);
-        Sauce::IO::outb(PIC2_DATA,0b11111111);
-        
-        
+        Sauce::IO::outb(PIC1_DATA,0b11111001);
+        Sauce::IO::outb(PIC2_DATA,0b11101111);
         
         Sauce::IO::GlobalTerminal->Clear();
         asm volatile("sti");
