@@ -2,7 +2,7 @@
 
 namespace Sauce{
     namespace IO{
-        void Panic(char* str){
+        void Panic(const char* str){
             GlobalTerminal->SetColor(GOP_BLUE,{0x00,0x00,0x40,0xff});
             GlobalTerminal->Clear();
             GlobalTerminal->SetCursor(10,10);

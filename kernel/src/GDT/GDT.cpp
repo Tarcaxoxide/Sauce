@@ -4,7 +4,7 @@
 namespace Sauce{
     namespace GDT{
         __attribute__((aligned(0x1000)))
-        GDT_t DefaultGDT = {
+        GDT_st DefaultGDT = {
             {0,0,0,0x00,0x00,0}, //KernelNull
             {0,0,0,0x9a,0xa0,0}, //KernelCode
             {0,0,0,0x92,0xa0,0}, //KernelData

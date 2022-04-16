@@ -4,6 +4,6 @@
 
 namespace Sauce{
     namespace IO{
-        void Panic(char* str);
+        void Panic(const char* str);
     };
 };

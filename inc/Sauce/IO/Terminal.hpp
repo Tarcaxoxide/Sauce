@@ -22,16 +22,16 @@ namespace Sauce{
             public:
             bool DisableMouse=false;
             Terminal(DataStructure* DFBL);
-            void PutChar(char chr);
-            void PutCharAt(char chr,size_t X,size_t Y);
-            void PutString(char* str);
+            void PutChar(const char chr);
+            void PutCharAt(const char chr,size_t X,size_t Y);
+            void PutString(const char* str);
             void NewLine();
             void ReturnCaret();
             void BackSpace();
             void Clear();
-            void Fill(char chr);
-            void FillColumn(char chr,size_t Column);
-            void FillRow(char chr,size_t Row);
+            void Fill(const char chr);
+            void FillColumn(const char chr,size_t Column);
+            void FillRow(const char chr,size_t Row);
             void SetColor(GOP_PixelStructure Fcolor,GOP_PixelStructure Bcolor);
             void SetColor(GOP_PixelStructure Fcolor);
             uint64_t MaxY(uint64_t Margin=0);

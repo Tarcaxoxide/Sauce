@@ -57,7 +57,7 @@ namespace Sauce{
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
     void Kernel_cl::Prep_GDT(){
-        gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_t)-1;
+        gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_st)-1;
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
         LoadGDT(&gdtDescriptor);
     }

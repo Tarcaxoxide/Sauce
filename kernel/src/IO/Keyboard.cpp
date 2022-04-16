@@ -7,7 +7,7 @@ namespace Sauce{
                 static bool isShift;
                 static bool isCaps;
                 uint8_t* KeyMapCodes = NULL;
-                uint16_t KeyCodeDecoded = NULL;
+                uint16_t KeyCodeDecoded = 0;
               
               
                 switch(KeySet){
@@ -40,7 +40,7 @@ namespace Sauce{
             uint8_t ICapital = (((uint8_t)(TranslatedKeyCode >> 8)) << 4);
             uint8_t IKey = ((uint8_t)TranslatedKeyCode);
             bool IVisible = true;
-            char IDisplay = NULL;
+            char IDisplay = '\0';
             bool Press = (IPress == 0x10);
             bool Capital = (ICapital == 0x10);
             switch(IKey){ // we check if the key is any of the keys that should not be visible.(visible being anything that you could type into a terminal, the key 'm' is visible but the key 'ctrl' is not visible)

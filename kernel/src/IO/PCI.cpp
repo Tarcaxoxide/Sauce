@@ -7,7 +7,7 @@ namespace Sauce{
             uint64_t functionAddress = deviceAddress + offset;
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)functionAddress,(void*)functionAddress);
             PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)functionAddress;
-            if(pciDeviceHeader->DeviceID == NULL)return;
+            if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
 
             Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetVenderName(pciDeviceHeader->VendorID));
@@ -26,7 +26,7 @@ namespace Sauce{
             uint64_t deviceAddress = busAddress + offset;
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)deviceAddress,(void*)deviceAddress);
             PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)deviceAddress;
-            if(pciDeviceHeader->DeviceID == NULL)return;
+            if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
             for(uint64_t function =0;device < 8;device++){
                 EnemerateFunction(deviceAddress,function);
@@ -37,7 +37,7 @@ namespace Sauce{
             uint64_t busAddress = baseAddress + offset;
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)busAddress,(void*)busAddress);
             PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)busAddress;
-            if(pciDeviceHeader->DeviceID == NULL)return;
+            if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
             for(uint64_t device =0;device < 32;device++){
                 EnumerateDevice(busAddress,device);

@@ -39,7 +39,7 @@ namespace Sauce{
             uint64_t kernelPages;
             uint64_t fbBase;
             uint64_t fbSize;
-            Sauce::GDT::GDTDescriptor_t gdtDescriptor;
+            Sauce::GDT::GDTDescriptor_st gdtDescriptor;
             Sauce::Interrupts::IDTR idtr;
             static Kernel_cl* Self;
         private: //private functions

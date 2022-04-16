@@ -19,9 +19,9 @@ namespace Sauce{
                 input = Sauce::IO::inb(0x60);
                 if(input > 0) {
                     uint16_t Xinput = Sauce::IO::Translate_KeyCode(input);
-                    if(Xinput != NULL){
+                    if(Xinput != 0){
                         Sauce::IO::KeyboardKey_st Xkey = Sauce::IO::Code_To_Key(Xinput);
-                        if(Xkey.Key != NULL)Kernel_cl::Notify_Of_KeyPress(Xkey);
+                        if(Xkey.Key != 0)Kernel_cl::Notify_Of_KeyPress(Xkey);
                     }
                 }
               }

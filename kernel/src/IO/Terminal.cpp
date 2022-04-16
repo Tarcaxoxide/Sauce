@@ -6,7 +6,7 @@ namespace Sauce{
             Fcolor=GOP_GREEN;
             Bcolor={0x33,0x22,0x22,0xFF};
         }
-        void Terminal::PutChar(char chr){
+        void Terminal::PutChar(const char chr){
             switch(chr){
                 case '\n':NewLine();break;
                 case '\r':ReturnCaret();break;
@@ -60,11 +60,11 @@ namespace Sauce{
                 BufferX=0;
             }
         }
-        void Terminal::PutCharAt(char chr,size_t X,size_t Y){
+        void Terminal::PutCharAt(const char chr,size_t X,size_t Y){
             SetCursor(X,Y);
             PutChar(chr);
         }
-        void Terminal::PutString(char* str){
+        void Terminal::PutString(const char* str){
             DisableMouse=true;
             while(*str){
                 PutChar(*str);
@@ -90,21 +90,21 @@ namespace Sauce{
             SetCursor(0,0);
             DisableMouse=false;
         }
-        void Terminal::FillRow(char chr,size_t Row){
+        void Terminal::FillRow(const char chr,size_t Row){
             DisableMouse=true;
             for(size_t X=0;X<MaxX(DFBL->Font->psf1_header->char_width/2);X+=DFBL->Font->psf1_header->char_width){
                PutCharAt(chr,X,Row);
             }
             DisableMouse=false;
         }
-        void Terminal::FillColumn(char chr,size_t Column){
+        void Terminal::FillColumn(const char chr,size_t Column){
             DisableMouse=true;
             for(size_t Y=0;Y<MaxY(DFBL->Font->psf1_header->char_height/2);Y+=DFBL->Font->psf1_header->char_height){
                 PutCharAt(chr,Column,Y);
             }
             DisableMouse=false;
         }
-        void Terminal::Fill(char chr){
+        void Terminal::Fill(const char chr){
             DisableMouse=true;
             for(size_t X=0;X<MaxX(DFBL->Font->psf1_header->char_width/2);X+=DFBL->Font->psf1_header->char_width){
                FillColumn(chr,X);
