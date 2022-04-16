@@ -16,7 +16,7 @@ namespace Sauce{
                     case 0x56:{/*Left Shift*/}break;
                     case 0x70:{/*Right Shift*/}break;
                     case 0x3A:{/*caps lock*/}break;
-                    case 0xD6:{/*enter*/}break;
+                    case 0xD6:{Term.PutString("\n\r");}break;
                     case 0xF8:{/*scr lk*/}break;
                     case 0x7E:{/*pause break*/}break;
                     case 0xC4:{/*ins*/}break;
