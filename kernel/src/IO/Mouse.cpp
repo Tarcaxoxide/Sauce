@@ -58,7 +58,6 @@ namespace Sauce{
 
         Sauce::IO::Mouse_st nMouseData;
         Sauce::IO::Mouse_st* ProcessMousePacket(){
-            //nMouseData.New=false;
             
             if(!MousePacketReady)return &nMouseData;
             //nMouseData.New=true;
@@ -98,15 +97,9 @@ namespace Sauce{
             MousePosition.Z=0;
             MousePacketReady=false;
 
-            if(MousePacket[0] & PS2LeftButton){
-                nMouseData.LeftButton=true;
-            }
-            if(MousePacket[0] & PS2MiddleButton){
-                nMouseData.CenterButton=true;
-            }
-            if(MousePacket[0] & PS2RightButton){
-                nMouseData.RightButton=true;
-            }
+            nMouseData.LeftButton=(MousePacket[0] & PS2LeftButton);
+            nMouseData.CenterButton=(MousePacket[0] & PS2MiddleButton);
+            nMouseData.RightButton=(MousePacket[0] & PS2RightButton);
             
             return &nMouseData;
         }

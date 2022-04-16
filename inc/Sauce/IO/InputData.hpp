@@ -20,6 +20,5 @@ namespace Sauce{
             bool CenterButton;
             Point64_t* Position;
         }__attribute__((packed));
-
     };
 };

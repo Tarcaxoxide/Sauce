@@ -40,6 +40,9 @@ namespace Sauce{
             }
         }
         void Kshell::InputMouse(Sauce::IO::Mouse_st* xMouse){
+            if(xMouse->RightButton){
+                Sauce::IO::GlobalTerminal->SetCursor(xMouse->Position->X+DFBL->Font->psf1_header->char_width,xMouse->Position->Y);
+            }
             Term.Mouse(xMouse->Position);
         }
     };
