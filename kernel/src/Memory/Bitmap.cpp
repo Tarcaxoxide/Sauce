@@ -22,8 +22,8 @@ namespace Sauce{
             if(value)Buffer[byteIndex] |= bitIndexer;
             return true;
         }
-        void Bitmap_t::Flip(uint64_t index){
-            Set(index,!Get(index));
+        bool Bitmap_t::Flip(uint64_t index){
+            return Set(index,!Get(index));
         }
     };
 };
