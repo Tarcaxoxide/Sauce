@@ -1,4 +1,9 @@
 #include<Sauce/IO/PCI.hpp>
+#include<Sauce/Memory/PageTableManager.hpp>
+#include<Sauce/IO/Terminal.hpp>
+#include<Sauce/Convert/To_String.hpp>
+#include<Sauce/IO/AHCI/AHCI.hpp>
+#include<Sauce/Memory/Heap.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -10,16 +15,30 @@ namespace Sauce{
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
 
-            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetVenderName(pciDeviceHeader->VendorID));
-            ////Sauce::IO::GlobalTerminal->PutString(" | ");
-            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetDeviceName(pciDeviceHeader->VendorID,pciDeviceHeader->DeviceID));
-            ////Sauce::IO::GlobalTerminal->PutString(" | ");
-            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::DeviceClasses[pciDeviceHeader->Class]);
-            ////Sauce::IO::GlobalTerminal->PutString(" | ");
-            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetSubClassName(pciDeviceHeader->Class,pciDeviceHeader->Subclass));
-            ////Sauce::IO::GlobalTerminal->PutString(" | ");
-            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetProgIFName(pciDeviceHeader->Class,pciDeviceHeader->Subclass,pciDeviceHeader->ProgIF));
-            ////Sauce::IO::GlobalTerminal->PutString("\n\r");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetVenderName(pciDeviceHeader->VendorID));
+            Sauce::IO::GlobalTerminal->PutString(" | ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetDeviceName(pciDeviceHeader->VendorID,pciDeviceHeader->DeviceID));
+            Sauce::IO::GlobalTerminal->PutString(" | ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::DeviceClasses[pciDeviceHeader->Class]);
+            Sauce::IO::GlobalTerminal->PutString(" | ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetSubClassName(pciDeviceHeader->Class,pciDeviceHeader->Subclass));
+            Sauce::IO::GlobalTerminal->PutString(" | ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetProgIFName(pciDeviceHeader->Class,pciDeviceHeader->Subclass,pciDeviceHeader->ProgIF));
+            Sauce::IO::GlobalTerminal->PutString("\n\r");
+
+            switch(pciDeviceHeader->Class){
+                case 0x01:{ // mass storage controller
+                    switch(pciDeviceHeader->Subclass){
+                        case 0x06:{ // serial ata
+                            switch(pciDeviceHeader->ProgIF){
+                                case 0x01:{ // ahci 1.0 device
+                                    new Sauce::IO::AHCI::AHCIDriver(pciDeviceHeader);
+                                }break;
+                            }
+                        }break;
+                    }
+                }break;
+            }
         }
         void EnumerateDevice(uint64_t busAddress,uint64_t device){
             uint64_t offset = device << 15;

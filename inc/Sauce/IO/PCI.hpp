@@ -1,12 +1,10 @@
-#pragma
+#pragma once
 
 
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/IO/ACPI/ACPI.hpp>
-#include<Sauce/Memory/PageTableManager.hpp>
-#include<Sauce/IO/Terminal.hpp>
-#include<Sauce/Convert/To_String.hpp>
+
 
 namespace Sauce{
     namespace IO{

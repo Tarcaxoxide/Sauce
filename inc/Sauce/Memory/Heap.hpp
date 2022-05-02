@@ -22,3 +22,8 @@ namespace Sauce{
         void ExpandHeap(size_t length);
     };
 };
+
+inline void* operator new(size_t size){return Sauce::Memory::malloc(size);}
+inline void* operator new[](size_t size){return Sauce::Memory::malloc(size);}
+inline void operator delete(void* ptr){Sauce::Memory::free(ptr);}
+inline void operator delete[](void* ptr){Sauce::Memory::free(ptr);}

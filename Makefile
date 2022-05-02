@@ -37,4 +37,11 @@ usb: compile
 	@sudo rm -frv /mnt/usb/*
 	@sudo cp -r USBdir/* /mnt/usb/
 	@sudo umount /mnt/usb
-	
+
+iso: compile
+	@rm -frv ISOdir Sauce.iso
+	@mkdir -p ISOdir/efi/boot
+	@cp gnu-efi/x86_64/bootloader/main.efi ISOdir/efi/boot/bootx64.efi
+	@cp kernel/bin/kernel.elf ISOdir/kernel.elf
+	@cp inc/Sauce/Fonts/zap-light16.psf ISOdir/zap-light16.psf
+	@mkisofs -d -D -J -l -r -U -relaxed-filenames -o Sauce.iso ISOdir

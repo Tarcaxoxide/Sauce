@@ -31,8 +31,10 @@ namespace Sauce{
     void Kernel_cl::PreLoop(){
         Sauce::Interrupts::PIT::SetDivisor(65535);
         Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
-        
-
+        Point64_t Center;
+        Center.X=DFBL->FrameBuffer->PixelsPerScanLine/2;
+        Center.Y=DFBL->FrameBuffer->Height/2;
+        kShell.SetMouse(Center);
     }
     void Kernel_cl::MainLoop(){
         do{
@@ -100,6 +102,7 @@ namespace Sauce{
         kShell.InputKeyboard(xKeyboard);
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
+        
         kShell.InputMouse(xMouse);
     }
     void Kernel_cl::Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){

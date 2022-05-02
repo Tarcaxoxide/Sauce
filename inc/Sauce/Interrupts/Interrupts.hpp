@@ -1,11 +1,7 @@
 #pragma once
 
-#include<Sauce/IO/Terminal.hpp>
-#include<Sauce/IO/Panic.hpp>
-#include<Sauce/IO/IO.hpp>
-#include<Sauce/Convert/To_String.hpp>
-#include<Sauce/IO/Mouse.hpp>
-#include<Sauce/Interrupts/PIT.hpp>
+#include<stddef.h>
+#include<stdint.h>
 
 #define PIC1_COMMAND 0X20
 #define PIC1_DATA 0x21

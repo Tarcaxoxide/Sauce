@@ -1,11 +1,16 @@
 #include<Sauce/IO/Shell.hpp>
+#include<Sauce/Memory/PageFrameAllocator.hpp>
+#include<Sauce/Memory/PageTableManager.hpp>
+#include<Sauce/Convert/To_String.hpp>
 
 namespace Sauce{
     namespace Shell{
+        Sauce::IO::Mouse_st* Kshell::MouseRef;
         Kshell::Kshell(DataStructure* DFBL)
         :Term(DFBL){
             this->DFBL=DFBL;
             Sauce::IO::GlobalTerminal=&Term;
+            
         }
         void Kshell::InputKeyboard(Sauce::IO::Keyboard_st xKeyboard){
             if(xKeyboard.Press){
@@ -39,7 +44,11 @@ namespace Sauce{
                 }
             }
         }
+        void Kshell::SetMouse(Point64_t NewMousePosition){
+            *MouseRef->Position=NewMousePosition;
+        }
         void Kshell::InputMouse(Sauce::IO::Mouse_st* xMouse){
+            MouseRef=xMouse;
             if(xMouse->RightButton){
                 Sauce::IO::GlobalTerminal->SetCursor(xMouse->Position->X+DFBL->Font->psf1_header->char_width,xMouse->Position->Y);
             }
