@@ -4,15 +4,19 @@
 namespace Sauce{
     namespace Interrupts{
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame){
+            asm volatile("cli");
             Sauce::IO::Panic("Page Fault Detected!\n\r");
         }
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame){
+            asm volatile("cli");
             Sauce::IO::Panic("Double Fault Detected!\n\r");
         }
         __attribute__((interrupt)) void GeneralProtectionFault_handler(interrupt_frame* frame){
+            asm volatile("cli");
             Sauce::IO::Panic("General Protection Fault Detected!\n\r");
         }
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame){
+            asm volatile("cli");
             uint8_t input = 0;
             do {
               if(Sauce::IO::inb(0x60) != input) {
@@ -27,12 +31,15 @@ namespace Sauce{
               }
             } while(input != 0);
             PIC1_Done();
+            asm volatile("sti");
         }
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame){
+            asm volatile("cli");
             uint8_t mouseData = Sauce::IO::inb(0x60);
             Sauce::IO::HandlePS2Mouse(mouseData);
             Kernel_cl::Notify_Of_Mouse();
             PIC2_Done();
+            asm volatile("sti");
         }
         void PIC1_Done(){
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);

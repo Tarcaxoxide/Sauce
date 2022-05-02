@@ -5,29 +5,36 @@ namespace Sauce{
         void* heapBegin;
         void* heapEnd;
         HeapSegmentHeader* LastSegmentHeader;
-        size_t DynMemAl=0;
 
-        void HeapSegmentHeader::CombinedForward(){}
-        void HeapSegmentHeader::CombinedBackward(){}
-        HeapSegmentHeader* HeapSegmentHeader::Split(size_t Length){
-            if(Length > DynMemAl)return NULL;
-            int64_t  splitSegmentLength = this->Length - Length - sizeof(HeapSegmentHeader);
-            if(splitSegmentLength < DynMemAl)return NULL;
-            HeapSegmentHeader* nSplitHeader = (HeapSegmentHeader*)((size_t)this+Length+sizeof(HeapSegmentHeader));
+        void HeapSegmentHeader::CombinedForward(){
+            if(NextSegment == NULL)return;
+            if(!NextSegment->free)return;
+            if(NextSegment == LastSegmentHeader)LastSegmentHeader=this;
+            if(NextSegment->NextSegment != NULL){
+                NextSegment->NextSegment->LastSegment=this;
+            }
+            Length = Length + NextSegment->Length + sizeof(HeapSegmentHeader);
+        }
+        void HeapSegmentHeader::CombinedBackward(){
+            if(LastSegment != NULL && LastSegment->free)LastSegment->CombinedForward();
+        }
+        HeapSegmentHeader* HeapSegmentHeader::Split(size_t splitLength){
+            if(splitLength > 0x10)return NULL;
+            int64_t  splitSegmentLength = Length - splitLength - (sizeof(HeapSegmentHeader));
+            if(splitSegmentLength > 0x10)return NULL;
+            HeapSegmentHeader* nSplitHeader = (HeapSegmentHeader*)((size_t)this +splitLength+sizeof(HeapSegmentHeader));
             NextSegment->LastSegment = nSplitHeader;
             nSplitHeader->NextSegment = NextSegment;
             NextSegment = nSplitHeader;
             nSplitHeader->LastSegment=this;
             nSplitHeader->Length=splitSegmentLength;
             nSplitHeader->free=free;
-            this->Length = Length;
-
+            Length = splitLength;
             if(LastSegmentHeader == this)LastSegmentHeader=nSplitHeader;
             return nSplitHeader;
         }
         
-        void InitalizeHeap(void* heapAddress,size_t PageCount,size_t SizeAlignment){
-            DynMemAl=SizeAlignment;
+        void InitalizeHeap(void* heapAddress,size_t PageCount){
             void* pos = heapAddress;
 
             for(size_t i=0;i<PageCount;i++){
@@ -37,7 +44,7 @@ namespace Sauce{
             size_t heapLength=PageCount*0x1000;
 
             heapBegin = heapAddress;
-            heapEnd = (void*)((size_t)heapBegin +heapLength);
+            heapEnd = (void*)((size_t)heapBegin + heapLength);
             HeapSegmentHeader* startSegment = (HeapSegmentHeader*)heapAddress;
             startSegment->Length=heapLength-sizeof(HeapSegmentHeader);
             startSegment->NextSegment = NULL;
@@ -46,10 +53,9 @@ namespace Sauce{
             LastSegmentHeader = startSegment;
         }
         void* malloc(size_t size){
-            
-            if(size%DynMemAl > 0){ // is not a multiple of 0x10
-                size-=(size%DynMemAl);
-                size+=DynMemAl;
+            if(size%0x10 > 0){ // is not a multiple of 0x10
+                size-=(size%0x10);
+                size+=0x10;
             }
             if(size == 0)return NULL;
             HeapSegmentHeader* currentSegment = (HeapSegmentHeader*)heapBegin;
@@ -59,7 +65,8 @@ namespace Sauce{
                         currentSegment->Split(size);// do something with the return?
                         currentSegment->free=false;
                         return (void*)((uint64_t)currentSegment +sizeof(HeapSegmentHeader));
-                    }else if(currentSegment->Length == size){
+                    }
+                    if(currentSegment->Length == size){
                         currentSegment->free=false;
                         return (void*)((uint64_t)currentSegment +sizeof(HeapSegmentHeader));
                     }
@@ -70,7 +77,30 @@ namespace Sauce{
             Sauce::Memory::ExpandHeap(size);
             return malloc(size);
         }
-        void free(void* address){}
-        void ExpandHeap(size_t length){}
+        void free(void* address){
+            HeapSegmentHeader* segment = (HeapSegmentHeader*)address - 1;
+            segment->free=true;
+            segment->CombinedForward();
+            segment->CombinedBackward();
+        }
+        void ExpandHeap(size_t length){
+            if(length%0x1000){
+                length-=length%0x1000;
+                length+=0x1000;
+            }
+            size_t pageCount = length/0x1000;
+            HeapSegmentHeader* newSegment = (HeapSegmentHeader*)heapEnd;
+            for(size_t i=0;i<pageCount;i++){
+                Sauce::Memory::GlobalPageTableManager.MapMemory(heapEnd,Sauce::Memory::GlobalAllocator.RequestPage());
+                heapEnd = (void*)((size_t)heapEnd+0x1000);
+            }
+            newSegment->free=true;
+            newSegment->LastSegment=LastSegmentHeader;
+            LastSegmentHeader->NextSegment=newSegment;
+            LastSegmentHeader = newSegment;
+            newSegment->NextSegment=NULL;
+            newSegment->Length = length - sizeof(HeapSegmentHeader);
+            newSegment->CombinedBackward();
+        }
     };
 };

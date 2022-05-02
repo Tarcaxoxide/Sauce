@@ -9,15 +9,13 @@ namespace Sauce{
         if(Self == NULL)Self=this;
         asm volatile("cli");
         //Sauce::IO::GlobalTerminal=&Term;
-        Sauce::IO::GlobalTerminal->Clear();
         
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
-        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
+        //Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
         Prep_Interrupts();
 
-        Sauce::IO::GlobalTerminal->Clear();
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
@@ -27,12 +25,22 @@ namespace Sauce{
         Sauce::IO::GlobalTerminal->Clear();
         asm volatile("sti");
         Prep_ACPI();
-        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
-        Sauce::IO::GlobalTerminal->PutString("\n\r");
         PreLoop();
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
+        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
+        Sauce::IO::GlobalTerminal->PutString("\n\r");
+        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x8000)));
+        Sauce::IO::GlobalTerminal->PutString("\n\r");
+        void* TestAddress = Sauce::Memory::malloc(0x8000);
+        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)TestAddress));
+        Sauce::IO::GlobalTerminal->PutString("\n\r");
+        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
+        Sauce::Memory::free(TestAddress);
+        Sauce::IO::GlobalTerminal->PutString("\n\r");
+        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
+
     }
     void Kernel_cl::MainLoop(){
         do{

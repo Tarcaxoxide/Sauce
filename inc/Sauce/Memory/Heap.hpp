@@ -16,7 +16,7 @@ namespace Sauce{
             void CombinedBackward();
             HeapSegmentHeader* Split(size_t splitLength);
         };
-        void InitalizeHeap(void* heapAddress,size_t PageCount,size_t SizeAlignment=0x10);
+        void InitalizeHeap(void* heapAddress,size_t PageCount);
         void* malloc(size_t size);
         void free(void* address);
         void ExpandHeap(size_t length);

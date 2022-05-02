@@ -10,16 +10,16 @@ namespace Sauce{
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
 
-            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetVenderName(pciDeviceHeader->VendorID));
-            Sauce::IO::GlobalTerminal->PutString(" | ");
-            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetDeviceName(pciDeviceHeader->VendorID,pciDeviceHeader->DeviceID));
-            Sauce::IO::GlobalTerminal->PutString(" | ");
-            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::DeviceClasses[pciDeviceHeader->Class]);
-            Sauce::IO::GlobalTerminal->PutString(" | ");
-            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetSubClassName(pciDeviceHeader->Class,pciDeviceHeader->Subclass));
-            Sauce::IO::GlobalTerminal->PutString(" | ");
-            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetProgIFName(pciDeviceHeader->Class,pciDeviceHeader->Subclass,pciDeviceHeader->ProgIF));
-            Sauce::IO::GlobalTerminal->PutString("\n\r");
+            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetVenderName(pciDeviceHeader->VendorID));
+            ////Sauce::IO::GlobalTerminal->PutString(" | ");
+            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetDeviceName(pciDeviceHeader->VendorID,pciDeviceHeader->DeviceID));
+            ////Sauce::IO::GlobalTerminal->PutString(" | ");
+            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::DeviceClasses[pciDeviceHeader->Class]);
+            ////Sauce::IO::GlobalTerminal->PutString(" | ");
+            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetSubClassName(pciDeviceHeader->Class,pciDeviceHeader->Subclass));
+            ////Sauce::IO::GlobalTerminal->PutString(" | ");
+            ////Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetProgIFName(pciDeviceHeader->Class,pciDeviceHeader->Subclass,pciDeviceHeader->ProgIF));
+            ////Sauce::IO::GlobalTerminal->PutString("\n\r");
         }
         void EnumerateDevice(uint64_t busAddress,uint64_t device){
             uint64_t offset = device << 15;
