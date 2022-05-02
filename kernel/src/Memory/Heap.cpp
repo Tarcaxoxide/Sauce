@@ -13,13 +13,14 @@ namespace Sauce{
             if(NextSegment->NextSegment != NULL){
                 NextSegment->NextSegment->LastSegment=this;
             }
+            NextSegment = NextSegment->NextSegment;
             Length = Length + NextSegment->Length + sizeof(HeapSegmentHeader);
         }
         void HeapSegmentHeader::CombinedBackward(){
             if(LastSegment != NULL && LastSegment->free)LastSegment->CombinedForward();
         }
         HeapSegmentHeader* HeapSegmentHeader::Split(size_t splitLength){
-            if(splitLength > 0x10)return NULL;
+            if(splitLength > 0x10)return NULL; // <- splitLength smaller than causes a crash. this is incorrect code but the correct code does not work *shrugs* 
             int64_t  splitSegmentLength = Length - splitLength - (sizeof(HeapSegmentHeader));
             if(splitSegmentLength > 0x10)return NULL;
             HeapSegmentHeader* nSplitHeader = (HeapSegmentHeader*)((size_t)this +splitLength+sizeof(HeapSegmentHeader));

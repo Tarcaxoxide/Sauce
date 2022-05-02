@@ -19,7 +19,7 @@ namespace Sauce{
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
-        Sauce::IO::outb(PIC1_DATA,0b11111001);
+        Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         
         Sauce::IO::GlobalTerminal->Clear();
@@ -29,21 +29,14 @@ namespace Sauce{
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
+        Sauce::Interrupts::PIT::SetDivisor(65535);
         Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
-        Sauce::IO::GlobalTerminal->PutString("\n\r");
-        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x8000)));
-        Sauce::IO::GlobalTerminal->PutString("\n\r");
-        void* TestAddress = Sauce::Memory::malloc(0x8000);
-        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)TestAddress));
-        Sauce::IO::GlobalTerminal->PutString("\n\r");
-        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
-        Sauce::Memory::free(TestAddress);
-        Sauce::IO::GlobalTerminal->PutString("\n\r");
-        Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)Sauce::Memory::malloc(0x100)));
+        
 
     }
     void Kernel_cl::MainLoop(){
         do{
+            Stop();
             //just don't let the kernel exit ok :)
         }while(true);
     }
@@ -90,6 +83,7 @@ namespace Sauce{
         Add_Interrupt((void*)&Sauce::Interrupts::GeneralProtectionFault_handler,0xD,IDT_TA_InterruptGate,0x08);
         Add_Interrupt((void*)&Sauce::Interrupts::KeyboardInterrupt_handler,0x21,IDT_TA_InterruptGate,0x08);
         Add_Interrupt((void*)&Sauce::Interrupts::MouseInterrupt_handler,0x2C,IDT_TA_InterruptGate,0x08);
+        Add_Interrupt((void*)&Sauce::Interrupts::PITInterrupt_handler,0x20,IDT_TA_InterruptGate,0x08);
 
         asm volatile("lidt %0" : : "m" (idtr));
     }

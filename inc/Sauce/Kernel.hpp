@@ -25,6 +25,7 @@
 #include<Sauce/Math.hpp>
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/IO/Shell.hpp>
+#include<Sauce/Interrupts/PIT.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;

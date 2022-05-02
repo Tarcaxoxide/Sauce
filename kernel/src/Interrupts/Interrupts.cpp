@@ -20,7 +20,7 @@ namespace Sauce{
             uint8_t input = 0;
             do {
               if(Sauce::IO::inb(0x60) != input) {
-                input = Sauce::IO::inb(0x60);
+                input = Sauce::IO::inb_w(0x60);
                 if(input > 0) {
                     uint16_t Xinput = Sauce::IO::Translate_KeyCode(input);
                     if(Xinput != 0){
@@ -35,10 +35,16 @@ namespace Sauce{
         }
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame){
             asm volatile("cli");
-            uint8_t mouseData = Sauce::IO::inb(0x60);
+            uint8_t mouseData = Sauce::IO::inb_w(0x60);
             Sauce::IO::HandlePS2Mouse(mouseData);
             Kernel_cl::Notify_Of_Mouse();
             PIC2_Done();
+            asm volatile("sti");
+        }
+        __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame){
+            asm volatile("cli");
+            Sauce::Interrupts::PIT::Tick();
+            PIC1_Done();
             asm volatile("sti");
         }
         void PIC1_Done(){

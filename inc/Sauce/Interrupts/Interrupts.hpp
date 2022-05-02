@@ -5,6 +5,7 @@
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/Convert/To_String.hpp>
 #include<Sauce/IO/Mouse.hpp>
+#include<Sauce/Interrupts/PIT.hpp>
 
 #define PIC1_COMMAND 0X20
 #define PIC1_DATA 0x21
@@ -24,6 +25,7 @@ namespace Sauce{
         __attribute__((interrupt)) void GeneralProtectionFault_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame);
+        __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame);
         void RemapPic();
         void PIC1_Done();
         void PIC2_Done();
