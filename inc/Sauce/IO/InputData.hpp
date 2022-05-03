@@ -20,5 +20,17 @@ namespace Sauce{
             bool CenterButton;
             Point64_t* Position;
         }__attribute__((packed));
+
+        struct InputData_st{
+            bool NewKeyboard;
+            bool NewMouse;
+            Keyboard_st Keyboard;
+            struct Mouse_st{
+            bool RightButton;
+            bool LeftButton;
+            bool CenterButton;
+            Point64_t Position;
+            }Mouse;
+        };
     };
 };

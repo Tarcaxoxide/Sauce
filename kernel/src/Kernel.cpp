@@ -31,15 +31,11 @@ namespace Sauce{
     void Kernel_cl::PreLoop(){
         Sauce::Interrupts::PIT::SetDivisor(65535);
         Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
-        Point64_t Center;
-        Center.X=DFBL->FrameBuffer->PixelsPerScanLine/2;
-        Center.Y=DFBL->FrameBuffer->Height/2;
-        kShell.SetMouse(Center);
     }
     void Kernel_cl::MainLoop(){
         do{
-            Stop();
-            //just don't let the kernel exit ok :)
+            Sauce::Interrupts::PIT::Sleep(100);
+            
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
@@ -99,11 +95,29 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
-        kShell.InputKeyboard(xKeyboard);
+        InputData.Keyboard.Capital=xKeyboard.Capital;
+        InputData.Keyboard.Press=xKeyboard.Press;
+        InputData.Keyboard.visible=xKeyboard.visible;
+        InputData.Keyboard.Key=xKeyboard.Key;
+        InputData.Keyboard.Display=xKeyboard.Display;
+        InputData.NewKeyboard=true;
+        kShell.Input(InputData);
+        InputData.NewKeyboard=false;
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
+        if(xMouse->Position->X < 0)xMouse->Position->X=0;//< Don't draw the mouse too far to the right.
+        if(xMouse->Position->Y < 0)xMouse->Position->Y=0;//< Don't draw the mouse too high up.
+        if(xMouse->Position->X > Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX()))xMouse->Position->X=Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX());//< Don't draw the mouse too far to the left.
+        if(xMouse->Position->Y > Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY()))xMouse->Position->Y=Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY());//< Don't draw the mouse too far down.
         
-        kShell.InputMouse(xMouse);
+        InputData.Mouse.RightButton=xMouse->RightButton;
+        InputData.Mouse.LeftButton=xMouse->LeftButton;
+        InputData.Mouse.CenterButton=xMouse->CenterButton;
+        InputData.Mouse.Position=*xMouse->Position;
+        InputData.NewMouse=true;
+        kShell.Input(InputData);
+        InputData.NewMouse=false;
+
     }
     void Kernel_cl::Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
         Self->oNotify_Of_KeyPress(xKeyboard);

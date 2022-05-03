@@ -138,12 +138,6 @@ namespace Sauce{
             return (uint8_t)DFBL->Font->psf1_header->char_height;
         }
         void Terminal::Mouse(Point64_t* NewMousePosition){
-            if(DisableMouse)return;
-            if(NewMousePosition->X < 0)NewMousePosition->X=0;//< Don't draw the mouse too far to the right.
-            if(NewMousePosition->Y < 0)NewMousePosition->Y=0;//< Don't draw the mouse too high up.
-            if(NewMousePosition->X > MaxX(CharX()))NewMousePosition->X=MaxX(CharX());//< Don't draw the mouse too far to the left.
-            if(NewMousePosition->Y > MaxY(CharY()))NewMousePosition->Y=MaxY(CharY());//< Don't draw the mouse too far down.
-            
             if(OldMousePosition.Z)RemoveMouse(OldMousePosition.X,OldMousePosition.Y);//< if this isn't the first time then remove the old mouse first.
             PlaceMouse(NewMousePosition->X,NewMousePosition->Y);
             OldMousePosition.Z=1;//<using Z to determine of this is the first time we have been here.

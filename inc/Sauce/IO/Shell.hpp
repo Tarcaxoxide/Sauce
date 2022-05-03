@@ -13,12 +13,9 @@ namespace Sauce{
             Kshell* Self=NULL;
             DataStructure* DFBL;
             Sauce::IO::Terminal Term;
-            static Sauce::IO::Mouse_st* MouseRef;
             public:
                 Kshell(DataStructure* DFBL); 
-                void InputKeyboard(Sauce::IO::Keyboard_st xKeyboard);
-                void InputMouse(Sauce::IO::Mouse_st* xMouse);
-                void SetMouse(Point64_t NewMousePosition);
+                void Input(Sauce::IO::InputData_st Data);
         };
     };
 };
