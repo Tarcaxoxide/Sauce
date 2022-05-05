@@ -17,8 +17,8 @@ namespace Sauce{
                 default:{
                     unsigned int* pixPtr = (unsigned int*)DFBL->FrameBuffer->BaseAddress;
                     char* fontPtr = (char*)DFBL->Font->glyphBuffer + (chr * DFBL->Font->psf1_header->char_size);
-                    for(unsigned long Y=Cursor.Y;Y < Cursor.Y+DFBL->Font->psf1_header->char_height;Y++){
-                        for(unsigned long X=Cursor.X;X<Cursor.X+DFBL->Font->psf1_header->char_width;X++){
+                    for(unsigned long Y=Cursor.Y;Y < Cursor.Y+CharY();Y++){
+                        for(unsigned long X=Cursor.X;X<Cursor.X+CharX();X++){
                             if((*fontPtr & (0b10000000 >>(X-Cursor.X)))>0){
                                 DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))] = Fcolor;
                             }else{
@@ -27,18 +27,18 @@ namespace Sauce{
                         }
                         fontPtr++;
                     }
-                    Cursor.X+=DFBL->Font->psf1_header->char_width;
+                    Cursor.X+=CharX();
                     break;}
             }
-            if(Cursor.X+DFBL->Font->psf1_header->char_width > DFBL->FrameBuffer->PixelsPerScanLine){
+            if(Cursor.X+CharX() > DFBL->FrameBuffer->PixelsPerScanLine){
                 NewLine();
                 ReturnCaret();
             }
         }
         void Terminal::PlaceMouse(size_t _X,size_t _Y){
             size_t BufferX=0,BufferY=0;
-            for(unsigned long Y=_Y;Y < _Y+DFBL->Font->psf1_header->char_height;Y++){
-                for(unsigned long X=_X;X<_X+DFBL->Font->psf1_header->char_width;X++){
+            for(unsigned long Y=_Y;Y < _Y+CharY();Y++){
+                for(unsigned long X=_X;X<_X+CharX();X++){
                     DoubleBuffer[(BufferX + DFBL->FrameBuffer->PixelsPerScanLine * BufferY)] = DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))];
                     GOP_PixelStructure nPixel;
                     nPixel.Red = (0xFF)-DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))].Red;
@@ -54,8 +54,8 @@ namespace Sauce{
         }
         void Terminal::RemoveMouse(size_t _X,size_t _Y){
             size_t BufferX=0,BufferY=0;
-            for(unsigned long Y=_Y;Y < _Y+DFBL->Font->psf1_header->char_height;Y++){
-                for(unsigned long X=_X;X<_X+DFBL->Font->psf1_header->char_width;X++){
+            for(unsigned long Y=_Y;Y < _Y+CharY();Y++){
+                for(unsigned long X=_X;X<_X+CharX();X++){
                     DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))] = DoubleBuffer[(BufferX + DFBL->FrameBuffer->PixelsPerScanLine * BufferY)];
                     BufferX++;
                 }
@@ -72,20 +72,58 @@ namespace Sauce{
             while(*str){
                 PutChar(*str);
                 str++;
-                //Cursor.X+=DFBL->Font->psf1_header->char_width;
+                //Cursor.X+=CharX();
             }
             DisableMouse=false;
         }
         void Terminal::NewLine(){
-            Cursor.Y+=DFBL->Font->psf1_header->char_height;
+            if(!DownwardChar()){
+                // TODO::scroll text.
+            }
         }
-        void Terminal::ReturnCaret(){
+        bool Terminal::ForwardChar(){
+            if(Cursor.X+CharX() > MaxX(CharX()))return false;
+            Cursor.X+=CharX();
+            return true;
+        }
+        bool Terminal::BackwardChar(){
+            if(Cursor.X-CharX() < 0)return false;
+            Cursor.X-=CharX();
+            return true;
+        }
+        bool Terminal::UpwardChar(){
+            if(Cursor.Y-CharY() < 0)return false;
+            Cursor.Y-=CharY();
+            return true;
+        }
+        bool Terminal::DownwardChar(){
+            if(Cursor.Y+CharY() > MaxY(CharY()))return false;
+            Cursor.Y+=CharY();
+            return true;
+        }
+        void Terminal::TopChar(){
+            Cursor.Y=0;
+        }
+        void Terminal::BottomChar(){
+            Cursor.Y=MaxY(CharY());
+        }
+        void Terminal::FrontChar(){
             Cursor.X=0;
         }
+        void Terminal::BackChar(){
+            Cursor.X=MaxX(CharX());
+        }
+        void Terminal::ReturnCaret(){
+            FrontChar();
+        }
         void Terminal::BackSpace(){
-            Cursor.X-=DFBL->Font->psf1_header->char_width;
+            if(!BackwardChar()){
+                if(UpwardChar())BackChar();
+            }
             PutChar(' ');
-            Cursor.X-=DFBL->Font->psf1_header->char_width;
+            if(!BackwardChar()){
+                if(UpwardChar())BackChar();
+            }
         }
         void Terminal::Clear(){
             DisableMouse=true;
@@ -95,21 +133,21 @@ namespace Sauce{
         }
         void Terminal::FillRow(const char chr,size_t Row){
             DisableMouse=true;
-            for(size_t X=0;X<MaxX(DFBL->Font->psf1_header->char_width/2);X+=DFBL->Font->psf1_header->char_width){
+            for(size_t X=0;X<MaxX(CharX()/2);X+=CharX()){
                PutCharAt(chr,X,Row);
             }
             DisableMouse=false;
         }
         void Terminal::FillColumn(const char chr,size_t Column){
             DisableMouse=true;
-            for(size_t Y=0;Y<MaxY(DFBL->Font->psf1_header->char_height/2);Y+=DFBL->Font->psf1_header->char_height){
+            for(size_t Y=0;Y<MaxY(CharY()/2);Y+=CharY()){
                 PutCharAt(chr,Column,Y);
             }
             DisableMouse=false;
         }
         void Terminal::Fill(const char chr){
             DisableMouse=true;
-            for(size_t X=0;X<MaxX(DFBL->Font->psf1_header->char_width/2);X+=DFBL->Font->psf1_header->char_width){
+            for(size_t X=0;X<MaxX(CharX()/2);X+=CharX()){
                FillColumn(chr,X);
             }
             DisableMouse=false;

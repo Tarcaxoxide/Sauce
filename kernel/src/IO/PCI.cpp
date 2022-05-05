@@ -65,7 +65,7 @@ namespace Sauce{
         void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg){
             int entries = ((mcfg->Header.Length) - sizeof(Sauce::IO::ACPI::MCFGHeader)) / sizeof(Sauce::IO::ACPI::DeviceConfig);
             for(int t=0;t<entries;t++){
-                Sauce::IO::ACPI::DeviceConfig *nDeviceConfig = (Sauce::IO::ACPI::DeviceConfig*)((uint64_t)mcfg + sizeof(Sauce::IO::ACPI::MCFGHeader)+sizeof(Sauce::IO::ACPI::DeviceConfig)*t);
+                Sauce::IO::ACPI::DeviceConfig *nDeviceConfig = (Sauce::IO::ACPI::DeviceConfig*)((uint64_t)mcfg + sizeof(Sauce::IO::ACPI::MCFGHeader) + (sizeof(Sauce::IO::ACPI::DeviceConfig)*t));
                 for(uint64_t Bus = nDeviceConfig->StartBus;Bus<nDeviceConfig->EndBus;Bus++){
                     EnumerateBus(nDeviceConfig->BaseAddress,Bus);
                 }

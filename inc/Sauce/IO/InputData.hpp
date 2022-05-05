@@ -6,7 +6,6 @@
 
 namespace Sauce{
     namespace IO{
-
         struct Keyboard_st{
             bool Capital=false;
 		    bool Press=false;

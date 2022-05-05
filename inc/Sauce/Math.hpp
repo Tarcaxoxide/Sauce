@@ -1,5 +1,8 @@
 #pragma once
 
+#include<stddef.h>
+#include<stdint.h>
+
 namespace Sauce{
     struct uPoint8_t{
         uint8_t X;
@@ -40,5 +43,18 @@ namespace Sauce{
         int64_t X;
         int64_t Y;
         int64_t Z;
+    };
+    struct Decimal_st{
+        int64_t WholeValue;
+        int64_t DecimalValue;
+        Decimal_st operator=(Decimal_st Other);
+        Decimal_st operator+=(Decimal_st Other);
+        Decimal_st operator-=(Decimal_st Other);
+        //Decimal_st operator++();
+        //Decimal_st operator--();
+        double operator()();
+        Decimal_st operator=(double Other);
+        Decimal_st operator+=(double Other);
+        Decimal_st operator-=(double Other);
     };
 };

@@ -13,7 +13,10 @@ namespace Sauce{
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
-        //Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
+
+        Sauce::Interrupts::PIT::SetDivisor(65535);
+        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
+        
         Prep_Interrupts();
 
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
@@ -29,8 +32,7 @@ namespace Sauce{
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
-        Sauce::Interrupts::PIT::SetDivisor(65535);
-        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
+        Sauce::Memory::DynamicArray_st<int> Test; 
     }
     void Kernel_cl::MainLoop(){
         do{
