@@ -10,10 +10,10 @@ namespace Sauce{
         template<class TT>
         struct LinkList_st{
             TT Value;
-            void** First=NULL;
-            void* Previews=NULL;
-            void* Next=NULL;
-            void** Last=NULL;
+            LinkList_st<TT>** First=NULL;
+            LinkList_st<TT>* Previews=NULL;
+            LinkList_st<TT>* Next=NULL;
+            LinkList_st<TT>** Last=NULL;
         };
 
         template<class TT>
