@@ -32,7 +32,18 @@ namespace Sauce{
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
-        Sauce::Memory::DynamicArray_st<int> Test; 
+        {/*Test for dynamic array; Start*/
+            Sauce::Memory::DynamicArray_st<char> Test;
+            *Test()='a';
+            Test.AddLast('b');
+            Test.AddLast('c');
+            Test.AddLast('d');
+            for(;Test.PeekForward();){
+                Sauce::IO::GlobalTerminal->PutChar(*Test);
+                Test.GoForward();
+            }
+            Sauce::IO::GlobalTerminal->PutChar(*Test);
+        }/*Test for dynamic array; End*/
     }
     void Kernel_cl::MainLoop(){
         do{
