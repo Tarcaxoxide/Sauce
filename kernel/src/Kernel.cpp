@@ -33,11 +33,12 @@ namespace Sauce{
     }
     void Kernel_cl::PreLoop(){
         {/*Test for dynamic array; Start*/
-            Sauce::Memory::DynamicArray_st<char> Test;
-            *Test()='a';
+            Sauce::Memory::DynamicArray_st<char> Test('a');
+            //*Test()='a';
             Test.AddLast('b');
             Test.AddLast('c');
             Test.AddLast('d');
+            Test.GoToFirst();
             for(;Test.PeekForward();Test.GoForward()){
                 Sauce::IO::GlobalTerminal->PutChar(*Test);
             }

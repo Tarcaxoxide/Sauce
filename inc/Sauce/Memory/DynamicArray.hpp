@@ -47,7 +47,7 @@ namespace Sauce{
             LinkList_st<TT>* First=NULL;
             LinkList_st<TT>* Last=NULL;
             size_t Size=0;
-            DynamicArray_st<TT>(){
+            DynamicArray_st<TT>(TT newValue){
                 Current = new LinkList_st<TT>;
                 First=Current;
                 Last=Current;
@@ -57,7 +57,7 @@ namespace Sauce{
                 Current->Next=NULL;
                 Current->Last=&Last;
 
-                Current->Value=(TT)NULL;
+                Current->Value=newValue;
                 Current=Current;
                 Size=1;
             }
@@ -91,6 +91,7 @@ namespace Sauce{
             }
             void RemoveFirst(){
                 LinkList_st<TT>* NewFirst = First->Next;
+                if(Current == First)Current=First->Next;
                 delete[] First;
                 First=NewFirst;
                 First->Previews=NULL;
@@ -98,6 +99,7 @@ namespace Sauce{
             }
             void RemoveLast(){
                 LinkList_st<TT>* NewLast = Last->Previews;
+                if(Current == Last)Current=Last->Previews;
                 delete[] Last;
                 Last=NewLast;
                 Last->Next=NULL;
@@ -122,6 +124,12 @@ namespace Sauce{
                     return true;
                 }
                 return false;
+            }
+            void GoToFirst(){
+                Current=First;
+            }
+            void GoToLast(){
+                Current=Last;
             }
             TT operator*(){
                 return (TT)*(*Current);
