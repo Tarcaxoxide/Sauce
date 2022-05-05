@@ -38,9 +38,8 @@ namespace Sauce{
             Test.AddLast('b');
             Test.AddLast('c');
             Test.AddLast('d');
-            for(;Test.PeekForward();){
+            for(;Test.PeekForward();Test.GoForward()){
                 Sauce::IO::GlobalTerminal->PutChar(*Test);
-                Test.GoForward();
             }
             Sauce::IO::GlobalTerminal->PutChar(*Test);
         }/*Test for dynamic array; End*/
