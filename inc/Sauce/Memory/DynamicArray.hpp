@@ -149,7 +149,6 @@ namespace Sauce{
             TT operator*(){
                 return (TT)*(*Current);
             }
-            TT 
             LinkList_st<TT>* operator()(){
                 return Current;
             }
