@@ -47,20 +47,6 @@ namespace Sauce{
             LinkList_st<TT>* First=NULL;
             LinkList_st<TT>* Last=NULL;
             size_t Size=0;
-            DynamicArray_st<TT>(TT newValue){
-                Current = new LinkList_st<TT>;
-                First=Current;
-                Last=Current;
-
-                Current->First=&First;
-                Current->Previews=NULL;
-                Current->Next=NULL;
-                Current->Last=&Last;
-
-                Current->Value=newValue;
-                Current=Current;
-                Size=1;
-            }
             ~DynamicArray_st<TT>(){
                 LinkList_st<TT>* Target = First; // 'Target' exist to check if there is a next element to be removed.
                 for(;Target->PeekForward();){ // we iterate from the first element to the second from last element removing them all. 
@@ -70,6 +56,19 @@ namespace Sauce{
                 delete[] Last; // we delete the last element since it's next would be null and so it wont be picked up in the for loop.
             }
             void AddFirst(TT newValue){
+                if(Current == NULL){
+                    Current = new LinkList_st<TT>;
+                    First=Current;
+                    Last=Current;
+                    Current->First=&First;
+                    Current->Previews=NULL;
+                    Current->Next=NULL;
+                    Current->Last=&Last;
+                    Current->Value=newValue;
+                    Current=Current;
+                    Size=1;
+                    return;
+                }
                 LinkList_st<TT>* NewVariable = new LinkList_st<TT>; // we create a new element.
                 First->Previews=NewVariable; // the previews first element's previews element pointer is set to this new element.
                 NewVariable->Next=First; // this new element's next element pointer is set to previews first element.
@@ -80,6 +79,19 @@ namespace Sauce{
                 Size++;
             }
             void AddLast(TT newValue){
+                if(Current == NULL){
+                    Current = new LinkList_st<TT>;
+                    First=Current;
+                    Last=Current;
+                    Current->First=&First;
+                    Current->Previews=NULL;
+                    Current->Next=NULL;
+                    Current->Last=&Last;
+                    Current->Value=newValue;
+                    Current=Current;
+                    Size=1;
+                    return;
+                }
                 LinkList_st<TT>* NewVariable = new LinkList_st<TT>; // we create a new element.
                 Last->Next=NewVariable; // the previews last element's next pointer is set to the new element.
                 NewVariable->Previews=Last; // the new element's previews pointer is set to the previews last element.

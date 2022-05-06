@@ -6,6 +6,7 @@
 #include<Sauce/Convert/To_String.hpp>
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
+#include<Sauce/Memory/DynamicArray.hpp>
 
 namespace Sauce{
     namespace Interrupts{
@@ -28,6 +29,7 @@ namespace Sauce{
               if(Sauce::IO::inb(0x60) != input) {
                 input = Sauce::IO::inb_w(0x60);
                 if(input > 0) {
+                    
                     uint16_t Xinput = Sauce::IO::Translate_KeyCode(input);
                     if(Xinput != 0){
                         Sauce::IO::Keyboard_st xKeyboard = Sauce::IO::Code_To_Key(Xinput);

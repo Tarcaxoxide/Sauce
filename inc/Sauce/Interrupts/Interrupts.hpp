@@ -3,6 +3,8 @@
 #include<stddef.h>
 #include<stdint.h>
 
+#include<Sauce/Memory/DynamicArray.hpp>
+
 #define PIC1_COMMAND 0X20
 #define PIC1_DATA 0x21
 #define PIC2_COMMAND 0XA0

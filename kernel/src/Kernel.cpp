@@ -1,12 +1,13 @@
 #include<Sauce/Kernel.hpp>
 
 namespace Sauce{
-    Kernel_cl* Kernel_cl::Self; // pointer to the active kernel to be used by the kernel 
+    Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
     Kernel_cl::Kernel_cl(DataStructure* DFBL)
     :kShell(DFBL){
         this->DFBL=DFBL;
         if(Self == NULL)Self=this;
+        
         asm volatile("cli");
         //Sauce::IO::GlobalTerminal=&Term;
         
@@ -32,18 +33,19 @@ namespace Sauce{
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
-        {/*Test for dynamic array; Start*/
-            Sauce::Memory::DynamicArray_st<char> Test('a');
-            //*Test()='a';
-            Test.AddLast('b');
-            Test.AddLast('c');
-            Test.AddLast('d');
-            Test.GoToFirst();
-            for(;Test.PeekForward();Test.GoForward()){
-                Sauce::IO::GlobalTerminal->PutChar(*Test);
+        /*test of dynamic array*/{
+            Sauce::Memory::DynamicArray_st<int64_t> TestArray;
+            TestArray.AddLast(1);
+            TestArray.AddLast(2);
+            TestArray.AddLast(3);
+            TestArray.AddLast(4);
+            TestArray.AddFirst(5);
+            // we should see 51234
+            for(TestArray.GoToFirst();TestArray.PeekForward();TestArray.GoForward()){
+                Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(*TestArray));
             }
-            Sauce::IO::GlobalTerminal->PutChar(*Test);
-        }/*Test for dynamic array; End*/
+            Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(*TestArray));
+        }/*test of dynamic array*/
     }
     void Kernel_cl::MainLoop(){
         do{
