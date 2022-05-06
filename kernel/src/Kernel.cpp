@@ -129,15 +129,14 @@ namespace Sauce{
         InputData.Mouse.LeftButton=xMouse->LeftButton;
         InputData.Mouse.CenterButton=xMouse->CenterButton;
         InputData.Mouse.Position=*xMouse->Position;
+        InputData.Mouse.Good=xMouse->Good;
         InputData.NewMouse=true;
         kShell.Input(InputData);
         InputData.NewMouse=false;
 
     }
     void Kernel_cl::Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
-        asm volatile("cli");
         Self->oNotify_Of_KeyPress(xKeyboard);
-        asm volatile("sti");
     }
     void Kernel_cl::Notify_Of_Mouse(){
         Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());

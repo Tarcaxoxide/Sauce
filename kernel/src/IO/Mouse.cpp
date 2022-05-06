@@ -60,9 +60,9 @@ namespace Sauce{
 
         Sauce::IO::Mouse_st nMouseData;
         Sauce::IO::Mouse_st* ProcessMousePacket(){
-            
+            nMouseData.Good=false;
             if(!MousePacketReady)return &nMouseData;
-            //nMouseData.New=true;
+            nMouseData.Good=true;
 
             bool xNegative,yNegative,xOverflow,yOverflow;
             

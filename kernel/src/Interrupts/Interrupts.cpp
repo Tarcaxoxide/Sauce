@@ -47,12 +47,11 @@ namespace Sauce{
             Sauce::IO::HandlePS2Mouse(mouseData);
             Kernel_cl::Notify_Of_Mouse();
             PIC2_Done();
+            asm volatile("sti");
         }
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame){
-            asm volatile("cli");
             Sauce::Interrupts::PIT::Tick();
             PIC1_Done();
-            asm volatile("sti");
         }
         void PIC1_Done(){
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);

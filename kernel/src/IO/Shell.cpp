@@ -44,7 +44,7 @@ namespace Sauce{
                     }
                 }
             }
-            if(Data.NewMouse){
+            if(Data.NewMouse && Data.Mouse.Good){
                 if(Data.Mouse.RightButton){
                     Sauce::IO::GlobalTerminal->SetCursor(Data.Mouse.Position.X+DFBL->Font->psf1_header->char_width,Data.Mouse.Position.Y);
                 }
