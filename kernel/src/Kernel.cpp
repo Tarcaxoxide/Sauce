@@ -49,8 +49,13 @@ namespace Sauce{
     }
     void Kernel_cl::MainLoop(){
         do{
-            Sauce::Interrupts::PIT::Sleep(100);
-            
+            Sauce::Interrupts::PIT::Sleep(1000);
+            if(KeyboardBuffer.PeekHere()){
+                for(KeyboardBuffer.GoToFirst();KeyboardBuffer.PeekForward();KeyboardBuffer.GoForward()){
+                    oNotify_Of_KeyPress(*KeyboardBuffer);
+                }
+                oNotify_Of_KeyPress(*KeyboardBuffer);
+            }
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
@@ -135,8 +140,8 @@ namespace Sauce{
 
     }
     void Kernel_cl::Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
-        Self->oNotify_Of_KeyPress(xKeyboard);
-        
+        //Self->oNotify_Of_KeyPress(xKeyboard);
+        KeyboardBuffer.AddLast(xKeyboard);
     }
     void Kernel_cl::Notify_Of_Mouse(){
         Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());

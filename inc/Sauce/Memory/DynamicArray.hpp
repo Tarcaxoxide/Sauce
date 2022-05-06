@@ -120,6 +120,9 @@ namespace Sauce{
             bool PeekForward(){
                 return Current->PeekForward();
             }
+            bool PeekHere(){
+                return (Current != NULL);
+            }
             bool PeekBackward(){
                 return Current->PeekBackward();
             }

@@ -56,6 +56,7 @@ namespace Sauce{
             void MainLoop(); // the main loop 
         public: //public variables
             Sauce::Shell::Kshell kShell;
+            Sauce::Memory::DynamicArray_st<Sauce::IO::Keyboard_st> KeyboardBuffer;
         public: //public functions
             Kernel_cl(DataStructure* DFBL);
             void Stop(bool ClearInterrupts=false);
