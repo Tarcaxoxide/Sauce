@@ -6,151 +6,143 @@
 
 namespace Sauce{
     namespace Memory{
-        
-        template<class TT>
-        struct LinkList_st{
-            TT Value;
-            LinkList_st<TT>** First=NULL;
-            LinkList_st<TT>* Previews=NULL;
-            LinkList_st<TT>* Next=NULL;
-            LinkList_st<TT>** Last=NULL;
-            TT operator*(){
-                return Value;
+        template<typename T>
+        class DynamicArray_cl{
+            T* Array={nullptr};
+            size_t Array_Size;
+            size_t Array_Capacity;
+            size_t StageSize;
+            T null_T{(T)NULL};
+            public:
+            bool AddLast(T nValue){
+                if(Array_Size+1 > Array_Capacity){
+                    Array_Capacity+=StageSize;
+                    T* nArray = new T[Array_Capacity];
+                    Array_Size=0;
+                    for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
+                        nArray[Array_Size]=Array[Array_Size];
+                    }
+                    nArray[Array_Size++]=nValue; // i forget if it should be ++V or V++ , i'll test V++ first.
+                    delete[] Array;
+                    Array = nArray;
+                }else{
+                    Array[Array_Size++]=nValue;
+                }
+                return true;
             }
-            bool PeekBackward(){
-                return (Previews != NULL);
+            bool AddFirst(T nValue){
+                if(Array_Size+1 > Array_Capacity){
+                    Array_Capacity+=StageSize;
+                    T* nArray = new T[Array_Capacity];
+                    Array_Size=0;
+                    nArray[Array_Size++]=nValue; // i forget if it should be ++V or V++ , i'll test V++ first.
+                    for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
+                        nArray[Array_Size]=Array[Array_Size-1];// we shuffle the array forward to make room for the new element.
+                    }
+                    delete[] Array;
+                    Array = nArray;
+                }else{
+                    size_t oldArray_Size=Array_Size;
+                    Array_Size=1;
+                    for(;Array_Size<(oldArray_Size+1);Array_Size++){
+                        Array[Array_Size]=Array[Array_Size-1]; // we shuffle the array forward to make room for the new element.
+                    }
+                    Array[0]=nValue;
+                }
+                return true;
             }
-            bool PeekForward(){
-                return (Next != NULL);
+            bool RemoveLast(){
+                if(Array_Size == 0)return false;
+                if(Array_Size-1 < Array_Capacity-StageSize){
+                    Array_Capacity-=StageSize;
+                    T* nArray = new T[Array_Capacity];
+                    Array_Size=0;
+                    for(;Array_Size<Array_Capacity;Array_Size++){
+                        nArray[Array_Size] = Array[Array_Size];
+                    }
+                    delete[] Array;
+                    Array = nArray;
+                }else{
+                    Array_Size--;
+                }
+                return true;
             }
-            void operator=(LinkList_st* NewSelf){
-                Value=NewSelf->Value;
-                First=NewSelf->First;
-                Previews=NewSelf->Previews;
-                Next=NewSelf->Next;
-                Last=NewSelf->Last;
+            bool RemoveFirst(){
+                if(Array_Size == 0)return false;
+                if(Array_Size-1 > Array_Capacity){
+                    Array_Capacity-=StageSize;
+                    T* nArray = new T[Array_Capacity];
+                    Array_Size=1;
+                    for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
+                        nArray[Array_Size-1]=Array[Array_Size];// we shuffle the array forward to make room for the new element.
+                    }
+                    delete[] Array;
+                    Array = nArray;
+                }else{
+                    size_t oldArray_Size=Array_Size;
+                    Array_Size=1;
+                    for(;Array_Size<(oldArray_Size+1);Array_Size++){
+                        Array[Array_Size-1]=Array[Array_Size]; // we shuffle the array forward to make room for the new element.
+                    }
+                    Array_Size--;
+                }
+                return true;
             }
-            TT operator++(){Value++;return Value;}
-            TT operator--(){Value--;return Value;}
-            TT operator+=(TT newValue){Value+=newValue;return Value;}
-            TT operator-=(TT newValue){Value-=newValue;return Value;}
-            TT operator/=(TT newValue){Value/=newValue;return Value;}
-            TT operator*=(TT newValue){Value*=newValue;return Value;}
-            TT operator%=(TT newValue){Value%=newValue;return Value;}
-            TT operator&=(TT newValue){Value&=newValue;return Value;}
-            TT operator=(TT newValue){Value=newValue;return Value;}
+            T& operator[](size_t TargetIndex){
+                if(TargetIndex > Array_Size)return null_T;
+                return Array[TargetIndex];
+            }
+            T* operator*(){
+                return Array;
+            }
+            size_t Size(){
+                return Array_Size;
+            }
+            void operator=(T* nValue){
+                Clear();
+                T* ValuePtr = nValue;
+                while(*ValuePtr){
+                    AddLast(*ValuePtr);
+                    ValuePtr++;
+                }
+            }
+            bool Clear(){
+                while(RemoveLast());// remove until we can't anymore
+                return true;
+            }
+            DynamicArray_cl<T>(size_t StageSize=8){
+                this->StageSize=StageSize; // stage value determines by how much we increase or decrease the actual arrays size in memory.
+                                           // you should probably set this to fit the application but we have a default of 8 just to be sure.
+                Array = new T[StageSize];
+                Array_Capacity=StageSize;
+                Array_Size=0;
+            }
+            DynamicArray_cl<T>(T nValue,size_t StageSize=8){
+                Array = new T[StageSize];
+                Array_Capacity=StageSize;
+                Array_Size=0;
+                AddLast(nValue);
+            }
+            ~DynamicArray_cl(){
+                Clear();
+                delete[] Array; // do the final delete;
+            }
         };
 
-        template<class TT>
-        struct DynamicArray_st{
-            LinkList_st<TT>* Current=NULL;
-            LinkList_st<TT>* First=NULL;
-            LinkList_st<TT>* Last=NULL;
-            size_t Size=0;
-            ~DynamicArray_st<TT>(){
-                LinkList_st<TT>* Target = First; // 'Target' exist to check if there is a next element to be removed.
-                for(;Target->PeekForward();){ // we iterate from the first element to the second from last element removing them all. 
-                    RemoveFirst();
-                    Target=First;
-                }
-                delete[] Last; // we delete the last element since it's next would be null and so it wont be picked up in the for loop.
+
+        class String_cl{
+            DynamicArray_cl<char> Contents;
+            public:
+            String_cl(){}
+            String_cl(char* nValue){(*this)=nValue;}
+            String_cl(const char* nValue){(*this)=(char*)nValue;}
+            char* operator=(char* nValue){
+                Contents=(char*)nValue;
+                return nValue;
             }
-            void AddFirst(TT newValue){
-                if(Current == NULL){
-                    Current = new LinkList_st<TT>;
-                    First=Current;
-                    Last=Current;
-                    Current->First=&First;
-                    Current->Previews=NULL;
-                    Current->Next=NULL;
-                    Current->Last=&Last;
-                    Current->Value=newValue;
-                    Current=Current;
-                    Size=1;
-                    return;
-                }
-                LinkList_st<TT>* NewVariable = new LinkList_st<TT>; // we create a new element.
-                First->Previews=NewVariable; // the previews first element's previews element pointer is set to this new element.
-                NewVariable->Next=First; // this new element's next element pointer is set to previews first element.
-                First=NewVariable; // the first element pointer is set to the new element.
-                NewVariable->First=&First; // the first and last pointers of the new element are set.  
-                NewVariable->Last=&Last;   
-                NewVariable->Value=newValue; // the value of the new element is set.
-                Size++;
-            }
-            void AddLast(TT newValue){
-                if(Current == NULL){
-                    Current = new LinkList_st<TT>;
-                    First=Current;
-                    Last=Current;
-                    Current->First=&First;
-                    Current->Previews=NULL;
-                    Current->Next=NULL;
-                    Current->Last=&Last;
-                    Current->Value=newValue;
-                    Current=Current;
-                    Size=1;
-                    return;
-                }
-                LinkList_st<TT>* NewVariable = new LinkList_st<TT>; // we create a new element.
-                Last->Next=NewVariable; // the previews last element's next pointer is set to the new element.
-                NewVariable->Previews=Last; // the new element's previews pointer is set to the previews last element.
-                Last=NewVariable; // the last element pointer is set to the new element.
-                NewVariable->First=&First; // the first and last pointers of the new element are set.  
-                NewVariable->Last=&Last;
-                NewVariable->Value=newValue; // the value of the new element is set.
-                Size++;
-            }
-            void RemoveFirst(){
-                LinkList_st<TT>* NewFirst = First->Next;
-                if(Current == First)Current=First->Next;
-                delete[] First;
-                First=NewFirst;
-                First->Previews=NULL;
-                Size--;
-            }
-            void RemoveLast(){
-                LinkList_st<TT>* NewLast = Last->Previews;
-                if(Current == Last)Current=Last->Previews;
-                delete[] Last;
-                Last=NewLast;
-                Last->Next=NULL;
-                Size--;
-            }
-            bool PeekForward(){
-                return Current->PeekForward();
-            }
-            bool PeekHere(){
-                return (Current != NULL);
-            }
-            bool PeekBackward(){
-                return Current->PeekBackward();
-            }
-            bool GoForward(){
-                if(PeekForward()){
-                    Current=Current->Next;
-                    return true;
-                }
-                return false;
-            }
-            bool GoBackward(){
-                if(PeekBackward()){
-                    Current=Current->Previews;
-                    return true;
-                }
-                return false;
-            }
-            void GoToFirst(){
-                Current=First;
-            }
-            void GoToLast(){
-                Current=Last;
-            }
-            TT operator*(){
-                return (TT)*(*Current);
-            }
-            LinkList_st<TT>* operator()(){
-                return Current;
+            char* c_str(){
+                if(Contents[Contents.Size()-1] != '\0')Contents.AddLast('\0');
+                return *Contents;
             }
         };
     };

@@ -28,24 +28,16 @@ namespace Sauce{
         
         Sauce::IO::GlobalTerminal->Clear();
         asm volatile("sti");
+
         Prep_ACPI();
         PreLoop();
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
-        /*test of dynamic array*/{
-            Sauce::Memory::DynamicArray_st<int64_t> TestArray;
-            TestArray.AddLast(1);
-            TestArray.AddLast(2);
-            TestArray.AddLast(3);
-            TestArray.AddLast(4);
-            TestArray.AddFirst(5);
-            // we should see 51234
-            for(TestArray.GoToFirst();TestArray.PeekForward();TestArray.GoForward()){
-                Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(*TestArray));
-            }
-            Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(*TestArray));
-        }/*test of dynamic array*/
+        /*Testing DynamicArray*/{
+            Sauce::Memory::String_cl Test="Hello World!";
+            Sauce::IO::GlobalTerminal->PutString(Test.c_str());
+        }/*Testing DynamicArray*/
     }
     void Kernel_cl::MainLoop(){
         do{

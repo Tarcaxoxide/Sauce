@@ -1,7 +1,6 @@
 #pragma once
 
 #include<Sauce/Common.h>
-
 #include<Sauce/Math.hpp>
 
 
