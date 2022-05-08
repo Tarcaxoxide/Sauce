@@ -27,6 +27,7 @@
 #include<Sauce/IO/Shell.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/UserLand/VirtualMachine.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;

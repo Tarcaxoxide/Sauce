@@ -104,12 +104,18 @@ namespace Sauce{
                 }
                 return true;
             }
+            T& Last(){
+                return Array[Array_Size-1];
+            }
+            T& First(){
+                return Array[0];
+            }
             T& operator[](size_t TargetIndex){
                 if(TargetIndex > Array_Size)return null_T;
                 return Array[TargetIndex];
             }
             T* operator*(){
-                if((*this)[Array_Size-1] != (T)0)AddLast((T)0);
+                if(Last() != (T)0)AddLast((T)0);
                 return Array;
             }
             size_t Size(){
@@ -165,6 +171,18 @@ namespace Sauce{
             }
             bool AddLast(TT nValue){
                 return Contents.AddLast(nValue);
+            }
+            bool RemoveFirst(){
+                return Contents.RemoveFirst();
+            }
+            bool RemoveLast(){
+                return Contents.RemoveLast();
+            }
+            TT& First(){
+                Contents.First();
+            }
+            TT& Last(){
+                Contents.Last();
             }
             TT& operator[](size_t TargetIndex){
                 return Contents[TargetIndex];
