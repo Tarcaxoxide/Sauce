@@ -35,7 +35,7 @@ namespace Sauce{
     }
     void Kernel_cl::PreLoop(){
         /*Testing DynamicArray*/{
-            Sauce::Memory::String_cl Test="Hello World!";
+            Sauce::Memory::List_cl<char> Test="Hello World!";
             Sauce::IO::GlobalTerminal->PutString(Test.c_str());
         }/*Testing DynamicArray*/
     }

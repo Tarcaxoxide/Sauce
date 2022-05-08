@@ -129,19 +129,19 @@ namespace Sauce{
             }
         };
 
-
-        class String_cl{
-            DynamicArray_cl<char> Contents;
+        template<typename TT>
+        class List_cl{
+            DynamicArray_cl<TT> Contents;
             public:
-            String_cl(){}
-            String_cl(char* nValue){(*this)=nValue;}
-            String_cl(const char* nValue){(*this)=(char*)nValue;}
-            char* operator=(char* nValue){
-                Contents=(char*)nValue;
+            List_cl(){}
+            List_cl(TT* nValue){(*this)=nValue;}
+            List_cl(const TT* nValue){(*this)=(TT*)nValue;}
+            TT* operator=(TT* nValue){
+                Contents=(TT*)nValue;
                 return nValue;
             }
-            char* c_str(){
-                if(Contents[Contents.Size()-1] != '\0')Contents.AddLast('\0');
+            TT* c_str(){
+                if(Contents[Contents.Size()-1] != '\0')Contents.AddLast((TT)0);
                 return *Contents;
             }
         };
