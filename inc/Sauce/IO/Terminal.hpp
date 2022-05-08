@@ -47,14 +47,7 @@ namespace Sauce{
             uint8_t CharY(); // returns character height.
             void Mouse(Point64_t* NewMousePosition);
             void SetCursor(size_t X,size_t Y);
-            void PutPoint(Sauce::uPoint8_t aPoint); // these are for printing out points as text.
-            void PutPoint(Sauce::uPoint16_t aPoint); // these might be removed later in favor of
-            void PutPoint(Sauce::uPoint32_t aPoint); // just converting the points to a string,
-            void PutPoint(Sauce::uPoint64_t aPoint); // but well see.
-            void PutPoint(Sauce::Point8_t aPoint);
-            void PutPoint(Sauce::Point16_t aPoint);
-            void PutPoint(Sauce::Point32_t aPoint);
-            void PutPoint(Sauce::Point64_t aPoint);
+            
         };
         extern Terminal* GlobalTerminal;
         extern const GOP_PixelStructure GOP_RED;   //Some standard predefined colors.

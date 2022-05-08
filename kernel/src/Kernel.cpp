@@ -9,7 +9,6 @@ namespace Sauce{
         if(Self == NULL)Self=this;
         
         asm volatile("cli");
-        //Sauce::IO::GlobalTerminal=&Term;
         
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
