@@ -51,6 +51,22 @@ namespace Sauce{
                 }
                 return true;
             }
+            bool AddLast(T* nValue){
+                T* ValuePtr = nValue;
+                while(*ValuePtr){
+                    if(!AddLast(*ValuePtr))return false;
+                    ValuePtr++;
+                }
+                return true;
+            }
+            bool AddFirst(T* nValue){
+                T* ValuePtr = nValue;
+                while(*ValuePtr){
+                    if(!AddFirst(*ValuePtr))return false;
+                    ValuePtr++;
+                }
+                return true;
+            }
             bool RemoveLast(){
                 if(Array_Size == 0)return false;
                 if(Array_Size-1 < Array_Capacity-StageSize){
@@ -93,19 +109,22 @@ namespace Sauce{
                 return Array[TargetIndex];
             }
             T* operator*(){
+                if((*this)[Array_Size-1] != (T)0)AddLast((T)0);
                 return Array;
             }
             size_t Size(){
                 return Array_Size;
             }
-            void operator=(T* nValue){
+            bool operator=(T* nValue){
                 Clear();
                 T* ValuePtr = nValue;
                 while(*ValuePtr){
                     AddLast(*ValuePtr);
                     ValuePtr++;
                 }
+                return true;
             }
+            
             bool Clear(){
                 while(RemoveLast());// remove until we can't anymore
                 return true;
@@ -132,17 +151,29 @@ namespace Sauce{
         template<typename TT>
         class List_cl{
             DynamicArray_cl<TT> Contents;
+            TT* Ret=NULL;
             public:
             List_cl(){}
             List_cl(TT* nValue){(*this)=nValue;}
             List_cl(const TT* nValue){(*this)=(TT*)nValue;}
             TT* operator=(TT* nValue){
-                Contents=(TT*)nValue;
+                Contents=nValue;
                 return nValue;
             }
-            TT* c_str(){
-                if(Contents[Contents.Size()-1] != '\0')Contents.AddLast((TT)0);
+            bool AddFirst(TT nValue){
+                return Contents.AddFirst(nValue);
+            }
+            bool AddLast(TT nValue){
+                return Contents.AddLast(nValue);
+            }
+            TT& operator[](size_t TargetIndex){
+                return Contents[TargetIndex];
+            }
+            TT* Raw(){
                 return *Contents;
+            }
+            size_t Size(){
+                return Contents.Size();
             }
         };
     };
