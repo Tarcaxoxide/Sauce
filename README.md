@@ -82,9 +82,13 @@
     - strings "std::string" <- `Sauce::Memory::List_cl<char> StringVariableName`
 - Not yet done.
     - Userland Virtual Machines
-    - Multiprocessing
-    - Userland binaries
-    - loading of UserLand binaries.
+    - UserLand Binary Compiler
+    - UserLand binaries
+    - disk access
+    - loading of UserLand binaries
+    - Multi-processing (not multi-threading)
+    - graphics
+    - hardware accelerated graphics
 
 
 
