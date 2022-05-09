@@ -12,6 +12,7 @@ namespace Sauce{
             size_t Array_Size;
             size_t Array_Capacity;
             size_t StageSize;
+            T* NULL_T;
             public:
             bool AddLast(T nValue){
                 if(Array_Size+1 > Array_Capacity){
@@ -110,6 +111,7 @@ namespace Sauce{
                 return Array[0];
             }
             T& operator[](size_t TargetIndex){
+                if(TargetIndex > Array_Size)return NULL_T;
                 return Array[TargetIndex];
             }
             T* operator*(){
@@ -133,17 +135,19 @@ namespace Sauce{
                 while(RemoveLast());// remove until we can't anymore
                 return true;
             }
-            DynamicArray_cl<T>(size_t StageSize=16){
+            DynamicArray_cl<T>(T &NIL,size_t StageSize=16){
                 this->StageSize=StageSize; // stage value determines by how much we increase or decrease the actual arrays size in memory.
                                            // you should probably set this to fit the application but we have a default of 8 just to be sure.
                 Array = new T[StageSize];
                 Array_Capacity=StageSize;
                 Array_Size=0;
+                NULL_T=&NIL;
             }
-            DynamicArray_cl<T>(T nValue,size_t StageSize=16){
+            DynamicArray_cl<T>(T nValue,T &NIL,size_t StageSize=16){
                 Array = new T[StageSize];
                 Array_Capacity=StageSize;
                 Array_Size=0;
+                NULL_T=&NIL;
                 AddLast(nValue);
             }
             ~DynamicArray_cl(){
