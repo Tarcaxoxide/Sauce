@@ -54,13 +54,16 @@ namespace Sauce{
         /*Testing VirtualMachine*/{
             Sauce::Memory::List_cl<Sauce::UserLand::Instruction_st> TestCode;
 
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__NULL,{Sauce::UserLand::TP__NULL,0}});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,4000}});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,1042}});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__ADD,{Sauce::UserLand::TP__NULL,0}});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PRINT,{Sauce::UserLand::TP__NULL,0}});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__EXIT,{Sauce::UserLand::TP__NULL,0}});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__NULL,{Sauce::UserLand::TP__NULL,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__NULL,{Sauce::UserLand::TP__NULL,0,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__TAG,{Sauce::UserLand::TP__TAG,'init    ',0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__CLEAR_STACK,{Sauce::UserLand::TP__NULL,0,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,4000,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,1042,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__ADD,{Sauce::UserLand::TP__NULL,0,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PRINT,{Sauce::UserLand::TP__NULL,0,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__JUMP,{Sauce::UserLand::TP__TAG,'init    ',0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__EXIT,{Sauce::UserLand::TP__NULL,0,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__NULL,{Sauce::UserLand::TP__NULL,0,0}});
 
             Sauce::UserLand::VirtualMachine_cl TestVM(TestCode);
         }

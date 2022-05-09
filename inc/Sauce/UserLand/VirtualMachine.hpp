@@ -21,18 +21,29 @@ namespace Sauce{
             OP__LESS_THAN,
             OP__EQUALS,
             OP__PUSH,
-            OP__PRINT
+            OP__PRINT,
+            OP__TAG,
+            OP__IF_JUMP,
+            OP__JUMP,
+            OP__CLEAR_STACK
         };
         enum TpCode: uint32_t{
             TP__NULL=0,
             TP__SIGNED_INT,
             TP__UNSIGNED_INT,
-            TP__BOOL
+            TP__BOOL,
+            TP__TAG
         };
-        
         struct VirtualStack_st{
             TpCode Type;
-            uint64_t Value;
+            union {
+                uint64_t Value;
+                unsigned char CValue[8];
+            };
+            union {
+                uint64_t eValue;
+                unsigned char eCValue[8];
+            };
         };
         struct Instruction_st{
             OpCode opcode;
@@ -41,6 +52,7 @@ namespace Sauce{
 
         class VirtualMachine_cl{
             Sauce::Memory::List_cl<VirtualStack_st> _VirtualStack;
+            Sauce::Memory::List_cl<VirtualStack_st> _VirtaulStackTags;
             public:
             VirtualMachine_cl(Sauce::Memory::List_cl<Instruction_st> code);
         };

@@ -4,11 +4,28 @@
 namespace Sauce{
     namespace UserLand{
         VirtualMachine_cl::VirtualMachine_cl(Sauce::Memory::List_cl<Instruction_st> code){
-            for(size_t i=0;i<code.Size();i++){
+            for(size_t i=0;i<code.Size();i++){ // prerun stage, get the tags and what not.
+                if(code[i].opcode == OP__TAG){
+                    _VirtaulStackTags.AddLast(Sauce::UserLand::VirtualStack_st{TP__TAG,code[i].Data.Value,i});
+                }
+            }
+            for(size_t i=0;i<code.Size();i++){ // run stage.
                 switch(code[i].opcode){
                     case OP__PUSH:{
                         _VirtualStack.AddLast(code[i].Data);
                     }break;//OP__PUSH
+                    case OP__JUMP:{
+                        for(size_t a=0;a<_VirtaulStackTags.Size();a++){
+                            if(_VirtaulStackTags[a].Value == code[i].Data.Value){
+                                i=_VirtaulStackTags[a].eValue;
+                                break;
+                            }
+                        }
+                        continue;
+                    }break;//OP__JUMP
+                    case OP__CLEAR_STACK:{
+                        _VirtualStack.Clear();
+                    }break;//OP__CLEAR_STACK
                     case OP__ADD:{
                         TpCode TargetType = _VirtualStack.Last().Type;
                         switch(TargetType){
