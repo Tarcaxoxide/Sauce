@@ -17,13 +17,17 @@ namespace Sauce{
             OP__MULTIPLY,
             OP__DIVIDE,
             OP__MODULUS,
+            OP__MORE_THAN,
+            OP__LESS_THAN,
+            OP__EQUALS,
             OP__PUSH,
             OP__PRINT
         };
         enum TpCode: uint32_t{
             TP__NULL=0,
             TP__SIGNED_INT,
-            TP__UNSIGNED_INT
+            TP__UNSIGNED_INT,
+            TP__BOOL
         };
         
         struct VirtualStack_st{

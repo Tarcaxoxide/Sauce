@@ -104,6 +104,63 @@ namespace Sauce{
                             }break;
                         }
                     }break;//OP__MODULUS
+                    case OP__LESS_THAN:{
+                        TpCode TargetType = _VirtualStack.Last().Type;
+                        switch(TargetType){
+                            case TP__SIGNED_INT:{
+                                int64_t RightHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                int64_t LeftHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                _VirtualStack.AddLast({TP__BOOL,LeftHandValue<RightHandValue});
+                            }break;
+                            case TP__UNSIGNED_INT:{
+                                uint64_t RightHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                uint64_t LeftHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                _VirtualStack.AddLast({TP__BOOL,LeftHandValue<RightHandValue});
+                            }break;
+                        }
+                    }break;//OP__LESS_THAN
+                    case OP__MORE_THAN:{
+                        TpCode TargetType = _VirtualStack.Last().Type;
+                        switch(TargetType){
+                            case TP__SIGNED_INT:{
+                                int64_t RightHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                int64_t LeftHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                _VirtualStack.AddLast({TP__BOOL,LeftHandValue>RightHandValue});
+                            }break;
+                            case TP__UNSIGNED_INT:{
+                                uint64_t RightHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                uint64_t LeftHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                _VirtualStack.AddLast({TP__BOOL,LeftHandValue>RightHandValue});
+                            }break;
+                        }
+                    }break;//OP__MORE_THAN
+                    case OP__EQUALS:{
+                        TpCode TargetType = _VirtualStack.Last().Type;
+                        switch(TargetType){
+                            case TP__SIGNED_INT:{
+                                int64_t RightHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                int64_t LeftHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                _VirtualStack.AddLast({TP__BOOL,LeftHandValue==RightHandValue});
+                            }break;
+                            case TP__UNSIGNED_INT:{
+                                uint64_t RightHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                uint64_t LeftHandValue = _VirtualStack.Last().Value;
+                                _VirtualStack.RemoveLast();
+                                _VirtualStack.AddLast({TP__BOOL,LeftHandValue==RightHandValue});
+                            }break;
+                        }
+                    }break;//OP__EQUALS
                     case OP__PRINT:{
                         TpCode TargetType = _VirtualStack.Last().Type;
                         switch(TargetType){
