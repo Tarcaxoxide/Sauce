@@ -60,8 +60,9 @@ namespace Sauce{
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,4000,0}});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,1042,0}});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__ADD,{Sauce::UserLand::TP__NULL,0,0}});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PRINT,{Sauce::UserLand::TP__NULL,0,0}});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__JUMP,{Sauce::UserLand::TP__TAG,'init    ',0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,5042,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__EQUALS,{Sauce::UserLand::TP__NULL,0,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__IF_JUMP,{Sauce::UserLand::TP__TAG,'init    ',0}});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__EXIT,{Sauce::UserLand::TP__NULL,0,0}});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__NULL,{Sauce::UserLand::TP__NULL,0,0}});
 
