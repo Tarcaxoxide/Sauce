@@ -35,6 +35,10 @@ namespace Sauce{
                         }
                         continue;
                     }break;//OP__IF_JUMP
+                    case OP__CLONE:{
+                        bool Condition = (bool)_VirtualStack.Last().Value;
+                        _VirtualStack.AddLast(_VirtualStack.Last());
+                    }break;//OP__CLONE
                     case OP__CLEAR_STACK:{
                         _VirtualStack.Clear();
                     }break;//OP__CLEAR_STACK

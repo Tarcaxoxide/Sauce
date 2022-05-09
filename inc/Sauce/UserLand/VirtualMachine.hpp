@@ -25,7 +25,8 @@ namespace Sauce{
             OP__TAG,
             OP__IF_JUMP,
             OP__JUMP,
-            OP__CLEAR_STACK
+            OP__CLEAR_STACK,
+            OP__CLONE
         };
         enum TpCode: uint32_t{
             TP__NULL=0,
@@ -45,9 +46,11 @@ namespace Sauce{
                 unsigned char eCValue[8];
             };
         };
+        const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
+        
         struct Instruction_st{
             OpCode opcode;
-            VirtualStack_st Data;
+            VirtualStack_st Data{NIL_DATA};
         };
 
         class VirtualMachine_cl{
