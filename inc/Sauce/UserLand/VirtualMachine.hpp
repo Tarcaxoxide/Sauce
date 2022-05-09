@@ -43,11 +43,3 @@ namespace Sauce{
     };
 };
 
-
-
-/*
-    #Layout
-        32bit instruction
-        32bit type
-        64bit 
-*/
