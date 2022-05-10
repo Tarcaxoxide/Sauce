@@ -7,6 +7,8 @@ namespace Sauce{
             AHCIDriver::AHCIDriver(Sauce::IO::PCIDeviceHeader* pciBaseAddress){
                 this->PCIBaseAddress=pciBaseAddress;
                 Sauce::IO::GlobalTerminal->PutString("AHCI Driver instance Initialized.\n\r");
+
+                ABAR = (HBAMemory*)((Sauce::IO::PCIHeader0*)pciBaseAddress)->BAR5;
             }
             AHCIDriver::~AHCIDriver(){}
         };
