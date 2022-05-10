@@ -60,7 +60,7 @@ namespace Sauce{
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,4000,0}});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,1042,0}});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__ADD});
-            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,5042,0}});
+            TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PUSH,{Sauce::UserLand::TP__UNSIGNED_INT,5041,0}});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__CLONE});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__PRINT});
             TestCode.AddLast(Sauce::UserLand::Instruction_st{Sauce::UserLand::OP__EQUALS});
