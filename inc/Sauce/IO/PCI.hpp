@@ -21,7 +21,7 @@ namespace Sauce{
             uint8_t LatencyTimer;
             uint8_t HeaderType;
             uint8_t BIST;
-        };
+        }__attribute__((packed));
         void EnemerateFunction(uint64_t deviceAddress,uint64_t function);
         void EnumerateDevice(uint64_t busAddress,uint64_t device);
         void EnumerateBus(uint64_t baseAddress,uint64_t bus);

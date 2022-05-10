@@ -15,16 +15,16 @@ namespace Sauce{
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
 
-            //Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetVenderName(pciDeviceHeader->VendorID));
-            //Sauce::IO::GlobalTerminal->PutString(" | ");
-            //Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetDeviceName(pciDeviceHeader->VendorID,pciDeviceHeader->DeviceID));
-            //Sauce::IO::GlobalTerminal->PutString(" | ");
-            //Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::DeviceClasses[pciDeviceHeader->Class]);
-            //Sauce::IO::GlobalTerminal->PutString(" | ");
-            //Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetSubClassName(pciDeviceHeader->Class,pciDeviceHeader->Subclass));
-            //Sauce::IO::GlobalTerminal->PutString(" | ");
-            //Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetProgIFName(pciDeviceHeader->Class,pciDeviceHeader->Subclass,pciDeviceHeader->ProgIF));
-            //Sauce::IO::GlobalTerminal->PutString("\n\r");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetVenderName(pciDeviceHeader->VendorID));
+            Sauce::IO::GlobalTerminal->PutString(" | ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetDeviceName(pciDeviceHeader->VendorID,pciDeviceHeader->DeviceID));
+            Sauce::IO::GlobalTerminal->PutString(" | ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::DeviceClasses[pciDeviceHeader->Class]);
+            Sauce::IO::GlobalTerminal->PutString(" | ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetSubClassName(pciDeviceHeader->Class,pciDeviceHeader->Subclass));
+            Sauce::IO::GlobalTerminal->PutString(" | ");
+            Sauce::IO::GlobalTerminal->PutString((char*)Sauce::IO::GetProgIFName(pciDeviceHeader->Class,pciDeviceHeader->Subclass,pciDeviceHeader->ProgIF));
+            Sauce::IO::GlobalTerminal->PutString("\n\r");
 
             switch(pciDeviceHeader->Class){
                 case 0x01:{ // mass storage controller
@@ -47,7 +47,7 @@ namespace Sauce{
             PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)deviceAddress;
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
-            for(uint64_t function =0;device < 8;device++){
+            for(uint64_t function=0;function < 8;function++){
                 EnemerateFunction(deviceAddress,function);
             }
         }
