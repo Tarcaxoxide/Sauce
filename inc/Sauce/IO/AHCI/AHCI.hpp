@@ -10,6 +10,17 @@
 namespace Sauce{
     namespace IO{
         namespace AHCI{
+            struct HBA_PORTS_STATUS{
+                static const uint8_t HBA_PORT_DEV_PRESENT=0x3;
+            }HBA_PORTS_STATUS
+            
+            EnumerateBus PortType{
+                None = 0,
+                SATA,
+                SEMB,
+                PM,
+                SATAPI
+            };
             struct HBAPort{
                 uint32_t commandListBase;
                 uint32_t commandListBaseUpper;
@@ -47,12 +58,14 @@ namespace Sauce{
                 uint8_t vendor[0x60];
                 HBAPort ports[1];
             };
+            PortType CheckPortType(HBAPort* port);
             class AHCIDriver{
                 Sauce::IO::PCIDeviceHeader* PCIBaseAddress=nullptr;
                 HBAMemory* ABAR=nullptr;
                 public:
                     AHCIDriver(Sauce::IO::PCIDeviceHeader* pciBaseAddress);
                     ~AHCIDriver();
+                    void ProbePorts();
             };
         };
     };
