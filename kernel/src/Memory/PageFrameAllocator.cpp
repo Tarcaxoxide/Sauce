@@ -37,7 +37,7 @@ namespace Sauce{
                     ReleasePages(descriptor->physAddr,descriptor->numPages);
                 }
             }
-            ReservePages(0,0X100);// reserver between 0 and 0x100000 , protect the bios!
+            ReservePages(0,0x100);// reserver between 0 and 0x100000 , protect the bios!
             LockPages(PageBitmap.Buffer,PageBitmap.Size/4096 + 1);
             // reserve pages of unusable/reserved memory
         }

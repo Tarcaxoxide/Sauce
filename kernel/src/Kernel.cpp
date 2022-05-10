@@ -33,24 +33,6 @@ namespace Sauce{
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
-        /*Testing DynamicArray*/{
-            Sauce::Memory::List_cl<char> TestCharString="Hello World!";
-            Sauce::IO::GlobalTerminal->PutString("\n\rString->");
-            Sauce::IO::GlobalTerminal->PutString(TestCharString.Raw());
-            
-
-            Sauce::Memory::List_cl<int> TestIntString;
-            TestIntString.AddLast(5431);
-            TestIntString.AddLast(4315);
-            TestIntString.AddLast(TestIntString[0]+TestIntString[1]);
-
-            for(size_t i=0;i<TestIntString.Size();i++){
-                Sauce::IO::GlobalTerminal->PutString("\n\rNumber->");
-                Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TestIntString[i]));
-            }
-            Sauce::IO::GlobalTerminal->PutString("\n\r");
-        }/*Testing DynamicArray*/
-
         /*Testing VirtualMachine*/{
             Sauce::Memory::List_cl<Sauce::UserLand::Instruction_st> TestCode;
 
