@@ -9,8 +9,8 @@ namespace Sauce{
     namespace Memory{
         struct HeapSegmentHeader{
             size_t Length;
-            HeapSegmentHeader* NextSegment;
-            HeapSegmentHeader* LastSegment;
+            HeapSegmentHeader* NextSegment=nullptr;
+            HeapSegmentHeader* LastSegment=nullptr;
             bool free;
             void CombinedForward();
             void CombinedBackward();

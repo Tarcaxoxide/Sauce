@@ -37,7 +37,7 @@ namespace Sauce{
     class Kernel_cl{
         private: //private variables
             DataStructure* DFBL;
-            Sauce::Memory::PageTable* PML4=NULL;
+            Sauce::Memory::PageTable* PML4=nullptr;
             uint64_t mMapEntries;
             uint64_t kernelSize;
             uint64_t kernelPages;

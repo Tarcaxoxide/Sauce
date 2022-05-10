@@ -8,7 +8,7 @@ namespace Sauce{
     namespace Memory{
         template<typename T>
         class DynamicArray_cl{
-            T* Array={nullptr};
+            T* Array=nullptr;
             size_t Array_Size;
             size_t Array_Capacity;
             size_t StageSize;

@@ -10,7 +10,7 @@ namespace Sauce{
             //size_t Cursor_X;
             //size_t Cursor_Y;
             Sauce::Point64_t Cursor;
-            DataStructure* DFBL;
+            DataStructure* DFBL=nullptr;
             GOP_PixelStructure Fcolor;
             GOP_PixelStructure Bcolor;
             GOP_PixelStructure DoubleBuffer[200];

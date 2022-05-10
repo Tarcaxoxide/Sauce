@@ -7,8 +7,8 @@ namespace Sauce{
     namespace Memory{
         struct EFI_MEMORY_DESCRIPTOR{
             uint32_t type;
-            void* physAddr;
-            void* virtAddr;
+            void* physAddr=nullptr;
+            void* virtAddr=nullptr;
             uint64_t numPages;
             uint64_t attribs;
         };

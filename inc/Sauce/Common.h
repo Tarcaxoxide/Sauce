@@ -42,32 +42,32 @@ typedef struct{
     unsigned char char_height;
 }PSF1_HEADER;
 typedef struct{
-    PSF1_HEADER* psf1_header;
+    PSF1_HEADER* psf1_header=nullptr;
     void* glyphBuffer;
 }PSF1_FONT;
 
 #ifndef Compiling_PureC
     typedef struct{
         uint64_t TestNumber;
-        FrameBufferStructure* FrameBuffer;
+        FrameBufferStructure* FrameBuffer=nullptr;
         uint64_t fbBase;
         uint64_t fbSize;
         PSF1_FONT* Font;
-        Sauce::Memory::EFI_MEMORY_DESCRIPTOR* mMap;
+        Sauce::Memory::EFI_MEMORY_DESCRIPTOR* mMap=nullptr;
         uint64_t mMapSize;
         uint64_t mDescriptorSize;
-        Sauce::IO::ACPI::RSDP2* rsdp;
+        Sauce::IO::ACPI::RSDP2* rsdp=nullptr;
     }DataStructure;
 #else
     typedef struct{
         uint64_t TestNumber;
-        FrameBufferStructure* FrameBuffer;
+        FrameBufferStructure* FrameBuffer=nullptr;
         uint64_t fbBase;
         uint64_t fbSize;
         PSF1_FONT* Font;
-        EFI_MEMORY_DESCRIPTOR* mMap;
+        EFI_MEMORY_DESCRIPTOR* mMap=nullptr;
         uint64_t mMapSize;
         uint64_t mDescriptorSize;
-        RSDP2* rsdp;
+        RSDP2* rsdp=nullptr;
     }DataStructure;
 #endif

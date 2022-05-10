@@ -10,8 +10,8 @@
 namespace Sauce{
     namespace Shell{
         class Kshell{
-            Kshell* Self=NULL;
-            DataStructure* DFBL;
+            Kshell* Self=nullptr;
+            DataStructure* DFBL=nullptr;
             Sauce::IO::Terminal Term;
             public:
                 Kshell(DataStructure* DFBL); 

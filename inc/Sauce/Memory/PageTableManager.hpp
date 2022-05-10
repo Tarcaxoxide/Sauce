@@ -15,7 +15,7 @@ namespace Sauce{
         class PageTableManager{
             public:
             PageTableManager(PageTable* PML4Address);
-            PageTable* PML4Address=NULL;
+            PageTable* PML4Address=nullptr;
             void MapMemory(void* virtualMemory,void* physicalMemory);
         };
         extern PageTableManager GlobalPageTableManager;

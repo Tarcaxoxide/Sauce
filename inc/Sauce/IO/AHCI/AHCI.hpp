@@ -11,7 +11,7 @@ namespace Sauce{
     namespace IO{
         namespace AHCI{
             class AHCIDriver{
-                Sauce::IO::PCIDeviceHeader* PCIBaseAddress;
+                Sauce::IO::PCIDeviceHeader* PCIBaseAddress=nullptr;
                 public:
                     AHCIDriver(Sauce::IO::PCIDeviceHeader* pciBaseAddress);
                     ~AHCIDriver();
