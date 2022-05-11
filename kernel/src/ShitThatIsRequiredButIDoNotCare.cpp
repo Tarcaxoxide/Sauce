@@ -23,5 +23,5 @@ extern "C" void __dso_handle(){
 extern "C" void __cxa_atexit(){
     uint16_t Port = Sauce::IO::Debug::LowestAvailablePort();
     if(Port == 0)return; // we can't write to port because there is none available.
-    Sauce::IO::Debug::write_string_serial("[__cxa_atexit]\0",Port);
+    Sauce::IO::Debug::write_string_serial("[__cxa_atexit]\n\0",Port);
 }
