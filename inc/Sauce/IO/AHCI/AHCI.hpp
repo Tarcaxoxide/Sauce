@@ -10,11 +10,9 @@
 namespace Sauce{
     namespace IO{
         namespace AHCI{
-            struct HBA_PORTS_STATUS{
-                static const uint8_t HBA_PORT_DEV_PRESENT=0x3;
-            }HBA_PORTS_STATUS
+            static const uint8_t HBA_PORT_DEV_PRESENT=0x3;
             
-            EnumerateBus PortType{
+            enum PortType{
                 None = 0,
                 SATA,
                 SEMB,

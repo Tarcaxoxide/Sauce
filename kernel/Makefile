@@ -69,4 +69,4 @@ clean:
 
 run: $(BUILDDIR)/$(OSNAME).img
 	
-	qemu-system-x86_64 -machine q35 -s -drive file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd" -net none
+	qemu-system-x86_64 -serial stdio -machine q35 -s -drive file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd" -net none

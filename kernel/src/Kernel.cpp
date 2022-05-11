@@ -3,9 +3,11 @@
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
-    Kernel_cl::Kernel_cl(DataStructure* DFBL)
+    uint16_t Kernel_cl::DebugComPort=0;
+    Kernel_cl::Kernel_cl(DataStructure* DFBL,uint16_t DebugComPort)
     :kShell(DFBL){
         this->DFBL=DFBL;
+        this->DebugComPort=DebugComPort;
         if(Self == NULL)Self=this;
         
         asm volatile("cli");
@@ -33,6 +35,7 @@ namespace Sauce{
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
+        Kernel_cl::Debug("[Kernel_cl::PreLoop]\n\0");
         /*Testing VirtualMachine*/{
             Sauce::Memory::List_cl<Sauce::UserLand::Instruction_st> TestCode;
 
@@ -54,12 +57,14 @@ namespace Sauce{
         }
     }
     void Kernel_cl::MainLoop(){
+        Kernel_cl::Debug("[Kernel_cl::MainLoop]\n\0");
         do{
             Sauce::Interrupts::PIT::Sleep(1000);
             
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
+        Kernel_cl::Debug("[Kernel_cl::Prep_GlobalAllocator]\n\0");
         Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
         Sauce::Memory::GlobalAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
@@ -71,6 +76,7 @@ namespace Sauce{
         Sauce::Memory::GlobalPageTableManager = Sauce::Memory::PageTableManager(PML4);
     }
     void Kernel_cl::Prep_VirtualAddresses(){
+        Kernel_cl::Debug("[Kernel_cl::Prep_VirtualAddresses]\n\0");
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
@@ -83,34 +89,45 @@ namespace Sauce{
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
     void Kernel_cl::Prep_GDT(){
+        Kernel_cl::Debug("[Kernel_cl::Prep_GDT]\n\0");
         gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_st)-1;
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
         LoadGDT(&gdtDescriptor);
     }
     void Kernel_cl::Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector){
+        Kernel_cl::Debug("[Kernel_cl::Add_Interrupt]\0");
         Sauce::Interrupts::IDTDescriptorEntry* Interrupt = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + Interrupt_Number * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
         Interrupt->SetOffset((uint64_t)Interrupt_Handler);
         Interrupt->type_attr = type_attr;
         Interrupt->selector=selector;
     }
     void Kernel_cl::Prep_Interrupts(){
+        Kernel_cl::Debug("[Kernel_cl::Prep_Interrupts]\n\0");
         idtr.Limit = 0x0FFF;
         idtr.Offset= (uint64_t)Sauce::Memory::GlobalAllocator.RequestPage();
 
         Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
+        Kernel_cl::Debug("->(PageFault_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::DoubleFault_handler,0x8,IDT_TA_InterruptGate,0x08);
+        Kernel_cl::Debug("->(DoubleFault_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::GeneralProtectionFault_handler,0xD,IDT_TA_InterruptGate,0x08);
+        Kernel_cl::Debug("->(GeneralProtectionFault_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::KeyboardInterrupt_handler,0x21,IDT_TA_InterruptGate,0x08);
+        Kernel_cl::Debug("->(KeyboardInterrupt_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::MouseInterrupt_handler,0x2C,IDT_TA_InterruptGate,0x08);
+        Kernel_cl::Debug("->(MouseInterrupt_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::PITInterrupt_handler,0x20,IDT_TA_InterruptGate,0x08);
+        Kernel_cl::Debug("->(PITInterrupt_handler)\n\0");
 
         asm volatile("lidt %0" : : "m" (idtr));
     }
     void Kernel_cl::Prep_IO(){
+        Kernel_cl::Debug("[Kernel_cl::Prep_IO]\n\0");
         Sauce::Interrupts::RemapPic();
         Sauce::IO::PS2MouseInitialize();
     }
     void Kernel_cl::Prep_ACPI(){
+        Kernel_cl::Debug("[Kernel_cl::Prep_ACPI]\n\0");
         Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
         Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
         Sauce::IO::EnumeratePCI(mcfg);
@@ -147,7 +164,11 @@ namespace Sauce{
     void Kernel_cl::Notify_Of_Mouse(){
         Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
     }
+    void Kernel_cl::Debug(const char* str){
+        Sauce::IO::Debug::write_string_serial(str,DebugComPort);
+    }
     void Kernel_cl::Stop(bool ClearInterrupts){
+        Kernel_cl::Debug("[Kernel_cl::Stop]\n\0");
         while(true){
             if(ClearInterrupts)asm volatile("cli");
             asm volatile("hlt");

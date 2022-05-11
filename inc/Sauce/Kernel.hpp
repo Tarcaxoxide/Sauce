@@ -28,6 +28,7 @@
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/UserLand/VirtualMachine.hpp>
+#include<Sauce/IO/Debug/Serial.hpp>
 
 extern uint64_t _KernelStartRef;
 extern uint64_t _KernelEndRef;
@@ -45,6 +46,7 @@ namespace Sauce{
             Sauce::Interrupts::IDTR idtr; // interrupt descriptor table.
             static Kernel_cl* Self; // Pointer to the kernel itself , used in static functions. it kind of acts like python's self.
             Sauce::IO::InputData_st InputData;
+            static uint16_t DebugComPort;
         private: //private functions
             void Prep_GlobalAllocator();
             void Prep_VirtualAddresses();
@@ -58,11 +60,12 @@ namespace Sauce{
         public: //public variables
             Sauce::Shell::Kshell kShell;
         public: //public functions
-            Kernel_cl(DataStructure* DFBL);
+            Kernel_cl(DataStructure* DFBL,uint16_t DebugComPort);
             void Stop(bool ClearInterrupts=false);
             static void Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
             static void Notify_Of_Mouse();
             void oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
             void oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse);
+            static void Debug(const char* str);
     };
 };

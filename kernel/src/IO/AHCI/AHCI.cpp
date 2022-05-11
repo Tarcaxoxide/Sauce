@@ -17,12 +17,12 @@ namespace Sauce{
                 this->PCIBaseAddress=pciBaseAddress;
                 Sauce::IO::GlobalTerminal->PutString("AHCI Driver instance Initialized.\n\r");
 
-                ABAR = (HBAMemory*)((Sauce::IO::PCIHeader0*)pciBaseAddress)->BAR5;
-                Sauce::Memory::GlobalPageTableManager.MapMemory(ABAR,ABAR);
+                //ABAR = (HBAMemory*)((Sauce::IO::PCIHeader0*)pciBaseAddress)->BAR5;
+                //Sauce::Memory::GlobalPageTableManager.MapMemory(ABAR,ABAR);
             }
             AHCIDriver::~AHCIDriver(){}
             void AHCIDriver::ProbePorts(){
-                uint32_t portsImplemented ABAR->portsImplemented;
+                uint32_t portsImplemented = ABAR->portsImplemented;
                 for(int i=0;i<32;i++){
                     if(portsImplemented & (1 << i)){
 

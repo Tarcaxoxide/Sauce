@@ -2,7 +2,7 @@
 
 #include<Sauce/Common.h>
 #include<Sauce/Math.hpp>
-
+#include<Sauce/IO/Debug/Serial.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -15,6 +15,7 @@ namespace Sauce{
             GOP_PixelStructure Bcolor;
             GOP_PixelStructure DoubleBuffer[200];
             Point64_t OldMousePosition {0,0,0};
+            uint16_t ComPort=0;
             private:
                 void RemoveMouse(size_t X,size_t Y); // internal commands for managing the mouse pointer. not to be confused with the cursor which is for text.
                 void PlaceMouse(size_t X,size_t Y);  // internal commands for managing the mouse pointer. not to be confused with the cursor which is for text.
