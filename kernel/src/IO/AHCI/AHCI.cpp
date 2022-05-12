@@ -1,7 +1,7 @@
 #include<Sauce/IO/AHCI/AHCI.hpp>
 #include<Sauce/IO/Terminal.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
-#include<Sauce/Kernel.hpp>
+#include<Sauce/IO/Debug/Console.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -28,7 +28,7 @@ namespace Sauce{
                 return PortType::None; //<- if for some odd reason you get here, should be impossible but still.
             }
             AHCIDriver::AHCIDriver(Sauce::IO::PCIDeviceHeader* pciBaseAddress){
-                Kernel_cl::Debug("[AHCIDriver::AHCIDriver]\n\0");
+                Sauce::IO::Debug::COM1_Console.Write("[AHCIDriver::AHCIDriver]\n\0");
                 this->PCIBaseAddress=pciBaseAddress;
 
                 ABAR = (Sauce::IO::AHCI::HBAMemory*)((Sauce::IO::PCIHeader0*)pciBaseAddress)->BAR5;
@@ -36,29 +36,32 @@ namespace Sauce{
                 ProbePorts();
             }
             AHCIDriver::~AHCIDriver(){
-                Kernel_cl::Debug("[AHCIDriver::~AHCIDriver]\n\0");
+                Sauce::IO::Debug::COM1_Console.Write("[AHCIDriver::~AHCIDriver]\n\0");
             }
             void AHCIDriver::ProbePorts(){
-                Kernel_cl::Debug("[AHCIDriver::ProbePorts]\n\0");
+                Sauce::IO::Debug::COM1_Console.Write("[AHCIDriver::ProbePorts]\n\0");
                 uint32_t portsImplemented = ABAR->portsImplemented;
                 for(int i=0;i<32;i++){
                     if(portsImplemented & (1 << i)){
                         PortType portType = CheckPortType(&ABAR->ports[i]);
                         switch(portType){
                             case PortType::SATA:{
-                                Kernel_cl::Debug("\t->(SATA)\n\0");
+                                Sauce::IO::Debug::COM1_Console.Write("\t->(SATA)\n\0");
                             }break;
                             case PortType::SEMB:{
-                                Kernel_cl::Debug("\t->(SEMB)\n\0");
+                                Sauce::IO::Debug::COM1_Console.Write("\t->(SEMB)\n\0");
                             }break;
                             case PortType::PM:{
-                                Kernel_cl::Debug("\t->(PM)\n\0");
+                                Sauce::IO::Debug::COM1_Console.Write("\t->(PM)\n\0");
                             }break;
                             case PortType::SATAPI:{
-                                Kernel_cl::Debug("\t->(SATAPI)\n\0");
+                                Sauce::IO::Debug::COM1_Console.Write("\t->(SATAPI)\n\0");
                             }break;
                             default:{
-                                Kernel_cl::Debug("\t->(Other/Unknown)\n\0");
+                                Sauce::IO::Debug::COM1_Console.Write("\t->(\0");
+                                Sauce::IO::Debug::COM1_Console.Write("?:\0");
+                                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(ABAR->ports[i].signature));
+                                Sauce::IO::Debug::COM1_Console.Write(")\n\0");
                             }break;
                         }
                     }

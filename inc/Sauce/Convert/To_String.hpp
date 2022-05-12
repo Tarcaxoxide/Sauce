@@ -21,7 +21,7 @@ namespace Sauce{
 		char* ToString(uint32_t value,bool ClearBefore=true);
 		char* ToString(uint64_t value,bool ClearBefore=true);
 		//Decimal 0.0
-		char* ToString(float value,uint16_t decimalPlaces);
-		char* ToString(double value,uint16_t decimalPlaces);
+		char* ToString(float value,uint16_t decimalPlaces=4);
+		char* ToString(double value,uint16_t decimalPlaces=4);
     };
 };

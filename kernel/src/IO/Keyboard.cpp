@@ -1,40 +1,39 @@
 #include<Sauce/IO/Keyboard.hpp>
 
-
 namespace Sauce{
     namespace IO{
         uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet){
-                static bool isShift;
-                static bool isCaps;
-                uint8_t* KeyMapCodes = NULL;
-                uint16_t KeyCodeDecoded = 0;
-              
-              
-                switch(KeySet){
-                    case 1:KeyMapCodes = (uint8_t*)&KeyMapCodes_1;break;
-                }
-                for(size_t I = 0;(I < 250);I++){
-                    uint16_t X = 0;
-                    if(KeyMapCodes[I] == KeyCode){ //basically we are converting the keycode to the index of the keycode inside the key map.
-                        if(!(I % 2))X = 0x1000;  //and then we are doing some fancy math to seperate press/release (the last 2 bytes are the code, the first 2 are the indicators to determine press/release and capital/lowercase)
-                        X += (uint16_t)(I - (I % 2));
-                        KeyCodeDecoded=X;
-                    }
-                }
-                if(KeyCodeDecoded == 0x103A){
-                    isCaps =! isCaps;
-                }
-                if(KeyCodeDecoded == 0x0056 || KeyCodeDecoded == 0x0070){
-                    isShift = false;
-                }
-                if(KeyCodeDecoded == 0x1056 || KeyCodeDecoded == 0x1070){
-                    isShift = true;
-                }
-                if(isCaps != isShift){
-                    KeyCodeDecoded += 0x0100; // if we are shifted or capitalized but not at the same time then make the indicator so it's capital letter of what ever key is being pressed.
-                }
-                return KeyCodeDecoded;
+            static bool isShift;
+            static bool isCaps;
+            uint8_t* KeyMapCodes = NULL;
+            uint16_t KeyCodeDecoded = 0;
+          
+          
+            switch(KeySet){
+                case 1:KeyMapCodes = (uint8_t*)&KeyMapCodes_1;break;
             }
+            for(size_t I = 0;(I < 250);I++){
+                uint16_t X = 0;
+                if(KeyMapCodes[I] == KeyCode){ //basically we are converting the keycode to the index of the keycode inside the key map.
+                    if(!(I % 2))X = 0x1000;  //and then we are doing some fancy math to seperate press/release (the last 2 bytes are the code, the first 2 are the indicators to determine press/release and capital/lowercase)
+                    X += (uint16_t)(I - (I % 2));
+                    KeyCodeDecoded=X;
+                }
+            }
+            if(KeyCodeDecoded == 0x103A){
+                isCaps =! isCaps;
+            }
+            if(KeyCodeDecoded == 0x0056 || KeyCodeDecoded == 0x0070){
+                isShift = false;
+            }
+            if(KeyCodeDecoded == 0x1056 || KeyCodeDecoded == 0x1070){
+                isShift = true;
+            }
+            if(isCaps != isShift){
+                KeyCodeDecoded += 0x0100; // if we are shifted or capitalized but not at the same time then make the indicator so it's capital letter of what ever key is being pressed.
+            }
+            return KeyCodeDecoded;
+        }
         Sauce::IO::Keyboard_st Code_To_Key(uint16_t TranslatedKeyCode){
             uint8_t IPress = (((uint8_t)(TranslatedKeyCode >> 12)) << 4);
             uint8_t ICapital = (((uint8_t)(TranslatedKeyCode >> 8)) << 4);
