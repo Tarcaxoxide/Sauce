@@ -122,7 +122,12 @@ namespace Sauce{
     void Kernel_cl::Prep_IO(){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::Prep_IO]\n\0");
         Sauce::Interrupts::RemapPic();
+        Sauce::Interrupts::SysReady=true;
         Sauce::IO::PS2MouseInitialize();
+        // Attempting to fix the crash at the start
+            Sauce::Interrupts::SysReady=false;
+            for(size_t i=0;i<0x0000000000100000;i+=0x0000000000000001);
+            Sauce::Interrupts::SysReady=true;
     }
     void Kernel_cl::Prep_ACPI(){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::Prep_ACPI]\n\0");

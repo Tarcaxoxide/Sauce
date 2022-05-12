@@ -17,6 +17,7 @@
 
 namespace Sauce{
     namespace Interrupts{
+        extern bool SysReady;
         struct interrupt_frame;
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame);

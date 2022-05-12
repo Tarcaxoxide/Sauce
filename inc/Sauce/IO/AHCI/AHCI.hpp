@@ -3,7 +3,7 @@
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/IO/PCI.hpp>
-
+#include<Sauce/Memory/DynamicArray.hpp>
 
 
 
@@ -56,9 +56,39 @@ namespace Sauce{
                 HBAPort ports[1];
             };
             PortType CheckPortType(HBAPort* port);
+            struct HBACommandHeader{
+                uint8_t commandFISLength:5; //5
+                uint8_t atapi:1; //6
+                uint8_t write:1; //7
+                uint8_t prefetchable:1; //8
+
+                uint8_t reset:1; //1
+                uint8_t bist:1; //2
+                uint8_t clearBusy:1; //3
+                uint8_t rsv0:1; //4
+                uint8_t portMultiplier:4; //8
+
+                uint16_t prdtLength;
+                uint32_t prdbCount;
+                uint32_t commandTableBaseAddress;
+                uint32_t commandTableBaseAddressUpper;
+                uint32_t resv1[4];
+            };
+            struct Port{
+                HBAPort* hbaPort=nullptr;
+                PortType portType;
+                uint8_t* buffer=nullptr;
+                uint8_t portNumber;
+                void Configure();
+                void StopCMD();
+                void StartCMD();
+            };
+            
             class AHCIDriver{
                 Sauce::IO::PCIDeviceHeader* PCIBaseAddress=nullptr;
                 HBAMemory* ABAR=nullptr;
+                Sauce::Memory::List_cl<Port> Ports;
+                //uint8_t portCount; //<- taken care of by my list class
                 public:
                     AHCIDriver(Sauce::IO::PCIDeviceHeader* pciBaseAddress);
                     ~AHCIDriver();

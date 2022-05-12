@@ -154,7 +154,6 @@ namespace Sauce{
         template<typename TT>
         class List_cl{
             DynamicArray_cl<TT> Contents;
-            TT* Ret=NULL;
             public:
             List_cl(){}
             List_cl(TT* nValue){(*this)=nValue;}
@@ -184,7 +183,7 @@ namespace Sauce{
             TT& operator[](size_t TargetIndex){
                 return Contents[TargetIndex];
             }
-            TT* Raw(){
+            TT* Raw(){ //<- does basically the same thing as c_str() but for any type (hence why i don't call it c_str() because it's not a string)
                 return *Contents;
             }
             size_t Size(){
