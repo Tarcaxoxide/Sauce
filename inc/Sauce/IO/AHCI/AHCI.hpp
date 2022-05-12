@@ -10,7 +10,6 @@
 namespace Sauce{
     namespace IO{
         namespace AHCI{
-            static const uint8_t HBA_PORT_DEV_PRESENT=0x3;
             
             enum PortType{
                 None = 0,

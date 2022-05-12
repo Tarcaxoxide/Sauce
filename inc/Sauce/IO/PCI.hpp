@@ -33,7 +33,7 @@ namespace Sauce{
             uint32_t CardbusCISPtr;
             uint16_t SubsystemVendorID;
             uint16_t SubsystemID;
-            uint32_t ExpandsionROMBaseAddr;
+            uint32_t ExpansionROMBaseAddr;
             uint8_t  CapabilitiesPtr;
             uint8_t Rsv0;
             uint16_t Rsv1;

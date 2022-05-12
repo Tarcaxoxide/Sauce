@@ -9,7 +9,7 @@ namespace Sauce{
         this->DFBL=DFBL;
         this->DebugComPort=DebugComPort;
         if(Self == NULL)Self=this;
-        
+        Kernel_cl::Debug("[Kernel_cl::Kernel_cl]\n\0"); // <- little late but i can't use it till i set the port. this should be the only exception.
         asm volatile("cli");
         
         Prep_GlobalAllocator();
