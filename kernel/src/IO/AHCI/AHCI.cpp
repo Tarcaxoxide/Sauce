@@ -6,16 +6,6 @@
 namespace Sauce{
     namespace IO{
         namespace AHCI{
-            #define HBA_PORT_DEV_PRESENT 0x3
-            #define HBA_PORT_IPM_ACTIVE 0x1
-            #define HBA_PxCMD_CR 0x8000
-            #define HBA_PxCMD_FRE 0x0010
-            #define HBA_PxCMD_FR 0x4000
-            #define HBA_PxCMD_ST 0x0001
-            #define SATA_SIG_ATAPI 0xEB140101
-            #define SATA_SIG_ATA 0x00000101
-            #define SATA_SIG_SEMB 0xC33C0101
-            #define SATA_SIG_PM 0x96690101
             PortType CheckPortType(HBAPort* port){
                 uint32_t sataStatus = port->sataStatus;
                 uint8_t interfacePowerManagement = (sataStatus >> 8) & 0b111;
@@ -34,6 +24,9 @@ namespace Sauce{
             void Port::Configure(){
                 Sauce::IO::Debug::COM1_Console.Write("[Port::Configure]\n\0");
                 StopCMD();
+
+                buffer = (uint8_t*)Sauce::Memory::GlobalAllocator.RequestPage();
+                Sauce::Memory::memset(buffer,0,0x1000);
 
                 void* newBase = Sauce::Memory::GlobalAllocator.RequestPage();
                 hbaPort->commandListBase = (uint32_t)(uint64_t)newBase;
@@ -70,6 +63,70 @@ namespace Sauce{
                 hbaPort->cmdStatus |= HBA_PxCMD_FRE;
                 hbaPort->cmdStatus |= HBA_PxCMD_ST;
             }
+            bool Port::Read(uint64_t sector,uint32_t sectorCount){
+                Sauce::IO::Debug::COM1_Console.Write("[Port::Read]\0");
+                Sauce::IO::Debug::COM1_Console.Write(" ->(sector:\0");
+                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(sector));
+                Sauce::IO::Debug::COM1_Console.Write(",sectorCount:\0");
+                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(sectorCount));
+                Sauce::IO::Debug::COM1_Console.Write(",buffer:\0");
+                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString((uint64_t)buffer));
+                Sauce::IO::Debug::COM1_Console.Write(")\n\0");
+
+                Sauce::IO::Debug::COM1_Console.Write("\t(Waiting for port to be free)\n\0");
+                uint64_t spin=0;
+                while((hbaPort->taskFileData & (ATA_DEV_BUSY | ATA_DEV_DRQ)) && spin < 1000000){
+                    spin++;
+                }
+                if(spin >= 1000000){
+                    Sauce::IO::Debug::COM1_Console.Write("\t(Failed, Hanged)\n\0");
+                    return false;
+                }
+                if(buffer == nullptr){
+                    Sauce::IO::Debug::COM1_Console.Write("\t(Failed, no buffer)\n\0");
+                    return false;
+                }
+                Sauce::IO::Debug::COM1_Console.Write("\t(Done waiting)\n\0");
+                uint32_t sectorL = (uint32_t)sector;
+                uint32_t sectorH = (uint32_t)(sector >> 32);
+
+                hbaPort->interruptStatus = (uint32_t)-1; // Clear pending interrupt bits
+                HBACommandHeader* cmdheader = (HBACommandHeader*)hbaPort->commandListBase;
+                cmdheader->commandFISLength = sizeof(FIS_REG_H2D)/sizeof(uint32_t); //command FIS size
+                cmdheader->write=0; // this is a read;
+                cmdheader->prdtLength=1;
+
+                HBACommandTable* commandTable = (HBACommandTable*)(cmdheader->commandTableBaseAddress);
+                Sauce::Memory::memset(commandTable,0,sizeof(HBACommandTable)+(cmdheader->prdtLength-1)*sizeof(HBAPRDTEntry));
+
+                commandTable->prdtEntry[0].dataBaseAddress = (uint32_t)(uint64_t)buffer;
+                commandTable->prdtEntry[0].dataBaseAddressUpper = (uint32_t)((uint64_t)buffer >> 32);
+                commandTable->prdtEntry[0].byteCount = (sectorCount<<9)-1; // 512 bytes per sector
+                commandTable->prdtEntry[0].interruptOnCompletion=1;
+
+                FIS_REG_H2D* cmdFIS = (FIS_REG_H2D*)(&commandTable->commandFIS);
+                cmdFIS->fisType = FIS_TYPE::REG_H2D;
+                cmdFIS->commandControl = 1; // command
+                cmdFIS->command = ATA_CMD_READ_DMA_EX;
+
+                cmdFIS->lba0 = (uint8_t)sectorL;
+                cmdFIS->lba1 = (uint8_t)(sectorL >> 8);
+                cmdFIS->lba2 = (uint8_t)(sectorL >> 16);
+                cmdFIS->lba3 = (uint8_t)sectorH;
+                cmdFIS->lba4 = (uint8_t)(sectorH >> 8);
+                cmdFIS->lba5 = (uint8_t)(sectorH >> 16);
+
+                cmdFIS->deviceRegister = 1<<6; //LBA mode
+                cmdFIS->countLow = sectorCount&0xFF;
+                cmdFIS->countHigh = (sectorCount >> 8)&0xFF;
+                cmdFIS->command = 1;
+
+                while(!((hbaPort->commandIssue == 0) || (hbaPort->interruptStatus & HBA_PxIS_TFES))){
+                    
+                }
+                if(hbaPort->interruptStatus & HBA_PxIS_TFES)return false;
+                return true;
+            }
             AHCIDriver::AHCIDriver(Sauce::IO::PCIDeviceHeader* pciBaseAddress){
                 Sauce::IO::Debug::COM1_Console.Write("[AHCIDriver::AHCIDriver]\n\0");
                 this->PCIBaseAddress=pciBaseAddress;
@@ -79,10 +136,24 @@ namespace Sauce{
                 ProbePorts();
                 for(int i=0;i<Ports.Size();i++){
                     Ports[i].Configure();
+
+                    Sauce::IO::Debug::COM1_Console.Write("[Port:\0");
+                    Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(i));
+                    Sauce::IO::Debug::COM1_Console.Write("]\0");
+                    if(Ports[i].Read(0,4)){
+                        for(int t=0;t<1024;t++){
+                            char out[4]{0};
+                            out[0]=(char)Ports[i].buffer[t];
+                            Sauce::IO::Debug::COM1_Console.Write(out);
+                        }
+                        Sauce::IO::Debug::COM1_Console.Write("\n\0");
+                    }else{
+                        Sauce::IO::Debug::COM1_Console.Write("\t->(Failed to read)\n\0");
+                    }
+
                     switch(Ports[i].portType){
                             case PortType::SATA:{
                                 Sauce::IO::Debug::COM1_Console.Write("\t->(SATA)\n\0");
-                                
                             }break;
                             case PortType::SEMB:{
                                 Sauce::IO::Debug::COM1_Console.Write("\t->(SEMB)\n\0");
