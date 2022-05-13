@@ -10,23 +10,22 @@
 namespace Sauce{
     namespace UserLand{
         enum OpCode: uint32_t{
-            OP__NULL=0,      // used to basically mean 'no instruction'
-            OP__EXIT,        // basically the same as NULL right now but i plan on this doing other things later, like returning to a calling function.
-            OP__ADD,         // mathematical add of the last and previews item on the virtual stack  
-            OP__SUBTRACT,    // mathematical subtract of the last and previews item on the virtual stack
-            OP__MULTIPLY,    // mathematical multiply of the last and previews item on the virtual stack
-            OP__DIVIDE,      // mathematical divide of the last and previews item on the virtual stack
-            OP__MODULUS,     // mathematical modulus of the last and previews item on the virtual stack
-            OP__MORE_THAN,   // mathematical greater than of the last and previews item on the virtual stack 
-            OP__LESS_THAN,   // mathematical less than of the last and previews item on the virtual stack
-            OP__EQUALS,      // mathematical equals of the last and previews item on the virtual stack
-            OP__PUSH,        // push value onto the virtual stack
-            OP__PRINT,       // print and remove the last item on the virtual stack
-            OP__TAG,         // this is a "tag" for jumping to
-            OP__IF_JUMP,     // jump if the previews item is not 0(false)
-            OP__JUMP,        // jump
-            OP__CLEAR_STACK, // wipes clean the entire stack
-            OP__CLONE        // pushes a copy of the last item on the virtual stack onto the virtual stack, useful if you want to print a value but also keep it 2.
+            OP__NULL=0,
+            OP__EXIT,
+            OP__ADD,
+            OP__SUBTRACT,
+            OP__MULTIPLY,
+            OP__DIVIDE,
+            OP__MODULUS,
+            OP__MORE_THAN,
+            OP__LESS_THAN,
+            OP__EQUALS,
+            OP__PUSH,
+            OP__PRINT,
+            OP__IF_JUMP,
+            OP__JUMP,
+            OP__CLEAR_STACK,
+            OP__CLONE
         };
         enum SzCode:uint8_t{
             V64_E64=0xFF,
@@ -51,10 +50,8 @@ namespace Sauce{
             TP__SIGNED_INT,
             TP__UNSIGNED_INT,
             TP__BOOL,
-            TP__TAG
         };
 
-        
         namespace VirtualStack{
             namespace V64{
                 namespace E64{
@@ -292,18 +289,21 @@ namespace Sauce{
             Instruction_st(OpCode MyOpCode,TpCode MyTypeCode,uint64_t Value,uint32_t Extended);
             Instruction_st(OpCode MyOpCode,TpCode MyTypeCode,uint64_t Value,uint64_t Extended);
             ~Instruction_st();
-
             OpCode Get_OpCode();
             SzCode Get_SzCode();
-            uint8_t V8();
-            uint16_t V16();
-            uint32_t V32();
-            uint64_t V64();
-            uint8_t E8();
-            uint16_t E16();
-            uint32_t E32();
-            uint64_t E64();
+            TpCode Get_TpCode();
+            uint8_t& V8();
+            uint16_t& V16();
+            uint32_t& V32();
+            uint64_t& V64();
+            uint8_t& E8();
+            uint16_t& E16();
+            uint32_t& E32();
+            uint64_t& E64();
         };
+
+
+
 
         class VirtualMachine_cl{
             Sauce::Memory::List_cl<VirtualStack::V64::E64::VirtualStack_st> _VirtualStack_64_64; //0xFF
@@ -324,6 +324,80 @@ namespace Sauce{
             Sauce::Memory::List_cl<VirtualStack::V8::E8::VirtualStack_st>   _VirtualStack_08_08; //0xCC
             private:
                 void* GetSizedStack(SzCode SizeCode);
+                void Clear();
+                void AddFirst(TpCode TheType,uint64_t TheValue,uint64_t TheExtended);
+                void AddFirst(TpCode TheType,uint64_t TheValue,uint32_t TheExtended);
+                void AddFirst(TpCode TheType,uint64_t TheValue,uint16_t TheExtended);
+                void AddFirst(TpCode TheType,uint64_t TheValue,uint8_t TheExtended);
+                void AddFirst(TpCode TheType,uint32_t TheValue,uint64_t TheExtended);
+                void AddFirst(TpCode TheType,uint32_t TheValue,uint32_t TheExtended);
+                void AddFirst(TpCode TheType,uint32_t TheValue,uint16_t TheExtended);
+                void AddFirst(TpCode TheType,uint32_t TheValue,uint8_t TheExtended);
+                void AddFirst(TpCode TheType,uint16_t TheValue,uint64_t TheExtended);
+                void AddFirst(TpCode TheType,uint16_t TheValue,uint32_t TheExtended);
+                void AddFirst(TpCode TheType,uint16_t TheValue,uint16_t TheExtended);
+                void AddFirst(TpCode TheType,uint16_t TheValue,uint8_t TheExtended);
+                void AddFirst(TpCode TheType,uint8_t TheValue,uint64_t TheExtended);
+                void AddFirst(TpCode TheType,uint8_t TheValue,uint32_t TheExtended);
+                void AddFirst(TpCode TheType,uint8_t TheValue,uint16_t TheExtended);
+                void AddFirst(TpCode TheType,uint8_t TheValue,uint8_t TheExtended);
+                void AddLast(TpCode TheType,uint64_t TheValue,uint64_t TheExtended);
+                void AddLast(TpCode TheType,uint64_t TheValue,uint32_t TheExtended);
+                void AddLast(TpCode TheType,uint64_t TheValue,uint16_t TheExtended);
+                void AddLast(TpCode TheType,uint64_t TheValue,uint8_t TheExtended);
+                void AddLast(TpCode TheType,uint32_t TheValue,uint64_t TheExtended);
+                void AddLast(TpCode TheType,uint32_t TheValue,uint32_t TheExtended);
+                void AddLast(TpCode TheType,uint32_t TheValue,uint16_t TheExtended);
+                void AddLast(TpCode TheType,uint32_t TheValue,uint8_t TheExtended);
+                void AddLast(TpCode TheType,uint16_t TheValue,uint64_t TheExtended);
+                void AddLast(TpCode TheType,uint16_t TheValue,uint32_t TheExtended);
+                void AddLast(TpCode TheType,uint16_t TheValue,uint16_t TheExtended);
+                void AddLast(TpCode TheType,uint16_t TheValue,uint8_t TheExtended);
+                void AddLast(TpCode TheType,uint8_t TheValue,uint64_t TheExtended);
+                void AddLast(TpCode TheType,uint8_t TheValue,uint32_t TheExtended);
+                void AddLast(TpCode TheType,uint8_t TheValue,uint16_t TheExtended);
+                void AddLast(TpCode TheType,uint8_t TheValue,uint8_t TheExtended);
+                void AddLast(Instruction_st &TheInstruction);
+                void AddFirst(Instruction_st &TheInstruction);
+                void RemoveFirst(SzCode TheSizecode);
+                void RemoveLast(SzCode TheSizecode);
+                void GetFirst(TpCode &TheType,uint64_t &TheValue,uint64_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint64_t &TheValue,uint32_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint64_t &TheValue,uint16_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint64_t &TheValue,uint8_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint32_t &TheValue,uint64_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint32_t &TheValue,uint32_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint32_t &TheValue,uint16_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint32_t &TheValue,uint8_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint16_t &TheValue,uint64_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint16_t &TheValue,uint32_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint16_t &TheValue,uint16_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint16_t &TheValue,uint8_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint8_t &TheValue,uint64_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint8_t &TheValue,uint32_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint8_t &TheValue,uint16_t &TheExtended);
+                void GetFirst(TpCode &TheType,uint8_t &TheValue,uint8_t &TheExtended);
+                void GetLast(TpCode &TheType,uint64_t &TheValue,uint64_t &TheExtended);
+                void GetLast(TpCode &TheType,uint64_t &TheValue,uint32_t &TheExtended);
+                void GetLast(TpCode &TheType,uint64_t &TheValue,uint16_t &TheExtended);
+                void GetLast(TpCode &TheType,uint64_t &TheValue,uint8_t &TheExtended);
+                void GetLast(TpCode &TheType,uint32_t &TheValue,uint64_t &TheExtended);
+                void GetLast(TpCode &TheType,uint32_t &TheValue,uint32_t &TheExtended);
+                void GetLast(TpCode &TheType,uint32_t &TheValue,uint16_t &TheExtended);
+                void GetLast(TpCode &TheType,uint32_t &TheValue,uint8_t &TheExtended);
+                void GetLast(TpCode &TheType,uint16_t &TheValue,uint64_t &TheExtended);
+                void GetLast(TpCode &TheType,uint16_t &TheValue,uint32_t &TheExtended);
+                void GetLast(TpCode &TheType,uint16_t &TheValue,uint16_t &TheExtended);
+                void GetLast(TpCode &TheType,uint16_t &TheValue,uint8_t &TheExtended);
+                void GetLast(TpCode &TheType,uint8_t &TheValue,uint64_t &TheExtended);
+                void GetLast(TpCode &TheType,uint8_t &TheValue,uint32_t &TheExtended);
+                void GetLast(TpCode &TheType,uint8_t &TheValue,uint16_t &TheExtended);
+                void GetLast(TpCode &TheType,uint8_t &TheValue,uint8_t &TheExtended);
+                void GetLast(Instruction_st &TheInstruction);
+                void GetFirst(Instruction_st &TheInstruction);
+                void Clone(SzCode FromStack,SzCode ToStack);
+                void MathematicalAdd(Instruction_st &aStack,Instruction_st &bStack);
+                void Print(Instruction_st &TheInstruction);
             public:
             VirtualMachine_cl(Sauce::Memory::List_cl<Instruction_st> code);
         };
