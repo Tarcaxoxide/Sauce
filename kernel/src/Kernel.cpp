@@ -37,8 +37,9 @@ namespace Sauce{
         /*Testing VirtualMachine*/{
             Sauce::Memory::List_cl<Sauce::UserLand::Instruction_st> TestCode;
 
+            TestCode.AddLast(Sauce::UserLand::Instruction_st(Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,(int16_t)100,(uint8_t)0));
+            TestCode.AddLast(Sauce::UserLand::Instruction_st(Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__INT,(int8_t)Sauce::UserLand::SzCode::V16_E08,(uint8_t)0));
             
-
             Sauce::UserLand::VirtualMachine_cl TestVM(TestCode);
         }
     }
