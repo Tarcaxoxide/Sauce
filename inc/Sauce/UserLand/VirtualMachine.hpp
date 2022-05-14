@@ -58,25 +58,25 @@ namespace Sauce{
                 namespace E64{
                     struct VirtualStack_st{
                         int64_t Value;
-                        uint64_t Extended;
+                        int64_t Extended;
                     };
                 };
                 namespace E32{
                     struct VirtualStack_st{
                         int64_t Value;
-                        uint32_t Extended;
+                        int32_t Extended;
                     };
                 };
                 namespace E16{
                     struct VirtualStack_st{
                         int64_t Value;
-                        uint16_t Extended;
+                        int16_t Extended;
                     };
                 };
                 namespace E8{
                     struct VirtualStack_st{
                         int64_t Value;
-                        uint8_t Extended;
+                        int8_t Extended;
                     };
                 };
             };
@@ -84,25 +84,25 @@ namespace Sauce{
                 namespace E64{
                     struct VirtualStack_st{
                         int32_t Value;
-                        uint64_t Extended;
+                        int64_t Extended;
                     };
                 };
                 namespace E32{
                     struct VirtualStack_st{
                         int32_t Value;
-                        uint32_t Extended;
+                        int32_t Extended;
                     };
                 };
                 namespace E16{
                     struct VirtualStack_st{
                         int32_t Value;
-                        uint16_t Extended;
+                        int16_t Extended;
                     };
                 };
                 namespace E8{
                     struct VirtualStack_st{
                         int32_t Value;
-                        uint8_t Extended;
+                        int8_t Extended;
                     };
                 };
             };
@@ -110,25 +110,25 @@ namespace Sauce{
                 namespace E64{
                     struct VirtualStack_st{
                         int16_t Value;
-                        uint64_t Extended;
+                        int64_t Extended;
                     };
                 };
                 namespace E32{
                     struct VirtualStack_st{
                         int16_t Value;
-                        uint32_t Extended;
+                        int32_t Extended;
                     };
                 };
                 namespace E16{
                     struct VirtualStack_st{
                         int16_t Value;
-                        uint16_t Extended;
+                        int16_t Extended;
                     };
                 };
                 namespace E8{
                     struct VirtualStack_st{
                         int16_t Value;
-                        uint8_t Extended;
+                        int8_t Extended;
                     };
                 };
             };
@@ -136,25 +136,25 @@ namespace Sauce{
                 namespace E64{
                     struct VirtualStack_st{
                         int8_t Value;
-                        uint64_t Extended;
+                        int64_t Extended;
                     };
                 };
                 namespace E32{
                     struct VirtualStack_st{
                         int8_t Value;
-                        uint32_t Extended;
+                        int32_t Extended;
                     };
                 };
                 namespace E16{
                     struct VirtualStack_st{
                         int8_t Value;
-                        uint16_t Extended;
+                        int16_t Extended;
                     };
                 };
                 namespace E8{
                     struct VirtualStack_st{
                         int8_t Value=0;
-                        uint8_t Extended=0;
+                        int8_t Extended=0;
                     };
                 };
             };
@@ -219,42 +219,42 @@ namespace Sauce{
             size_t InstructionCounter_08_32=0;
             size_t InstructionCounter_08_16=0;
             size_t InstructionCounter_08_08=0;
-            SzCode CurrentSizeCode=SzCode::V08_E64;
+            SzCode CurrentSizeCode=SzCode::V08_E08;
             void* CurrentInstruction=nullptr;
             bool hasEnd=false;
             private:
-                void AddInstruction_64_64(OpCode opcode,TpCode tpcode,int64_t value=0,uint64_t extended=0);
-                void AddInstruction_64_32(OpCode opcode,TpCode tpcode,int64_t value=0,uint32_t extended=0);
-                void AddInstruction_64_16(OpCode opcode,TpCode tpcode,int64_t value=0,uint16_t extended=0);
-                void AddInstruction_64_08(OpCode opcode,TpCode tpcode,int64_t value=0,uint8_t extended=0);
-                void AddInstruction_32_64(OpCode opcode,TpCode tpcode,int32_t value=0,uint64_t extended=0);
-                void AddInstruction_32_32(OpCode opcode,TpCode tpcode,int32_t value=0,uint32_t extended=0);
-                void AddInstruction_32_16(OpCode opcode,TpCode tpcode,int32_t value=0,uint16_t extended=0);
-                void AddInstruction_32_08(OpCode opcode,TpCode tpcode,int32_t value=0,uint8_t extended=0);
-                void AddInstruction_16_64(OpCode opcode,TpCode tpcode,int16_t value=0,uint64_t extended=0);
-                void AddInstruction_16_32(OpCode opcode,TpCode tpcode,int16_t value=0,uint32_t extended=0);
-                void AddInstruction_16_16(OpCode opcode,TpCode tpcode,int16_t value=0,uint16_t extended=0);
-                void AddInstruction_16_08(OpCode opcode,TpCode tpcode,int16_t value=0,uint8_t extended=0);
-                void AddInstruction_08_64(OpCode opcode,TpCode tpcode,int8_t value=0,uint64_t extended=0);
-                void AddInstruction_08_32(OpCode opcode,TpCode tpcode,int8_t value=0,uint32_t extended=0);
-                void AddInstruction_08_16(OpCode opcode,TpCode tpcode,int8_t value=0,uint16_t extended=0);
-                void AddInstruction_08_08(OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
-                void AddToVirtualStack_64_64(OpCode opcode,TpCode tpcode,int64_t value=0,uint64_t extended=0);
-                void AddToVirtualStack_64_32(OpCode opcode,TpCode tpcode,int64_t value=0,uint32_t extended=0);
-                void AddToVirtualStack_64_16(OpCode opcode,TpCode tpcode,int64_t value=0,uint16_t extended=0);
-                void AddToVirtualStack_64_08(OpCode opcode,TpCode tpcode,int64_t value=0,uint8_t extended=0);
-                void AddToVirtualStack_32_64(OpCode opcode,TpCode tpcode,int32_t value=0,uint64_t extended=0);
-                void AddToVirtualStack_32_32(OpCode opcode,TpCode tpcode,int32_t value=0,uint32_t extended=0);
-                void AddToVirtualStack_32_16(OpCode opcode,TpCode tpcode,int32_t value=0,uint16_t extended=0);
-                void AddToVirtualStack_32_08(OpCode opcode,TpCode tpcode,int32_t value=0,uint8_t extended=0);
-                void AddToVirtualStack_16_64(OpCode opcode,TpCode tpcode,int16_t value=0,uint64_t extended=0);
-                void AddToVirtualStack_16_32(OpCode opcode,TpCode tpcode,int16_t value=0,uint32_t extended=0);
-                void AddToVirtualStack_16_16(OpCode opcode,TpCode tpcode,int16_t value=0,uint16_t extended=0);
-                void AddToVirtualStack_16_08(OpCode opcode,TpCode tpcode,int16_t value=0,uint8_t extended=0);
-                void AddToVirtualStack_08_64(OpCode opcode,TpCode tpcode,int8_t value=0,uint64_t extended=0);
-                void AddToVirtualStack_08_32(OpCode opcode,TpCode tpcode,int8_t value=0,uint32_t extended=0);
-                void AddToVirtualStack_08_16(OpCode opcode,TpCode tpcode,int8_t value=0,uint16_t extended=0);
-                void AddToVirtualStack_08_08(OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
+                void AddInstruction_64_64(OpCode opcode,TpCode tpcode,int64_t value=0,int64_t extended=0);
+                void AddInstruction_64_32(OpCode opcode,TpCode tpcode,int64_t value=0,int32_t extended=0);
+                void AddInstruction_64_16(OpCode opcode,TpCode tpcode,int64_t value=0,int16_t extended=0);
+                void AddInstruction_64_08(OpCode opcode,TpCode tpcode,int64_t value=0,int8_t extended=0);
+                void AddInstruction_32_64(OpCode opcode,TpCode tpcode,int32_t value=0,int64_t extended=0);
+                void AddInstruction_32_32(OpCode opcode,TpCode tpcode,int32_t value=0,int32_t extended=0);
+                void AddInstruction_32_16(OpCode opcode,TpCode tpcode,int32_t value=0,int16_t extended=0);
+                void AddInstruction_32_08(OpCode opcode,TpCode tpcode,int32_t value=0,int8_t extended=0);
+                void AddInstruction_16_64(OpCode opcode,TpCode tpcode,int16_t value=0,int64_t extended=0);
+                void AddInstruction_16_32(OpCode opcode,TpCode tpcode,int16_t value=0,int32_t extended=0);
+                void AddInstruction_16_16(OpCode opcode,TpCode tpcode,int16_t value=0,int16_t extended=0);
+                void AddInstruction_16_08(OpCode opcode,TpCode tpcode,int16_t value=0,int8_t extended=0);
+                void AddInstruction_08_64(OpCode opcode,TpCode tpcode,int8_t value=0,int64_t extended=0);
+                void AddInstruction_08_32(OpCode opcode,TpCode tpcode,int8_t value=0,int32_t extended=0);
+                void AddInstruction_08_16(OpCode opcode,TpCode tpcode,int8_t value=0,int16_t extended=0);
+                void AddInstruction_08_08(OpCode opcode,TpCode tpcode,int8_t value=0,int8_t extended=0);
+                void AddToVirtualStack_64_64(OpCode opcode,TpCode tpcode,int64_t value=0,int64_t extended=0);
+                void AddToVirtualStack_64_32(OpCode opcode,TpCode tpcode,int64_t value=0,int32_t extended=0);
+                void AddToVirtualStack_64_16(OpCode opcode,TpCode tpcode,int64_t value=0,int16_t extended=0);
+                void AddToVirtualStack_64_08(OpCode opcode,TpCode tpcode,int64_t value=0,int8_t extended=0);
+                void AddToVirtualStack_32_64(OpCode opcode,TpCode tpcode,int32_t value=0,int64_t extended=0);
+                void AddToVirtualStack_32_32(OpCode opcode,TpCode tpcode,int32_t value=0,int32_t extended=0);
+                void AddToVirtualStack_32_16(OpCode opcode,TpCode tpcode,int32_t value=0,int16_t extended=0);
+                void AddToVirtualStack_32_08(OpCode opcode,TpCode tpcode,int32_t value=0,int8_t extended=0);
+                void AddToVirtualStack_16_64(OpCode opcode,TpCode tpcode,int16_t value=0,int64_t extended=0);
+                void AddToVirtualStack_16_32(OpCode opcode,TpCode tpcode,int16_t value=0,int32_t extended=0);
+                void AddToVirtualStack_16_16(OpCode opcode,TpCode tpcode,int16_t value=0,int16_t extended=0);
+                void AddToVirtualStack_16_08(OpCode opcode,TpCode tpcode,int16_t value=0,int8_t extended=0);
+                void AddToVirtualStack_08_64(OpCode opcode,TpCode tpcode,int8_t value=0,int64_t extended=0);
+                void AddToVirtualStack_08_32(OpCode opcode,TpCode tpcode,int8_t value=0,int32_t extended=0);
+                void AddToVirtualStack_08_16(OpCode opcode,TpCode tpcode,int8_t value=0,int16_t extended=0);
+                void AddToVirtualStack_08_08(OpCode opcode,TpCode tpcode,int8_t value=0,int8_t extended=0);
                 VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st> GetLastFromVirtualStack_64_64();
                 VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st> GetLastFromVirtualStack_64_32();
                 VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st> GetLastFromVirtualStack_64_16();
@@ -309,8 +309,8 @@ namespace Sauce{
                 void Run();
                 void AddEnd();
                 void RemoveEnd();
-                void AddInstruction(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
-                void AddToVirtualStack(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
+                void AddInstruction(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value=0,int8_t extended=0);
+                void AddToVirtualStack(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value=0,int8_t extended=0);
 
                 void RemoveFromVirtualStack(SzCode szcode);
 
@@ -318,18 +318,18 @@ namespace Sauce{
                 void GetValueFromVirtualInstructions(SzCode szcode,int16_t &value,size_t ThisInstructionCounter);
                 void GetValueFromVirtualInstructions(SzCode szcode,int32_t &value,size_t ThisInstructionCounter);
                 void GetValueFromVirtualInstructions(SzCode szcode,int64_t &value,size_t ThisInstructionCounter);
-                void GetExtendedFromVirtualInstructions(SzCode szcode,uint8_t &extended,size_t ThisInstructionCounter);
-                void GetExtendedFromVirtualInstructions(SzCode szcode,uint16_t &extended,size_t ThisInstructionCounter);
-                void GetExtendedFromVirtualInstructions(SzCode szcode,uint32_t &extended,size_t ThisInstructionCounter);
-                void GetExtendedFromVirtualInstructions(SzCode szcode,uint64_t &extended,size_t ThisInstructionCounter);
+                void GetExtendedFromVirtualInstructions(SzCode szcode,int8_t &extended,size_t ThisInstructionCounter);
+                void GetExtendedFromVirtualInstructions(SzCode szcode,int16_t &extended,size_t ThisInstructionCounter);
+                void GetExtendedFromVirtualInstructions(SzCode szcode,int32_t &extended,size_t ThisInstructionCounter);
+                void GetExtendedFromVirtualInstructions(SzCode szcode,int64_t &extended,size_t ThisInstructionCounter);
                 void GetValueFromVirtualStack(SzCode szcode,int8_t &value);
                 void GetValueFromVirtualStack(SzCode szcode,int16_t &value);
                 void GetValueFromVirtualStack(SzCode szcode,int32_t &value);
                 void GetValueFromVirtualStack(SzCode szcode,int64_t &value);
-                void GetExtendedFromVirtualStack(SzCode szcode,uint8_t &extended);
-                void GetExtendedFromVirtualStack(SzCode szcode,uint16_t &extended);
-                void GetExtendedFromVirtualStack(SzCode szcode,uint32_t &extended);
-                void GetExtendedFromVirtualStack(SzCode szcode,uint64_t &extended);
+                void GetExtendedFromVirtualStack(SzCode szcode,int8_t &extended);
+                void GetExtendedFromVirtualStack(SzCode szcode,int16_t &extended);
+                void GetExtendedFromVirtualStack(SzCode szcode,int32_t &extended);
+                void GetExtendedFromVirtualStack(SzCode szcode,int64_t &extended);
                 void GetTpCodeFromVirtualStack(SzCode szcode,TpCode &tpcode);
                 void GetTpCodeFromVirtualInstructions(SzCode szcode,TpCode &tpcode,size_t ThisInstructionCounter);
 

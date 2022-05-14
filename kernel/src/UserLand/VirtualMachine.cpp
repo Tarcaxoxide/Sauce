@@ -39,6 +39,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__ADD]\n\0");
+                            int64_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int64_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__SUBTRACT]\n\0");
@@ -69,10 +75,10 @@ namespace Sauce{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__PRINT]\n\0");
                             int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
-                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__IF_JUMP]\n\0");
@@ -100,6 +106,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__ADD]\n\0");
+                            int64_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int64_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__SUBTRACT]\n\0");
@@ -161,6 +173,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__ADD]\n\0");
+                            int64_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int64_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__SUBTRACT]\n\0");
@@ -222,6 +240,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__ADD]\n\0");
+                            int64_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int64_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__SUBTRACT]\n\0");
@@ -283,6 +307,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__ADD]\n\0");
+                            int32_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int32_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__SUBTRACT]\n\0");
@@ -344,6 +374,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__ADD]\n\0");
+                            int32_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int32_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__SUBTRACT]\n\0");
@@ -405,6 +441,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__ADD]\n\0");
+                            int32_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int32_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__SUBTRACT]\n\0");
@@ -466,6 +508,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__ADD]\n\0");
+                            int32_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int32_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__SUBTRACT]\n\0");
@@ -527,6 +575,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__ADD]\n\0");
+                            int16_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int16_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__SUBTRACT]\n\0");
@@ -588,6 +642,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__ADD]\n\0");
+                            int16_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int16_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__SUBTRACT]\n\0");
@@ -649,6 +709,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__ADD]\n\0");
+                            int16_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int16_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__SUBTRACT]\n\0");
@@ -710,6 +776,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__ADD]\n\0");
+                            int16_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int16_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__SUBTRACT]\n\0");
@@ -771,6 +843,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__ADD]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__SUBTRACT]\n\0");
@@ -832,6 +910,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__ADD]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__SUBTRACT]\n\0");
@@ -893,6 +977,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__ADD]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__SUBTRACT]\n\0");
@@ -954,6 +1044,12 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__ADD:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__ADD]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue+ThisValue_LastValue));
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__SUBTRACT]\n\0");
@@ -1015,23 +1111,23 @@ namespace Sauce{
             }while(RunInstruction());
             RemoveEnd();
         }
-        void VirtualMachine_cl::AddInstruction_64_64(OpCode opcode,TpCode tpcode,int64_t value,uint64_t extended){_VirtualInstructions_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_64_32(OpCode opcode,TpCode tpcode,int64_t value,uint32_t extended){_VirtualInstructions_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_64_16(OpCode opcode,TpCode tpcode,int64_t value,uint16_t extended){_VirtualInstructions_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_64_08(OpCode opcode,TpCode tpcode,int64_t value,uint8_t extended) {_VirtualInstructions_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_32_64(OpCode opcode,TpCode tpcode,int32_t value,uint64_t extended){_VirtualInstructions_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_32_32(OpCode opcode,TpCode tpcode,int32_t value,uint32_t extended){_VirtualInstructions_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_32_16(OpCode opcode,TpCode tpcode,int32_t value,uint16_t extended){_VirtualInstructions_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_32_08(OpCode opcode,TpCode tpcode,int32_t value,uint8_t extended) {_VirtualInstructions_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_16_64(OpCode opcode,TpCode tpcode,int16_t value,uint64_t extended){_VirtualInstructions_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_16_32(OpCode opcode,TpCode tpcode,int16_t value,uint32_t extended){_VirtualInstructions_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_16_16(OpCode opcode,TpCode tpcode,int16_t value,uint16_t extended){_VirtualInstructions_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_16_08(OpCode opcode,TpCode tpcode,int16_t value,uint8_t extended) {_VirtualInstructions_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_08_64(OpCode opcode,TpCode tpcode,int8_t value,uint64_t extended) {_VirtualInstructions_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));} 
-        void VirtualMachine_cl::AddInstruction_08_32(OpCode opcode,TpCode tpcode,int8_t value,uint32_t extended) {_VirtualInstructions_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));} 
-        void VirtualMachine_cl::AddInstruction_08_16(OpCode opcode,TpCode tpcode,int8_t value,uint16_t extended) {_VirtualInstructions_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));}
-        void VirtualMachine_cl::AddInstruction_08_08(OpCode opcode,TpCode tpcode,int8_t value,uint8_t extended)  {_VirtualInstructions_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));} 
-        void VirtualMachine_cl::AddInstruction(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value,uint8_t extended){
+        void VirtualMachine_cl::AddInstruction_64_64(OpCode opcode,TpCode tpcode,int64_t value,int64_t extended){_VirtualInstructions_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_64_32(OpCode opcode,TpCode tpcode,int64_t value,int32_t extended){_VirtualInstructions_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_64_16(OpCode opcode,TpCode tpcode,int64_t value,int16_t extended){_VirtualInstructions_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_64_08(OpCode opcode,TpCode tpcode,int64_t value,int8_t extended) {_VirtualInstructions_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_32_64(OpCode opcode,TpCode tpcode,int32_t value,int64_t extended){_VirtualInstructions_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_32_32(OpCode opcode,TpCode tpcode,int32_t value,int32_t extended){_VirtualInstructions_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_32_16(OpCode opcode,TpCode tpcode,int32_t value,int16_t extended){_VirtualInstructions_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_32_08(OpCode opcode,TpCode tpcode,int32_t value,int8_t extended) {_VirtualInstructions_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_16_64(OpCode opcode,TpCode tpcode,int16_t value,int64_t extended){_VirtualInstructions_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_16_32(OpCode opcode,TpCode tpcode,int16_t value,int32_t extended){_VirtualInstructions_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_16_16(OpCode opcode,TpCode tpcode,int16_t value,int16_t extended){_VirtualInstructions_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_16_08(OpCode opcode,TpCode tpcode,int16_t value,int8_t extended) {_VirtualInstructions_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_08_64(OpCode opcode,TpCode tpcode,int8_t value,int64_t extended) {_VirtualInstructions_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));} 
+        void VirtualMachine_cl::AddInstruction_08_32(OpCode opcode,TpCode tpcode,int8_t value,int32_t extended) {_VirtualInstructions_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));} 
+        void VirtualMachine_cl::AddInstruction_08_16(OpCode opcode,TpCode tpcode,int8_t value,int16_t extended) {_VirtualInstructions_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_08_08(OpCode opcode,TpCode tpcode,int8_t value,int8_t extended)  {_VirtualInstructions_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));} 
+        void VirtualMachine_cl::AddInstruction(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value,int8_t extended){
             switch(szcode){
                 case SzCode::V64_E64:{AddInstruction_64_64(opcode,tpcode,value,extended);}break;
                 case SzCode::V64_E32:{AddInstruction_64_32(opcode,tpcode,value,extended);}break;
@@ -1053,23 +1149,23 @@ namespace Sauce{
             }
         }
 
-        void VirtualMachine_cl::AddToVirtualStack_64_64(OpCode opcode,TpCode tpcode,int64_t value,uint64_t extended){_VirtualStack_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_64_32(OpCode opcode,TpCode tpcode,int64_t value,uint32_t extended){_VirtualStack_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_64_16(OpCode opcode,TpCode tpcode,int64_t value,uint16_t extended){_VirtualStack_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_64_08(OpCode opcode,TpCode tpcode,int64_t value,uint8_t extended) {_VirtualStack_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_32_64(OpCode opcode,TpCode tpcode,int32_t value,uint64_t extended){_VirtualStack_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_32_32(OpCode opcode,TpCode tpcode,int32_t value,uint32_t extended){_VirtualStack_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_32_16(OpCode opcode,TpCode tpcode,int32_t value,uint16_t extended){_VirtualStack_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_32_08(OpCode opcode,TpCode tpcode,int32_t value,uint8_t extended) {_VirtualStack_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_16_64(OpCode opcode,TpCode tpcode,int16_t value,uint64_t extended){_VirtualStack_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_16_32(OpCode opcode,TpCode tpcode,int16_t value,uint32_t extended){_VirtualStack_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_16_16(OpCode opcode,TpCode tpcode,int16_t value,uint16_t extended){_VirtualStack_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_16_08(OpCode opcode,TpCode tpcode,int16_t value,uint8_t extended) {_VirtualStack_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_08_64(OpCode opcode,TpCode tpcode,int8_t value,uint64_t extended) {_VirtualStack_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_08_32(OpCode opcode,TpCode tpcode,int8_t value,uint32_t extended) {_VirtualStack_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_08_16(OpCode opcode,TpCode tpcode,int8_t value,uint16_t extended) {_VirtualStack_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack_08_08(OpCode opcode,TpCode tpcode,int8_t value,uint8_t extended)  {_VirtualStack_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));}
-        void VirtualMachine_cl::AddToVirtualStack(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value,uint8_t extended){
+        void VirtualMachine_cl::AddToVirtualStack_64_64(OpCode opcode,TpCode tpcode,int64_t value,int64_t extended){_VirtualStack_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_64_32(OpCode opcode,TpCode tpcode,int64_t value,int32_t extended){_VirtualStack_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_64_16(OpCode opcode,TpCode tpcode,int64_t value,int16_t extended){_VirtualStack_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_64_08(OpCode opcode,TpCode tpcode,int64_t value,int8_t extended) {_VirtualStack_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_32_64(OpCode opcode,TpCode tpcode,int32_t value,int64_t extended){_VirtualStack_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_32_32(OpCode opcode,TpCode tpcode,int32_t value,int32_t extended){_VirtualStack_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_32_16(OpCode opcode,TpCode tpcode,int32_t value,int16_t extended){_VirtualStack_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_32_08(OpCode opcode,TpCode tpcode,int32_t value,int8_t extended) {_VirtualStack_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_16_64(OpCode opcode,TpCode tpcode,int16_t value,int64_t extended){_VirtualStack_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_16_32(OpCode opcode,TpCode tpcode,int16_t value,int32_t extended){_VirtualStack_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_16_16(OpCode opcode,TpCode tpcode,int16_t value,int16_t extended){_VirtualStack_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_16_08(OpCode opcode,TpCode tpcode,int16_t value,int8_t extended) {_VirtualStack_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_08_64(OpCode opcode,TpCode tpcode,int8_t value,int64_t extended) {_VirtualStack_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_08_32(OpCode opcode,TpCode tpcode,int8_t value,int32_t extended) {_VirtualStack_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_08_16(OpCode opcode,TpCode tpcode,int8_t value,int16_t extended) {_VirtualStack_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_08_08(OpCode opcode,TpCode tpcode,int8_t value,int8_t extended)  {_VirtualStack_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value,int8_t extended){
             switch(szcode){
                 case SzCode::V64_E64:{AddToVirtualStack_64_64(opcode,tpcode,value,extended);}break;
                 case SzCode::V64_E32:{AddToVirtualStack_64_32(opcode,tpcode,value,extended);}break;
@@ -1261,84 +1357,84 @@ namespace Sauce{
                 case SzCode::V08_E08:{value=(int64_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
         }
-        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,uint8_t &extended,size_t ThisInstructionCounter){
+        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,int8_t &extended,size_t ThisInstructionCounter){
             switch(szcode){
-                case SzCode::V64_E64:{extended=(uint8_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E32:{extended=(uint8_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E16:{extended=(uint8_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E08:{extended=(uint8_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E64:{extended=(uint8_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E32:{extended=(uint8_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E16:{extended=(uint8_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E08:{extended=(uint8_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E64:{extended=(uint8_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E32:{extended=(uint8_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E16:{extended=(uint8_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E08:{extended=(uint8_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E64:{extended=(uint8_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E32:{extended=(uint8_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E16:{extended=(uint8_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E08:{extended=(uint8_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E64:{extended=(int8_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(int8_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(int8_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(int8_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(int8_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(int8_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(int8_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(int8_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(int8_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(int8_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(int8_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(int8_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(int8_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(int8_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(int8_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(int8_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
         }
-        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,uint16_t &extended,size_t ThisInstructionCounter){
+        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,int16_t &extended,size_t ThisInstructionCounter){
             switch(szcode){
-                case SzCode::V64_E64:{extended=(uint16_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E32:{extended=(uint16_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E16:{extended=(uint16_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E08:{extended=(uint16_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E64:{extended=(uint16_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E32:{extended=(uint16_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E16:{extended=(uint16_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E08:{extended=(uint16_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E64:{extended=(uint16_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E32:{extended=(uint16_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E16:{extended=(uint16_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E08:{extended=(uint16_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E64:{extended=(uint16_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E32:{extended=(uint16_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E16:{extended=(uint16_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E08:{extended=(uint16_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E64:{extended=(int16_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(int16_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(int16_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(int16_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(int16_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(int16_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(int16_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(int16_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(int16_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(int16_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(int16_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(int16_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(int16_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(int16_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(int16_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(int16_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
         }
-        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,uint32_t &extended,size_t ThisInstructionCounter){
+        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,int32_t &extended,size_t ThisInstructionCounter){
             switch(szcode){
-                case SzCode::V64_E64:{extended=(uint32_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E32:{extended=(uint32_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E16:{extended=(uint32_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E08:{extended=(uint32_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E64:{extended=(uint32_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E32:{extended=(uint32_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E16:{extended=(uint32_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E08:{extended=(uint32_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E64:{extended=(uint32_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E32:{extended=(uint32_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E16:{extended=(uint32_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E08:{extended=(uint32_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E64:{extended=(uint32_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E32:{extended=(uint32_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E16:{extended=(uint32_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E08:{extended=(uint32_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E64:{extended=(int32_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(int32_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(int32_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(int32_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(int32_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(int32_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(int32_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(int32_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(int32_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(int32_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(int32_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(int32_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(int32_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(int32_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(int32_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(int32_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
         }
-        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,uint64_t &extended,size_t ThisInstructionCounter){
+        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,int64_t &extended,size_t ThisInstructionCounter){
             switch(szcode){
-                case SzCode::V64_E64:{extended=(uint64_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E32:{extended=(uint64_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E16:{extended=(uint64_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V64_E08:{extended=(uint64_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E64:{extended=(uint64_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E32:{extended=(uint64_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E16:{extended=(uint64_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V32_E08:{extended=(uint64_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E64:{extended=(uint64_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E32:{extended=(uint64_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E16:{extended=(uint64_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V16_E08:{extended=(uint64_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E64:{extended=(uint64_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E32:{extended=(uint64_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E16:{extended=(uint64_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
-                case SzCode::V08_E08:{extended=(uint64_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E64:{extended=(int64_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(int64_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(int64_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(int64_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(int64_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(int64_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(int64_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(int64_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(int64_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(int64_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(int64_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(int64_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(int64_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(int64_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(int64_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(int64_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
         }
         void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int8_t &value){
@@ -1421,84 +1517,84 @@ namespace Sauce{
                 case SzCode::V08_E08:{value=(int64_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
             }
         }
-        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,uint8_t &extended){
+        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,int8_t &extended){
             switch(szcode){
-                case SzCode::V64_E64:{extended=(uint8_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
-                case SzCode::V64_E32:{extended=(uint8_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
-                case SzCode::V64_E16:{extended=(uint8_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
-                case SzCode::V64_E08:{extended=(uint8_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
-                case SzCode::V32_E64:{extended=(uint8_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
-                case SzCode::V32_E32:{extended=(uint8_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
-                case SzCode::V32_E16:{extended=(uint8_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
-                case SzCode::V32_E08:{extended=(uint8_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
-                case SzCode::V16_E64:{extended=(uint8_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
-                case SzCode::V16_E32:{extended=(uint8_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
-                case SzCode::V16_E16:{extended=(uint8_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
-                case SzCode::V16_E08:{extended=(uint8_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
-                case SzCode::V08_E64:{extended=(uint8_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
-                case SzCode::V08_E32:{extended=(uint8_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
-                case SzCode::V08_E16:{extended=(uint8_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
-                case SzCode::V08_E08:{extended=(uint8_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
+                case SzCode::V64_E64:{extended=(int8_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(int8_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(int8_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(int8_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(int8_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(int8_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(int8_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(int8_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(int8_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(int8_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(int8_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(int8_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(int8_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(int8_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(int8_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(int8_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
         }
-        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,uint16_t &extended){
+        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,int16_t &extended){
             switch(szcode){
-                case SzCode::V64_E64:{extended=(uint16_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
-                case SzCode::V64_E32:{extended=(uint16_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
-                case SzCode::V64_E16:{extended=(uint16_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
-                case SzCode::V64_E08:{extended=(uint16_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
-                case SzCode::V32_E64:{extended=(uint16_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
-                case SzCode::V32_E32:{extended=(uint16_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
-                case SzCode::V32_E16:{extended=(uint16_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
-                case SzCode::V32_E08:{extended=(uint16_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
-                case SzCode::V16_E64:{extended=(uint16_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
-                case SzCode::V16_E32:{extended=(uint16_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
-                case SzCode::V16_E16:{extended=(uint16_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
-                case SzCode::V16_E08:{extended=(uint16_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
-                case SzCode::V08_E64:{extended=(uint16_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
-                case SzCode::V08_E32:{extended=(uint16_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
-                case SzCode::V08_E16:{extended=(uint16_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
-                case SzCode::V08_E08:{extended=(uint16_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
+                case SzCode::V64_E64:{extended=(int16_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(int16_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(int16_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(int16_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(int16_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(int16_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(int16_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(int16_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(int16_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(int16_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(int16_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(int16_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(int16_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(int16_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(int16_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(int16_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
         }
-        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,uint32_t &extended){
+        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,int32_t &extended){
             switch(szcode){
-                case SzCode::V64_E64:{extended=(uint32_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
-                case SzCode::V64_E32:{extended=(uint32_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
-                case SzCode::V64_E16:{extended=(uint32_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
-                case SzCode::V64_E08:{extended=(uint32_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
-                case SzCode::V32_E64:{extended=(uint32_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
-                case SzCode::V32_E32:{extended=(uint32_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
-                case SzCode::V32_E16:{extended=(uint32_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
-                case SzCode::V32_E08:{extended=(uint32_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
-                case SzCode::V16_E64:{extended=(uint32_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
-                case SzCode::V16_E32:{extended=(uint32_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
-                case SzCode::V16_E16:{extended=(uint32_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
-                case SzCode::V16_E08:{extended=(uint32_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
-                case SzCode::V08_E64:{extended=(uint32_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
-                case SzCode::V08_E32:{extended=(uint32_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
-                case SzCode::V08_E16:{extended=(uint32_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
-                case SzCode::V08_E08:{extended=(uint32_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
+                case SzCode::V64_E64:{extended=(int32_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(int32_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(int32_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(int32_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(int32_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(int32_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(int32_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(int32_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(int32_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(int32_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(int32_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(int32_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(int32_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(int32_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(int32_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(int32_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
         }
-        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,uint64_t &extended){
+        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,int64_t &extended){
             switch(szcode){
-                case SzCode::V64_E64:{extended=(uint64_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
-                case SzCode::V64_E32:{extended=(uint64_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
-                case SzCode::V64_E16:{extended=(uint64_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
-                case SzCode::V64_E08:{extended=(uint64_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
-                case SzCode::V32_E64:{extended=(uint64_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
-                case SzCode::V32_E32:{extended=(uint64_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
-                case SzCode::V32_E16:{extended=(uint64_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
-                case SzCode::V32_E08:{extended=(uint64_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
-                case SzCode::V16_E64:{extended=(uint64_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
-                case SzCode::V16_E32:{extended=(uint64_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
-                case SzCode::V16_E16:{extended=(uint64_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
-                case SzCode::V16_E08:{extended=(uint64_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
-                case SzCode::V08_E64:{extended=(uint64_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
-                case SzCode::V08_E32:{extended=(uint64_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
-                case SzCode::V08_E16:{extended=(uint64_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
-                case SzCode::V08_E08:{extended=(uint64_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
+                case SzCode::V64_E64:{extended=(int64_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(int64_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(int64_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(int64_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(int64_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(int64_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(int64_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(int64_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(int64_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(int64_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(int64_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(int64_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(int64_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(int64_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(int64_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(int64_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
         }
 
@@ -1544,25 +1640,25 @@ namespace Sauce{
         }
         void  VirtualMachine_cl::PushToStack(SzCode Instruction_szcode,size_t ThisInstructionCounter){
             switch(Instruction_szcode){
-                case SzCode::V64_E64:{int64_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V64_E32:{int64_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V64_E16:{int64_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V64_E08:{int64_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V32_E64:{int32_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V32_E32:{int32_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V32_E16:{int32_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V32_E08:{int32_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V16_E64:{int16_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V16_E32:{int16_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V16_E16:{int16_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V16_E08:{int16_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V08_E64:{int8_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V08_E32:{int8_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V08_E16:{int8_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
-                case SzCode::V08_E08:{int8_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V64_E64:{int64_t ThisValue;int64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V64_E32:{int64_t ThisValue;int32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V64_E16:{int64_t ThisValue;int16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V64_E08:{int64_t ThisValue;int8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V32_E64:{int32_t ThisValue;int64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V32_E32:{int32_t ThisValue;int32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V32_E16:{int32_t ThisValue;int16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V32_E08:{int32_t ThisValue;int8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V16_E64:{int16_t ThisValue;int64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V16_E32:{int16_t ThisValue;int32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V16_E16:{int16_t ThisValue;int16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V16_E08:{int16_t ThisValue;int8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V08_E64:{int8_t ThisValue;int64_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V08_E32:{int8_t ThisValue;int32_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V08_E16:{int8_t ThisValue;int16_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V08_E08:{int8_t ThisValue;int8_t ThisExtended; TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
             }
         }
-        VirtualMachine_cl::RemoveFromVirtualStack(SzCode szcode){
+        void VirtualMachine_cl::RemoveFromVirtualStack(SzCode szcode){
             switch(szcode){
                 case SzCode::V64_E64:{_VirtualStack_64_64.RemoveLast();}break;
                 case SzCode::V64_E32:{_VirtualStack_64_32.RemoveLast();}break;
