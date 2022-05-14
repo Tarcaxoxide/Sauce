@@ -1,7496 +1,1471 @@
 #include<Sauce/UserLand/VirtualMachine.hpp>
 #include<Sauce/Memory/Heap.hpp>
+#include<Sauce/IO/Debug/Console.hpp>
 
 
 namespace Sauce{
     namespace UserLand{
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int8_t Value,uint8_t Extended){
-            MySzCode=V08_E08;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V8::E8::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int8_t Value,uint16_t Extended){
-            MySzCode=V08_E16;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V8::E16::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int8_t Value,uint32_t Extended){
-            MySzCode=V08_E32;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V8::E32::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int8_t Value,uint64_t Extended){
-            MySzCode=V08_E64;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V8::E64::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int16_t Value,uint8_t Extended){
-            MySzCode=V16_E08;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V16::E8::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int16_t Value,uint16_t Extended){
-            MySzCode=V16_E16;
-            MyData = new VirtualStack::V16::E16::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int16_t Value,uint32_t Extended){
-            MySzCode=V16_E32;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V16::E32::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int16_t Value,uint64_t Extended){
-            MySzCode=V16_E64;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V16::E64::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int32_t Value,uint8_t Extended){
-            MySzCode=V32_E08;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V32::E8::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int32_t Value,uint16_t Extended){
-            MySzCode=V32_E16;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V32::E16::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int32_t Value,uint32_t Extended){
-            MySzCode=V32_E32;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V32::E32::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int32_t Value,uint64_t Extended){
-            MySzCode=V32_E64;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V32::E64::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int64_t Value,uint8_t Extended){
-            MySzCode=V64_E08;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V64::E8::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int64_t Value,uint16_t Extended){
-            MySzCode=V64_E16;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V64::E16::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int64_t Value,uint32_t Extended){
-            MySzCode=V64_E32;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V64::E32::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        void Instruction_st::Init(OpCode MyOpCode,TpCode MyTypeCode,int64_t Value,uint64_t Extended){
-            MySzCode=V64_E64;
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-            MyData = new VirtualStack::V64::E64::VirtualStack_st{MyTypeCode,Value,Extended};
-        }
-        Instruction_st::~Instruction_st(){
-            if(MyData != nullptr){delete[] MyData;MyData=nullptr;}
-        }
-        OpCode& Instruction_st::Get_OpCode(){
-            return MyOpCode;
-        }
-        SzCode& Instruction_st::Get_SzCode(){
-            return MySzCode;
-        }
-        TpCode& Instruction_st::Get_TpCode(){
-            switch(MySzCode){
-                case SzCode::V64_E64:return ((VirtualStack::V64::E64::VirtualStack_st*)MyData)->Type;
-                case SzCode::V64_E32:return ((VirtualStack::V64::E32::VirtualStack_st*)MyData)->Type;
-                case SzCode::V64_E16:return ((VirtualStack::V64::E16::VirtualStack_st*)MyData)->Type;
-                case SzCode::V64_E08:return ((VirtualStack::V64::E8::VirtualStack_st*)MyData)->Type; 
-                case SzCode::V32_E64:return ((VirtualStack::V32::E64::VirtualStack_st*)MyData)->Type;
-                case SzCode::V32_E32:return ((VirtualStack::V32::E32::VirtualStack_st*)MyData)->Type;
-                case SzCode::V32_E16:return ((VirtualStack::V32::E16::VirtualStack_st*)MyData)->Type;
-                case SzCode::V32_E08:return ((VirtualStack::V32::E8::VirtualStack_st*)MyData)->Type;
-                case SzCode::V16_E64:return ((VirtualStack::V16::E64::VirtualStack_st*)MyData)->Type;
-                case SzCode::V16_E32:return ((VirtualStack::V16::E32::VirtualStack_st*)MyData)->Type;
-                case SzCode::V16_E16:return ((VirtualStack::V16::E16::VirtualStack_st*)MyData)->Type;
-                case SzCode::V16_E08:return ((VirtualStack::V16::E8::VirtualStack_st*)MyData)->Type; 
-                case SzCode::V08_E64:return ((VirtualStack::V8::E64::VirtualStack_st*)MyData)->Type;
-                case SzCode::V08_E32:return ((VirtualStack::V8::E32::VirtualStack_st*)MyData)->Type;
-                case SzCode::V08_E16:return ((VirtualStack::V8::E16::VirtualStack_st*)MyData)->Type;
-                case SzCode::V08_E08:return ((VirtualStack::V8::E8::VirtualStack_st*)MyData)->Type; 
+        void VirtualMachine_cl::GetInstruction(){
+            switch(CurrentSizeCode){
+                case SzCode::V64_E64:{CurrentInstruction=(void*)&_VirtualInstructions_64_64[InstructionCounter_64_64];}break;
+                case SzCode::V64_E32:{CurrentInstruction=(void*)&_VirtualInstructions_64_32[InstructionCounter_64_32];}break;
+                case SzCode::V64_E16:{CurrentInstruction=(void*)&_VirtualInstructions_64_16[InstructionCounter_64_16];}break;
+                case SzCode::V64_E08:{CurrentInstruction=(void*)&_VirtualInstructions_64_08[InstructionCounter_64_08];}break;
+                case SzCode::V32_E64:{CurrentInstruction=(void*)&_VirtualInstructions_32_64[InstructionCounter_32_64];}break;
+                case SzCode::V32_E32:{CurrentInstruction=(void*)&_VirtualInstructions_32_32[InstructionCounter_32_32];}break;
+                case SzCode::V32_E16:{CurrentInstruction=(void*)&_VirtualInstructions_32_16[InstructionCounter_32_16];}break;
+                case SzCode::V32_E08:{CurrentInstruction=(void*)&_VirtualInstructions_32_08[InstructionCounter_32_08];}break;
+                case SzCode::V16_E64:{CurrentInstruction=(void*)&_VirtualInstructions_16_64[InstructionCounter_16_64];}break;
+                case SzCode::V16_E32:{CurrentInstruction=(void*)&_VirtualInstructions_16_32[InstructionCounter_16_32];}break;
+                case SzCode::V16_E16:{CurrentInstruction=(void*)&_VirtualInstructions_16_16[InstructionCounter_16_16];}break;
+                case SzCode::V16_E08:{CurrentInstruction=(void*)&_VirtualInstructions_16_08[InstructionCounter_16_08];}break;
+                case SzCode::V08_E64:{CurrentInstruction=(void*)&_VirtualInstructions_08_64[InstructionCounter_08_64];}break;
+                case SzCode::V08_E32:{CurrentInstruction=(void*)&_VirtualInstructions_08_32[InstructionCounter_08_32];}break;
+                case SzCode::V08_E16:{CurrentInstruction=(void*)&_VirtualInstructions_08_16[InstructionCounter_08_16];}break;
+                case SzCode::V08_E08:{CurrentInstruction=(void*)&_VirtualInstructions_08_08[InstructionCounter_08_08];}break;
+               case SzCode::SZ__NULL:{CurrentInstruction=nullptr;}break;
             }
         }
-        int8_t& Instruction_st::V8(){
-            switch(MySzCode){
-                case SzCode::V08_E64:return ((VirtualStack::V8::E64::VirtualStack_st*)MyData)->Value;
-                case SzCode::V08_E32:return ((VirtualStack::V8::E32::VirtualStack_st*)MyData)->Value;
-                case SzCode::V08_E16:return ((VirtualStack::V8::E16::VirtualStack_st*)MyData)->Value;
-                case SzCode::V08_E08:return ((VirtualStack::V8::E8::VirtualStack_st*)MyData)->Value; 
+        bool VirtualMachine_cl::RunInstruction(){
+            switch(CurrentSizeCode){
+                case SzCode::V64_E64:{VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_64_64);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_64_64++;
+                }break;
+                case SzCode::V64_E32:{VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_64_32);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_64_32++;
+                }break;
+                case SzCode::V64_E16:{VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_64_16);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_64_16++;
+                }break;
+                case SzCode::V64_E08:{VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_64_08);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_64_08++;
+                }break;
+                case SzCode::V32_E64:{VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_32_64);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_32_64++;
+                }break;
+                case SzCode::V32_E32:{VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_32_32);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_32_32++;
+                }break;
+                case SzCode::V32_E16:{VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_32_16);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_32_16++;
+                }break;
+                case SzCode::V32_E08:{VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_32_08);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_32_08++;
+                }break;
+                case SzCode::V16_E64:{VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_16_64);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_16_64++;
+                }break;
+                case SzCode::V16_E32:{VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_16_32);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_16_32++;
+                }break;
+                case SzCode::V16_E16:{VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_16_16);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_16_16++;
+                }break;
+                case SzCode::V16_E08:{VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_16_08);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_16_08++;
+                }break;
+                case SzCode::V08_E64:{VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_08_64);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_08_64++;
+                }break;
+                case SzCode::V08_E32:{VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_08_32);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_08_32++;
+                }break;
+                case SzCode::V08_E16:{VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_08_16);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_08_16++;
+                }break;
+                case SzCode::V08_E08:{VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>*)CurrentInstruction;
+                    switch(ThisInstruction->opcode){
+                        case OpCode::OP__NULL:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__NULL]\n\0");
+                            return false;
+                        }break;
+                        case OpCode::OP__EXIT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__EXIT]\n\0");
+                        }break;
+                        case OpCode::OP__ADD:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__ADD]\n\0");
+                        }break;
+                        case OpCode::OP__SUBTRACT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__SUBTRACT]\n\0");
+                        }break;
+                        case OpCode::OP__MULTIPLY:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__MULTIPLY]\n\0");
+                        }break;
+                        case OpCode::OP__DIVIDE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__DIVIDE]\n\0");
+                        }break;
+                        case OpCode::OP__MODULUS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__MODULUS]\n\0");
+                        }break;
+                        case OpCode::OP__MORE_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__MORE_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__LESS_THAN:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__LESS_THAN]\n\0");
+                        }break;
+                        case OpCode::OP__EQUALS:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__EQUALS]\n\0");
+                        }break;
+                        case OpCode::OP__PUSH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__PUSH]\n\0");
+                            PushToStack(CurrentSizeCode,InstructionCounter_08_08);
+                        }break;
+                        case OpCode::OP__PRINT:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__PRINT]\n\0");
+                        }break;
+                        case OpCode::OP__IF_JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__IF_JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__JUMP:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__JUMP]\n\0");
+                        }break;
+                        case OpCode::OP__CLONE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__CLONE]\n\0");
+                        }break;
+                        case OpCode::OP__SWITCH:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__SWITCH]\n\0");
+                        }break;
+                    }
+                    InstructionCounter_08_08++;
+                }break;
+               case SzCode::SZ__NULL:{return false;}break;
             }
+            return true;
         }
-        int16_t& Instruction_st::V16(){
-            switch(MySzCode){
-                case SzCode::V16_E64:return ((VirtualStack::V16::E64::VirtualStack_st*)MyData)->Value;
-                case SzCode::V16_E32:return ((VirtualStack::V16::E32::VirtualStack_st*)MyData)->Value;
-                case SzCode::V16_E16:return ((VirtualStack::V16::E16::VirtualStack_st*)MyData)->Value;
-                case SzCode::V16_E08:return ((VirtualStack::V16::E8::VirtualStack_st*)MyData)->Value; 
-            }
+        void VirtualMachine_cl::Run(){
+            AddEnd();
+            do{
+                GetInstruction();
+            }while(RunInstruction());
+            RemoveEnd();
         }
-        int32_t& Instruction_st::V32(){
-            switch(MySzCode){
-                case SzCode::V32_E64:return ((VirtualStack::V32::E64::VirtualStack_st*)MyData)->Value;
-                case SzCode::V32_E32:return ((VirtualStack::V32::E32::VirtualStack_st*)MyData)->Value;
-                case SzCode::V32_E16:return ((VirtualStack::V32::E16::VirtualStack_st*)MyData)->Value;
-                case SzCode::V32_E08:return ((VirtualStack::V32::E8::VirtualStack_st*)MyData)->Value;
-            }
-        }
-        int64_t& Instruction_st::V64(){
-            switch(MySzCode){
-                case SzCode::V64_E64:return ((VirtualStack::V64::E64::VirtualStack_st*)MyData)->Value;
-                case SzCode::V64_E32:return ((VirtualStack::V64::E32::VirtualStack_st*)MyData)->Value;
-                case SzCode::V64_E16:return ((VirtualStack::V64::E16::VirtualStack_st*)MyData)->Value;
-                case SzCode::V64_E08:return ((VirtualStack::V64::E8::VirtualStack_st*)MyData)->Value; 
-            }
-        }
-        uint8_t& Instruction_st::E8(){
-            switch(MySzCode){
-                case SzCode::V64_E08:return ((VirtualStack::V64::E8::VirtualStack_st*)MyData)->Extended; 
-                case SzCode::V32_E08:return ((VirtualStack::V32::E8::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V16_E08:return ((VirtualStack::V16::E8::VirtualStack_st*)MyData)->Extended; 
-                case SzCode::V08_E08:return ((VirtualStack::V8::E8::VirtualStack_st*)MyData)->Extended; 
-            }
-        }
-        uint16_t& Instruction_st::E16(){
-            switch(MySzCode){
-                case SzCode::V64_E16:return ((VirtualStack::V64::E16::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V32_E16:return ((VirtualStack::V32::E16::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V16_E16:return ((VirtualStack::V16::E16::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V08_E16:return ((VirtualStack::V8::E16::VirtualStack_st*)MyData)->Extended;
-            }
-        }
-        uint32_t& Instruction_st::E32(){
-            switch(MySzCode){
-                case SzCode::V64_E32:return ((VirtualStack::V64::E32::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V32_E32:return ((VirtualStack::V32::E32::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V16_E32:return ((VirtualStack::V16::E32::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V08_E32:return ((VirtualStack::V8::E32::VirtualStack_st*)MyData)->Extended;
-            }
-        }
-        uint64_t& Instruction_st::E64(){
-            switch(MySzCode){
-                case SzCode::V64_E64:return ((VirtualStack::V64::E64::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V32_E64:return ((VirtualStack::V32::E64::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V16_E64:return ((VirtualStack::V16::E64::VirtualStack_st*)MyData)->Extended;
-                case SzCode::V08_E64:return ((VirtualStack::V8::E64::VirtualStack_st*)MyData)->Extended;
+        void VirtualMachine_cl::AddInstruction_64_64(OpCode opcode,TpCode tpcode,int64_t value,uint64_t extended){_VirtualInstructions_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_64_32(OpCode opcode,TpCode tpcode,int64_t value,uint32_t extended){_VirtualInstructions_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_64_16(OpCode opcode,TpCode tpcode,int64_t value,uint16_t extended){_VirtualInstructions_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_64_08(OpCode opcode,TpCode tpcode,int64_t value,uint8_t extended) {_VirtualInstructions_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_32_64(OpCode opcode,TpCode tpcode,int32_t value,uint64_t extended){_VirtualInstructions_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_32_32(OpCode opcode,TpCode tpcode,int32_t value,uint32_t extended){_VirtualInstructions_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_32_16(OpCode opcode,TpCode tpcode,int32_t value,uint16_t extended){_VirtualInstructions_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_32_08(OpCode opcode,TpCode tpcode,int32_t value,uint8_t extended) {_VirtualInstructions_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_16_64(OpCode opcode,TpCode tpcode,int16_t value,uint64_t extended){_VirtualInstructions_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_16_32(OpCode opcode,TpCode tpcode,int16_t value,uint32_t extended){_VirtualInstructions_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_16_16(OpCode opcode,TpCode tpcode,int16_t value,uint16_t extended){_VirtualInstructions_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_16_08(OpCode opcode,TpCode tpcode,int16_t value,uint8_t extended) {_VirtualInstructions_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_08_64(OpCode opcode,TpCode tpcode,int8_t value,uint64_t extended) {_VirtualInstructions_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));} 
+        void VirtualMachine_cl::AddInstruction_08_32(OpCode opcode,TpCode tpcode,int8_t value,uint32_t extended) {_VirtualInstructions_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));} 
+        void VirtualMachine_cl::AddInstruction_08_16(OpCode opcode,TpCode tpcode,int8_t value,uint16_t extended) {_VirtualInstructions_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddInstruction_08_08(OpCode opcode,TpCode tpcode,int8_t value,uint8_t extended)  {_VirtualInstructions_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));} 
+        void VirtualMachine_cl::AddInstruction(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value,uint8_t extended){
+            switch(szcode){
+                case SzCode::V64_E64:{AddInstruction_64_64(opcode,tpcode,value,extended);}break;
+                case SzCode::V64_E32:{AddInstruction_64_32(opcode,tpcode,value,extended);}break;
+                case SzCode::V64_E16:{AddInstruction_64_16(opcode,tpcode,value,extended);}break;
+                case SzCode::V64_E08:{AddInstruction_64_08(opcode,tpcode,value,extended);}break;
+                case SzCode::V32_E64:{AddInstruction_32_64(opcode,tpcode,value,extended);}break;
+                case SzCode::V32_E32:{AddInstruction_32_32(opcode,tpcode,value,extended);}break;
+                case SzCode::V32_E16:{AddInstruction_32_16(opcode,tpcode,value,extended);}break;
+                case SzCode::V32_E08:{AddInstruction_32_08(opcode,tpcode,value,extended);}break;
+                case SzCode::V16_E64:{AddInstruction_16_64(opcode,tpcode,value,extended);}break;
+                case SzCode::V16_E32:{AddInstruction_16_32(opcode,tpcode,value,extended);}break;
+                case SzCode::V16_E16:{AddInstruction_16_16(opcode,tpcode,value,extended);}break;
+                case SzCode::V16_E08:{AddInstruction_16_08(opcode,tpcode,value,extended);}break;
+                case SzCode::V08_E64:{AddInstruction_08_64(opcode,tpcode,value,extended);}break;
+                case SzCode::V08_E32:{AddInstruction_08_32(opcode,tpcode,value,extended);}break;
+                case SzCode::V08_E16:{AddInstruction_08_16(opcode,tpcode,value,extended);}break;
+                case SzCode::V08_E08:{AddInstruction_08_08(opcode,tpcode,value,extended);}break;
+               case SzCode::SZ__NULL:{CurrentInstruction=nullptr;}break;
             }
         }
 
-        void* VirtualMachine_cl::GetSizedStack(SzCode SizeCode){
-            switch(SizeCode){
-                case SzCode::V64_E64:return (void*)&_VirtualStack_64_64;
-                case SzCode::V64_E32:return (void*)&_VirtualStack_64_32;
-                case SzCode::V64_E16:return (void*)&_VirtualStack_64_16;
-                case SzCode::V64_E08:return (void*)&_VirtualStack_64_08;
-                case SzCode::V32_E64:return (void*)&_VirtualStack_32_64;
-                case SzCode::V32_E32:return (void*)&_VirtualStack_32_32;
-                case SzCode::V32_E16:return (void*)&_VirtualStack_32_16;
-                case SzCode::V32_E08:return (void*)&_VirtualStack_32_08;
-                case SzCode::V16_E64:return (void*)&_VirtualStack_16_64;
-                case SzCode::V16_E32:return (void*)&_VirtualStack_16_32;
-                case SzCode::V16_E16:return (void*)&_VirtualStack_16_16;
-                case SzCode::V16_E08:return (void*)&_VirtualStack_16_08;
-                case SzCode::V08_E64:return (void*)&_VirtualStack_08_64;
-                case SzCode::V08_E32:return (void*)&_VirtualStack_08_32;
-                case SzCode::V08_E16:return (void*)&_VirtualStack_08_16;
-                case SzCode::V08_E08:return (void*)&_VirtualStack_08_08;
+        void VirtualMachine_cl::AddToVirtualStack_64_64(OpCode opcode,TpCode tpcode,int64_t value,uint64_t extended){_VirtualStack_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_64_32(OpCode opcode,TpCode tpcode,int64_t value,uint32_t extended){_VirtualStack_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_64_16(OpCode opcode,TpCode tpcode,int64_t value,uint16_t extended){_VirtualStack_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_64_08(OpCode opcode,TpCode tpcode,int64_t value,uint8_t extended) {_VirtualStack_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_32_64(OpCode opcode,TpCode tpcode,int32_t value,uint64_t extended){_VirtualStack_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_32_32(OpCode opcode,TpCode tpcode,int32_t value,uint32_t extended){_VirtualStack_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_32_16(OpCode opcode,TpCode tpcode,int32_t value,uint16_t extended){_VirtualStack_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_32_08(OpCode opcode,TpCode tpcode,int32_t value,uint8_t extended) {_VirtualStack_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_16_64(OpCode opcode,TpCode tpcode,int16_t value,uint64_t extended){_VirtualStack_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_16_32(OpCode opcode,TpCode tpcode,int16_t value,uint32_t extended){_VirtualStack_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_16_16(OpCode opcode,TpCode tpcode,int16_t value,uint16_t extended){_VirtualStack_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_16_08(OpCode opcode,TpCode tpcode,int16_t value,uint8_t extended) {_VirtualStack_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_08_64(OpCode opcode,TpCode tpcode,int8_t value,uint64_t extended) {_VirtualStack_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_08_32(OpCode opcode,TpCode tpcode,int8_t value,uint32_t extended) {_VirtualStack_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_08_16(OpCode opcode,TpCode tpcode,int8_t value,uint16_t extended) {_VirtualStack_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack_08_08(OpCode opcode,TpCode tpcode,int8_t value,uint8_t extended)  {_VirtualStack_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));}
+        void VirtualMachine_cl::AddToVirtualStack(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value,uint8_t extended){
+            switch(szcode){
+                case SzCode::V64_E64:{AddToVirtualStack_64_64(opcode,tpcode,value,extended);}break;
+                case SzCode::V64_E32:{AddToVirtualStack_64_32(opcode,tpcode,value,extended);}break;
+                case SzCode::V64_E16:{AddToVirtualStack_64_16(opcode,tpcode,value,extended);}break;
+                case SzCode::V64_E08:{AddToVirtualStack_64_08(opcode,tpcode,value,extended);}break;
+                case SzCode::V32_E64:{AddToVirtualStack_32_64(opcode,tpcode,value,extended);}break;
+                case SzCode::V32_E32:{AddToVirtualStack_32_32(opcode,tpcode,value,extended);}break;
+                case SzCode::V32_E16:{AddToVirtualStack_32_16(opcode,tpcode,value,extended);}break;
+                case SzCode::V32_E08:{AddToVirtualStack_32_08(opcode,tpcode,value,extended);}break;
+                case SzCode::V16_E64:{AddToVirtualStack_16_64(opcode,tpcode,value,extended);}break;
+                case SzCode::V16_E32:{AddToVirtualStack_16_32(opcode,tpcode,value,extended);}break;
+                case SzCode::V16_E16:{AddToVirtualStack_16_16(opcode,tpcode,value,extended);}break;
+                case SzCode::V16_E08:{AddToVirtualStack_16_08(opcode,tpcode,value,extended);}break;
+                case SzCode::V08_E64:{AddToVirtualStack_08_64(opcode,tpcode,value,extended);}break;
+                case SzCode::V08_E32:{AddToVirtualStack_08_32(opcode,tpcode,value,extended);}break;
+                case SzCode::V08_E16:{AddToVirtualStack_08_16(opcode,tpcode,value,extended);}break;
+                case SzCode::V08_E08:{AddToVirtualStack_08_08(opcode,tpcode,value,extended);}break;
+               case SzCode::SZ__NULL:{CurrentInstruction=nullptr;}break;
             }
-            return (void*)nullptr;
         }
-        void VirtualMachine_cl::Clear(){
-            _VirtualStack_64_64.Clear();
-            _VirtualStack_64_32.Clear();
-            _VirtualStack_64_16.Clear();
-            _VirtualStack_64_08.Clear();
-            _VirtualStack_32_64.Clear();
-            _VirtualStack_32_32.Clear();
-            _VirtualStack_32_16.Clear();
-            _VirtualStack_32_08.Clear();
-            _VirtualStack_16_64.Clear();
-            _VirtualStack_16_32.Clear();
-            _VirtualStack_16_16.Clear();
-            _VirtualStack_16_08.Clear();
-            _VirtualStack_08_64.Clear();
-            _VirtualStack_08_32.Clear();
-            _VirtualStack_08_16.Clear();
-            _VirtualStack_08_08.Clear();
-        }
-        void VirtualMachine_cl::AddFirst_64_64(Instruction_st &TheInstruction){
-            _VirtualStack_64_64.AddFirst( *((VirtualStack::V64::E64::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_64_32(Instruction_st &TheInstruction){
-            _VirtualStack_64_32.AddFirst( *((VirtualStack::V64::E32::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_64_16(Instruction_st &TheInstruction){
-            _VirtualStack_64_16.AddFirst( *((VirtualStack::V64::E16::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_64_08(Instruction_st &TheInstruction){
-            _VirtualStack_64_08.AddFirst( *((VirtualStack::V64::E8::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_32_64(Instruction_st &TheInstruction){
-            _VirtualStack_32_64.AddFirst( *((VirtualStack::V32::E64::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_32_32(Instruction_st &TheInstruction){
-            _VirtualStack_32_32.AddFirst( *((VirtualStack::V32::E32::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_32_16(Instruction_st &TheInstruction){
-            _VirtualStack_32_16.AddFirst( *((VirtualStack::V32::E16::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_32_08(Instruction_st &TheInstruction){
-            _VirtualStack_32_08.AddFirst( *((VirtualStack::V32::E8::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_16_64(Instruction_st &TheInstruction){
-            _VirtualStack_16_64.AddFirst( *((VirtualStack::V16::E64::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_16_32(Instruction_st &TheInstruction){
-            _VirtualStack_16_32.AddFirst( *((VirtualStack::V16::E32::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_16_16(Instruction_st &TheInstruction){
-            _VirtualStack_16_16.AddFirst( *((VirtualStack::V16::E16::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_16_08(Instruction_st &TheInstruction){
-            _VirtualStack_16_08.AddFirst( *((VirtualStack::V16::E8::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_08_64(Instruction_st &TheInstruction){
-            _VirtualStack_08_64.AddFirst( *((VirtualStack::V8::E64::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_08_32(Instruction_st &TheInstruction){
-            _VirtualStack_08_32.AddFirst( *((VirtualStack::V8::E32::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_08_16(Instruction_st &TheInstruction){
-            _VirtualStack_08_16.AddFirst( *((VirtualStack::V8::E16::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddFirst_08_08(Instruction_st &TheInstruction){
-            _VirtualStack_08_08.AddFirst( *((VirtualStack::V8::E8::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_64_64(Instruction_st &TheInstruction){
-            _VirtualStack_64_64.AddLast( *((VirtualStack::V64::E64::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_64_32(Instruction_st &TheInstruction){
-            _VirtualStack_64_32.AddLast( *((VirtualStack::V64::E32::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_64_16(Instruction_st &TheInstruction){
-            _VirtualStack_64_16.AddLast( *((VirtualStack::V64::E16::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_64_08(Instruction_st &TheInstruction){
-            _VirtualStack_64_08.AddLast( *((VirtualStack::V64::E8::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_32_64(Instruction_st &TheInstruction){
-            _VirtualStack_32_64.AddLast( *((VirtualStack::V32::E64::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_32_32(Instruction_st &TheInstruction){
-            _VirtualStack_32_32.AddLast( *((VirtualStack::V32::E32::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_32_16(Instruction_st &TheInstruction){
-            _VirtualStack_32_16.AddLast( *((VirtualStack::V32::E16::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_32_08(Instruction_st &TheInstruction){
-            _VirtualStack_32_08.AddLast( *((VirtualStack::V32::E8::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_16_64(Instruction_st &TheInstruction){
-            _VirtualStack_16_64.AddLast( *((VirtualStack::V16::E64::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_16_32(Instruction_st &TheInstruction){
-            _VirtualStack_16_32.AddLast( *((VirtualStack::V16::E32::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_16_16(Instruction_st &TheInstruction){
-            _VirtualStack_16_16.AddLast( *((VirtualStack::V16::E16::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_16_08(Instruction_st &TheInstruction){
-            _VirtualStack_16_08.AddLast( *((VirtualStack::V16::E8::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_08_64(Instruction_st &TheInstruction){
-            _VirtualStack_08_64.AddLast( *((VirtualStack::V8::E64::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_08_32(Instruction_st &TheInstruction){
-            _VirtualStack_08_32.AddLast( *((VirtualStack::V8::E32::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_08_16(Instruction_st &TheInstruction){
-            _VirtualStack_08_16.AddLast( *((VirtualStack::V8::E16::VirtualStack_st*)TheInstruction.MyData) );
-        }
-        void VirtualMachine_cl::AddLast_08_08(Instruction_st &TheInstruction){
-            _VirtualStack_08_08.AddLast( *((VirtualStack::V8::E8::VirtualStack_st*)TheInstruction.MyData) );
-        }
+
+        VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_64_64(){return _VirtualStack_64_64.Last();}
+        VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_64_32(){return _VirtualStack_64_32.Last();}
+        VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_64_16(){return _VirtualStack_64_16.Last();}
+        VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>  VirtualMachine_cl::GetLastFromVirtualStack_64_08(){return _VirtualStack_64_08.Last();}
+        VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_32_64(){return _VirtualStack_32_64.Last();}
+        VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_32_32(){return _VirtualStack_32_32.Last();}
+        VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_32_16(){return _VirtualStack_32_16.Last();}
+        VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>  VirtualMachine_cl::GetLastFromVirtualStack_32_08(){return _VirtualStack_32_08.Last();}
+        VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_16_64(){return _VirtualStack_16_64.Last();}
+        VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_16_32(){return _VirtualStack_16_32.Last();}
+        VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_16_16(){return _VirtualStack_16_16.Last();}
+        VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>  VirtualMachine_cl::GetLastFromVirtualStack_16_08(){return _VirtualStack_16_08.Last();}
+        VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>  VirtualMachine_cl::GetLastFromVirtualStack_08_64(){return _VirtualStack_08_64.Last();}
+        VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>  VirtualMachine_cl::GetLastFromVirtualStack_08_32(){return _VirtualStack_08_32.Last();}
+        VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>  VirtualMachine_cl::GetLastFromVirtualStack_08_16(){return _VirtualStack_08_16.Last();}
+        VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>   VirtualMachine_cl::GetLastFromVirtualStack_08_08(){return _VirtualStack_08_08.Last();}
+        VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_64_64(){return _VirtualStack_64_64.First();}
+        VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_64_32(){return _VirtualStack_64_32.First();}
+        VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_64_16(){return _VirtualStack_64_16.First();}
+        VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>  VirtualMachine_cl::GetFirstFromVirtualStack_64_08(){return _VirtualStack_64_08.First();}
+        VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_32_64(){return _VirtualStack_32_64.First();}
+        VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_32_32(){return _VirtualStack_32_32.First();}
+        VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_32_16(){return _VirtualStack_32_16.First();}
+        VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>  VirtualMachine_cl::GetFirstFromVirtualStack_32_08(){return _VirtualStack_32_08.First();}
+        VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_16_64(){return _VirtualStack_16_64.First();}
+        VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_16_32(){return _VirtualStack_16_32.First();}
+        VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st> VirtualMachine_cl::GetFirstFromVirtualStack_16_16(){return _VirtualStack_16_16.First();}
+        VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>  VirtualMachine_cl::GetFirstFromVirtualStack_16_08(){return _VirtualStack_16_08.First();}
+        VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>  VirtualMachine_cl::GetFirstFromVirtualStack_08_64(){return _VirtualStack_08_64.First();}
+        VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>  VirtualMachine_cl::GetFirstFromVirtualStack_08_32(){return _VirtualStack_08_32.First();}
+        VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>  VirtualMachine_cl::GetFirstFromVirtualStack_08_16(){return _VirtualStack_08_16.First();}
+        VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>   VirtualMachine_cl::GetFirstFromVirtualStack_08_08(){return _VirtualStack_08_08.First();}
         
-        void VirtualMachine_cl::GetFirst_64_64(Instruction_st &TheInstruction){
-            ((VirtualStack::V64::E64::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_64_64.First().Type;
-            ((VirtualStack::V64::E64::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_64_64.First().Value;
-            ((VirtualStack::V64::E64::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_64_64.First().Extended;
+        VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_64_64(size_t ThisInstructionCounter){return _VirtualInstructions_64_64[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_64_32(size_t ThisInstructionCounter){return _VirtualInstructions_64_32[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_64_16(size_t ThisInstructionCounter){return _VirtualInstructions_64_16[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>  VirtualMachine_cl::GetFromVirtualInstructions_64_08(size_t ThisInstructionCounter){return _VirtualInstructions_64_08[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_32_64(size_t ThisInstructionCounter){return _VirtualInstructions_32_64[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_32_32(size_t ThisInstructionCounter){return _VirtualInstructions_32_32[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_32_16(size_t ThisInstructionCounter){return _VirtualInstructions_32_16[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>  VirtualMachine_cl::GetFromVirtualInstructions_32_08(size_t ThisInstructionCounter){return _VirtualInstructions_32_08[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_16_64(size_t ThisInstructionCounter){return _VirtualInstructions_16_64[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_16_32(size_t ThisInstructionCounter){return _VirtualInstructions_16_32[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st> VirtualMachine_cl::GetFromVirtualInstructions_16_16(size_t ThisInstructionCounter){return _VirtualInstructions_16_16[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>  VirtualMachine_cl::GetFromVirtualInstructions_16_08(size_t ThisInstructionCounter){return _VirtualInstructions_16_08[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>  VirtualMachine_cl::GetFromVirtualInstructions_08_64(size_t ThisInstructionCounter){return _VirtualInstructions_08_64[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>  VirtualMachine_cl::GetFromVirtualInstructions_08_32(size_t ThisInstructionCounter){return _VirtualInstructions_08_32[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>  VirtualMachine_cl::GetFromVirtualInstructions_08_16(size_t ThisInstructionCounter){return _VirtualInstructions_08_16[ThisInstructionCounter];}
+        VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>   VirtualMachine_cl::GetFromVirtualInstructions_08_08(size_t ThisInstructionCounter){return _VirtualInstructions_08_08[ThisInstructionCounter];}
+
+
+        void VirtualMachine_cl::AddEnd(){
+            if(!hasEnd){_VirtualInstructions_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            if(!hasEnd){_VirtualInstructions_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
+            hasEnd=true;
         }
-        void VirtualMachine_cl::GetFirst_64_32(Instruction_st &TheInstruction){
-            ((VirtualStack::V64::E32::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_64_32.First().Type;
-            ((VirtualStack::V64::E32::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_64_32.First().Value;
-            ((VirtualStack::V64::E32::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_64_32.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_64_16(Instruction_st &TheInstruction){
-            ((VirtualStack::V64::E16::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_64_16.First().Type;
-            ((VirtualStack::V64::E16::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_64_16.First().Value;
-            ((VirtualStack::V64::E16::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_64_16.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_64_08(Instruction_st &TheInstruction){
-            ((VirtualStack::V64::E8::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_64_08.First().Type;
-            ((VirtualStack::V64::E8::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_64_08.First().Value;
-            ((VirtualStack::V64::E8::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_64_08.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_32_64(Instruction_st &TheInstruction){
-            ((VirtualStack::V32::E64::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_32_64.First().Type;
-            ((VirtualStack::V32::E64::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_32_64.First().Value;
-            ((VirtualStack::V32::E64::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_32_64.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_32_32(Instruction_st &TheInstruction){
-            ((VirtualStack::V32::E32::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_32_32.First().Type;
-            ((VirtualStack::V32::E32::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_32_32.First().Value;
-            ((VirtualStack::V32::E32::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_32_32.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_32_16(Instruction_st &TheInstruction){
-            ((VirtualStack::V32::E16::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_32_16.First().Type;
-            ((VirtualStack::V32::E16::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_32_16.First().Value;
-            ((VirtualStack::V32::E16::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_32_16.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_32_08(Instruction_st &TheInstruction){
-            ((VirtualStack::V32::E8::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_32_08.First().Type;
-            ((VirtualStack::V32::E8::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_32_08.First().Value;
-            ((VirtualStack::V32::E8::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_32_08.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_16_64(Instruction_st &TheInstruction){
-            ((VirtualStack::V16::E64::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_16_64.First().Type;
-            ((VirtualStack::V16::E64::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_16_64.First().Value;
-            ((VirtualStack::V16::E64::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_16_64.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_16_32(Instruction_st &TheInstruction){
-            ((VirtualStack::V16::E32::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_16_32.First().Type;
-            ((VirtualStack::V16::E32::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_16_32.First().Value;
-            ((VirtualStack::V16::E32::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_16_32.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_16_16(Instruction_st &TheInstruction){
-            ((VirtualStack::V16::E16::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_16_16.First().Type;
-            ((VirtualStack::V16::E16::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_16_16.First().Value;
-            ((VirtualStack::V16::E16::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_16_16.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_16_08(Instruction_st &TheInstruction){
-            ((VirtualStack::V16::E8::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_16_08.First().Type;
-            ((VirtualStack::V16::E8::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_16_08.First().Value;
-            ((VirtualStack::V16::E8::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_16_08.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_08_64(Instruction_st &TheInstruction){
-            ((VirtualStack::V8::E64::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_08_64.First().Type;
-            ((VirtualStack::V8::E64::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_08_64.First().Value;
-            ((VirtualStack::V8::E64::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_08_64.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_08_32(Instruction_st &TheInstruction){
-            ((VirtualStack::V8::E32::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_08_32.First().Type;
-            ((VirtualStack::V8::E32::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_08_32.First().Value;
-            ((VirtualStack::V8::E32::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_08_32.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_08_16(Instruction_st &TheInstruction){
-            ((VirtualStack::V8::E16::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_08_16.First().Type;
-            ((VirtualStack::V8::E16::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_08_16.First().Value;
-            ((VirtualStack::V8::E16::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_08_16.First().Extended;
-        }
-        void VirtualMachine_cl::GetFirst_08_08(Instruction_st &TheInstruction){
-            ((VirtualStack::V8::E8::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_08_08.First().Type;
-            ((VirtualStack::V8::E8::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_08_08.First().Value;
-            ((VirtualStack::V8::E8::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_08_08.First().Extended;
+        void VirtualMachine_cl::RemoveEnd(){
+            if(hasEnd){_VirtualInstructions_64_64.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_64_32.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_64_16.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_64_08.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_32_64.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_32_32.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_32_16.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_32_08.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_16_64.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_16_32.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_16_16.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_16_08.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_08_64.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_08_32.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_08_16.RemoveLast();}
+            if(hasEnd){_VirtualInstructions_08_08.RemoveLast();}
+            hasEnd=false;
         }
 
-        void VirtualMachine_cl::GetLast_64_64(Instruction_st &TheInstruction){
-            ((VirtualStack::V64::E64::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_64_64.Last().Type;
-            ((VirtualStack::V64::E64::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_64_64.Last().Value;
-            ((VirtualStack::V64::E64::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_64_64.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_64_32(Instruction_st &TheInstruction){
-            ((VirtualStack::V64::E32::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_64_32.Last().Type;
-            ((VirtualStack::V64::E32::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_64_32.Last().Value;
-            ((VirtualStack::V64::E32::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_64_32.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_64_16(Instruction_st &TheInstruction){
-            ((VirtualStack::V64::E16::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_64_16.Last().Type;
-            ((VirtualStack::V64::E16::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_64_16.Last().Value;
-            ((VirtualStack::V64::E16::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_64_16.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_64_08(Instruction_st &TheInstruction){
-            ((VirtualStack::V64::E8::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_64_08.Last().Type;
-            ((VirtualStack::V64::E8::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_64_08.Last().Value;
-            ((VirtualStack::V64::E8::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_64_08.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_32_64(Instruction_st &TheInstruction){
-            ((VirtualStack::V32::E64::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_32_64.Last().Type;
-            ((VirtualStack::V32::E64::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_32_64.Last().Value;
-            ((VirtualStack::V32::E64::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_32_64.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_32_32(Instruction_st &TheInstruction){
-            ((VirtualStack::V32::E32::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_32_32.Last().Type;
-            ((VirtualStack::V32::E32::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_32_32.Last().Value;
-            ((VirtualStack::V32::E32::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_32_32.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_32_16(Instruction_st &TheInstruction){
-            ((VirtualStack::V32::E16::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_32_16.Last().Type;
-            ((VirtualStack::V32::E16::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_32_16.Last().Value;
-            ((VirtualStack::V32::E16::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_32_16.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_32_08(Instruction_st &TheInstruction){
-            ((VirtualStack::V32::E8::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_32_08.Last().Type;
-            ((VirtualStack::V32::E8::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_32_08.Last().Value;
-            ((VirtualStack::V32::E8::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_32_08.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_16_64(Instruction_st &TheInstruction){
-            ((VirtualStack::V16::E64::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_16_64.Last().Type;
-            ((VirtualStack::V16::E64::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_16_64.Last().Value;
-            ((VirtualStack::V16::E64::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_16_64.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_16_32(Instruction_st &TheInstruction){
-            ((VirtualStack::V16::E32::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_16_32.Last().Type;
-            ((VirtualStack::V16::E32::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_16_32.Last().Value;
-            ((VirtualStack::V16::E32::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_16_32.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_16_16(Instruction_st &TheInstruction){
-            ((VirtualStack::V16::E16::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_16_16.Last().Type;
-            ((VirtualStack::V16::E16::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_16_16.Last().Value;
-            ((VirtualStack::V16::E16::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_16_16.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_16_08(Instruction_st &TheInstruction){
-            ((VirtualStack::V16::E8::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_16_08.Last().Type;
-            ((VirtualStack::V16::E8::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_16_08.Last().Value;
-            ((VirtualStack::V16::E8::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_16_08.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_08_64(Instruction_st &TheInstruction){
-            ((VirtualStack::V8::E64::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_08_64.Last().Type;
-            ((VirtualStack::V8::E64::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_08_64.Last().Value;
-            ((VirtualStack::V8::E64::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_08_64.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_08_32(Instruction_st &TheInstruction){
-            ((VirtualStack::V8::E32::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_08_32.Last().Type;
-            ((VirtualStack::V8::E32::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_08_32.Last().Value;
-            ((VirtualStack::V8::E32::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_08_32.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_08_16(Instruction_st &TheInstruction){
-            ((VirtualStack::V8::E16::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_08_16.Last().Type;
-            ((VirtualStack::V8::E16::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_08_16.Last().Value;
-            ((VirtualStack::V8::E16::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_08_16.Last().Extended;
-        }
-        void VirtualMachine_cl::GetLast_08_08(Instruction_st &TheInstruction){
-            ((VirtualStack::V8::E8::VirtualStack_st*)TheInstruction.MyData)->Type=_VirtualStack_08_08.Last().Type;
-            ((VirtualStack::V8::E8::VirtualStack_st*)TheInstruction.MyData)->Value=_VirtualStack_08_08.Last().Value;
-            ((VirtualStack::V8::E8::VirtualStack_st*)TheInstruction.MyData)->Extended=_VirtualStack_08_08.Last().Extended;
-        }
-        
-        
-        void VirtualMachine_cl::AddFirst(Instruction_st &TheInstruction){
-            switch(TheInstruction.Get_SzCode()){
-                case SzCode::V64_E64:{AddFirst_64_64(TheInstruction);}break;
-                case SzCode::V64_E32:{AddFirst_64_32(TheInstruction);}break;
-                case SzCode::V64_E16:{AddFirst_64_16(TheInstruction);}break;
-                case SzCode::V64_E08:{AddFirst_64_08(TheInstruction);}break;
-                case SzCode::V32_E64:{AddFirst_32_64(TheInstruction);}break;
-                case SzCode::V32_E32:{AddFirst_32_32(TheInstruction);}break;
-                case SzCode::V32_E16:{AddFirst_32_16(TheInstruction);}break;
-                case SzCode::V32_E08:{AddFirst_32_08(TheInstruction);}break;
-                case SzCode::V16_E64:{AddFirst_16_64(TheInstruction);}break;
-                case SzCode::V16_E32:{AddFirst_16_32(TheInstruction);}break;
-                case SzCode::V16_E16:{AddFirst_16_16(TheInstruction);}break;
-                case SzCode::V16_E08:{AddFirst_16_08(TheInstruction);}break;
-                case SzCode::V08_E64:{AddFirst_08_64(TheInstruction);}break;
-                case SzCode::V08_E32:{AddFirst_08_32(TheInstruction);}break;
-                case SzCode::V08_E16:{AddFirst_08_16(TheInstruction);}break;
-                case SzCode::V08_E08:{AddFirst_08_08(TheInstruction);}break;
+        void VirtualMachine_cl::GetValueFromVirtualInstructions(SzCode szcode,int8_t &value,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{value=(int8_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E32:{value=(int8_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E16:{value=(int8_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E08:{value=(int8_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E64:{value=(int8_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E32:{value=(int8_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E16:{value=(int8_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E08:{value=(int8_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E64:{value=(int8_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E32:{value=(int8_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E16:{value=(int8_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E08:{value=(int8_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E64:{value=(int8_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E32:{value=(int8_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E16:{value=(int8_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E08:{value=(int8_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
         }
-        void VirtualMachine_cl::AddLast(Instruction_st &TheInstruction){
-            switch(TheInstruction.Get_SzCode()){
-                case SzCode::V64_E64:{AddLast_64_64(TheInstruction);}break;
-                case SzCode::V64_E32:{AddLast_64_32(TheInstruction);}break;
-                case SzCode::V64_E16:{AddLast_64_16(TheInstruction);}break;
-                case SzCode::V64_E08:{AddLast_64_08(TheInstruction);}break;
-                case SzCode::V32_E64:{AddLast_32_64(TheInstruction);}break;
-                case SzCode::V32_E32:{AddLast_32_32(TheInstruction);}break;
-                case SzCode::V32_E16:{AddLast_32_16(TheInstruction);}break;
-                case SzCode::V32_E08:{AddLast_32_08(TheInstruction);}break;
-                case SzCode::V16_E64:{AddLast_16_64(TheInstruction);}break;
-                case SzCode::V16_E32:{AddLast_16_32(TheInstruction);}break;
-                case SzCode::V16_E16:{AddLast_16_16(TheInstruction);}break;
-                case SzCode::V16_E08:{AddLast_16_08(TheInstruction);}break;
-                case SzCode::V08_E64:{AddLast_08_64(TheInstruction);}break;
-                case SzCode::V08_E32:{AddLast_08_32(TheInstruction);}break;
-                case SzCode::V08_E16:{AddLast_08_16(TheInstruction);}break;
-                case SzCode::V08_E08:{AddLast_08_08(TheInstruction);}break;
+        void VirtualMachine_cl::GetValueFromVirtualInstructions(SzCode szcode,int16_t &value,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{value=(int16_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E32:{value=(int16_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E16:{value=(int16_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E08:{value=(int16_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E64:{value=(int16_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E32:{value=(int16_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E16:{value=(int16_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E08:{value=(int16_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E64:{value=(int16_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E32:{value=(int16_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E16:{value=(int16_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E08:{value=(int16_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E64:{value=(int16_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E32:{value=(int16_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E16:{value=(int16_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E08:{value=(int16_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
         }
-        void VirtualMachine_cl::RemoveFirst(SzCode TheSizecode){
-            switch(TheSizecode){
-                case SzCode::V64_E64:{_VirtualStack_64_64.RemoveFirst();}break;
-                case SzCode::V64_E32:{_VirtualStack_64_32.RemoveFirst();}break;
-                case SzCode::V64_E16:{_VirtualStack_64_16.RemoveFirst();}break;
-                case SzCode::V64_E08:{_VirtualStack_64_08.RemoveFirst();}break;
-                case SzCode::V32_E64:{_VirtualStack_32_64.RemoveFirst();}break;
-                case SzCode::V32_E32:{_VirtualStack_32_32.RemoveFirst();}break;
-                case SzCode::V32_E16:{_VirtualStack_32_16.RemoveFirst();}break;
-                case SzCode::V32_E08:{_VirtualStack_32_08.RemoveFirst();}break;
-                case SzCode::V16_E64:{_VirtualStack_16_64.RemoveFirst();}break;
-                case SzCode::V16_E32:{_VirtualStack_16_32.RemoveFirst();}break;
-                case SzCode::V16_E16:{_VirtualStack_16_16.RemoveFirst();}break;
-                case SzCode::V16_E08:{_VirtualStack_16_08.RemoveFirst();}break;
-                case SzCode::V08_E64:{_VirtualStack_08_64.RemoveFirst();}break;
-                case SzCode::V08_E32:{_VirtualStack_08_32.RemoveFirst();}break;
-                case SzCode::V08_E16:{_VirtualStack_08_16.RemoveFirst();}break;
-                case SzCode::V08_E08:{_VirtualStack_08_08.RemoveFirst();}break;
+        void VirtualMachine_cl::GetValueFromVirtualInstructions(SzCode szcode,int32_t &value,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{value=(int32_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E32:{value=(int32_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E16:{value=(int32_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E08:{value=(int32_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E64:{value=(int32_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E32:{value=(int32_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E16:{value=(int32_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E08:{value=(int32_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E64:{value=(int32_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E32:{value=(int32_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E16:{value=(int32_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E08:{value=(int32_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E64:{value=(int32_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E32:{value=(int32_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E16:{value=(int32_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E08:{value=(int32_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
         }
-        void VirtualMachine_cl::RemoveLast(SzCode TheSizecode){
-            switch(TheSizecode){
-                case SzCode::V64_E64:{_VirtualStack_64_64.RemoveLast();}break;
-                case SzCode::V64_E32:{_VirtualStack_64_32.RemoveLast();}break;
-                case SzCode::V64_E16:{_VirtualStack_64_16.RemoveLast();}break;
-                case SzCode::V64_E08:{_VirtualStack_64_08.RemoveLast();}break;
-                case SzCode::V32_E64:{_VirtualStack_32_64.RemoveLast();}break;
-                case SzCode::V32_E32:{_VirtualStack_32_32.RemoveLast();}break;
-                case SzCode::V32_E16:{_VirtualStack_32_16.RemoveLast();}break;
-                case SzCode::V32_E08:{_VirtualStack_32_08.RemoveLast();}break;
-                case SzCode::V16_E64:{_VirtualStack_16_64.RemoveLast();}break;
-                case SzCode::V16_E32:{_VirtualStack_16_32.RemoveLast();}break;
-                case SzCode::V16_E16:{_VirtualStack_16_16.RemoveLast();}break;
-                case SzCode::V16_E08:{_VirtualStack_16_08.RemoveLast();}break;
-                case SzCode::V08_E64:{_VirtualStack_08_64.RemoveLast();}break;
-                case SzCode::V08_E32:{_VirtualStack_08_32.RemoveLast();}break;
-                case SzCode::V08_E16:{_VirtualStack_08_16.RemoveLast();}break;
-                case SzCode::V08_E08:{_VirtualStack_08_08.RemoveLast();}break;
+        void VirtualMachine_cl::GetValueFromVirtualInstructions(SzCode szcode,int64_t &value,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{value=(int64_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E32:{value=(int64_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E16:{value=(int64_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V64_E08:{value=(int64_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E64:{value=(int64_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E32:{value=(int64_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E16:{value=(int64_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V32_E08:{value=(int64_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E64:{value=(int64_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E32:{value=(int64_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E16:{value=(int64_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V16_E08:{value=(int64_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E64:{value=(int64_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E32:{value=(int64_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E16:{value=(int64_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Value;}break;
+                case SzCode::V08_E08:{value=(int64_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
         }
-
-        void VirtualMachine_cl::GetLast(Instruction_st &TheInstruction){
-         switch(TheInstruction.Get_SzCode()){
-                case SzCode::V64_E64:{GetLast_64_64(TheInstruction);}break;
-                case SzCode::V64_E32:{GetLast_64_32(TheInstruction);}break;
-                case SzCode::V64_E16:{GetLast_64_16(TheInstruction);}break;
-                case SzCode::V64_E08:{GetLast_64_08(TheInstruction);}break;
-                case SzCode::V32_E64:{GetLast_32_64(TheInstruction);}break;
-                case SzCode::V32_E32:{GetLast_32_32(TheInstruction);}break;
-                case SzCode::V32_E16:{GetLast_32_16(TheInstruction);}break;
-                case SzCode::V32_E08:{GetLast_32_08(TheInstruction);}break;
-                case SzCode::V16_E64:{GetLast_16_64(TheInstruction);}break;
-                case SzCode::V16_E32:{GetLast_16_32(TheInstruction);}break;
-                case SzCode::V16_E16:{GetLast_16_16(TheInstruction);}break;
-                case SzCode::V16_E08:{GetLast_16_08(TheInstruction);}break;
-                case SzCode::V08_E64:{GetLast_08_64(TheInstruction);}break;
-                case SzCode::V08_E32:{GetLast_08_32(TheInstruction);}break;
-                case SzCode::V08_E16:{GetLast_08_16(TheInstruction);}break;
-                case SzCode::V08_E08:{GetLast_08_08(TheInstruction);}break;
+        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,uint8_t &extended,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{extended=(uint8_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(uint8_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(uint8_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(uint8_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(uint8_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(uint8_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(uint8_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(uint8_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(uint8_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(uint8_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(uint8_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(uint8_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(uint8_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(uint8_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(uint8_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(uint8_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
         }
-        void VirtualMachine_cl::GetFirst(Instruction_st &TheInstruction){
-            switch(TheInstruction.Get_SzCode()){
-                case SzCode::V64_E64:{GetFirst_64_64(TheInstruction);}break;
-                case SzCode::V64_E32:{GetFirst_64_32(TheInstruction);}break;
-                case SzCode::V64_E16:{GetFirst_64_16(TheInstruction);}break;
-                case SzCode::V64_E08:{GetFirst_64_08(TheInstruction);}break;
-                case SzCode::V32_E64:{GetFirst_32_64(TheInstruction);}break;
-                case SzCode::V32_E32:{GetFirst_32_32(TheInstruction);}break;
-                case SzCode::V32_E16:{GetFirst_32_16(TheInstruction);}break;
-                case SzCode::V32_E08:{GetFirst_32_08(TheInstruction);}break;
-                case SzCode::V16_E64:{GetFirst_16_64(TheInstruction);}break;
-                case SzCode::V16_E32:{GetFirst_16_32(TheInstruction);}break;
-                case SzCode::V16_E16:{GetFirst_16_16(TheInstruction);}break;
-                case SzCode::V16_E08:{GetFirst_16_08(TheInstruction);}break;
-                case SzCode::V08_E64:{GetFirst_08_64(TheInstruction);}break;
-                case SzCode::V08_E32:{GetFirst_08_32(TheInstruction);}break;
-                case SzCode::V08_E16:{GetFirst_08_16(TheInstruction);}break;
-                case SzCode::V08_E08:{GetFirst_08_08(TheInstruction);}break;
+        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,uint16_t &extended,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{extended=(uint16_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(uint16_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(uint16_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(uint16_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(uint16_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(uint16_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(uint16_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(uint16_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(uint16_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(uint16_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(uint16_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(uint16_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(uint16_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(uint16_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(uint16_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(uint16_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
         }
-
-        void VirtualMachine_cl::Clone(SzCode FromStack,SzCode ToStack){
-            // TODO: Implement this XD
-        }
-        void VirtualMachine_cl::Print(Instruction_st &TheInstruction){
-            switch(TheInstruction.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V64()));
-                }break;
-                case SzCode::V64_E32:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V64()));
-                }break;
-                case SzCode::V64_E16:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V64()));
-                }break;
-                case SzCode::V64_E08:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V64()));
-                }break;
-                case SzCode::V32_E64:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V32()));
-                }break;
-                case SzCode::V32_E32:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V32()));
-                }break;
-                case SzCode::V32_E16:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V32()));
-                }break;
-                case SzCode::V32_E08:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V32()));
-                }break;
-                case SzCode::V16_E64:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V16()));
-                }break;
-                case SzCode::V16_E32:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V16()));
-                }break;
-                case SzCode::V16_E16:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V16()));
-                }break;
-                case SzCode::V16_E08:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V16()));
-                }break;
-                case SzCode::V08_E64:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V8()));
-                }break;
-                case SzCode::V08_E32:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V8()));
-                }break;
-                case SzCode::V08_E16:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V8()));
-                }break;
-                case SzCode::V08_E08:{
-                    Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(TheInstruction.V8()));
-                }break;
+        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,uint32_t &extended,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{extended=(uint32_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(uint32_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(uint32_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(uint32_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(uint32_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(uint32_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(uint32_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(uint32_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(uint32_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(uint32_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(uint32_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(uint32_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(uint32_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(uint32_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(uint32_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(uint32_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
         }
-        void VirtualMachine_cl::MathematicalAdd(Instruction_st &aStack,Instruction_st &bStack){
-            switch(aStack.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()+=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()+=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()+=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()+=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()+=bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()+=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()+=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()+=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()+=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()+=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()+=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()+=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()+=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()+=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()+=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()+=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()+=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
+        void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,uint64_t &extended,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{extended=(uint64_t)GetFromVirtualInstructions_64_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(uint64_t)GetFromVirtualInstructions_64_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(uint64_t)GetFromVirtualInstructions_64_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(uint64_t)GetFromVirtualInstructions_64_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(uint64_t)GetFromVirtualInstructions_32_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(uint64_t)GetFromVirtualInstructions_32_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(uint64_t)GetFromVirtualInstructions_32_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(uint64_t)GetFromVirtualInstructions_32_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(uint64_t)GetFromVirtualInstructions_16_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(uint64_t)GetFromVirtualInstructions_16_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(uint64_t)GetFromVirtualInstructions_16_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(uint64_t)GetFromVirtualInstructions_16_08(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(uint64_t)GetFromVirtualInstructions_08_64(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(uint64_t)GetFromVirtualInstructions_08_32(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(uint64_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(uint64_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
+            }
+        }
+        void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int8_t &value){
+            switch(szcode){
+                case SzCode::V64_E64:{value=(int8_t)GetLastFromVirtualStack_64_64().Data.Value;}break;
+                case SzCode::V64_E32:{value=(int8_t)GetLastFromVirtualStack_64_32().Data.Value;}break;
+                case SzCode::V64_E16:{value=(int8_t)GetLastFromVirtualStack_64_16().Data.Value;}break;
+                case SzCode::V64_E08:{value=(int8_t)GetLastFromVirtualStack_64_08().Data.Value;}break;
+                case SzCode::V32_E64:{value=(int8_t)GetLastFromVirtualStack_32_64().Data.Value;}break;
+                case SzCode::V32_E32:{value=(int8_t)GetLastFromVirtualStack_32_32().Data.Value;}break;
+                case SzCode::V32_E16:{value=(int8_t)GetLastFromVirtualStack_32_16().Data.Value;}break;
+                case SzCode::V32_E08:{value=(int8_t)GetLastFromVirtualStack_32_08().Data.Value;}break;
+                case SzCode::V16_E64:{value=(int8_t)GetLastFromVirtualStack_16_64().Data.Value;}break;
+                case SzCode::V16_E32:{value=(int8_t)GetLastFromVirtualStack_16_32().Data.Value;}break;
+                case SzCode::V16_E16:{value=(int8_t)GetLastFromVirtualStack_16_16().Data.Value;}break;
+                case SzCode::V16_E08:{value=(int8_t)GetLastFromVirtualStack_16_08().Data.Value;}break;
+                case SzCode::V08_E64:{value=(int8_t)GetLastFromVirtualStack_08_64().Data.Value;}break;
+                case SzCode::V08_E32:{value=(int8_t)GetLastFromVirtualStack_08_32().Data.Value;}break;
+                case SzCode::V08_E16:{value=(int8_t)GetLastFromVirtualStack_08_16().Data.Value;}break;
+                case SzCode::V08_E08:{value=(int8_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
+            }
+        }
+        void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int16_t &value){
+            switch(szcode){
+                case SzCode::V64_E64:{value=(int16_t)GetLastFromVirtualStack_64_64().Data.Value;}break;
+                case SzCode::V64_E32:{value=(int16_t)GetLastFromVirtualStack_64_32().Data.Value;}break;
+                case SzCode::V64_E16:{value=(int16_t)GetLastFromVirtualStack_64_16().Data.Value;}break;
+                case SzCode::V64_E08:{value=(int16_t)GetLastFromVirtualStack_64_08().Data.Value;}break;
+                case SzCode::V32_E64:{value=(int16_t)GetLastFromVirtualStack_32_64().Data.Value;}break;
+                case SzCode::V32_E32:{value=(int16_t)GetLastFromVirtualStack_32_32().Data.Value;}break;
+                case SzCode::V32_E16:{value=(int16_t)GetLastFromVirtualStack_32_16().Data.Value;}break;
+                case SzCode::V32_E08:{value=(int16_t)GetLastFromVirtualStack_32_08().Data.Value;}break;
+                case SzCode::V16_E64:{value=(int16_t)GetLastFromVirtualStack_16_64().Data.Value;}break;
+                case SzCode::V16_E32:{value=(int16_t)GetLastFromVirtualStack_16_32().Data.Value;}break;
+                case SzCode::V16_E16:{value=(int16_t)GetLastFromVirtualStack_16_16().Data.Value;}break;
+                case SzCode::V16_E08:{value=(int16_t)GetLastFromVirtualStack_16_08().Data.Value;}break;
+                case SzCode::V08_E64:{value=(int16_t)GetLastFromVirtualStack_08_64().Data.Value;}break;
+                case SzCode::V08_E32:{value=(int16_t)GetLastFromVirtualStack_08_32().Data.Value;}break;
+                case SzCode::V08_E16:{value=(int16_t)GetLastFromVirtualStack_08_16().Data.Value;}break;
+                case SzCode::V08_E08:{value=(int16_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
+            }
+        }
+        void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int32_t &value){
+            switch(szcode){
+                case SzCode::V64_E64:{value=(int32_t)GetLastFromVirtualStack_64_64().Data.Value;}break;
+                case SzCode::V64_E32:{value=(int32_t)GetLastFromVirtualStack_64_32().Data.Value;}break;
+                case SzCode::V64_E16:{value=(int32_t)GetLastFromVirtualStack_64_16().Data.Value;}break;
+                case SzCode::V64_E08:{value=(int32_t)GetLastFromVirtualStack_64_08().Data.Value;}break;
+                case SzCode::V32_E64:{value=(int32_t)GetLastFromVirtualStack_32_64().Data.Value;}break;
+                case SzCode::V32_E32:{value=(int32_t)GetLastFromVirtualStack_32_32().Data.Value;}break;
+                case SzCode::V32_E16:{value=(int32_t)GetLastFromVirtualStack_32_16().Data.Value;}break;
+                case SzCode::V32_E08:{value=(int32_t)GetLastFromVirtualStack_32_08().Data.Value;}break;
+                case SzCode::V16_E64:{value=(int32_t)GetLastFromVirtualStack_16_64().Data.Value;}break;
+                case SzCode::V16_E32:{value=(int32_t)GetLastFromVirtualStack_16_32().Data.Value;}break;
+                case SzCode::V16_E16:{value=(int32_t)GetLastFromVirtualStack_16_16().Data.Value;}break;
+                case SzCode::V16_E08:{value=(int32_t)GetLastFromVirtualStack_16_08().Data.Value;}break;
+                case SzCode::V08_E64:{value=(int32_t)GetLastFromVirtualStack_08_64().Data.Value;}break;
+                case SzCode::V08_E32:{value=(int32_t)GetLastFromVirtualStack_08_32().Data.Value;}break;
+                case SzCode::V08_E16:{value=(int32_t)GetLastFromVirtualStack_08_16().Data.Value;}break;
+                case SzCode::V08_E08:{value=(int32_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
+            }
+        }
+        void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int64_t &value){
+            switch(szcode){
+                case SzCode::V64_E64:{value=(int64_t)GetLastFromVirtualStack_64_64().Data.Value;}break;
+                case SzCode::V64_E32:{value=(int64_t)GetLastFromVirtualStack_64_32().Data.Value;}break;
+                case SzCode::V64_E16:{value=(int64_t)GetLastFromVirtualStack_64_16().Data.Value;}break;
+                case SzCode::V64_E08:{value=(int64_t)GetLastFromVirtualStack_64_08().Data.Value;}break;
+                case SzCode::V32_E64:{value=(int64_t)GetLastFromVirtualStack_32_64().Data.Value;}break;
+                case SzCode::V32_E32:{value=(int64_t)GetLastFromVirtualStack_32_32().Data.Value;}break;
+                case SzCode::V32_E16:{value=(int64_t)GetLastFromVirtualStack_32_16().Data.Value;}break;
+                case SzCode::V32_E08:{value=(int64_t)GetLastFromVirtualStack_32_08().Data.Value;}break;
+                case SzCode::V16_E64:{value=(int64_t)GetLastFromVirtualStack_16_64().Data.Value;}break;
+                case SzCode::V16_E32:{value=(int64_t)GetLastFromVirtualStack_16_32().Data.Value;}break;
+                case SzCode::V16_E16:{value=(int64_t)GetLastFromVirtualStack_16_16().Data.Value;}break;
+                case SzCode::V16_E08:{value=(int64_t)GetLastFromVirtualStack_16_08().Data.Value;}break;
+                case SzCode::V08_E64:{value=(int64_t)GetLastFromVirtualStack_08_64().Data.Value;}break;
+                case SzCode::V08_E32:{value=(int64_t)GetLastFromVirtualStack_08_32().Data.Value;}break;
+                case SzCode::V08_E16:{value=(int64_t)GetLastFromVirtualStack_08_16().Data.Value;}break;
+                case SzCode::V08_E08:{value=(int64_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
+            }
+        }
+        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,uint8_t &extended){
+            switch(szcode){
+                case SzCode::V64_E64:{extended=(uint8_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(uint8_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(uint8_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(uint8_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(uint8_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(uint8_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(uint8_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(uint8_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(uint8_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(uint8_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(uint8_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(uint8_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(uint8_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(uint8_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(uint8_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(uint8_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
+            }
+        }
+        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,uint16_t &extended){
+            switch(szcode){
+                case SzCode::V64_E64:{extended=(uint16_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(uint16_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(uint16_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(uint16_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(uint16_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(uint16_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(uint16_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(uint16_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(uint16_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(uint16_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(uint16_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(uint16_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(uint16_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(uint16_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(uint16_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(uint16_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
+            }
+        }
+        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,uint32_t &extended){
+            switch(szcode){
+                case SzCode::V64_E64:{extended=(uint32_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(uint32_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(uint32_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(uint32_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(uint32_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(uint32_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(uint32_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(uint32_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(uint32_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(uint32_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(uint32_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(uint32_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(uint32_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(uint32_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(uint32_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(uint32_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
+            }
+        }
+        void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,uint64_t &extended){
+            switch(szcode){
+                case SzCode::V64_E64:{extended=(uint64_t)GetLastFromVirtualStack_64_64().Data.Extended;}break;
+                case SzCode::V64_E32:{extended=(uint64_t)GetLastFromVirtualStack_64_32().Data.Extended;}break;
+                case SzCode::V64_E16:{extended=(uint64_t)GetLastFromVirtualStack_64_16().Data.Extended;}break;
+                case SzCode::V64_E08:{extended=(uint64_t)GetLastFromVirtualStack_64_08().Data.Extended;}break;
+                case SzCode::V32_E64:{extended=(uint64_t)GetLastFromVirtualStack_32_64().Data.Extended;}break;
+                case SzCode::V32_E32:{extended=(uint64_t)GetLastFromVirtualStack_32_32().Data.Extended;}break;
+                case SzCode::V32_E16:{extended=(uint64_t)GetLastFromVirtualStack_32_16().Data.Extended;}break;
+                case SzCode::V32_E08:{extended=(uint64_t)GetLastFromVirtualStack_32_08().Data.Extended;}break;
+                case SzCode::V16_E64:{extended=(uint64_t)GetLastFromVirtualStack_16_64().Data.Extended;}break;
+                case SzCode::V16_E32:{extended=(uint64_t)GetLastFromVirtualStack_16_32().Data.Extended;}break;
+                case SzCode::V16_E16:{extended=(uint64_t)GetLastFromVirtualStack_16_16().Data.Extended;}break;
+                case SzCode::V16_E08:{extended=(uint64_t)GetLastFromVirtualStack_16_08().Data.Extended;}break;
+                case SzCode::V08_E64:{extended=(uint64_t)GetLastFromVirtualStack_08_64().Data.Extended;}break;
+                case SzCode::V08_E32:{extended=(uint64_t)GetLastFromVirtualStack_08_32().Data.Extended;}break;
+                case SzCode::V08_E16:{extended=(uint64_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
+                case SzCode::V08_E08:{extended=(uint64_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
         }
 
-        void VirtualMachine_cl::MathematicalSubtract(Instruction_st &aStack,Instruction_st &bStack){
-            switch(aStack.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()-=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()-=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()-=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()-=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()-=bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()-=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()-=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()-=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()-=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()-=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()-=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()-=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()-=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()-=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()-=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()-=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()-=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
+        void VirtualMachine_cl::GetTpCodeFromVirtualStack(SzCode szcode,TpCode &tpcode){
+            switch(szcode){
+                case SzCode::V64_E64:{tpcode=GetLastFromVirtualStack_64_64().Type;}break;
+                case SzCode::V64_E32:{tpcode=GetLastFromVirtualStack_64_32().Type;}break;
+                case SzCode::V64_E16:{tpcode=GetLastFromVirtualStack_64_16().Type;}break;
+                case SzCode::V64_E08:{tpcode=GetLastFromVirtualStack_64_08().Type;}break;
+                case SzCode::V32_E64:{tpcode=GetLastFromVirtualStack_32_64().Type;}break;
+                case SzCode::V32_E32:{tpcode=GetLastFromVirtualStack_32_32().Type;}break;
+                case SzCode::V32_E16:{tpcode=GetLastFromVirtualStack_32_16().Type;}break;
+                case SzCode::V32_E08:{tpcode=GetLastFromVirtualStack_32_08().Type;}break;
+                case SzCode::V16_E64:{tpcode=GetLastFromVirtualStack_16_64().Type;}break;
+                case SzCode::V16_E32:{tpcode=GetLastFromVirtualStack_16_32().Type;}break;
+                case SzCode::V16_E16:{tpcode=GetLastFromVirtualStack_16_16().Type;}break;
+                case SzCode::V16_E08:{tpcode=GetLastFromVirtualStack_16_08().Type;}break;
+                case SzCode::V08_E64:{tpcode=GetLastFromVirtualStack_08_64().Type;}break;
+                case SzCode::V08_E32:{tpcode=GetLastFromVirtualStack_08_32().Type;}break;
+                case SzCode::V08_E16:{tpcode=GetLastFromVirtualStack_08_16().Type;}break;
+                case SzCode::V08_E08:{tpcode=GetLastFromVirtualStack_08_08().Type;}break;
+            }
+        }
+        void VirtualMachine_cl::GetTpCodeFromVirtualInstructions(SzCode szcode,TpCode &tpcode,size_t ThisInstructionCounter){
+            switch(szcode){
+                case SzCode::V64_E64:{tpcode=GetFromVirtualInstructions_64_64(ThisInstructionCounter).Type;}break;
+                case SzCode::V64_E32:{tpcode=GetFromVirtualInstructions_64_32(ThisInstructionCounter).Type;}break;
+                case SzCode::V64_E16:{tpcode=GetFromVirtualInstructions_64_16(ThisInstructionCounter).Type;}break;
+                case SzCode::V64_E08:{tpcode=GetFromVirtualInstructions_64_08(ThisInstructionCounter).Type;}break;
+                case SzCode::V32_E64:{tpcode=GetFromVirtualInstructions_32_64(ThisInstructionCounter).Type;}break;
+                case SzCode::V32_E32:{tpcode=GetFromVirtualInstructions_32_32(ThisInstructionCounter).Type;}break;
+                case SzCode::V32_E16:{tpcode=GetFromVirtualInstructions_32_16(ThisInstructionCounter).Type;}break;
+                case SzCode::V32_E08:{tpcode=GetFromVirtualInstructions_32_08(ThisInstructionCounter).Type;}break;
+                case SzCode::V16_E64:{tpcode=GetFromVirtualInstructions_16_64(ThisInstructionCounter).Type;}break;
+                case SzCode::V16_E32:{tpcode=GetFromVirtualInstructions_16_32(ThisInstructionCounter).Type;}break;
+                case SzCode::V16_E16:{tpcode=GetFromVirtualInstructions_16_16(ThisInstructionCounter).Type;}break;
+                case SzCode::V16_E08:{tpcode=GetFromVirtualInstructions_16_08(ThisInstructionCounter).Type;}break;
+                case SzCode::V08_E64:{tpcode=GetFromVirtualInstructions_08_64(ThisInstructionCounter).Type;}break;
+                case SzCode::V08_E32:{tpcode=GetFromVirtualInstructions_08_32(ThisInstructionCounter).Type;}break;
+                case SzCode::V08_E16:{tpcode=GetFromVirtualInstructions_08_16(ThisInstructionCounter).Type;}break;
+                case SzCode::V08_E08:{tpcode=GetFromVirtualInstructions_08_08(ThisInstructionCounter).Type;}break;
             }
         }
 
-        void VirtualMachine_cl::MathematicalMultiply(Instruction_st &aStack,Instruction_st &bStack){
-            switch(aStack.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()*=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()*=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()*=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()*=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()*=bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()*=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()*=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()*=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()*=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()*=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()*=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()*=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()*=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()*=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()*=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()*=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()*=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-            }
-        }
 
-        void VirtualMachine_cl::MathematicalDivide(Instruction_st &aStack,Instruction_st &bStack){
-            switch(aStack.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()/=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()/=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()/=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()/=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()/=bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()/=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()/=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()/=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()/=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()/=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()/=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()/=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()/=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()/=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()/=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()/=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()/=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-            }
-        }
-
-        void VirtualMachine_cl::MathematicalModulus(Instruction_st &aStack,Instruction_st &bStack){
-            switch(aStack.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()%=(int64_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()%=(int64_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()%=(int64_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()%=(int64_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()%=bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()%=(int32_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()%=(int32_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()%=(int32_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()%=(int32_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()%=(int16_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()%=(int16_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()%=(int16_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()%=(int16_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()%=(int8_t)bStack.V64();
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()%=(int8_t)bStack.V32();
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()%=(int8_t)bStack.V16();
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()%=(int8_t)bStack.V8();
-                        }break;
-                    }
-                }break;
-            }
-        }
-
-        void VirtualMachine_cl::MathematicalMore(Instruction_st &aStack,Instruction_st &bStack){
-            aStack.Get_TpCode()=TpCode::TP__BOOL;
-            switch(aStack.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()>(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()%=bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()>(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()>(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()>(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-            }
-        }
-
-        void VirtualMachine_cl::MathematicalLess(Instruction_st &aStack,Instruction_st &bStack){
-            aStack.Get_TpCode()=TpCode::TP__BOOL;
-            switch(aStack.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()<(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()%=bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()<(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()<(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()<(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-            }
-        }
-
-        void VirtualMachine_cl::MathematicalSame(Instruction_st &aStack,Instruction_st &bStack){
-            aStack.Get_TpCode()=TpCode::TP__BOOL;
-            switch(aStack.Get_SzCode()){
-                case SzCode::V64_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V64_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V64()=(int64_t)(bool)(aStack.V64()==(int64_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()%=bStack.V8();
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V32_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V32()=(int32_t)(bool)(aStack.V32()==(int32_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V16_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V16()=(int16_t)(bool)(aStack.V16()==(int16_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E64:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E32:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E16:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-                case SzCode::V08_E08:{
-                    switch(bStack.Get_SzCode()){
-                        case SzCode::V64_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V64_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V64());
-                        }break;
-                        case SzCode::V32_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V32_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V32());
-                        }break;
-                        case SzCode::V16_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V16_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V16());
-                        }break;
-                        case SzCode::V08_E64:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E32:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E16:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                        case SzCode::V08_E08:{
-                            aStack.V8()=(int8_t)(bool)(aStack.V8()==(int8_t)bStack.V8());
-                        }break;
-                    }
-                }break;
-            }
-        }
-
-        VirtualMachine_cl::VirtualMachine_cl(Sauce::Memory::List_cl<Instruction_st> code){
-            for(size_t InstructionCounter=0;InstructionCounter<code.Size();InstructionCounter++){
-                
-                switch(code[InstructionCounter].Get_OpCode()){
-                    case OpCode::OP__NULL:{}break;
-                    case OpCode::OP__EXIT:{}break;
-                    case OpCode::OP__ADD:{
-                        Instruction_st FromStack;
-                        Instruction_st ToStack;
-                        FromStack.MySzCode = (SzCode)code[InstructionCounter].V8();
-                        ToStack.MySzCode = (SzCode)code[InstructionCounter].E8();
-                        GetLast(FromStack);
-                        RemoveLast(FromStack.Get_SzCode());
-                        GetLast(ToStack);
-                        RemoveLast(ToStack.Get_SzCode());
-                        MathematicalAdd(FromStack,ToStack);
-                        AddLast(FromStack);
-                    }break;
-                    case OpCode::OP__SUBTRACT:{
-                        Instruction_st FromStack;
-                        FromStack.MySzCode = (SzCode)code[InstructionCounter].V8();
-                        Instruction_st ToStack;
-                        ToStack.MySzCode = (SzCode)code[InstructionCounter].E8();
-                        GetLast(FromStack);
-                        RemoveLast(FromStack.Get_SzCode());
-                        GetLast(ToStack);
-                        RemoveLast(ToStack.Get_SzCode());
-                        MathematicalSubtract(FromStack,ToStack);
-                        AddLast(FromStack);
-                    }break;
-                    case OpCode::OP__MULTIPLY:{
-                        Instruction_st FromStack;
-                        FromStack.MySzCode = (SzCode)code[InstructionCounter].V8();
-                        Instruction_st ToStack;
-                        ToStack.MySzCode = (SzCode)code[InstructionCounter].E8();
-                        GetLast(FromStack);
-                        RemoveLast(FromStack.Get_SzCode());
-                        GetLast(ToStack);
-                        RemoveLast(ToStack.Get_SzCode());
-                        MathematicalMultiply(FromStack,ToStack);
-                        AddLast(FromStack);
-                    }break;
-                    case OpCode::OP__DIVIDE:{
-                        Instruction_st FromStack;
-                        FromStack.MySzCode = (SzCode)code[InstructionCounter].V8();
-                        Instruction_st ToStack;
-                        ToStack.MySzCode = (SzCode)code[InstructionCounter].E8();
-                        GetLast(FromStack);
-                        RemoveLast(FromStack.Get_SzCode());
-                        GetLast(ToStack);
-                        RemoveLast(ToStack.Get_SzCode());
-                        MathematicalDivide(FromStack,ToStack);
-                        AddLast(FromStack);
-                    }break;
-                    case OpCode::OP__MODULUS:{
-                        Instruction_st FromStack;
-                        Instruction_st ToStack;
-                        FromStack.MySzCode = (SzCode)code[InstructionCounter].V8();
-                        ToStack.MySzCode = (SzCode)code[InstructionCounter].E8();
-                        GetLast(FromStack);
-                        RemoveLast(FromStack.Get_SzCode());
-                        GetLast(ToStack);
-                        RemoveLast(ToStack.Get_SzCode());
-                        MathematicalModulus(FromStack,ToStack);
-                        AddLast(FromStack);
-                    }break;
-                    case OpCode::OP__MORE_THAN:{
-                        Instruction_st FromStack;
-                        Instruction_st ToStack;
-                        FromStack.MySzCode = (SzCode)code[InstructionCounter].V8();
-                        ToStack.MySzCode = (SzCode)code[InstructionCounter].E8();
-                        GetLast(FromStack);
-                        RemoveLast(FromStack.Get_SzCode());
-                        GetLast(ToStack);
-                        RemoveLast(ToStack.Get_SzCode());
-                        MathematicalMore(FromStack,ToStack);
-                        AddLast(FromStack);
-                    }break;
-                    case OpCode::OP__LESS_THAN:{
-                        Instruction_st FromStack;
-                        Instruction_st ToStack;
-                        FromStack.MySzCode = (SzCode)code[InstructionCounter].V8();
-                        ToStack.MySzCode = (SzCode)code[InstructionCounter].E8();
-                        GetLast(FromStack);
-                        RemoveLast(FromStack.Get_SzCode());
-                        GetLast(ToStack);
-                        RemoveLast(ToStack.Get_SzCode());
-                        MathematicalLess(FromStack,ToStack);
-                        AddLast(FromStack);
-                    }break;
-                    case OpCode::OP__EQUALS:{
-                        Instruction_st FromStack;
-                        Instruction_st ToStack;
-                        FromStack.MySzCode = (SzCode)code[InstructionCounter].V8();
-                        ToStack.MySzCode = (SzCode)code[InstructionCounter].E8();
-                        GetLast(FromStack);
-                        RemoveLast(FromStack.Get_SzCode());
-                        GetLast(ToStack);
-                        RemoveLast(ToStack.Get_SzCode());
-                        MathematicalSame(FromStack,ToStack);
-                        AddLast(FromStack);
-                    }break;
-                    case OpCode::OP__PUSH:{
-                        AddLast(code[InstructionCounter]);
-                    }break;
-                    case OpCode::OP__PRINT:{
-                        SzCode TargetSz=(SzCode)code[InstructionCounter].V8();
-                        Instruction_st TargetInstruct;
-                        switch(TargetSz){
-                            case SzCode::V64_E64:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int64_t)0,(uint64_t)0);}break;
-                            case SzCode::V64_E32:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int64_t)0,(uint32_t)0);}break;
-                            case SzCode::V64_E16:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int64_t)0,(uint16_t)0);}break;
-                            case SzCode::V64_E08:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int64_t)0,(uint8_t)0); }break; 
-                            case SzCode::V32_E64:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int32_t)0,(uint64_t)0);}break;
-                            case SzCode::V32_E32:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int32_t)0,(uint32_t)0);}break;
-                            case SzCode::V32_E16:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int32_t)0,(uint16_t)0);}break;
-                            case SzCode::V32_E08:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int32_t)0,(uint8_t)0); }break;
-                            case SzCode::V16_E64:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int16_t)0,(uint64_t)0);}break;
-                            case SzCode::V16_E32:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int16_t)0,(uint32_t)0);}break;
-                            case SzCode::V16_E16:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int16_t)0,(uint16_t)0);}break;
-                            case SzCode::V16_E08:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int16_t)0,(uint8_t)0); }break;
-                            case SzCode::V08_E64:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int8_t)0,(uint64_t)0);}break;
-                            case SzCode::V08_E32:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int8_t)0,(uint32_t)0);}break;
-                            case SzCode::V08_E16:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int8_t)0,(uint16_t)0);}break;
-                            case SzCode::V08_E08:{TargetInstruct.Init(OpCode::OP__PRINT,TpCode::TP__NULL,(int8_t)0,(uint8_t)0); }break;
-                        }
-                        GetLast(TargetInstruct);
-                        RemoveLast(TargetInstruct.Get_SzCode());
-                        Print(TargetInstruct);
-                    }break;
-                    case OpCode::OP__IF_JUMP:{}break;
-                    case OpCode::OP__JUMP:{}break;
-                    case OpCode::OP__CLEAR_STACK:{}break;
-                    case OpCode::OP__CLONE:{
-                        uint8_t FromStack = code[InstructionCounter].V8();
-                        uint8_t ToStack = code[InstructionCounter].E8();
-                        Clone((SzCode)FromStack,(SzCode)ToStack);
-                    }break;
-                }
+        void  VirtualMachine_cl::PushToStack(SzCode Instruction_szcode,size_t ThisInstructionCounter){
+            switch(Instruction_szcode){
+                case SzCode::V64_E64:{int64_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V64_E32:{int64_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V64_E16:{int64_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V64_E08:{int64_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V32_E64:{int32_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V32_E32:{int32_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V32_E16:{int32_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V32_E08:{int32_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V16_E64:{int16_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V16_E32:{int16_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V16_E16:{int16_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V16_E08:{int16_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V08_E64:{int8_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V08_E32:{int8_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V08_E16:{int8_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+                case SzCode::V08_E08:{int8_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
             }
         }
     };

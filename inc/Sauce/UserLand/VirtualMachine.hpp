@@ -10,22 +10,23 @@
 namespace Sauce{
     namespace UserLand{
         enum OpCode: uint32_t{
-            OP__NULL=0,
-            OP__EXIT,
-            OP__ADD,
-            OP__SUBTRACT,
-            OP__MULTIPLY,
-            OP__DIVIDE,
-            OP__MODULUS,
-            OP__MORE_THAN,
-            OP__LESS_THAN,
-            OP__EQUALS,
-            OP__PUSH,
-            OP__PRINT,
-            OP__IF_JUMP,
-            OP__JUMP,
-            OP__CLEAR_STACK,
-            OP__CLONE
+            OP__NULL=0x00000000,
+            OP__EXIT=0x00000001,
+            OP__ADD=0x00000002,
+            OP__SUBTRACT=0x00000003,
+            OP__MULTIPLY=0x00000004,
+            OP__DIVIDE=0x00000005,
+            OP__MODULUS=0x00000006,
+            OP__MORE_THAN=0x00000007,
+            OP__LESS_THAN=0x00000008,
+            OP__EQUALS=0x00000009,
+            OP__PUSH=0x0000000A,
+            OP__PRINT=0x0000000B,
+            OP__IF_JUMP=0x0000000C,
+            OP__JUMP=0x0000000D,
+            OP__CLONE=0x0000000F,
+            OP__SWITCH=0x00000010,
+            OP__DATA=0x00000011
         };
         enum SzCode:uint8_t{
             V64_E64=0xFF,
@@ -43,388 +44,294 @@ namespace Sauce{
             V08_E64=0xCF,
             V08_E32=0xCE,
             V08_E16=0XCD,
-            V08_E08=0xCC
+            V08_E08=0xCC,
+            SZ__NULL=0x00
         };
         enum TpCode: uint8_t{
-            TP__NULL=0,
-            TP__INT,
-            TP__BOOL,
+            TP__NULL=0x00,
+            TP__INT=0x01,
+            TP__BOOL=0x02,
         };
 
         namespace VirtualStack{
             namespace V64{
                 namespace E64{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int64_t Value;
                         uint64_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V64_E64;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E32{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int64_t Value;
                         uint32_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V64_E32;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E16{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int64_t Value;
                         uint16_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V64_E16;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E8{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int64_t Value;
                         uint8_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V64_E08;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
             };
             namespace V32{
                 namespace E64{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int32_t Value;
                         uint64_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V32_E64;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E32{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int32_t Value;
                         uint32_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V32_E32;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E16{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int32_t Value;
                         uint16_t Extended;
                     };
                 };
                 namespace E8{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int32_t Value;
                         uint8_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V32_E08;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
             };
             namespace V16{
                 namespace E64{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int16_t Value;
                         uint64_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V16_E64;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E32{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int16_t Value;
                         uint32_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V16_E32;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E16{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int16_t Value;
                         uint16_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V16_E16;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E8{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int16_t Value;
                         uint8_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V16_E08;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
             };
             namespace V8{
                 namespace E64{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int8_t Value;
                         uint64_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V08_E64;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E32{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int8_t Value;
                         uint32_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V08_E32;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E16{
                     struct VirtualStack_st{
-                        TpCode Type;
                         int8_t Value;
                         uint16_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V08_E16;
-                        VirtualStack_st Data{NIL_DATA};
                     };
                 };
                 namespace E8{
                     struct VirtualStack_st{
-                        TpCode Type;
-                        int8_t Value;
-                        uint8_t Extended;
-                    };
-                    const VirtualStack_st NIL_DATA{Sauce::UserLand::TP__NULL,0,0};
-                    struct Instruction_st{
-                        OpCode opcode;
-                        const SzCode szcode=V08_E08;
-                        VirtualStack_st Data{NIL_DATA};
+                        int8_t Value=0;
+                        uint8_t Extended=0;
                     };
                 };
             };
         };
 
-        struct Instruction_st{
-           void* MyData=nullptr;
 
-            OpCode MyOpCode;
-            SzCode MySzCode;
-            
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int8_t Value,uint8_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int8_t Value,uint16_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int8_t Value,uint32_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int8_t Value,uint64_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int16_t Value,uint8_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int16_t Value,uint16_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int16_t Value,uint32_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int16_t Value,uint64_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int32_t Value,uint8_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int32_t Value,uint16_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int32_t Value,uint32_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int32_t Value,uint64_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int64_t Value,uint8_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int64_t Value,uint16_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int64_t Value,uint32_t Extended);
-            void Init(OpCode MyOpCode,TpCode MyTypeCode,int64_t Value,uint64_t Extended);
-            Instruction_st(){}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int8_t _Value,uint8_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int8_t _Value,uint16_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int8_t _Value,uint32_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int8_t _Value,uint64_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int16_t _Value,uint8_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int16_t _Value,uint16_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int16_t _Value,uint32_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int16_t _Value,uint64_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int32_t _Value,uint8_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int32_t _Value,uint16_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int32_t _Value,uint32_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int32_t _Value,uint64_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int64_t _Value,uint8_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int64_t _Value,uint16_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int64_t _Value,uint32_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(OpCode _MyOpCode,TpCode _MyTypeCode,int64_t _Value,uint64_t _Extended){Init(_MyOpCode,_MyTypeCode,_Value,_Extended);}
-            Instruction_st(void* Data){MyData=Data;}
-
-
-            ~Instruction_st();
-            OpCode& Get_OpCode();
-            SzCode& Get_SzCode();
-            TpCode& Get_TpCode();
-            int8_t& V8();
-            int16_t& V16();
-            int32_t& V32();
-            int64_t& V64();
-            uint8_t& E8();
-            uint16_t& E16();
-            uint32_t& E32();
-            uint64_t& E64();
+        template<class VS_Type>
+        struct VirtualStack_st{
+            OpCode opcode=OpCode::OP__NULL;
+            TpCode Type=TpCode::TP__NULL;
+            SzCode szcode=SzCode::SZ__NULL;
+            VS_Type Data;
         };
 
 
-
-
         class VirtualMachine_cl{
-            Sauce::Memory::List_cl<VirtualStack::V64::E64::VirtualStack_st> _VirtualStack_64_64; //0xFF
-            Sauce::Memory::List_cl<VirtualStack::V64::E32::VirtualStack_st> _VirtualStack_64_32; //0xFE
-            Sauce::Memory::List_cl<VirtualStack::V64::E16::VirtualStack_st> _VirtualStack_64_16; //0XFD
-            Sauce::Memory::List_cl<VirtualStack::V64::E8::VirtualStack_st>  _VirtualStack_64_08; //0xFC
-            Sauce::Memory::List_cl<VirtualStack::V32::E64::VirtualStack_st> _VirtualStack_32_64; //0xEF
-            Sauce::Memory::List_cl<VirtualStack::V32::E32::VirtualStack_st> _VirtualStack_32_32; //0xEE
-            Sauce::Memory::List_cl<VirtualStack::V32::E16::VirtualStack_st> _VirtualStack_32_16; //0XED
-            Sauce::Memory::List_cl<VirtualStack::V32::E8::VirtualStack_st>  _VirtualStack_32_08; //0xEC
-            Sauce::Memory::List_cl<VirtualStack::V16::E64::VirtualStack_st> _VirtualStack_16_64; //0xDF
-            Sauce::Memory::List_cl<VirtualStack::V16::E32::VirtualStack_st> _VirtualStack_16_32; //0xDE
-            Sauce::Memory::List_cl<VirtualStack::V16::E16::VirtualStack_st> _VirtualStack_16_16; //0XDD
-            Sauce::Memory::List_cl<VirtualStack::V16::E8::VirtualStack_st>  _VirtualStack_16_08; //0xDC
-            Sauce::Memory::List_cl<VirtualStack::V8::E64::VirtualStack_st>  _VirtualStack_08_64; //0xCF
-            Sauce::Memory::List_cl<VirtualStack::V8::E32::VirtualStack_st>  _VirtualStack_08_32; //0xCE
-            Sauce::Memory::List_cl<VirtualStack::V8::E16::VirtualStack_st>  _VirtualStack_08_16; //0XCD
-            Sauce::Memory::List_cl<VirtualStack::V8::E8::VirtualStack_st>   _VirtualStack_08_08; //0xCC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>> _VirtualStack_64_64; //0xFF
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>> _VirtualStack_64_32; //0xFE
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>> _VirtualStack_64_16; //0XFD
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>>  _VirtualStack_64_08; //0xFC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>> _VirtualStack_32_64; //0xEF
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>> _VirtualStack_32_32; //0xEE
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>> _VirtualStack_32_16; //0XED
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>>  _VirtualStack_32_08; //0xEC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>> _VirtualStack_16_64; //0xDF
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>> _VirtualStack_16_32; //0xDE
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>> _VirtualStack_16_16; //0XDD
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>>  _VirtualStack_16_08; //0xDC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>>  _VirtualStack_08_64; //0xCF
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>>  _VirtualStack_08_32; //0xCE
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>>  _VirtualStack_08_16; //0XCD
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>>   _VirtualStack_08_08; //0xCC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>> _VirtualInstructions_64_64; //0xFF
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>> _VirtualInstructions_64_32; //0xFE
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>> _VirtualInstructions_64_16; //0XFD
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>>  _VirtualInstructions_64_08; //0xFC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>> _VirtualInstructions_32_64; //0xEF
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>> _VirtualInstructions_32_32; //0xEE
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>> _VirtualInstructions_32_16; //0XED
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>>  _VirtualInstructions_32_08; //0xEC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>> _VirtualInstructions_16_64; //0xDF
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>> _VirtualInstructions_16_32; //0xDE
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>> _VirtualInstructions_16_16; //0XDD
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>>  _VirtualInstructions_16_08; //0xDC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>>  _VirtualInstructions_08_64; //0xCF
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>>  _VirtualInstructions_08_32; //0xCE
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>>  _VirtualInstructions_08_16; //0XCD
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>>   _VirtualInstructions_08_08; //0xCC
+            size_t InstructionCounter_64_64=0;
+            size_t InstructionCounter_64_32=0;
+            size_t InstructionCounter_64_16=0;
+            size_t InstructionCounter_64_08=0;
+            size_t InstructionCounter_32_64=0;
+            size_t InstructionCounter_32_32=0;
+            size_t InstructionCounter_32_16=0;
+            size_t InstructionCounter_32_08=0;
+            size_t InstructionCounter_16_64=0;
+            size_t InstructionCounter_16_32=0;
+            size_t InstructionCounter_16_16=0;
+            size_t InstructionCounter_16_08=0;
+            size_t InstructionCounter_08_64=0;
+            size_t InstructionCounter_08_32=0;
+            size_t InstructionCounter_08_16=0;
+            size_t InstructionCounter_08_08=0;
+            SzCode CurrentSizeCode=SzCode::V08_E64;
+            void* CurrentInstruction=nullptr;
+            bool hasEnd=false;
             private:
-                void* GetSizedStack(SzCode SizeCode);
-                void Clear();
-                void AddFirst_64_64(Instruction_st &TheInstruction);
-                void AddFirst_64_32(Instruction_st &TheInstruction);
-                void AddFirst_64_16(Instruction_st &TheInstruction);
-                void AddFirst_64_08(Instruction_st &TheInstruction);
-                void AddFirst_32_64(Instruction_st &TheInstruction);
-                void AddFirst_32_32(Instruction_st &TheInstruction);
-                void AddFirst_32_16(Instruction_st &TheInstruction);
-                void AddFirst_32_08(Instruction_st &TheInstruction);
-                void AddFirst_16_64(Instruction_st &TheInstruction);
-                void AddFirst_16_32(Instruction_st &TheInstruction);
-                void AddFirst_16_16(Instruction_st &TheInstruction);
-                void AddFirst_16_08(Instruction_st &TheInstruction);
-                void AddFirst_08_64(Instruction_st &TheInstruction);
-                void AddFirst_08_32(Instruction_st &TheInstruction);
-                void AddFirst_08_16(Instruction_st &TheInstruction);
-                void AddFirst_08_08(Instruction_st &TheInstruction);
-                 void AddLast_64_64(Instruction_st &TheInstruction);
-                 void AddLast_64_32(Instruction_st &TheInstruction);
-                 void AddLast_64_16(Instruction_st &TheInstruction);
-                 void AddLast_64_08(Instruction_st &TheInstruction);
-                 void AddLast_32_64(Instruction_st &TheInstruction);
-                 void AddLast_32_32(Instruction_st &TheInstruction);
-                 void AddLast_32_16(Instruction_st &TheInstruction);
-                 void AddLast_32_08(Instruction_st &TheInstruction);
-                 void AddLast_16_64(Instruction_st &TheInstruction);
-                 void AddLast_16_32(Instruction_st &TheInstruction);
-                 void AddLast_16_16(Instruction_st &TheInstruction);
-                 void AddLast_16_08(Instruction_st &TheInstruction);
-                 void AddLast_08_64(Instruction_st &TheInstruction);
-                 void AddLast_08_32(Instruction_st &TheInstruction);
-                 void AddLast_08_16(Instruction_st &TheInstruction);
-                 void AddLast_08_08(Instruction_st &TheInstruction);
-                void AddLast(Instruction_st &TheInstruction);
-                void AddFirst(Instruction_st &TheInstruction);
-                void RemoveFirst(SzCode TheSizecode);
-                void RemoveLast(SzCode TheSizecode);
-                void GetFirst_64_64(Instruction_st &TheInstruction);
-                void GetFirst_64_32(Instruction_st &TheInstruction);
-                void GetFirst_64_16(Instruction_st &TheInstruction);
-                void GetFirst_64_08(Instruction_st &TheInstruction);
-                void GetFirst_32_64(Instruction_st &TheInstruction);
-                void GetFirst_32_32(Instruction_st &TheInstruction);
-                void GetFirst_32_16(Instruction_st &TheInstruction);
-                void GetFirst_32_08(Instruction_st &TheInstruction);
-                void GetFirst_16_64(Instruction_st &TheInstruction);
-                void GetFirst_16_32(Instruction_st &TheInstruction);
-                void GetFirst_16_16(Instruction_st &TheInstruction);
-                void GetFirst_16_08(Instruction_st &TheInstruction);
-                void GetFirst_08_64(Instruction_st &TheInstruction);
-                void GetFirst_08_32(Instruction_st &TheInstruction);
-                void GetFirst_08_16(Instruction_st &TheInstruction);
-                void GetFirst_08_08(Instruction_st &TheInstruction);
-                 void GetLast_64_64(Instruction_st &TheInstruction);
-                 void GetLast_64_32(Instruction_st &TheInstruction);
-                 void GetLast_64_16(Instruction_st &TheInstruction);
-                 void GetLast_64_08(Instruction_st &TheInstruction);
-                 void GetLast_32_64(Instruction_st &TheInstruction);
-                 void GetLast_32_32(Instruction_st &TheInstruction);
-                 void GetLast_32_16(Instruction_st &TheInstruction);
-                 void GetLast_32_08(Instruction_st &TheInstruction);
-                 void GetLast_16_64(Instruction_st &TheInstruction);
-                 void GetLast_16_32(Instruction_st &TheInstruction);
-                 void GetLast_16_16(Instruction_st &TheInstruction);
-                 void GetLast_16_08(Instruction_st &TheInstruction);
-                 void GetLast_08_64(Instruction_st &TheInstruction);
-                 void GetLast_08_32(Instruction_st &TheInstruction);
-                 void GetLast_08_16(Instruction_st &TheInstruction);
-                 void GetLast_08_08(Instruction_st &TheInstruction);
-                void GetLast(Instruction_st &TheInstruction);
-                void GetFirst(Instruction_st &TheInstruction);
-                void Clone(SzCode FromStack,SzCode ToStack);
-                void MathematicalAdd(Instruction_st &aStack,Instruction_st &bStack);
-                void MathematicalSubtract(Instruction_st &aStack,Instruction_st &bStack);
-                void MathematicalMultiply(Instruction_st &aStack,Instruction_st &bStack);
-                void MathematicalDivide(Instruction_st &aStack,Instruction_st &bStack);
-                void MathematicalModulus(Instruction_st &aStack,Instruction_st &bStack);
-                void MathematicalMore(Instruction_st &aStack,Instruction_st &bStack);
-                void MathematicalLess(Instruction_st &aStack,Instruction_st &bStack);
-                void MathematicalSame(Instruction_st &aStack,Instruction_st &bStack);
-                void Print(Instruction_st &TheInstruction);
+                void AddInstruction_64_64(OpCode opcode,TpCode tpcode,int64_t value=0,uint64_t extended=0);
+                void AddInstruction_64_32(OpCode opcode,TpCode tpcode,int64_t value=0,uint32_t extended=0);
+                void AddInstruction_64_16(OpCode opcode,TpCode tpcode,int64_t value=0,uint16_t extended=0);
+                void AddInstruction_64_08(OpCode opcode,TpCode tpcode,int64_t value=0,uint8_t extended=0);
+                void AddInstruction_32_64(OpCode opcode,TpCode tpcode,int32_t value=0,uint64_t extended=0);
+                void AddInstruction_32_32(OpCode opcode,TpCode tpcode,int32_t value=0,uint32_t extended=0);
+                void AddInstruction_32_16(OpCode opcode,TpCode tpcode,int32_t value=0,uint16_t extended=0);
+                void AddInstruction_32_08(OpCode opcode,TpCode tpcode,int32_t value=0,uint8_t extended=0);
+                void AddInstruction_16_64(OpCode opcode,TpCode tpcode,int16_t value=0,uint64_t extended=0);
+                void AddInstruction_16_32(OpCode opcode,TpCode tpcode,int16_t value=0,uint32_t extended=0);
+                void AddInstruction_16_16(OpCode opcode,TpCode tpcode,int16_t value=0,uint16_t extended=0);
+                void AddInstruction_16_08(OpCode opcode,TpCode tpcode,int16_t value=0,uint8_t extended=0);
+                void AddInstruction_08_64(OpCode opcode,TpCode tpcode,int8_t value=0,uint64_t extended=0);
+                void AddInstruction_08_32(OpCode opcode,TpCode tpcode,int8_t value=0,uint32_t extended=0);
+                void AddInstruction_08_16(OpCode opcode,TpCode tpcode,int8_t value=0,uint16_t extended=0);
+                void AddInstruction_08_08(OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
+                void AddToVirtualStack_64_64(OpCode opcode,TpCode tpcode,int64_t value=0,uint64_t extended=0);
+                void AddToVirtualStack_64_32(OpCode opcode,TpCode tpcode,int64_t value=0,uint32_t extended=0);
+                void AddToVirtualStack_64_16(OpCode opcode,TpCode tpcode,int64_t value=0,uint16_t extended=0);
+                void AddToVirtualStack_64_08(OpCode opcode,TpCode tpcode,int64_t value=0,uint8_t extended=0);
+                void AddToVirtualStack_32_64(OpCode opcode,TpCode tpcode,int32_t value=0,uint64_t extended=0);
+                void AddToVirtualStack_32_32(OpCode opcode,TpCode tpcode,int32_t value=0,uint32_t extended=0);
+                void AddToVirtualStack_32_16(OpCode opcode,TpCode tpcode,int32_t value=0,uint16_t extended=0);
+                void AddToVirtualStack_32_08(OpCode opcode,TpCode tpcode,int32_t value=0,uint8_t extended=0);
+                void AddToVirtualStack_16_64(OpCode opcode,TpCode tpcode,int16_t value=0,uint64_t extended=0);
+                void AddToVirtualStack_16_32(OpCode opcode,TpCode tpcode,int16_t value=0,uint32_t extended=0);
+                void AddToVirtualStack_16_16(OpCode opcode,TpCode tpcode,int16_t value=0,uint16_t extended=0);
+                void AddToVirtualStack_16_08(OpCode opcode,TpCode tpcode,int16_t value=0,uint8_t extended=0);
+                void AddToVirtualStack_08_64(OpCode opcode,TpCode tpcode,int8_t value=0,uint64_t extended=0);
+                void AddToVirtualStack_08_32(OpCode opcode,TpCode tpcode,int8_t value=0,uint32_t extended=0);
+                void AddToVirtualStack_08_16(OpCode opcode,TpCode tpcode,int8_t value=0,uint16_t extended=0);
+                void AddToVirtualStack_08_08(OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
+                VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st> GetLastFromVirtualStack_64_64();
+                VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st> GetLastFromVirtualStack_64_32();
+                VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st> GetLastFromVirtualStack_64_16();
+                VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>  GetLastFromVirtualStack_64_08();
+                VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st> GetLastFromVirtualStack_32_64();
+                VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st> GetLastFromVirtualStack_32_32();
+                VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st> GetLastFromVirtualStack_32_16();
+                VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>  GetLastFromVirtualStack_32_08();
+                VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st> GetLastFromVirtualStack_16_64();
+                VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st> GetLastFromVirtualStack_16_32();
+                VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st> GetLastFromVirtualStack_16_16();
+                VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>  GetLastFromVirtualStack_16_08();
+                VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>  GetLastFromVirtualStack_08_64();
+                VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>  GetLastFromVirtualStack_08_32();
+                VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>  GetLastFromVirtualStack_08_16();
+                VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>   GetLastFromVirtualStack_08_08();
+                VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st> GetFirstFromVirtualStack_64_64();
+                VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st> GetFirstFromVirtualStack_64_32();
+                VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st> GetFirstFromVirtualStack_64_16();
+                VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>  GetFirstFromVirtualStack_64_08();
+                VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st> GetFirstFromVirtualStack_32_64();
+                VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st> GetFirstFromVirtualStack_32_32();
+                VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st> GetFirstFromVirtualStack_32_16();
+                VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>  GetFirstFromVirtualStack_32_08();
+                VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st> GetFirstFromVirtualStack_16_64();
+                VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st> GetFirstFromVirtualStack_16_32();
+                VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st> GetFirstFromVirtualStack_16_16();
+                VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>  GetFirstFromVirtualStack_16_08();
+                VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>  GetFirstFromVirtualStack_08_64();
+                VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>  GetFirstFromVirtualStack_08_32();
+                VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>  GetFirstFromVirtualStack_08_16();
+                VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>   GetFirstFromVirtualStack_08_08();
+                VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st> GetFromVirtualInstructions_64_64(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st> GetFromVirtualInstructions_64_32(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st> GetFromVirtualInstructions_64_16(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>  GetFromVirtualInstructions_64_08(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st> GetFromVirtualInstructions_32_64(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st> GetFromVirtualInstructions_32_32(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st> GetFromVirtualInstructions_32_16(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>  GetFromVirtualInstructions_32_08(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st> GetFromVirtualInstructions_16_64(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st> GetFromVirtualInstructions_16_32(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st> GetFromVirtualInstructions_16_16(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>  GetFromVirtualInstructions_16_08(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>  GetFromVirtualInstructions_08_64(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>  GetFromVirtualInstructions_08_32(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>  GetFromVirtualInstructions_08_16(size_t ThisInstructionCounter);
+                VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>   GetFromVirtualInstructions_08_08(size_t ThisInstructionCounter);
             public:
-            VirtualMachine_cl(Sauce::Memory::List_cl<Instruction_st> code);
+                void GetInstruction();
+                bool RunInstruction();
+                void Run();
+                void AddEnd();
+                void RemoveEnd();
+                void AddInstruction(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
+                void AddToVirtualStack(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
+
+                void GetValueFromVirtualInstructions(SzCode szcode,int8_t &value,size_t ThisInstructionCounter);
+                void GetValueFromVirtualInstructions(SzCode szcode,int16_t &value,size_t ThisInstructionCounter);
+                void GetValueFromVirtualInstructions(SzCode szcode,int32_t &value,size_t ThisInstructionCounter);
+                void GetValueFromVirtualInstructions(SzCode szcode,int64_t &value,size_t ThisInstructionCounter);
+                void GetExtendedFromVirtualInstructions(SzCode szcode,uint8_t &extended,size_t ThisInstructionCounter);
+                void GetExtendedFromVirtualInstructions(SzCode szcode,uint16_t &extended,size_t ThisInstructionCounter);
+                void GetExtendedFromVirtualInstructions(SzCode szcode,uint32_t &extended,size_t ThisInstructionCounter);
+                void GetExtendedFromVirtualInstructions(SzCode szcode,uint64_t &extended,size_t ThisInstructionCounter);
+                void GetValueFromVirtualStack(SzCode szcode,int8_t &value);
+                void GetValueFromVirtualStack(SzCode szcode,int16_t &value);
+                void GetValueFromVirtualStack(SzCode szcode,int32_t &value);
+                void GetValueFromVirtualStack(SzCode szcode,int64_t &value);
+                void GetExtendedFromVirtualStack(SzCode szcode,uint8_t &extended);
+                void GetExtendedFromVirtualStack(SzCode szcode,uint16_t &extended);
+                void GetExtendedFromVirtualStack(SzCode szcode,uint32_t &extended);
+                void GetExtendedFromVirtualStack(SzCode szcode,uint64_t &extended);
+                void GetTpCodeFromVirtualStack(SzCode szcode,TpCode &tpcode);
+                void GetTpCodeFromVirtualInstructions(SzCode szcode,TpCode &tpcode,size_t ThisInstructionCounter);
+
+                void PushToStack(SzCode Instruction_szcode,size_t ThisInstructionCounter);
         };
     };
 };

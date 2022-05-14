@@ -22,11 +22,13 @@ namespace Sauce{
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
+        
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         
         Sauce::IO::GlobalTerminal->Clear();
         asm volatile("sti");
+        
 
         Prep_ACPI();
         PreLoop();
@@ -35,12 +37,12 @@ namespace Sauce{
     void Kernel_cl::PreLoop(){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::PreLoop]\n\0");
         /*Testing VirtualMachine*/{
-            Sauce::Memory::List_cl<Sauce::UserLand::Instruction_st> TestCode;
+            Sauce::UserLand::VirtualMachine_cl UserLandVirtualMachine;
 
-            TestCode.AddLast(Sauce::UserLand::Instruction_st(Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,(int16_t)100,(uint8_t)0));
-            TestCode.AddLast(Sauce::UserLand::Instruction_st(Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__INT,(int8_t)Sauce::UserLand::SzCode::V16_E08,(uint8_t)0));
-            
-            Sauce::UserLand::VirtualMachine_cl TestVM(TestCode);
+            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E64,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,12,0);
+            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E64,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
+
+            UserLandVirtualMachine.Run();
         }
     }
     void Kernel_cl::MainLoop(){
