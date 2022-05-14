@@ -68,5 +68,5 @@ clean:
 	rm -frv bin/* lib/*
 
 run: $(BUILDDIR)/$(OSNAME).img
-
-	qemu-system-x86_64 -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd" -net none
+	touch $(BUILDDIR)/$(OSNAME)_BlankDrive.img
+	qemu-system-x86_64 -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -drive format=raw,file=$(BUILDDIR)/$(OSNAME)_BlankDrive.img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd" -net none

@@ -48,11 +48,11 @@ namespace Sauce{
 
             /*1*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,1);
             /*2*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__ADD,Sauce::UserLand::TpCode::TP__NULL);
-            /*3*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__CLONE,Sauce::UserLand::TpCode::TP__NULL,(int8_t)Sauce::UserLand::SzCode::V16_E08,(int8_t)Sauce::UserLand::SzCode::V16_E08);
+//            /*3*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__CLONE,Sauce::UserLand::TpCode::TP__NULL,(int8_t)Sauce::UserLand::SzCode::V16_E08,(int8_t)Sauce::UserLand::SzCode::V16_E08);
             /*4*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__CHANGE_TYPE,Sauce::UserLand::TpCode::TP__NULL,(int16_t)Sauce::UserLand::TpCode::TP__CHAR);
             /*5*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-            /*6*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,-8);
-            /*7*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__JUMP,Sauce::UserLand::TpCode::TP__NULL);
+//            /*6*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,-8);
+//            /*7*/UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__JUMP,Sauce::UserLand::TpCode::TP__NULL);
 
 
             UserLandVirtualMachine.Run();

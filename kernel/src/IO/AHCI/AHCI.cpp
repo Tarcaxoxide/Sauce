@@ -121,9 +121,7 @@ namespace Sauce{
                 cmdFIS->countHigh = (sectorCount >> 8)&0xFF;
                 cmdFIS->command = 1;
 
-                while(!((hbaPort->commandIssue == 0) || (hbaPort->interruptStatus & HBA_PxIS_TFES))){
-                    
-                }
+                while(!((hbaPort->commandIssue == 0) || (hbaPort->interruptStatus & HBA_PxIS_TFES)));
                 if(hbaPort->interruptStatus & HBA_PxIS_TFES)return false;
                 return true;
             }
