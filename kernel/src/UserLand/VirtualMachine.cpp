@@ -67,6 +67,11 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__PRINT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__PRINT]\n\0");
+                            int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            switch(ThisTpCode){
+                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                            }
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__IF_JUMP]\n\0");
