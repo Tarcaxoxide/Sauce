@@ -175,7 +175,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_64_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_64_64++;
                 }break;
                 case SzCode::V64_E32:{VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>*)CurrentInstruction;
@@ -325,7 +325,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_64_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_64_32++;
                 }break;
                 case SzCode::V64_E16:{VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>*)CurrentInstruction;
@@ -475,7 +475,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_64_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_64_16++;
                 }break;
                 case SzCode::V64_E08:{VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>*)CurrentInstruction;
@@ -625,7 +625,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_64_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_64_08++;
                 }break;
                 case SzCode::V32_E64:{VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>*)CurrentInstruction;
@@ -775,7 +775,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_32_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_32_64++;
                 }break;
                 case SzCode::V32_E32:{VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>*)CurrentInstruction;
@@ -925,7 +925,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_32_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_32_32++;
                 }break;
                 case SzCode::V32_E16:{VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>*)CurrentInstruction;
@@ -1075,7 +1075,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_32_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_32_16++;
                 }break;
                 case SzCode::V32_E08:{VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>*)CurrentInstruction;
@@ -1225,7 +1225,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_32_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_32_08++;
                 }break;
                 case SzCode::V16_E64:{VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>*)CurrentInstruction;
@@ -1375,7 +1375,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_16_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_16_64++;
                 }break;
                 case SzCode::V16_E32:{VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>*)CurrentInstruction;
@@ -1525,7 +1525,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_16_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_16_32++;
                 }break;
                 case SzCode::V16_E16:{VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>*)CurrentInstruction;
@@ -1675,7 +1675,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_16_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_16_16++;
                 }break;
                 case SzCode::V16_E08:{VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>*)CurrentInstruction;
@@ -1825,7 +1825,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_16_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_16_08++;
                 }break;
                 case SzCode::V08_E64:{VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>*)CurrentInstruction;
@@ -1975,7 +1975,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_08_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_64++;
                 }break;
                 case SzCode::V08_E32:{VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>*)CurrentInstruction;
@@ -2125,7 +2125,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_08_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_32++;
                 }break;
                 case SzCode::V08_E16:{VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>*)CurrentInstruction;
@@ -2275,7 +2275,7 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_08_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_16++;
                 }break;
                 case SzCode::V08_E08:{VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>*)CurrentInstruction;
@@ -2425,13 +2425,13 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_08_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
-                    }
+                    }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_08++;
                 }break;
                case SzCode::SZ__NULL:{return false;}break;
-            }
+            }//switch(CurrentSizeCode)
             return true;
-        }
+        }//bool VirtualMachine_cl::RunInstruction()
         void VirtualMachine_cl::Run(){
             AddEnd();
             do{
