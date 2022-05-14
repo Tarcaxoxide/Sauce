@@ -40,9 +40,13 @@ namespace Sauce{
             Sauce::UserLand::VirtualMachine_cl UserLandVirtualMachine;
 
             UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,12,0);
+            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__CLONE,Sauce::UserLand::TpCode::TP__NULL,(int8_t)Sauce::UserLand::SzCode::V08_E08,(int8_t)Sauce::UserLand::SzCode::V16_E08);
             UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,3,0);
             UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__SUBTRACT,Sauce::UserLand::TpCode::TP__NULL);
             UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
+            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__SWITCH,Sauce::UserLand::TpCode::TP__NULL,(int8_t)Sauce::UserLand::SzCode::V16_E08);
+            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__CHANGE_TYPE,Sauce::UserLand::TpCode::TP__NULL,(int16_t)Sauce::UserLand::TpCode::TP__CHAR);
+            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
 
             UserLandVirtualMachine.Run();
         }
@@ -116,7 +120,7 @@ namespace Sauce{
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::Prep_IO]\n\0");
         Sauce::Interrupts::RemapPic();
         Sauce::Interrupts::SysReady=true;
-        Sauce::IO::PS2MouseInitialize();
+        Sauce::IO::PS2MouseInitialize({Sauce::IO::GlobalTerminal->CharX()*5,Sauce::IO::GlobalTerminal->CharY()*5,0});
         // Attempting to fix the crash at the start
             Sauce::Interrupts::SysReady=false;
             for(size_t i=0;i<0x0000000000100000;i+=0x0000000000000001);

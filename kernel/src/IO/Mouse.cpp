@@ -105,7 +105,10 @@ namespace Sauce{
             
             return &nMouseData;
         }
-        void PS2MouseInitialize(){
+        void PS2MouseInitialize(Point64_t InitMousePosition){
+            MousePosition.X=InitMousePosition.X;
+            MousePosition.Y=InitMousePosition.Y;
+            MousePosition.Z=InitMousePosition.Z;
             nMouseData.Position=&MousePosition;
             outb(0x64,0xA8); // enable auxiliary device - mouse
             MouseWait();

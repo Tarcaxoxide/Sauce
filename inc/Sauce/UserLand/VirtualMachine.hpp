@@ -26,7 +26,8 @@ namespace Sauce{
             OP__JUMP=0x0000000D,
             OP__CLONE=0x0000000F,
             OP__SWITCH=0x00000010,
-            OP__DATA=0x00000011
+            OP__DATA=0x00000011,
+            OP__CHANGE_TYPE=0x00000012
         };
         enum SzCode:uint8_t{
             V64_E64=0xFF,
@@ -51,6 +52,7 @@ namespace Sauce{
             TP__NULL=0x00,
             TP__INT=0x01,
             TP__BOOL=0x02,
+            TP__CHAR=0x03
         };
 
         namespace VirtualStack{

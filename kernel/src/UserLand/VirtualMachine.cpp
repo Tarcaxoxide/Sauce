@@ -117,19 +117,63 @@ namespace Sauce{
                             RemoveFromVirtualStack(CurrentSizeCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__IF_JUMP]\n\0");
+                            int64_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int64_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_64_64+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__JUMP]\n\0");
+                            int64_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_64_64+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__CLONE]\n\0");
+                            int64_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_64_64);
+                            int64_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_64_64);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int64_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int64_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__SWITCH]\n\0");
+                            int64_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_64_64);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__CHANGE_TYPE]\n\0");
+                            int64_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_64_64);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int64_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_64_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_64_64++;
@@ -222,20 +266,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__IF_JUMP]\n\0");
+                            int64_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int64_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_64_32+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__JUMP]\n\0");
+                            int64_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_64_32+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__CLONE]\n\0");
+                            int64_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_64_32);
+                            int32_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_64_32);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int64_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int32_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__SWITCH]\n\0");
+                            int64_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_64_32);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__CHANGE_TYPE]\n\0");
+                            int64_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_64_32);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int32_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_64_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_64_32++;
@@ -328,20 +416,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__IF_JUMP]\n\0");
+                            int64_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int64_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_64_16+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__JUMP]\n\0");
+                            int64_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_64_16+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__CLONE]\n\0");
+                            int64_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_64_16);
+                            int16_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_64_16);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int64_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int16_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__SWITCH]\n\0");
+                            int64_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_64_16);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__CHANGE_TYPE]\n\0");
+                            int64_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_64_16);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int16_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_64_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_64_16++;
@@ -434,20 +566,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__IF_JUMP]\n\0");
+                            int64_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int64_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_64_08+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__JUMP]\n\0");
+                            int64_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_64_08+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__CLONE]\n\0");
+                            int64_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_64_08);
+                            int8_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_64_08);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int64_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int8_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__SWITCH]\n\0");
+                            int64_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_64_08);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__CHANGE_TYPE]\n\0");
+                            int64_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_64_08);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int8_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_64_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_64_08++;
@@ -540,20 +716,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__IF_JUMP]\n\0");
+                            int32_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int32_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_32_64+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__JUMP]\n\0");
+                            int32_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_32_64+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__CLONE]\n\0");
+                            int32_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_32_64);
+                            int64_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_32_64);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int32_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int64_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__SWITCH]\n\0");
+                            int32_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_32_64);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__CHANGE_TYPE]\n\0");
+                            int32_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_32_64);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int32_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int64_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_32_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_32_64++;
@@ -646,20 +866,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__IF_JUMP]\n\0");
+                            int32_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int32_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_32_32+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__JUMP]\n\0");
+                            int32_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_32_32+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__CLONE]\n\0");
+                            int32_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_32_32);
+                            int32_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_32_32);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int32_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int32_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__SWITCH]\n\0");
+                            int32_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_32_32);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__CHANGE_TYPE]\n\0");
+                            int32_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_32_32);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int32_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int32_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_32_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_32_32++;
@@ -752,20 +1016,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__IF_JUMP]\n\0");
+                            int32_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int32_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_32_16+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__JUMP]\n\0");
+                            int32_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_32_16+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__CLONE]\n\0");
+                            int32_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_32_16);
+                            int16_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_32_16);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int32_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int16_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__SWITCH]\n\0");
+                            int32_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_32_16);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__CHANGE_TYPE]\n\0");
+                            int32_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_32_16);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int32_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int16_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_32_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_32_16++;
@@ -858,20 +1166,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__IF_JUMP]\n\0");
+                            int32_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int32_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_32_08+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__JUMP]\n\0");
+                            int32_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_32_08+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__CLONE]\n\0");
+                            int32_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_32_08);
+                            int8_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_32_08);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int32_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int8_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__SWITCH]\n\0");
+                            int32_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_32_08);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__CHANGE_TYPE]\n\0");
+                            int32_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_32_08);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int32_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int8_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_32_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_32_08++;
@@ -964,20 +1316,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__IF_JUMP]\n\0");
+                            int16_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int16_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_16_64+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__JUMP]\n\0");
+                            int16_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_16_64+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__CLONE]\n\0");
+                            int16_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_16_64);
+                            int64_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_16_64);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int16_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int64_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__SWITCH]\n\0");
+                            int16_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_16_64);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__CHANGE_TYPE]\n\0");
+                            int16_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_16_64);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int16_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int64_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_16_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_16_64++;
@@ -1070,20 +1466,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__IF_JUMP]\n\0");
+                            int16_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int16_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_16_32+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__JUMP]\n\0");
+                            int16_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_16_32+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__CLONE]\n\0");
+                            int16_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_16_32);
+                            int32_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_16_32);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int16_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int32_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__SWITCH]\n\0");
+                            int16_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_16_32);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__CHANGE_TYPE]\n\0");
+                            int16_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_16_32);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int16_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int32_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_16_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_16_32++;
@@ -1176,20 +1616,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__IF_JUMP]\n\0");
+                            int16_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int16_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_16_16+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__JUMP]\n\0");
+                            int16_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_16_16+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__CLONE]\n\0");
+                            int16_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_16_16);
+                            int16_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_16_16);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int16_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int16_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__SWITCH]\n\0");
+                            int16_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_16_16);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__CHANGE_TYPE]\n\0");
+                            int16_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_16_16);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int16_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int16_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_16_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_16_16++;
@@ -1282,20 +1766,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__IF_JUMP]\n\0");
+                            int16_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int16_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_16_08+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__JUMP]\n\0");
+                            int16_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_16_08+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__CLONE]\n\0");
+                            int16_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_16_08);
+                            int8_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_16_08);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int16_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int8_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__SWITCH]\n\0");
+                            int16_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_16_08);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__CHANGE_TYPE]\n\0");
+                            int16_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_16_08);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int16_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int8_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_16_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_16_08++;
@@ -1388,20 +1916,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__IF_JUMP]\n\0");
+                            int8_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_08_64+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__JUMP]\n\0");
+                            int8_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_08_64+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__CLONE]\n\0");
+                            int8_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_08_64);
+                            int64_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_08_64);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int8_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int64_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__SWITCH]\n\0");
+                            int8_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_08_64);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__CHANGE_TYPE]\n\0");
+                            int8_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_08_64);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int8_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int64_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_08_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_08_64++;
@@ -1494,20 +2066,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__IF_JUMP]\n\0");
+                            int8_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_08_32+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__JUMP]\n\0");
+                            int8_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_08_32+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__CLONE]\n\0");
+                            int8_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_08_32);
+                            int32_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_08_32);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int8_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int32_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__SWITCH]\n\0");
+                            int8_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_08_32);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__CHANGE_TYPE]\n\0");
+                            int8_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_08_32);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int8_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int32_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_08_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_08_32++;
@@ -1600,20 +2216,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__IF_JUMP]\n\0");
+                            int8_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_08_16+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__JUMP]\n\0");
+                            int8_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_08_16+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__CLONE]\n\0");
+                            int8_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_08_16);
+                            int16_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_08_16);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int8_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int16_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__SWITCH]\n\0");
+                            int8_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_08_16);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__CHANGE_TYPE]\n\0");
+                            int8_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_08_16);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int8_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int16_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_08_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_08_16++;
@@ -1706,20 +2366,64 @@ namespace Sauce{
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
+                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__IF_JUMP]\n\0");
+                            int8_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValueBase;GetValueFromVirtualStack(CurrentSizeCode,ThisValueBase);RemoveFromVirtualStack(CurrentSizeCode);
+                            bool ThisValue=(bool)ThisValueBase;
+                            if(ThisValue)InstructionCounter_08_08+=JumpTarget;
                         }break;
                         case OpCode::OP__JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__JUMP]\n\0");
+                            int8_t JumpTarget;GetValueFromVirtualStack(CurrentSizeCode,JumpTarget);RemoveFromVirtualStack(CurrentSizeCode);
+                            InstructionCounter_08_08+=JumpTarget;
                         }break;
                         case OpCode::OP__CLONE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__CLONE]\n\0");
+                            int8_t FromStackTargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,FromStackTargetBase,InstructionCounter_08_08);
+                            int8_t ToStackTargetBase;GetExtendedFromVirtualInstructions(CurrentSizeCode,ToStackTargetBase,InstructionCounter_08_08);
+                            SzCode FromStackTarget=(SzCode)(int8_t)FromStackTargetBase;
+                            SzCode ToStackTarget=(SzCode)(int8_t)ToStackTargetBase;
+                            int8_t ThisValue;GetValueFromVirtualStack(FromStackTarget,ThisValue);
+                            int8_t ThisExtended;GetExtendedFromVirtualStack(FromStackTarget,ThisExtended);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(FromStackTarget,ThisTpCode);
+                            switch(ToStackTarget){
+                                case SzCode::V64_E64:{AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V64_E32:{AddToVirtualStack_64_32(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V64_E16:{AddToVirtualStack_64_16(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V64_E08:{AddToVirtualStack_64_08(OpCode::OP__DATA,ThisTpCode,(int64_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V32_E64:{AddToVirtualStack_32_64(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V32_E32:{AddToVirtualStack_32_32(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V32_E16:{AddToVirtualStack_32_16(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V32_E08:{AddToVirtualStack_32_08(OpCode::OP__DATA,ThisTpCode,(int32_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V16_E64:{AddToVirtualStack_16_64(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V16_E32:{AddToVirtualStack_16_32(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V16_E16:{AddToVirtualStack_16_16(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V16_E08:{AddToVirtualStack_16_08(OpCode::OP__DATA,ThisTpCode,(int16_t)ThisValue,(int8_t)ThisExtended);}break;
+                                case SzCode::V08_E64:{AddToVirtualStack_08_64(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int64_t)ThisExtended);}break;
+                                case SzCode::V08_E32:{AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int32_t)ThisExtended);}break;
+                                case SzCode::V08_E16:{AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int16_t)ThisExtended);}break;
+                                case SzCode::V08_E08:{AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,(int8_t)ThisValue,(int8_t)ThisExtended);}break;
+                            }
                         }break;
                         case OpCode::OP__SWITCH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__SWITCH]\n\0");
+                            int8_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_08_08);
+                            SzCode Target=(SzCode)(int8_t)TargetBase;
+                            CurrentSizeCode=Target;
+                        }break;
+                        case OpCode::OP__CHANGE_TYPE:{
+                            Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__CHANGE_TYPE]\n\0");
+                            int8_t TargetBase;GetValueFromVirtualInstructions(CurrentSizeCode,TargetBase,InstructionCounter_08_08);
+                            TpCode Target=(TpCode)(int8_t)TargetBase;
+                            int8_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
+                            int8_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack_08_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                     }
                     InstructionCounter_08_08++;
