@@ -986,24 +986,63 @@ namespace Sauce{
                         }break;
                         case OpCode::OP__SUBTRACT:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__SUBTRACT]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue-ThisValue_LastValue));
                         }break;
                         case OpCode::OP__MULTIPLY:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__MULTIPLY]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue*ThisValue_LastValue));
                         }break;
                         case OpCode::OP__DIVIDE:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__DIVIDE]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue/ThisValue_LastValue));
                         }break;
                         case OpCode::OP__MODULUS:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__MODULUS]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,ThisTpCode,(ThisValue_FirstValue%ThisValue_LastValue));
                         }break;
                         case OpCode::OP__MORE_THAN:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__MORE_THAN]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,TpCode::TP__BOOL,(ThisValue_FirstValue>ThisValue_LastValue));
                         }break;
                         case OpCode::OP__LESS_THAN:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__LESS_THAN]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,TpCode::TP__BOOL,(ThisValue_FirstValue<ThisValue_LastValue));
                         }break;
                         case OpCode::OP__EQUALS:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__EQUALS]\n\0");
+                            int8_t ThisValue_LastValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_LastValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            int8_t ThisValue_FirstValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue_FirstValue);
+                            RemoveFromVirtualStack(CurrentSizeCode);
+                            AddToVirtualStack(CurrentSizeCode,OpCode::OP__DATA,TpCode::TP__BOOL,(ThisValue_FirstValue==ThisValue_LastValue));
                         }break;
                         case OpCode::OP__PUSH:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__PUSH]\n\0");
