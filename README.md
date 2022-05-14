@@ -76,14 +76,16 @@
         - sets the cursor to `X`x`Y` (not the mouse cursor, the text one)
 
 # plans
+> -
 - things done.
     - Text output "printf"
     - Dynamic Memory
     - strings "std::string" <- `Sauce::Memory::List_cl<char> StringVariableName`
-- what is being worked on right now
+> -
+- base done but will be added to later.
     - Userland Virtual Machines
+> -
 - Not yet done.
-    - Userland Virtual Machines
     - UserLand Binary Compiler
     - UserLand binaries
     - disk access
@@ -92,12 +94,3 @@
     - graphics
     - hardware accelerated graphics
 
-
-
-
-
-
-
-
-
-not exactly my dream keyboard however i would classify it under 'pretty damn decent'
