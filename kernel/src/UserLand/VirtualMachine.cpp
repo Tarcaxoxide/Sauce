@@ -72,6 +72,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E64::OP__IF_JUMP]\n\0");
@@ -132,6 +133,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E32::OP__IF_JUMP]\n\0");
@@ -192,6 +194,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E16::OP__IF_JUMP]\n\0");
@@ -252,6 +255,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V64_E8::OP__IF_JUMP]\n\0");
@@ -312,6 +316,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E64::OP__IF_JUMP]\n\0");
@@ -372,6 +377,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E32::OP__IF_JUMP]\n\0");
@@ -432,6 +438,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E16::OP__IF_JUMP]\n\0");
@@ -492,6 +499,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V32_E8::OP__IF_JUMP]\n\0");
@@ -552,6 +560,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E64::OP__IF_JUMP]\n\0");
@@ -612,6 +621,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E32::OP__IF_JUMP]\n\0");
@@ -672,6 +682,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E16::OP__IF_JUMP]\n\0");
@@ -732,6 +743,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V16_E8::OP__IF_JUMP]\n\0");
@@ -792,6 +804,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E64::OP__IF_JUMP]\n\0");
@@ -852,6 +865,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E32::OP__IF_JUMP]\n\0");
@@ -912,7 +926,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
-
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E16::OP__IF_JUMP]\n\0");
@@ -973,6 +987,7 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("[V8_E8::OP__IF_JUMP]\n\0");
@@ -1527,8 +1542,6 @@ namespace Sauce{
                 case SzCode::V08_E08:{tpcode=GetFromVirtualInstructions_08_08(ThisInstructionCounter).Type;}break;
             }
         }
-
-
         void  VirtualMachine_cl::PushToStack(SzCode Instruction_szcode,size_t ThisInstructionCounter){
             switch(Instruction_szcode){
                 case SzCode::V64_E64:{int64_t ThisValue;uint64_t ThisExtended;TpCode ThisTpCode;GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_64_64(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
@@ -1547,6 +1560,26 @@ namespace Sauce{
                 case SzCode::V08_E32:{int8_t ThisValue;uint32_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_32(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
                 case SzCode::V08_E16:{int8_t ThisValue;uint16_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
                 case SzCode::V08_E08:{int8_t ThisValue;uint8_t ThisExtended; TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
+            }
+        }
+        VirtualMachine_cl::RemoveFromVirtualStack(SzCode szcode){
+            switch(szcode){
+                case SzCode::V64_E64:{_VirtualStack_64_64.RemoveLast();}break;
+                case SzCode::V64_E32:{_VirtualStack_64_32.RemoveLast();}break;
+                case SzCode::V64_E16:{_VirtualStack_64_16.RemoveLast();}break;
+                case SzCode::V64_E08:{_VirtualStack_64_08.RemoveLast();}break;
+                case SzCode::V32_E64:{_VirtualStack_32_64.RemoveLast();}break;
+                case SzCode::V32_E32:{_VirtualStack_32_32.RemoveLast();}break;
+                case SzCode::V32_E16:{_VirtualStack_32_16.RemoveLast();}break;
+                case SzCode::V32_E08:{_VirtualStack_32_08.RemoveLast();}break;
+                case SzCode::V16_E64:{_VirtualStack_16_64.RemoveLast();}break;
+                case SzCode::V16_E32:{_VirtualStack_16_32.RemoveLast();}break;
+                case SzCode::V16_E16:{_VirtualStack_16_16.RemoveLast();}break;
+                case SzCode::V16_E08:{_VirtualStack_16_08.RemoveLast();}break;
+                case SzCode::V08_E64:{_VirtualStack_08_64.RemoveLast();}break;
+                case SzCode::V08_E32:{_VirtualStack_08_32.RemoveLast();}break;
+                case SzCode::V08_E16:{_VirtualStack_08_16.RemoveLast();}break;
+                case SzCode::V08_E08:{_VirtualStack_08_08.RemoveLast();}break;
             }
         }
     };

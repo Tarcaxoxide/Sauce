@@ -312,6 +312,8 @@ namespace Sauce{
                 void AddInstruction(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
                 void AddToVirtualStack(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value=0,uint8_t extended=0);
 
+                void RemoveFromVirtualStack(SzCode szcode);
+
                 void GetValueFromVirtualInstructions(SzCode szcode,int8_t &value,size_t ThisInstructionCounter);
                 void GetValueFromVirtualInstructions(SzCode szcode,int16_t &value,size_t ThisInstructionCounter);
                 void GetValueFromVirtualInstructions(SzCode szcode,int32_t &value,size_t ThisInstructionCounter);
