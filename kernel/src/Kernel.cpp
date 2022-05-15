@@ -164,20 +164,27 @@ namespace Sauce{
 
     }
 
+
+
+    Sauce::Memory::List_cl<Sauce::IO::Keyboard_st> KeyboardBuffer;
+
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
                 Sauce::IO::HandlePS2Mouse(InterruptData.RawInterruptData);
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
-                //if(Xinput != 0){
-                    Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
-                //}
+                    KeyboardBuffer.AddLast(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
                 Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
+                if(KeyboardBuffer.Size()){
+                    do{
+                        Self->oNotify_Of_KeyPress(KeyboardBuffer.First());
+                    }while(KeyboardBuffer.RemoveFirst());
+                }
             }break;
         }
     }
