@@ -164,10 +164,6 @@ namespace Sauce{
 
     }
 
-
-    Sauce::IO::Keyboard_st KeyBoardBuffer[512];
-    size_t KeyBoardBufferCounter=0;
-
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
@@ -175,19 +171,13 @@ namespace Sauce{
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
                 //if(Xinput != 0){
-                    //Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
-                    if(KeyBoardBufferCounter < 512){
-                        KeyBoardBuffer[512-KeyBoardBufferCounter++]=Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData));
-                    }
+                    Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
                 //}
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
                 Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
-                if(KeyBoardBufferCounter){
-                    Self->oNotify_Of_KeyPress(KeyBoardBuffer[512-KeyBoardBufferCounter--]);
-                }
             }break;
         }
     }
