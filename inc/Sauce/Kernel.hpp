@@ -62,8 +62,9 @@ namespace Sauce{
         public: //public functions
             Kernel_cl(DataStructure* DFBL);
             void Stop(bool ClearInterrupts=false);
-            static void Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
-            static void Notify_Of_Mouse();
+            //static void Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
+            //static void Notify_Of_Mouse();
+            static void Notify(Sauce::Interrupts::InterruptDataStruct InterruptData);
             void oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
             void oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse);
     };

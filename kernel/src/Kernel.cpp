@@ -3,6 +3,7 @@
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
+
     Kernel_cl::Kernel_cl(DataStructure* DFBL)
     :kShell(DFBL){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::Kernel_cl]\n\0");
@@ -10,6 +11,8 @@ namespace Sauce{
         if(Self == NULL)Self=this;
         asm volatile("cli");
         
+        //InterruptBuffer.AddLast({Sauce::Interrupts::InterruptType::InterruptType__NULL,0x11});
+
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
@@ -61,8 +64,8 @@ namespace Sauce{
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::MainLoop]\n\0");
         do{
-            Sauce::Interrupts::PIT::Sleep(1000);
-            
+            asm volatile("cli");
+            asm volatile("sti");
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
@@ -126,12 +129,7 @@ namespace Sauce{
     void Kernel_cl::Prep_IO(){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::Prep_IO]\n\0");
         Sauce::Interrupts::RemapPic();
-        Sauce::Interrupts::SysReady=true;
         Sauce::IO::PS2MouseInitialize({Sauce::IO::GlobalTerminal->CharX()*5,Sauce::IO::GlobalTerminal->CharY()*5,0});
-        // Attempting to fix the crash at the start
-            Sauce::Interrupts::SysReady=false;
-            for(size_t i=0;i<0x0000000000100000;i+=0x0000000000000001);
-            Sauce::Interrupts::SysReady=true;
     }
     void Kernel_cl::Prep_ACPI(){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::Prep_ACPI]\n\0");
@@ -165,11 +163,23 @@ namespace Sauce{
         InputData.NewMouse=false;
 
     }
-    void Kernel_cl::Notify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
-        Self->oNotify_Of_KeyPress(xKeyboard);
-    }
-    void Kernel_cl::Notify_Of_Mouse(){
-        Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
+
+    void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
+        switch(InterruptData.TypeCode){
+            case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
+                Sauce::IO::HandlePS2Mouse(InterruptData.RawInterruptData);
+            }break;
+            case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
+                //if(Xinput != 0){
+                    Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
+                //}
+            }break;
+            case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
+            }break;
+            case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
+                Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
+            }break;
+        }
     }
     void Kernel_cl::Stop(bool ClearInterrupts){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::Stop]\n\0");

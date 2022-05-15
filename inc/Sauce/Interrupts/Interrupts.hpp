@@ -17,7 +17,18 @@
 
 namespace Sauce{
     namespace Interrupts{
-        extern bool SysReady;
+        enum InterruptTypeCode{
+            ITC__NULL=0,
+            ITC__Time,
+            ITC__Keyboard,
+            ITC__Mouse
+        };
+
+        struct InterruptDataStruct{
+            InterruptTypeCode TypeCode;
+            uint8_t RawInterruptData;
+        };
+
         struct interrupt_frame;
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame);

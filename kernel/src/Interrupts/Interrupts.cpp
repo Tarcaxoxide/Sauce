@@ -10,7 +10,7 @@
 
 namespace Sauce{
     namespace Interrupts{
-        bool SysReady=false;
+
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame){
             Sauce::IO::Panic("Page Fault Detected!\n\r\0");
         }
@@ -22,39 +22,24 @@ namespace Sauce{
         }
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame){
             uint8_t input = 0;
-            if(!SysReady){
-                input = Sauce::IO::inb_w(0x60);
-                PIC1_Done();
-                return;
-            }
             do {
               if(Sauce::IO::inb(0x60) != input) {
                 input = Sauce::IO::inb(0x60);
                 if(input > 0) {
-                    uint16_t Xinput = Sauce::IO::Translate_KeyCode(input);
-                    if(Xinput != 0){
-                        Sauce::IO::Keyboard_st xKeyboard = Sauce::IO::Code_To_Key(Xinput);
-                        if(xKeyboard.Key != 0)Kernel_cl::Notify_Of_KeyPress(xKeyboard);
-                    }
+                    Kernel_cl::Notify({InterruptTypeCode::ITC__Keyboard,input});
                 }
               }
             } while(input != 0);
             PIC1_Done();
         }
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame){
-            if(!SysReady){
-                uint8_t mouseData = Sauce::IO::inb(0x60);
-                PIC2_Done();
-                return;
-            }
             uint8_t mouseData = Sauce::IO::inb(0x60);
-            Sauce::IO::HandlePS2Mouse(mouseData);
-            Kernel_cl::Notify_Of_Mouse();
+            Kernel_cl::Notify({InterruptTypeCode::ITC__Mouse,mouseData});
             PIC2_Done();
         }
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame){
-            if(!SysReady)return;
             Sauce::Interrupts::PIT::Tick();
+            Kernel_cl::Notify({InterruptTypeCode::ITC__Time,0xFF});
             PIC1_Done();
         }
         void PIC1_Done(){
