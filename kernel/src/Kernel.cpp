@@ -63,8 +63,10 @@ namespace Sauce{
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::MainLoop]\n\0");
+        Sauce::Interrupts::PIT(1000);
         do{
             asm volatile("cli");
+            Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
             asm volatile("sti");
         }while(true);
     }
@@ -177,7 +179,7 @@ namespace Sauce{
             case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
-                Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
+                
             }break;
         }
     }
