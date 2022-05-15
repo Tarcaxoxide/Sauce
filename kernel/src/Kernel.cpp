@@ -63,10 +63,8 @@ namespace Sauce{
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::COM1_Console.Write("[Kernel_cl::MainLoop]\n\0");
-        Sauce::Interrupts::PIT(1000);
         do{
             asm volatile("cli");
-            Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
             asm volatile("sti");
         }while(true);
     }
@@ -166,20 +164,19 @@ namespace Sauce{
 
     }
 
+
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
                 Sauce::IO::HandlePS2Mouse(InterruptData.RawInterruptData);
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
-                //if(Xinput != 0){
                     Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
-                //}
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
-                
+                Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
             }break;
         }
     }
