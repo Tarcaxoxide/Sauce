@@ -72,13 +72,13 @@ namespace Sauce{
             while(*str){
                 PutChar(*str);
                 str++;
-                //Cursor.X+=CharX();
             }
             DisableMouse=false;
         }
         void Terminal::NewLine(){
             if(!DownwardChar()){
-                // TODO::scroll text.
+                ScrollUp(CharY());UpwardChar();
+                ScrollUp(CharY());FrontChar();
             }
         }
         bool Terminal::ForwardChar(){
@@ -181,6 +181,22 @@ namespace Sauce{
             OldMousePosition.Z=1;//<using Z to determine of this is the first time we have been here.
             OldMousePosition.Y=NewMousePosition->Y;
             OldMousePosition.X=NewMousePosition->X;
+        }
+        void Terminal::ScrollUp(size_t Ysize){
+            for(size_t X=0;X<MaxX();X++){
+                for(size_t Y=0;Y<MaxY(Ysize);Y++){
+                    DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))] = DFBL->FrameBuffer->BaseAddress[(X + ((Y+Ysize) * DFBL->FrameBuffer->PixelsPerScanLine))];
+                    DFBL->FrameBuffer->BaseAddress[(X + ((Y+Ysize) * DFBL->FrameBuffer->PixelsPerScanLine))] = Bcolor;
+                }
+            }
+        }
+        void Terminal::ScrollDown(size_t Ysize){
+            for(size_t X=0;X<MaxX();X++){
+                for(size_t Y=MaxY(Ysize);Y>0;Y--){
+                    DFBL->FrameBuffer->BaseAddress[(X + (Y * DFBL->FrameBuffer->PixelsPerScanLine))] = DFBL->FrameBuffer->BaseAddress[(X + ((Y-Ysize) * DFBL->FrameBuffer->PixelsPerScanLine))];
+                    DFBL->FrameBuffer->BaseAddress[(X + ((Y-Ysize) * DFBL->FrameBuffer->PixelsPerScanLine))] = Bcolor;
+                }
+            }
         }
         Terminal* GlobalTerminal;
         const GOP_PixelStructure GOP_RED={0x00,0x00,0xff,0xff};

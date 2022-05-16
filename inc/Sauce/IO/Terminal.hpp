@@ -48,7 +48,8 @@ namespace Sauce{
             uint8_t CharY(); // returns character height.
             void Mouse(Point64_t* NewMousePosition);
             void SetCursor(size_t X,size_t Y);
-            
+            void ScrollUp(size_t Ysize);
+            void ScrollDown(size_t Ysize);
         };
         extern Terminal* GlobalTerminal;
         extern const GOP_PixelStructure GOP_RED;   //Some standard predefined colors.
