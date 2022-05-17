@@ -42,36 +42,9 @@ namespace Sauce{
         /*Testing VirtualMachine*/{
             Sauce::UserLand::VirtualMachine_cl UserLandVirtualMachine;
 
-            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,12);
-            // CC 0000000A 01 0C 00
-            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,12);
-            // CC 0000000A 01 0C 00
-            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__CLONE,Sauce::UserLand::TpCode::TP__NULL,(int8_t)Sauce::UserLand::SzCode::V08_E08,(int8_t)Sauce::UserLand::SzCode::V16_E08);
-            // CC 0000000F 00 CC DC
-            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__SUBTRACT,Sauce::UserLand::TpCode::TP__NULL);
-            // CC 00000003 00 00 00
-            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-            // CC 0000000B 00 00 00
-            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__SWITCH,Sauce::UserLand::TpCode::TP__NULL,(int8_t)Sauce::UserLand::SzCode::V16_E08);
-            // CC 00000010 00 DC 00
-            
-            int16_t X=-1;
-            X--;UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,1);
-            // DC 0000000A 01 0001 00
-            X--;UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__ADD,Sauce::UserLand::TpCode::TP__NULL);
-            // DC 00000002 00 0000 00
-            X--;UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__CLONE,Sauce::UserLand::TpCode::TP__NULL,(int8_t)Sauce::UserLand::SzCode::V16_E08,(int8_t)Sauce::UserLand::SzCode::V16_E08);
-            // DC 0000000F 00 00DC DC
-            X--;UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-            // DC 0000000B 00 0000 00
-            X--;UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__CHAR,(int16_t)(int8_t)' ');
-            // DC 0000000A 03 0020 00
-            X--;UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-            // DC 0000000B 00 0000 00
-            X--;UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__PUSH,Sauce::UserLand::TpCode::TP__INT,X);
-            // DC 0000000A 01 FFF8 00
-            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V16_E08,Sauce::UserLand::OpCode::OP__JUMP,Sauce::UserLand::TpCode::TP__NULL);
-            // DC 0000000D 00 0000 00
+           UserLandVirtualMachine.AddKeyboard('P',0); //<Fake keyboard key press.
+           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__GET_KEYBOARD,Sauce::UserLand::TpCode::TP__NULL);
+           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
 
 
             UserLandVirtualMachine.Run();

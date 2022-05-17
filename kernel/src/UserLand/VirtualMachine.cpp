@@ -116,11 +116,13 @@ namespace Sauce{
                             Sauce::IO::Debug::COM1_Console.Write("\t(V64_E64::OP__PRINT)\n\0");
                             int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
-                            RemoveFromVirtualStack(CurrentSizeCode);
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
                             }
+                            RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
                         case OpCode::OP__IF_JUMP:{
                             Sauce::IO::Debug::COM1_Console.Write("\t(V64_E64::OP__IF_JUMP)\n\0");
@@ -176,6 +178,14 @@ namespace Sauce{
                             int64_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_64_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_64_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_64_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_64_64++;
@@ -269,6 +279,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -326,6 +338,14 @@ namespace Sauce{
                             int32_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_64_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_64_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_64_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_64_32++;
@@ -419,6 +439,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -476,6 +498,14 @@ namespace Sauce{
                             int16_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_64_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_64_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_64_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_64_16++;
@@ -569,6 +599,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -626,6 +658,14 @@ namespace Sauce{
                             int8_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_64_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_64_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_64_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_64_08++;
@@ -719,6 +759,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -776,6 +818,14 @@ namespace Sauce{
                             int64_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_32_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_32_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_32_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_32_64++;
@@ -869,6 +919,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -926,6 +978,14 @@ namespace Sauce{
                             int32_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_32_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_32_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_32_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_32_32++;
@@ -1019,6 +1079,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1076,6 +1138,14 @@ namespace Sauce{
                             int16_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_32_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_32_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_32_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_32_16++;
@@ -1169,6 +1239,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1226,6 +1298,14 @@ namespace Sauce{
                             int8_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_32_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_32_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_32_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_32_08++;
@@ -1319,6 +1399,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1376,6 +1458,14 @@ namespace Sauce{
                             int64_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_16_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_16_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_16_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_16_64++;
@@ -1469,6 +1559,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1526,6 +1618,14 @@ namespace Sauce{
                             int32_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_16_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_16_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_16_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_16_32++;
@@ -1619,6 +1719,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1676,6 +1778,14 @@ namespace Sauce{
                             int16_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_16_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_16_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_16_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_16_16++;
@@ -1769,6 +1879,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1826,6 +1938,14 @@ namespace Sauce{
                             int8_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_16_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_16_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_16_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_16_08++;
@@ -1919,6 +2039,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1976,6 +2098,14 @@ namespace Sauce{
                             int64_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_08_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_08_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_08_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_64++;
@@ -2069,6 +2199,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -2126,6 +2258,14 @@ namespace Sauce{
                             int32_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_08_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_08_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_08_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_32++;
@@ -2219,6 +2359,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -2276,6 +2418,14 @@ namespace Sauce{
                             int16_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_08_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_08_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_08_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_16++;
@@ -2369,6 +2519,8 @@ namespace Sauce{
                             switch(ThisTpCode){
                                 case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
                                 case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -2426,6 +2578,14 @@ namespace Sauce{
                             int8_t ThisExtended;GetExtendedFromVirtualStack(CurrentSizeCode,ThisExtended);
                             RemoveFromVirtualStack(CurrentSizeCode);
                             AddToVirtualStack_08_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
+                        }break;
+                        case OpCode::OP__GET_KEYBOARD:{
+                            int8_t _Key,_Data;
+                            if(GetKeyboard(_Key,_Data)){
+                                AddToVirtualStack_08_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
+                            }else{
+                                AddToVirtualStack_08_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD);
+                            }
                         }break;
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_08++;
@@ -3007,6 +3167,16 @@ namespace Sauce{
                 case SzCode::V08_E16:{_VirtualStack_08_16.RemoveLast();}break;
                 case SzCode::V08_E08:{_VirtualStack_08_08.RemoveLast();}break;
             }
+        }
+        bool VirtualMachine_cl::GetKeyboard(int8_t &value,int8_t &extended){
+            if(_Virtual_Keyboard.Size() < 1)return false;
+            value = _Virtual_Keyboard.Last().Data.Value;
+            extended = _Virtual_Keyboard.Last().Data.Extended;
+            _Virtual_Keyboard.RemoveLast();
+            return true;
+        }
+        void VirtualMachine_cl::AddKeyboard(int8_t value,int8_t extended){
+            _Virtual_Keyboard.AddFirst({OpCode::OP__DATA,TpCode::TP__KEYBOARD,SzCode::V08_E08,{value,extended}});
         }
     };
 };

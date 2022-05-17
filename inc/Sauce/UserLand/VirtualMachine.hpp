@@ -12,22 +12,24 @@ namespace Sauce{
         enum OpCode: uint32_t{
             OP__NULL=0x00000000,
             OP__EXIT=0x00000001,
-            OP__ADD=0x00000002,
-            OP__SUBTRACT=0x00000003,
-            OP__MULTIPLY=0x00000004,
-            OP__DIVIDE=0x00000005,
-            OP__MODULUS=0x00000006,
-            OP__MORE_THAN=0x00000007,
-            OP__LESS_THAN=0x00000008,
-            OP__EQUALS=0x00000009,
-            OP__PUSH=0x0000000A,
-            OP__PRINT=0x0000000B,
-            OP__IF_JUMP=0x0000000C,
-            OP__JUMP=0x0000000D,
-            OP__CLONE=0x0000000F,
-            OP__SWITCH=0x00000010,
-            OP__DATA=0x00000011,
-            OP__CHANGE_TYPE=0x00000012
+            OP__ADD=0x00000002,         // stack[-2][value] + stack[-1][value]
+            OP__SUBTRACT=0x00000003,    // stack[-2][value] - stack[-1][value]
+            OP__MULTIPLY=0x00000004,    // stack[-2][value] * stack[-1][value]
+            OP__DIVIDE=0x00000005,      // stack[-2][value] / stack[-1][value]
+            OP__MODULUS=0x00000006,     // stack[-2][value] % stack[-1][value]
+            OP__MORE_THAN=0x00000007,   // stack[-2][value] > stack[-1][value]
+            OP__LESS_THAN=0x00000008,   // stack[-2][value] < stack[-1][value]
+            OP__EQUALS=0x00000009,      // stack[-2][value] == stack[-1][value]
+            OP__PUSH=0x0000000A,        // adds a new value to the stack.
+            OP__PRINT=0x0000000B,       // prints stack[-1][value] and removes it from the stack.
+            OP__IF_JUMP=0x0000000C,     // if stack[-2][value] is not false jump + stack[-1][value]
+            OP__JUMP=0x0000000D,        // jump + stack[-1][value]
+            OP__CLONE=0x0000000F,       // clones a item from 1 stack to another stack, source stack defined as value and destination stack defined as extended.
+            OP__SWITCH=0x00000010,      // switches to a different stack, target stack specified as the value.
+            OP__DATA=0x00000011,        // Data OP , filler for the stack but i guess you can check for it in the instructions, in that case it would probably be a const equivalent?
+            OP__CHANGE_TYPE=0x00000012, // changes the type of the last item on the stack (see TpCode enum for the types)
+            OP__GET_KEYBOARD=0x00000013,
+            OP__GET_MOUSE=0x00000014
         };
         enum SzCode:uint8_t{
             V64_E64=0xFF,
@@ -52,7 +54,10 @@ namespace Sauce{
             TP__NULL=0x00,
             TP__INT=0x01,
             TP__BOOL=0x02,
-            TP__CHAR=0x03
+            TP__CHAR=0x03,
+            TP__HEX=0x04,
+            TP__KEYBOARD=0x05,
+            TP__MOUSE=0x06
         };
 
         namespace VirtualStack{
@@ -205,6 +210,7 @@ namespace Sauce{
             Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>>  _VirtualInstructions_08_32; //0xCE
             Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>>  _VirtualInstructions_08_16; //0XCD
             Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>>   _VirtualInstructions_08_08; //0xCC
+            Sauce::Memory::List_cl<VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>>   _Virtual_Keyboard; // Not Accessible By OP__SWITCH.
             size_t InstructionCounter_64_64=0;
             size_t InstructionCounter_64_32=0;
             size_t InstructionCounter_64_16=0;
@@ -334,6 +340,9 @@ namespace Sauce{
                 void GetExtendedFromVirtualStack(SzCode szcode,int64_t &extended);
                 void GetTpCodeFromVirtualStack(SzCode szcode,TpCode &tpcode);
                 void GetTpCodeFromVirtualInstructions(SzCode szcode,TpCode &tpcode,size_t ThisInstructionCounter);
+
+                bool GetKeyboard(int8_t &value,int8_t &extended);
+                void AddKeyboard(int8_t value,int8_t extended);
 
                 void PushToStack(SzCode Instruction_szcode,size_t ThisInstructionCounter);
         };
