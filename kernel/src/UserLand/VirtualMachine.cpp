@@ -180,6 +180,7 @@ namespace Sauce{
                             AddToVirtualStack_64_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V64_E64::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_64_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -340,6 +341,7 @@ namespace Sauce{
                             AddToVirtualStack_64_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V64_E32::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_64_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -500,6 +502,7 @@ namespace Sauce{
                             AddToVirtualStack_64_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V64_E16::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_64_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -660,6 +663,7 @@ namespace Sauce{
                             AddToVirtualStack_64_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V64_E8::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_64_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -820,6 +824,7 @@ namespace Sauce{
                             AddToVirtualStack_32_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V32_E64::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_32_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -980,6 +985,7 @@ namespace Sauce{
                             AddToVirtualStack_32_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V32_E32::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_32_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -1140,6 +1146,7 @@ namespace Sauce{
                             AddToVirtualStack_32_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V32_E16::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_32_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -1300,6 +1307,7 @@ namespace Sauce{
                             AddToVirtualStack_32_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V32_E8::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_32_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -1460,6 +1468,7 @@ namespace Sauce{
                             AddToVirtualStack_16_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V16_E64::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_16_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -1620,6 +1629,7 @@ namespace Sauce{
                             AddToVirtualStack_16_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V16_E32::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_16_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -1780,6 +1790,7 @@ namespace Sauce{
                             AddToVirtualStack_16_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V16_E16::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_16_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -1940,6 +1951,7 @@ namespace Sauce{
                             AddToVirtualStack_16_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V16_E8::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_16_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -2100,6 +2112,7 @@ namespace Sauce{
                             AddToVirtualStack_08_64(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V8_E64::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_08_64(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -2260,6 +2273,7 @@ namespace Sauce{
                             AddToVirtualStack_08_32(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V8_E32::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_08_32(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -2420,6 +2434,7 @@ namespace Sauce{
                             AddToVirtualStack_08_16(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V8_E16::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_08_16(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);
@@ -2580,6 +2595,7 @@ namespace Sauce{
                             AddToVirtualStack_08_08(OpCode::OP__DATA,Target,ThisValue,ThisExtended);
                         }break;
                         case OpCode::OP__GET_KEYBOARD:{
+                            Sauce::IO::Debug::COM1_Console.Write("\t(V8_E8::OP__GET_KEYBOARD)\n\0");
                             int8_t _Key,_Data;
                             if(GetKeyboard(_Key,_Data)){
                                 AddToVirtualStack_08_08(OpCode::OP__DATA,TpCode::TP__KEYBOARD,_Key,_Data);

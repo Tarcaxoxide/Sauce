@@ -32,6 +32,7 @@ namespace Sauce{
             OP__GET_MOUSE=0x00000014
         };
         enum SzCode:uint8_t{
+            SZ__NULL=0x00,
             V64_E64=0xFF,
             V64_E32=0xFE,
             V64_E16=0XFD,
@@ -47,8 +48,7 @@ namespace Sauce{
             V08_E64=0xCF,
             V08_E32=0xCE,
             V08_E16=0XCD,
-            V08_E08=0xCC,
-            SZ__NULL=0x00
+            V08_E08=0xCC
         };
         enum TpCode: uint8_t{
             TP__NULL=0x00,
@@ -59,6 +59,15 @@ namespace Sauce{
             TP__KEYBOARD=0x05,
             TP__MOUSE=0x06
         };
+
+        enum CommonInputDataExtended : uint8_t{
+            CIDE__NULL=0x00,
+            CIDE__KEYBOARD_BUTTON_DOWN=0x01,
+            CIDE__KEYBOARD_BUTTON_UP=0x02,
+            CIDE__MOUSE_BOTTON_DOWN=0x03,
+            CIDE__MOUSE_BUTTON_UP=0x04
+        };
+
 
         namespace VirtualStack{
             namespace V64{
