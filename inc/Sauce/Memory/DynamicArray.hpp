@@ -175,10 +175,10 @@ namespace Sauce{
                 return Contents.RemoveLast();
             }
             TT& First(){
-                Contents.First();
+                return Contents.First();
             }
             TT& Last(){
-                Contents.Last();
+                return Contents.Last();
             }
             TT& operator[](size_t TargetIndex){
                 return Contents[TargetIndex];
@@ -191,6 +191,11 @@ namespace Sauce{
             }
             void Clear(){
                 Contents.Clear();
+            }
+            void ForEach(void (*CallBack)(TT &Item)){
+                for(size_t i=0;i<Contents.Size();i++){
+                    (*CallBack)(Contents[i]);
+                }
             }
         };
     };

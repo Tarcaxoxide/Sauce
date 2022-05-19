@@ -1,7 +1,7 @@
 #include<Sauce/IO/Debug/Serial.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
-#define DoNotCare(X,Y) extern "C" void X(){Sauce::IO::Debug::COM1_Console.Write("[\0");Sauce::IO::Debug::COM1_Console.Write(Y);Sauce::IO::Debug::COM1_Console.Write("]\n\0");}
+#define DoNotCare(X,Y) extern "C" void X(){Sauce::IO::Debug::COM1_Console.Write((char*)"[\0");Sauce::IO::Debug::COM1_Console.Write((char*)Y);Sauce::IO::Debug::COM1_Console.Write((char*)"]\n\0");}
 
 
 

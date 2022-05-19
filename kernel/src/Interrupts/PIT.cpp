@@ -9,9 +9,9 @@ namespace Sauce{
             double TimeSinceBoot = 0;
             uint16_t Divisor=65535;
             void Sleepd(double seconds){
-                Sauce::IO::Debug::COM1_Console.Write("[Sleepd] ->(\0");
+                Sauce::IO::Debug::COM1_Console.Write((char*)"[Sleepd] ->(\0");
                 Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(seconds));
-                Sauce::IO::Debug::COM1_Console.Write(")\n\0");
+                Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
                 double startTime = TimeSinceBoot;
                 while(TimeSinceBoot < startTime+seconds){
                     asm("hlt");

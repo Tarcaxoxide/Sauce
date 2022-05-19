@@ -8,28 +8,28 @@ namespace Sauce{
                 ready=true;
                 switch(DebugComPort){
                     case COM1:{
-                        Write("[COM1_Console Initialized]\n\0");
+                        Write((char*)"[COM1_Console Initialized]\n\0");
                     }break;
                     case COM2:{
-                        COM1_Console.Write("[COM2_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM2_Console Initialized]\n\0");
                     }break;
                     case COM3:{
-                        COM1_Console.Write("[COM3_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM3_Console Initialized]\n\0");
                     }break;
                     case COM4:{
-                        COM1_Console.Write("[COM4_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM4_Console Initialized]\n\0");
                     }break;
                     case COM5:{
-                        COM1_Console.Write("[COM5_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM5_Console Initialized]\n\0");
                     }break;
                     case COM6:{
-                        COM1_Console.Write("[COM6_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM6_Console Initialized]\n\0");
                     }break;
                     case COM7:{
-                        COM1_Console.Write("[COM7_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM7_Console Initialized]\n\0");
                     }break;
                     case COM8:{
-                        COM1_Console.Write("[COM8_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM8_Console Initialized]\n\0");
                     }break;
                 }
             }
