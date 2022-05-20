@@ -9,7 +9,7 @@ namespace Sauce{
         }
 
         void Shell_cl::PutChar(const unsigned char chr){
-            
+            // TODO:: use custom font to print characters
         }
         
     };
