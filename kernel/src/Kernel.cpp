@@ -39,7 +39,12 @@ namespace Sauce{
         
         /*testing terminal*/{
             Sauce::IO::GlobalTerminal->RowFill(5);
+            Sauce::IO::GlobalTerminal->RowFill(10);
+            Sauce::IO::GlobalTerminal->RowFill(15);
+            Sauce::IO::GlobalTerminal->RowFill(20);
             Sauce::IO::GlobalTerminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        
+        
         };
     }
     void Kernel_cl::MainLoop(){
