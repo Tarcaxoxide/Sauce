@@ -77,7 +77,7 @@ namespace Sauce{
             Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
 
             if((X*Y) > PixelBufferTotalSize)
-            PixelBuffer[Sauce::ind(X,Y,PixelsPerLine)]=ForegroundColor;
+            PixelBuffer[Sauce::ind(X,Y,PixelsPerLine)]=TheColor;
             return true;
         }
         bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset){

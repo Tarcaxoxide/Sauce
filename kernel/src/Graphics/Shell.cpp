@@ -9,7 +9,11 @@ namespace Sauce{
         }
 
         void Shell_cl::PutChar(const unsigned char chr){
-            // TODO:: use custom font to print characters
+            for(size_t X=0;X<16;X++){
+                for(size_t Y=0;Y<16;Y++){
+                    PixelBuffer[Sauce::ind(X,Y,16)]=ForegroundColor;
+                }
+            }
         }
         
     };
