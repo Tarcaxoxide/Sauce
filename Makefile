@@ -17,15 +17,15 @@ purge:
 	make clean&&\
 	make
 
-git_push:
+git_Push:
 	git add .
 	git commit -am "$(shell date)"
 	git push "https://loganer%40vivaldi.net:$(shell cat ../git_token.txt)@github.com/Tarcaxoxide/Sauce.git"
 
-git_switch:
-	git checkout ${Branch}
+git_SwitchTo_Breakable:
+	git checkout Breakable
 
-git_switch_ToMaster:
+git_SwitchTo_Master:
 	git checkout UEFI_Master
 
 
