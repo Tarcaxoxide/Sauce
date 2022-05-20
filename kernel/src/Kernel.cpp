@@ -46,7 +46,7 @@ namespace Sauce{
             }
             
 
-            Sauce::IO::Terminal_cl TestWindow((10*10),10,{30,40,0});
+            Sauce::IO::Terminal_cl TestWindow((200*200),200,{30,40,0});
             TestWindow.Fill({0x40,0x40,0x40,0xFF});
 
             Sauce::IO::GlobalTerminal->CopyFrom(&TestWindow);
