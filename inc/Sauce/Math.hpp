@@ -57,4 +57,5 @@ namespace Sauce{
         Decimal_st operator+=(double Other);
         Decimal_st operator-=(double Other);
     };
+    size_t ind(size_t X,size_t Y,size_t MaxX);
 };

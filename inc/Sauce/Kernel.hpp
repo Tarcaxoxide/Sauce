@@ -24,7 +24,6 @@
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Math.hpp>
 #include<Sauce/Memory/Heap.hpp>
-#include<Sauce/IO/Shell.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/UserLand/VirtualMachine.hpp>
@@ -58,7 +57,6 @@ namespace Sauce{
             void PreLoop(); // execute before the main loop
             void MainLoop(); // the main loop 
         public: //public variables
-            Sauce::Shell::Kshell kShell;
         public: //public functions
             Kernel_cl(DataStructure* DFBL);
             void Stop(bool ClearInterrupts=false);

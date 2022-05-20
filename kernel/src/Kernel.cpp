@@ -3,14 +3,11 @@
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
-    Kernel_cl::Kernel_cl(DataStructure* DFBL)
-    :kShell(DFBL){
+    Kernel_cl::Kernel_cl(DataStructure* DFBL){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Kernel_cl]\n\0");
         this->DFBL=DFBL;
         if(Self == NULL)Self=this;
         asm volatile("cli");
-        
-        //InterruptBuffer.AddLast({Sauce::Interrupts::InterruptType::InterruptType__NULL,0x11});
 
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
@@ -24,6 +21,9 @@ namespace Sauce{
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
+        Sauce::IO::GlobalTerminal=new Sauce::IO::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+
+
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Sauce::IO::GlobalTerminal->Clear();
@@ -37,16 +37,10 @@ namespace Sauce{
     void Kernel_cl::PreLoop(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
         
-        /*Testing VirtualMachine*/{
-            Sauce::UserLand::VirtualMachine_cl UserLandVirtualMachine;
-           UserLandVirtualMachine.AddKeyboard('P',0); //<Fake keyboard key press.
-           UserLandVirtualMachine.AddKeyboard('e',0); //<Fake keyboard key press.
-           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__GET_KEYBOARD,Sauce::UserLand::TpCode::TP__NULL);
-           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__GET_KEYBOARD,Sauce::UserLand::TpCode::TP__NULL);
-           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-            UserLandVirtualMachine.Run();
-        }
+        /*testing terminal*/{
+            Sauce::IO::GlobalTerminal->RowFill(5);
+            Sauce::IO::GlobalTerminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        };
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
@@ -116,7 +110,7 @@ namespace Sauce{
     void Kernel_cl::Prep_IO(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_IO]\n\0");
         Sauce::Interrupts::RemapPic();
-        Sauce::IO::PS2MouseInitialize({Sauce::IO::GlobalTerminal->CharX()*5,Sauce::IO::GlobalTerminal->CharY()*5,0});
+        /*Not Handled By Terminal Anymore, Please Implement in Shell*///Sauce::IO::PS2MouseInitialize({Sauce::IO::GlobalTerminal->CharX()*5,Sauce::IO::GlobalTerminal->CharY()*5,0});
     }
     void Kernel_cl::Prep_ACPI(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_ACPI]\n\0");
@@ -131,21 +125,21 @@ namespace Sauce{
         InputData.Keyboard.Key=xKeyboard.Key;
         InputData.Keyboard.Display=xKeyboard.Display;
         InputData.NewKeyboard=true;
-        kShell.Input(InputData);
+        /*Broke it XD please re-implement*///kShell.Input(InputData);
         InputData.NewKeyboard=false;
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
         if(xMouse->Position->X < 0)xMouse->Position->X=0;//< Don't draw the mouse too far to the right.
         if(xMouse->Position->Y < 0)xMouse->Position->Y=0;//< Don't draw the mouse too high up.
-        if(xMouse->Position->X > Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX()))xMouse->Position->X=Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX());//< Don't draw the mouse too far to the left.
-        if(xMouse->Position->Y > Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY()))xMouse->Position->Y=Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY());//< Don't draw the mouse too far down.
+        /*Not Handled By Terminal Anymore, Please Implement in Shell*///if(xMouse->Position->X > Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX()))xMouse->Position->X=Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX());//< Don't draw the mouse too far to the left.
+        /*Not Handled By Terminal Anymore, Please Implement in Shell*///if(xMouse->Position->Y > Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY()))xMouse->Position->Y=Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY());//< Don't draw the mouse too far down.
         InputData.Mouse.RightButton=xMouse->RightButton;
         InputData.Mouse.LeftButton=xMouse->LeftButton;
         InputData.Mouse.CenterButton=xMouse->CenterButton;
         InputData.Mouse.Position=*xMouse->Position;
         InputData.Mouse.Good=xMouse->Good;
         InputData.NewMouse=true;
-        kShell.Input(InputData);
+        /*Broke it XD please re-implement*///kShell.Input(InputData);
         InputData.NewMouse=false;
 
     }

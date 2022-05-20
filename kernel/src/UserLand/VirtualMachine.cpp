@@ -117,10 +117,10 @@ namespace Sauce{
                             int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -278,10 +278,10 @@ namespace Sauce{
                             int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -439,10 +439,10 @@ namespace Sauce{
                             int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -600,10 +600,10 @@ namespace Sauce{
                             int64_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint64_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -761,10 +761,10 @@ namespace Sauce{
                             int32_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -922,10 +922,10 @@ namespace Sauce{
                             int32_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1083,10 +1083,10 @@ namespace Sauce{
                             int32_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1244,10 +1244,10 @@ namespace Sauce{
                             int32_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint32_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1405,10 +1405,10 @@ namespace Sauce{
                             int16_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1566,10 +1566,10 @@ namespace Sauce{
                             int16_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1727,10 +1727,10 @@ namespace Sauce{
                             int16_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -1888,10 +1888,10 @@ namespace Sauce{
                             int16_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint16_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -2049,10 +2049,10 @@ namespace Sauce{
                             int8_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -2210,10 +2210,10 @@ namespace Sauce{
                             int8_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -2371,10 +2371,10 @@ namespace Sauce{
                             int8_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
@@ -2532,10 +2532,10 @@ namespace Sauce{
                             int8_t ThisValue;GetValueFromVirtualStack(CurrentSizeCode,ThisValue);
                             TpCode ThisTpCode;GetTpCodeFromVirtualStack(CurrentSizeCode,ThisTpCode);
                             switch(ThisTpCode){
-                                case TpCode::TP__INT:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::ToString(ThisValue));}break;
-                                case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
-                                case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
+                                case TpCode::TP__INT:{/*Printing no longer support by terminal, please re-implement in shell*/}break;
+                                //case TpCode::TP__CHAR:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__KEYBOARD:{Sauce::IO::GlobalTerminal->PutChar((char)ThisValue);}break;
+                                //case TpCode::TP__HEX:{Sauce::IO::GlobalTerminal->PutString(Sauce::Convert::HexToString((uint8_t)ThisValue));}break;
                             }
                             RemoveFromVirtualStack(CurrentSizeCode);
                         }break;
