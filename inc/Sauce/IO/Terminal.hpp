@@ -13,8 +13,9 @@ namespace Sauce{
             size_t PixelBufferTotalSize,PixelsPerLine,PixelsBufferHeight;
             static GOP_PixelStructure ForegroundColor,BackgroundColor;
             Point64_t TextCursor{0,0,0};
+            Point64_t MyOffset{0,0,0};
             public:
-            Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine);
+            Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Point64_t Offset={0,0,0});
             bool SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor);
             bool SetColor(GOP_PixelStructure ForegroundColor);
             bool RowFill(size_t RowIndex,GOP_PixelStructure TheColor=ForegroundColor);
@@ -24,8 +25,8 @@ namespace Sauce{
             bool ColumnClear(size_t ColumnIndex);
             bool Clear();
             bool SetCursor(int64_t X,int64_t Y,int64_t Z=0);
-            bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,size_t VerticalOffset=0,size_t HorizontalOffset=0);
-            bool CopyFrom(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,size_t VerticalOffset=0,size_t HorizontalOffset=0);
+            bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset={0,0,0});
+            bool CopyFrom(Terminal_cl* OtherTerminal);
         };
         extern Terminal_cl* GlobalTerminal;
     };

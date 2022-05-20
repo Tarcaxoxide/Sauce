@@ -7,12 +7,13 @@ namespace Sauce{
         GOP_PixelStructure Terminal_cl::BackgroundColor{0x10,0x10,0x10,0xFF};
         Terminal_cl* GlobalTerminal;
 
-        Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine){
+        Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Point64_t Offset){
             Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::Terminal_cl]\n\0");
             this->PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];
             this->PixelBufferTotalSize=PixelBufferTotalSize;
             this->PixelsPerLine=PixelsPerLine;
             PixelsBufferHeight=(PixelBufferTotalSize/PixelsPerLine);
+            MyOffset=Offset;
         }
         bool Terminal_cl::SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor){
             Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::SetColor]\n\0");
@@ -69,18 +70,21 @@ namespace Sauce{
             Terminal_cl::TextCursor={X,Y,Z};
             return true;
         }
-        bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,size_t VerticalOffset,size_t HorizontalOffset){
+        bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset){
             Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::CopyTo]\n\0");
-            if(OtherPixelBufferTotalSize < PixelBufferTotalSize)return false;
+            Offset.X+=MyOffset.X;
+            Offset.Y+=MyOffset.Y;
+            Offset.Z+=MyOffset.Z;
+            if(OtherPixelBufferTotalSize < PixelBufferTotalSize+(Offset.X*Offset.Y))return false;
             for(TextCursor.Y=0;TextCursor.Y<PixelsBufferHeight;TextCursor.Y++){
                 for(TextCursor.X=0;TextCursor.X<PixelsPerLine;TextCursor.X++){
-                    OtherPixelBuffer[Sauce::ind(TextCursor.X+HorizontalOffset,TextCursor.Y+VerticalOffset,PixelsPerLine)]=PixelBuffer[Sauce::ind(TextCursor.X,TextCursor.Y,PixelsPerLine)];
+                    OtherPixelBuffer[Sauce::ind(TextCursor.X+Offset.X,TextCursor.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::ind(TextCursor.X,TextCursor.Y,PixelsPerLine)];
                 }
             }
             return true;
         }
-        bool Terminal_cl::CopyFrom(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,size_t VerticalOffset,size_t HorizontalOffset){
-            return false;
+        bool Terminal_cl::CopyFrom(Terminal_cl* OtherTerminal){
+            return OtherTerminal->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,MyOffset);
         }
     };
 };

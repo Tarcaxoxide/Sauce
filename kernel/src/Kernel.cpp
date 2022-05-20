@@ -45,9 +45,13 @@ namespace Sauce{
                 Sauce::IO::GlobalTerminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
             }
             
+
+            Sauce::IO::Terminal_cl TestWindow((10*10),10,{30,40,0});
+            TestWindow.Fill({0x40,0x40,0x40,0xFF});
+
+            Sauce::IO::GlobalTerminal->CopyFrom(&TestWindow);
+
             Sauce::IO::GlobalTerminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-        
-        
         };
     }
     void Kernel_cl::MainLoop(){
