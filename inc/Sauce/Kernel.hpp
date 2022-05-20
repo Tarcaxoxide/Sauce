@@ -3,31 +3,12 @@
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/Common.h>
-#include<Sauce/IO/Terminal.hpp>
-#include<Sauce/Convert/To_String.hpp>
-#include<Sauce/Memory/efiMemory.hpp>
-#include<Sauce/Memory/efiMemory.h>
-#include<Sauce/Memory/Memory.hpp>
-#include<Sauce/Memory/Bitmap.hpp>
-#include<Sauce/Memory/PageFrameAllocator.hpp>
-#include<Sauce/Memory/PageMapIndexer.hpp>
-#include<Sauce/Memory/Paging.hpp>
-#include<Sauce/Memory/PageTableManager.hpp>
-#include<Sauce/GDT/GDT.hpp>
-#include<Sauce/Interrupts/IDT.hpp>
-#include<Sauce/Interrupts/Interrupts.hpp>
-#include<Sauce/IO/Panic.hpp>
-#include<Sauce/IO/IO.hpp>
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Mouse.hpp>
-#include<Sauce/IO/ACPI/ACPI.hpp>
-#include<Sauce/IO/PCI.hpp>
-#include<Sauce/Math.hpp>
-#include<Sauce/Memory/Heap.hpp>
-#include<Sauce/Interrupts/PIT.hpp>
-#include<Sauce/Memory/DynamicArray.hpp>
-#include<Sauce/UserLand/VirtualMachine.hpp>
-#include<Sauce/IO/Debug/Serial.hpp>
+#include<Sauce/Interrupts/IDT.hpp>
+#include<Sauce/GDT/GDT.hpp>
+#include<Sauce/Memory/PageTableManager.hpp>
+#include<Sauce/Interrupts/Interrupts.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
 extern uint64_t _KernelStartRef;

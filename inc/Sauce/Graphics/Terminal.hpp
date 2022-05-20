@@ -2,12 +2,9 @@
 
 #include<Sauce/Common.h>
 #include<Sauce/Math.hpp>
-#include<Sauce/IO/Debug/Serial.hpp>
-#include<Sauce/IO/Debug/Serial.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
 
 namespace Sauce{
-    namespace IO{
+    namespace Graphics{
         class Terminal_cl{
             GOP_PixelStructure* PixelBuffer=nullptr;
             size_t PixelBufferTotalSize,PixelsPerLine,PixelsBufferHeight;
@@ -27,6 +24,7 @@ namespace Sauce{
             bool SetCursor(int64_t X,int64_t Y,int64_t Z=0);
             bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset={0,0,0});
             bool CopyFrom(Terminal_cl* OtherTerminal);
+            uPoint64_t Size();
         };
         extern Terminal_cl* GlobalTerminal;
     };

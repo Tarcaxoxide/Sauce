@@ -1,6 +1,5 @@
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
-#include<Sauce/IO/Terminal.hpp>
 #include<Sauce/Convert/To_String.hpp>
 #include<Sauce/IO/AHCI/AHCI.hpp>
 #include<Sauce/Memory/Heap.hpp>

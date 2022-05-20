@@ -4,7 +4,7 @@
 #include<stdint.h>
 
 #include<Sauce/Memory/DynamicArray.hpp>
-#include<Sauce/IO/Terminal.hpp>
+#include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Convert/To_String.hpp>
 
 namespace Sauce{

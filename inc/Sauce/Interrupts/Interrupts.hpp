@@ -2,7 +2,6 @@
 
 #include<stddef.h>
 #include<stdint.h>
-
 #include<Sauce/Memory/DynamicArray.hpp>
 
 #define PIC1_COMMAND 0X20

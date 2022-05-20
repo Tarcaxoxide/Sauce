@@ -1,4 +1,24 @@
 #include<Sauce/Kernel.hpp>
+#include<Sauce/Graphics/Terminal.hpp>
+#include<Sauce/Convert/To_String.hpp>
+#include<Sauce/Memory/efiMemory.hpp>
+#include<Sauce/Memory/efiMemory.h>
+#include<Sauce/Memory/Memory.hpp>
+#include<Sauce/Memory/Bitmap.hpp>
+#include<Sauce/Memory/PageFrameAllocator.hpp>
+#include<Sauce/Memory/PageMapIndexer.hpp>
+#include<Sauce/Memory/Paging.hpp>
+#include<Sauce/IO/Panic.hpp>
+#include<Sauce/IO/IO.hpp>
+#include<Sauce/IO/ACPI/ACPI.hpp>
+#include<Sauce/IO/PCI.hpp>
+#include<Sauce/Math.hpp>
+#include<Sauce/Memory/Heap.hpp>
+#include<Sauce/Interrupts/PIT.hpp>
+#include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/UserLand/VirtualMachine.hpp>
+#include<Sauce/IO/Debug/Serial.hpp>
+
 
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
@@ -21,12 +41,12 @@ namespace Sauce{
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
-        Sauce::IO::GlobalTerminal=new Sauce::IO::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Graphics::GlobalTerminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
 
 
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
-        Sauce::IO::GlobalTerminal->Clear();
+        Sauce::Graphics::GlobalTerminal->Clear();
         asm volatile("sti");
         
 
@@ -39,19 +59,19 @@ namespace Sauce{
         
         /*testing terminal*/{
             for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
-                Sauce::IO::GlobalTerminal->RowFill(i,{0x40,0x00,0x00,0XFF});
+                Sauce::Graphics::GlobalTerminal->RowFill(i,{0x40,0x00,0x00,0XFF});
             }
             for(size_t i=0;i<DFBL->FrameBuffer->Height-5;i+=5){
-                Sauce::IO::GlobalTerminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
+                Sauce::Graphics::GlobalTerminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
             }
             
 
-            Sauce::IO::Terminal_cl TestWindow((200*200),200,{30,40,0});
+            Sauce::Graphics::Terminal_cl TestWindow((200*200),200,{30,40,0});
             TestWindow.Fill({0x40,0x40,0x40,0xFF});
 
-            Sauce::IO::GlobalTerminal->CopyFrom(&TestWindow);
+            Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
-            Sauce::IO::GlobalTerminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+            Sauce::Graphics::GlobalTerminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         };
     }
     void Kernel_cl::MainLoop(){

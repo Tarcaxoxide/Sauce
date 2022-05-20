@@ -1,5 +1,4 @@
 #include<Sauce/IO/AHCI/AHCI.hpp>
-#include<Sauce/IO/Terminal.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
