@@ -17,10 +17,17 @@ purge:
 	make clean&&\
 	make
 
-github:
+git_push:
 	git add .
 	git commit -am "$(shell date)"
 	git push "https://loganer%40vivaldi.net:$(shell cat ../git_token.txt)@github.com/Tarcaxoxide/Sauce.git"
+
+git_switch:
+	git checkout ${Branch}
+
+git_switch_ToMaster:
+	git checkout UEFI_Master
+
 
 run:
 	cd kernel &&\

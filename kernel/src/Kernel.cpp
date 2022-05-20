@@ -3,7 +3,6 @@
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
-
     Kernel_cl::Kernel_cl(DataStructure* DFBL)
     :kShell(DFBL){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Kernel_cl]\n\0");
@@ -25,10 +24,8 @@ namespace Sauce{
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
-        
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
-        
         Sauce::IO::GlobalTerminal->Clear();
         asm volatile("sti");
         
@@ -37,21 +34,17 @@ namespace Sauce{
         PreLoop();
         MainLoop();
     }
-
     void Kernel_cl::PreLoop(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
         
         /*Testing VirtualMachine*/{
             Sauce::UserLand::VirtualMachine_cl UserLandVirtualMachine;
-
            UserLandVirtualMachine.AddKeyboard('P',0); //<Fake keyboard key press.
            UserLandVirtualMachine.AddKeyboard('e',0); //<Fake keyboard key press.
            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__GET_KEYBOARD,Sauce::UserLand::TpCode::TP__NULL);
            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__GET_KEYBOARD,Sauce::UserLand::TpCode::TP__NULL);
            UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-
-
             UserLandVirtualMachine.Run();
         }
     }
@@ -146,7 +139,6 @@ namespace Sauce{
         if(xMouse->Position->Y < 0)xMouse->Position->Y=0;//< Don't draw the mouse too high up.
         if(xMouse->Position->X > Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX()))xMouse->Position->X=Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX());//< Don't draw the mouse too far to the left.
         if(xMouse->Position->Y > Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY()))xMouse->Position->Y=Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY());//< Don't draw the mouse too far down.
-        
         InputData.Mouse.RightButton=xMouse->RightButton;
         InputData.Mouse.LeftButton=xMouse->LeftButton;
         InputData.Mouse.CenterButton=xMouse->CenterButton;
@@ -157,8 +149,6 @@ namespace Sauce{
         InputData.NewMouse=false;
 
     }
-
-
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
