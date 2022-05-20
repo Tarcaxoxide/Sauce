@@ -1,6 +1,7 @@
 #include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Convert/To_String.hpp>
 #include<Sauce/Memory/Memory.hpp>
+#include<Sauce/IO/Debug/Console.hpp>
 namespace Sauce{
     namespace Graphics{
         GOP_PixelStructure Terminal_cl::ForegroundColor{0xFF,0x00,0x00,0xFF};
@@ -25,24 +26,24 @@ namespace Sauce{
         }
         bool Terminal_cl::RowFill(size_t RowIndex,GOP_PixelStructure TheColor){
             if(RowIndex > PixelsPerLine)return false;
-            TextCursor.X=RowIndex;
-            for(TextCursor.Y=0;TextCursor.Y<PixelsBufferHeight;TextCursor.Y++){
-                PixelBuffer[Sauce::ind(TextCursor.X,TextCursor.Y,PixelsPerLine)]=TheColor;
+            PixelPointer.X=RowIndex;
+            for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
+                PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
             return true;
         }
         bool Terminal_cl::ColumnFill(size_t ColumnIndex,GOP_PixelStructure TheColor){
             if(ColumnIndex > PixelsPerLine)return false;
-            TextCursor.Y=ColumnIndex;
-            for(TextCursor.X=0;TextCursor.X<PixelsPerLine;TextCursor.X++){
-                PixelBuffer[Sauce::ind(TextCursor.X,TextCursor.Y,PixelsPerLine)]=TheColor;
+            PixelPointer.Y=ColumnIndex;
+            for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
+                PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
             return true;
         }
         bool Terminal_cl::Fill(GOP_PixelStructure TheColor){
-            for(TextCursor.Y=0;TextCursor.Y<PixelsBufferHeight;TextCursor.Y++){
-                for(TextCursor.X=0;TextCursor.X<PixelsPerLine;TextCursor.X++){
-                    PixelBuffer[Sauce::ind(TextCursor.X,TextCursor.Y,PixelsPerLine)]=TheColor;
+            for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
+                for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
+                    PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
                 }
             }
             return true;
@@ -57,7 +58,26 @@ namespace Sauce{
             return Fill(BackgroundColor);
         }
         bool Terminal_cl::SetCursor(int64_t X,int64_t Y,int64_t Z){
-            Terminal_cl::TextCursor={X,Y,Z};
+            PixelPointer={X,Y,Z};
+            return true;
+        }
+        bool Terminal_cl::PlacePixel(int64_t X,int64_t Y,GOP_PixelStructure TheColor){
+            Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
+            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(X));
+            Sauce::IO::Debug::COM1_Console.Write((char*)"x\0");
+            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(Y));
+            Sauce::IO::Debug::COM1_Console.Write((char*)"=\0");
+            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(TheColor.Red));
+            Sauce::IO::Debug::COM1_Console.Write((char*)":\0");
+            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(TheColor.Green));
+            Sauce::IO::Debug::COM1_Console.Write((char*)":\0");
+            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(TheColor.Blue));
+            Sauce::IO::Debug::COM1_Console.Write((char*)":\0");
+            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(TheColor.Alpha));
+            Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+
+            if((X*Y) > PixelBufferTotalSize)
+            PixelBuffer[Sauce::ind(X,Y,PixelsPerLine)]=ForegroundColor;
             return true;
         }
         bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset){
@@ -65,9 +85,9 @@ namespace Sauce{
             Offset.Y+=MyOffset.Y;
             Offset.Z+=MyOffset.Z;
             if(OtherPixelBufferTotalSize < PixelBufferTotalSize+(Offset.X*Offset.Y))return false;
-            for(TextCursor.Y=0;TextCursor.Y<PixelsBufferHeight;TextCursor.Y++){
-                for(TextCursor.X=0;TextCursor.X<PixelsPerLine;TextCursor.X++){
-                    OtherPixelBuffer[Sauce::ind(TextCursor.X+Offset.X,TextCursor.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::ind(TextCursor.X,TextCursor.Y,PixelsPerLine)];
+            for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
+                for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
+                    OtherPixelBuffer[Sauce::ind(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
                 }
             }
             return true;
@@ -77,6 +97,10 @@ namespace Sauce{
         }
         uPoint64_t Terminal_cl::Size(){
             return {PixelsPerLine,PixelsBufferHeight,0};
+        }
+        bool Terminal_cl::Move(Point64_t Offset){
+            MyOffset=Offset;
+            return true;
         }
     };
 };

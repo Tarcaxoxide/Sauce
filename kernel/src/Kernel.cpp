@@ -17,7 +17,6 @@
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/UserLand/VirtualMachine.hpp>
 #include<Sauce/IO/Debug/Serial.hpp>
-
 #include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Graphics/Shell.hpp>
 
@@ -66,12 +65,12 @@ namespace Sauce{
             for(size_t i=0;i<DFBL->FrameBuffer->Height-5;i+=5){
                 Sauce::Graphics::GlobalTerminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
             }
-            
 
-            //Sauce::Graphics::Terminal_cl TestWindow((200*200),200,{30,40,0});
-            //TestWindow.Fill({0x40,0x40,0x40,0xFF});
+            Sauce::Graphics::Shell_cl TestWindow(800,600);
 
-            Sauce::Graphics::Shell_cl TestWindow(200,200);
+            TestWindow.Move({10,10,0});
+
+            TestWindow.PutChar('O');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
