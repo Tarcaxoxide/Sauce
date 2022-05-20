@@ -25,6 +25,7 @@ namespace Sauce{
             bool Clear();
             bool SetCursor(int64_t X,int64_t Y,int64_t Z=0);
             bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,size_t VerticalOffset=0,size_t HorizontalOffset=0);
+            bool CopyFrom(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,size_t VerticalOffset=0,size_t HorizontalOffset=0);
         };
         extern Terminal_cl* GlobalTerminal;
     };

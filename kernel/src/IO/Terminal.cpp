@@ -27,7 +27,7 @@ namespace Sauce{
         }
         bool Terminal_cl::RowFill(size_t RowIndex,GOP_PixelStructure TheColor){
             Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::RowFill]\n\0");
-            if(RowIndex > PixelsBufferHeight)return false;
+            if(RowIndex > PixelsPerLine)return false;
             TextCursor.X=RowIndex;
             for(TextCursor.Y=0;TextCursor.Y<PixelsBufferHeight;TextCursor.Y++){
                 PixelBuffer[Sauce::ind(TextCursor.X,TextCursor.Y,PixelsPerLine)]=TheColor;
@@ -78,6 +78,9 @@ namespace Sauce{
                 }
             }
             return true;
+        }
+        bool Terminal_cl::CopyFrom(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,size_t VerticalOffset,size_t HorizontalOffset){
+            return false;
         }
     };
 };

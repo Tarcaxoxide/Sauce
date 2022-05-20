@@ -38,10 +38,13 @@ namespace Sauce{
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
         
         /*testing terminal*/{
-            Sauce::IO::GlobalTerminal->RowFill(5);
-            Sauce::IO::GlobalTerminal->RowFill(10);
-            Sauce::IO::GlobalTerminal->RowFill(15);
-            Sauce::IO::GlobalTerminal->RowFill(20);
+            for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
+                Sauce::IO::GlobalTerminal->RowFill(i,{0x40,0x00,0x00,0XFF});
+            }
+            for(size_t i=0;i<DFBL->FrameBuffer->Height-5;i+=5){
+                Sauce::IO::GlobalTerminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
+            }
+            
             Sauce::IO::GlobalTerminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         
         
