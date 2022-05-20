@@ -1,5 +1,4 @@
 #include<Sauce/Kernel.hpp>
-#include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Convert/To_String.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Memory/efiMemory.h>
@@ -18,6 +17,9 @@
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/UserLand/VirtualMachine.hpp>
 #include<Sauce/IO/Debug/Serial.hpp>
+
+#include<Sauce/Graphics/Terminal.hpp>
+#include<Sauce/Graphics/Shell.hpp>
 
 
 namespace Sauce{
@@ -66,8 +68,10 @@ namespace Sauce{
             }
             
 
-            Sauce::Graphics::Terminal_cl TestWindow((200*200),200,{30,40,0});
-            TestWindow.Fill({0x40,0x40,0x40,0xFF});
+            //Sauce::Graphics::Terminal_cl TestWindow((200*200),200,{30,40,0});
+            //TestWindow.Fill({0x40,0x40,0x40,0xFF});
+
+            Sauce::Graphics::Shell_cl TestWindow(200,200);
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
