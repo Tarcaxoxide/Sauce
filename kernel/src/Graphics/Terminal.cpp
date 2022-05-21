@@ -61,25 +61,6 @@ namespace Sauce{
             PixelPointer={X,Y,Z};
             return true;
         }
-        bool Terminal_cl::PlacePixel(int64_t X,int64_t Y,GOP_PixelStructure TheColor){
-            Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
-            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(X));
-            Sauce::IO::Debug::COM1_Console.Write((char*)"x\0");
-            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(Y));
-            Sauce::IO::Debug::COM1_Console.Write((char*)"=\0");
-            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(TheColor.Red));
-            Sauce::IO::Debug::COM1_Console.Write((char*)":\0");
-            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(TheColor.Green));
-            Sauce::IO::Debug::COM1_Console.Write((char*)":\0");
-            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(TheColor.Blue));
-            Sauce::IO::Debug::COM1_Console.Write((char*)":\0");
-            Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(TheColor.Alpha));
-            Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
-
-            if((X*Y) > PixelBufferTotalSize)
-            PixelBuffer[Sauce::ind(X,Y,PixelsPerLine)]=TheColor;
-            return true;
-        }
         bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset){
             Offset.X+=MyOffset.X;
             Offset.Y+=MyOffset.Y;

@@ -23,7 +23,6 @@ namespace Sauce{
                 bool ColumnClear(size_t ColumnIndex);
                 bool Clear();
                 bool SetCursor(int64_t X,int64_t Y,int64_t Z=0);
-                bool PlacePixel(int64_t X,int64_t Y,GOP_PixelStructure TheColor=ForegroundColor);
                 bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset={0,0,0});
                 bool CopyFrom(Terminal_cl* OtherTerminal);
                 uPoint64_t Size();

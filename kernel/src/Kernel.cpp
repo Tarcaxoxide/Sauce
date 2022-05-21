@@ -19,6 +19,7 @@
 #include<Sauce/IO/Debug/Serial.hpp>
 #include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Graphics/Shell.hpp>
+#include<Sauce/Graphics/Font.hpp>
 
 
 namespace Sauce{
@@ -48,6 +49,7 @@ namespace Sauce{
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Sauce::Graphics::GlobalTerminal->Clear();
+
         asm volatile("sti");
         
 
@@ -70,7 +72,7 @@ namespace Sauce{
 
             TestWindow.Move({10,10,0});
 
-            TestWindow.PutChar('O');
+            TestWindow.PutChar('1');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 

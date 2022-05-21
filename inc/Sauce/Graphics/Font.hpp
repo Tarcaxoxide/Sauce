@@ -1,9 +1,23 @@
 #pragma once
 #include<Sauce/Math.hpp>
+#include<Sauce/Memory/DynamicArray.hpp>
 
 namespace Sauce{
     namespace Graphics{
-        typedef bool SauceFont_Character[16*16];
-        extern SauceFont_Character SauceFont[256];
+        namespace SauceFont{
+            const static size_t GlyphSize=7*7;
+            extern uint8_t Glyphs[][GlyphSize];
+        };
     };
 };
+
+/*
+    . . . . . . .
+    . . * * * . .
+    . . * . * . .
+    . . * * * . .
+    . . * . * . .
+    . . * * * . .
+    . . . . . . .
+
+*/
