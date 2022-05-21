@@ -73,10 +73,26 @@ namespace Sauce{
             TestWindow.Move({10,10,0});
 
             TestWindow.PutChar('\"');
+            TestWindow.PutChar('\'');
             TestWindow.PutChar(' ');
             TestWindow.PutChar('!');
             TestWindow.PutChar('#');
             TestWindow.PutChar('$');
+            TestWindow.PutChar('%');
+            TestWindow.PutChar('&');
+            TestWindow.PutChar('(');
+            TestWindow.PutChar(')');
+            TestWindow.PutChar('*');
+            TestWindow.PutChar('+');
+            TestWindow.PutChar(',');
+            TestWindow.PutChar('-');
+            TestWindow.PutChar('.');
+            TestWindow.PutChar('/');
+            TestWindow.PutChar('0');
+            TestWindow.PutChar('1');
+            TestWindow.PutChar('2');
+            TestWindow.PutChar('3');
+            TestWindow.PutChar('4');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
