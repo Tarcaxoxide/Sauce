@@ -73,6 +73,8 @@ namespace Sauce{
             TestWindow.Move({10,10,0});
 
             TestWindow.PutChar('1');
+            TestWindow.PutChar(' ');
+            TestWindow.PutChar('!');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
