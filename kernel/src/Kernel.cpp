@@ -134,6 +134,7 @@ namespace Sauce{
             TestWindow.PutChar('\\');
             TestWindow.PutChar(']');
             TestWindow.PutChar('^');
+            TestWindow.PutChar('_');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
