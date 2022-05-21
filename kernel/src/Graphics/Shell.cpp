@@ -15,10 +15,10 @@ namespace Sauce{
                     ThisColor.Red=ForegroundColor.Red/9;
                     ThisColor.Green=ForegroundColor.Green/9;
                     ThisColor.Blue=ForegroundColor.Blue/9;
-                    ThisColor.Red*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X+Cursor.X,Y+Cursor.Y,Sauce::Graphics::SauceFont::GlyphWidth)];
-                    ThisColor.Green*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X+Cursor.X,Y+Cursor.Y,Sauce::Graphics::SauceFont::GlyphWidth)];
-                    ThisColor.Blue*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X+Cursor.X,Y+Cursor.Y,Sauce::Graphics::SauceFont::GlyphWidth)];
-                    ThisColor.Alpha=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X+Cursor.X,Y+Cursor.Y,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Red*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X,Y,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Green*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X,Y,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Blue*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X,Y,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Alpha=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X,Y,Sauce::Graphics::SauceFont::GlyphWidth)];
 
                     if(ThisColor.Red == 0x00 && ThisColor.Blue == 0x00 && ThisColor.Green == 0x00 && ThisColor.Alpha == 0x00){
                         PixelBuffer[Sauce::ind(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=BackgroundColor;
