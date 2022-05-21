@@ -68,9 +68,9 @@ namespace Sauce{
                 Sauce::Graphics::GlobalTerminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
             }
 
-            Sauce::Graphics::Shell_cl TestWindow(1024,640);
+            Sauce::Graphics::Shell_cl TestWindow(1800,900);
 
-            TestWindow.Move({20,20,0});
+            TestWindow.Move({60,40,0});
 
             TestWindow.PutChar('\"');
             TestWindow.PutChar('\'');
@@ -135,6 +135,15 @@ namespace Sauce{
             TestWindow.PutChar(']');
             TestWindow.PutChar('^');
             TestWindow.PutChar('_');
+            TestWindow.PutChar('`');
+            TestWindow.PutChar('a');
+            TestWindow.PutChar('b');
+            TestWindow.PutChar('c');
+            TestWindow.PutChar('d');
+            TestWindow.PutChar('e');
+            TestWindow.PutChar('f');
+            TestWindow.PutChar('g');
+            TestWindow.PutChar('h');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
