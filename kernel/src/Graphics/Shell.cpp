@@ -8,17 +8,17 @@ namespace Sauce{
             Clear();
         }
         void Shell_cl::PutChar(unsigned char chr){
-            for(size_t X=0;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
-                for(size_t Y=0;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
+            for(size_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
+                for(size_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
                     GOP_PixelStructure ThisColor{0,0,0,0xFF};
                     
                     ThisColor.Red=ForegroundColor.Red/9;
                     ThisColor.Green=ForegroundColor.Green/9;
                     ThisColor.Blue=ForegroundColor.Blue/9;
-                    ThisColor.Red*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X,Y,Sauce::Graphics::SauceFont::GlyphWidth)];
-                    ThisColor.Green*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X,Y,Sauce::Graphics::SauceFont::GlyphWidth)];
-                    ThisColor.Blue*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X,Y,Sauce::Graphics::SauceFont::GlyphWidth)];
-                    ThisColor.Alpha=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X,Y,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Red*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Green*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Blue*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Alpha=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
 
                     if(ThisColor.Red == 0x00 && ThisColor.Blue == 0x00 && ThisColor.Green == 0x00 && ThisColor.Alpha == 0x00){
                         PixelBuffer[Sauce::ind(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=BackgroundColor;
@@ -27,7 +27,7 @@ namespace Sauce{
                     }
                 }
             }
-            Cursor.X+=Sauce::Graphics::SauceFont::GlyphWidth;
+            Cursor.X+=Sauce::Graphics::SauceFont::GlyphWidth-2;
         }
         
     };

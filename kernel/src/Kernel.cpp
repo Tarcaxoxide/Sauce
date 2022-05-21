@@ -120,6 +120,20 @@ namespace Sauce{
             TestWindow.PutChar('M');
             TestWindow.PutChar('N');
             TestWindow.PutChar('O');
+            TestWindow.PutChar('P');
+            TestWindow.PutChar('Q');
+            TestWindow.PutChar('R');
+            TestWindow.PutChar('T');
+            TestWindow.PutChar('U');
+            TestWindow.PutChar('V');
+            TestWindow.PutChar('W');
+            TestWindow.PutChar('X');
+            TestWindow.PutChar('Y');
+            TestWindow.PutChar('Z');
+            TestWindow.PutChar('[');
+            TestWindow.PutChar('\\');
+            TestWindow.PutChar(']');
+            TestWindow.PutChar('^');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
