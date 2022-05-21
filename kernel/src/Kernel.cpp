@@ -146,6 +146,7 @@ namespace Sauce{
             TestWindow.PutChar('h');
             TestWindow.PutChar('i');
             TestWindow.PutChar('j');
+            TestWindow.PutChar('k');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
