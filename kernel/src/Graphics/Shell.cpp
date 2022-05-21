@@ -7,7 +7,6 @@ namespace Sauce{
         :Terminal_cl((X*Y),X){
             Clear();
         }
-
         void Shell_cl::PutChar(unsigned char chr){
             for(size_t X=0;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
                 for(size_t Y=0;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
@@ -19,8 +18,13 @@ namespace Sauce{
                     ThisColor.Red*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X+Cursor.X,Y+Cursor.Y,Sauce::Graphics::SauceFont::GlyphWidth)];
                     ThisColor.Green*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X+Cursor.X,Y+Cursor.Y,Sauce::Graphics::SauceFont::GlyphWidth)];
                     ThisColor.Blue*=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X+Cursor.X,Y+Cursor.Y,Sauce::Graphics::SauceFont::GlyphWidth)];
+                    ThisColor.Alpha=Sauce::Graphics::SauceFont::Glyphs[chr][Sauce::ind(X+Cursor.X,Y+Cursor.Y,Sauce::Graphics::SauceFont::GlyphWidth)];
 
-                    PixelBuffer[Sauce::ind(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=ThisColor;
+                    if(ThisColor.Red == 0x00 && ThisColor.Blue == 0x00 && ThisColor.Green == 0x00 && ThisColor.Alpha == 0x00){
+                        PixelBuffer[Sauce::ind(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=BackgroundColor;
+                    }else{
+                        PixelBuffer[Sauce::ind(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=ThisColor;
+                    }
                 }
             }
             Cursor.X+=Sauce::Graphics::SauceFont::GlyphWidth;
