@@ -68,9 +68,9 @@ namespace Sauce{
                 Sauce::Graphics::GlobalTerminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
             }
 
-            Sauce::Graphics::Shell_cl TestWindow(800,600);
+            Sauce::Graphics::Shell_cl TestWindow(1024,640);
 
-            TestWindow.Move({10,10,0});
+            TestWindow.Move({20,20,0});
 
             TestWindow.PutChar('\"');
             TestWindow.PutChar('\'');
