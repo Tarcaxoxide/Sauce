@@ -76,6 +76,7 @@ namespace Sauce{
             TestWindow.PutChar(' ');
             TestWindow.PutChar('!');
             TestWindow.PutChar('#');
+            TestWindow.PutChar('$');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
