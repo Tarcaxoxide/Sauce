@@ -94,6 +94,21 @@ namespace Sauce{
             TestWindow.PutChar('3');
             TestWindow.PutChar('4');
             TestWindow.PutChar('5');
+            TestWindow.PutChar('6');
+            TestWindow.PutChar('7');
+            TestWindow.PutChar('8');
+            TestWindow.PutChar('9');
+            TestWindow.PutChar(':');
+            TestWindow.PutChar(';');
+            TestWindow.PutChar('<');
+            TestWindow.PutChar('=');
+            TestWindow.PutChar('>');
+            TestWindow.PutChar('?');
+            TestWindow.PutChar('@');
+            TestWindow.PutChar('A');
+            TestWindow.PutChar('B');
+            TestWindow.PutChar('C');
+            TestWindow.PutChar('D');
 
             Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
 
