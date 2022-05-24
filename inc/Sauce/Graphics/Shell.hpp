@@ -11,8 +11,8 @@ namespace Sauce{
         class Shell_cl : public Terminal_cl {
             Point64_t Cursor{0,0,0};
             public:
-                Shell_cl(size_t X,size_t Y);
-                void PutChar(unsigned char chr);
+                Shell_cl(Point64_t Size,Point64_t Offset={0,0,0});
+                void PutChar(wchar_t chr);
         };
     };
 };
