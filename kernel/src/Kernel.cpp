@@ -1,16 +1,36 @@
 #include<Sauce/Kernel.hpp>
+#include<Sauce/Convert/To_String.hpp>
+#include<Sauce/Memory/efiMemory.hpp>
+#include<Sauce/Memory/efiMemory.h>
+#include<Sauce/Memory/Memory.hpp>
+#include<Sauce/Memory/Bitmap.hpp>
+#include<Sauce/Memory/PageFrameAllocator.hpp>
+#include<Sauce/Memory/PageMapIndexer.hpp>
+#include<Sauce/Memory/Paging.hpp>
+#include<Sauce/IO/Panic.hpp>
+#include<Sauce/IO/IO.hpp>
+#include<Sauce/IO/ACPI/ACPI.hpp>
+#include<Sauce/IO/PCI.hpp>
+#include<Sauce/Math.hpp>
+#include<Sauce/Memory/Heap.hpp>
+#include<Sauce/Interrupts/PIT.hpp>
+#include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/UserLand/VirtualMachine.hpp>
+#include<Sauce/IO/Debug/Serial.hpp>
+#include<Sauce/Graphics/Terminal.hpp>
+#include<Sauce/Graphics/Shell.hpp>
+#include<Sauce/Graphics/Font.hpp>
+#include<Sauce/Global/Global.hpp>
+
 
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
-    Kernel_cl::Kernel_cl(DataStructure* DFBL)
-    :kShell(DFBL){
+    Kernel_cl::Kernel_cl(DataStructure* DFBL){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Kernel_cl]\n\0");
         this->DFBL=DFBL;
         if(Self == NULL)Self=this;
         asm volatile("cli");
-        
-        //InterruptBuffer.AddLast({Sauce::Interrupts::InterruptType::InterruptType__NULL,0x11});
 
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
@@ -24,9 +44,13 @@ namespace Sauce{
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
+        Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({1800,900,0},{60,40,0});
+
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
-        Sauce::IO::GlobalTerminal->Clear();
+        Sauce::Global::Terminal->Clear();
+
         asm volatile("sti");
         
 
@@ -37,33 +61,35 @@ namespace Sauce{
     void Kernel_cl::PreLoop(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
         
-        /*Testing VirtualMachine*/{
-            Sauce::UserLand::VirtualMachine_cl UserLandVirtualMachine;
-           UserLandVirtualMachine.AddKeyboard('P',0); //<Fake keyboard key press.
-           UserLandVirtualMachine.AddKeyboard('e',0); //<Fake keyboard key press.
-           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__GET_KEYBOARD,Sauce::UserLand::TpCode::TP__NULL);
-           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__GET_KEYBOARD,Sauce::UserLand::TpCode::TP__NULL);
-           UserLandVirtualMachine.AddInstruction(Sauce::UserLand::SzCode::V08_E08,Sauce::UserLand::OpCode::OP__PRINT,Sauce::UserLand::TpCode::TP__NULL);
-            UserLandVirtualMachine.Run();
-        }
+        /*testing terminal*/{
+            for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
+                Sauce::Global::Terminal->RowFill(i,{0x40,0x00,0x00,0XFF});
+            }
+            for(size_t i=0;i<DFBL->FrameBuffer->Height-5;i+=5){
+                Sauce::Global::Terminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
+            }
+
+            Sauce::Global::Shell->PutChar('T');
+
+            Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+            Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        };
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         do{
-            asm volatile("cli");
-            asm volatile("sti");
+            
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_GlobalAllocator]\n\0");
-        Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
+        Sauce::Global::Allocator = Sauce::Memory::PageFrameAllocator();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
-        Sauce::Memory::GlobalAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
+        Sauce::Global::Allocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
         kernelSize = ((uint64_t)&_KernelEndRef)-((uint64_t)&_KernelStartRef);
         kernelPages = (uint64_t)kernelSize/4096 +1;
-        Sauce::Memory::GlobalAllocator.LockPages(&_KernelStartRef,kernelPages);
-        PML4 = (Sauce::Memory::PageTable*)Sauce::Memory::GlobalAllocator.RequestPage();
+        Sauce::Global::Allocator.LockPages(&_KernelStartRef,kernelPages);
+        PML4 = (Sauce::Memory::PageTable*)Sauce::Global::Allocator.RequestPage();
         Sauce::Memory::memset(PML4,0,0x1000);
         Sauce::Memory::GlobalPageTableManager = Sauce::Memory::PageTableManager(PML4);
     }
@@ -74,7 +100,7 @@ namespace Sauce{
         }
         DFBL->fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
         DFBL->fbSize = (uint64_t)DFBL->FrameBuffer->BufferSize + 0x1000;
-        Sauce::Memory::GlobalAllocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
+        Sauce::Global::Allocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
         for(uint64_t t=DFBL->fbBase;t<DFBL->fbBase+DFBL->fbSize;t+=0x1000){
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
@@ -96,7 +122,7 @@ namespace Sauce{
     void Kernel_cl::Prep_Interrupts(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_Interrupts]\n\0");
         idtr.Limit = 0x0FFF;
-        idtr.Offset= (uint64_t)Sauce::Memory::GlobalAllocator.RequestPage();
+        idtr.Offset= (uint64_t)Sauce::Global::Allocator.RequestPage();
 
         Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
         Sauce::IO::Debug::COM1_Console.Write((char*)"->(PageFault_handler)\n\0");
@@ -116,7 +142,7 @@ namespace Sauce{
     void Kernel_cl::Prep_IO(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_IO]\n\0");
         Sauce::Interrupts::RemapPic();
-        Sauce::IO::PS2MouseInitialize({Sauce::IO::GlobalTerminal->CharX()*5,Sauce::IO::GlobalTerminal->CharY()*5,0});
+        /*Not Handled By Terminal Anymore, Please Implement in Shell*///Sauce::IO::PS2MouseInitialize({Sauce::IO::GlobalTerminal->CharX()*5,Sauce::IO::GlobalTerminal->CharY()*5,0});
     }
     void Kernel_cl::Prep_ACPI(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_ACPI]\n\0");
@@ -125,27 +151,32 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
+
+        if(xKeyboard.visible && xKeyboard.Press){
+            Sauce::Global::Shell->PutChar(xKeyboard.Display);
+            Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        }
+
         InputData.Keyboard.Capital=xKeyboard.Capital;
         InputData.Keyboard.Press=xKeyboard.Press;
         InputData.Keyboard.visible=xKeyboard.visible;
         InputData.Keyboard.Key=xKeyboard.Key;
         InputData.Keyboard.Display=xKeyboard.Display;
         InputData.NewKeyboard=true;
-        kShell.Input(InputData);
         InputData.NewKeyboard=false;
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
         if(xMouse->Position->X < 0)xMouse->Position->X=0;//< Don't draw the mouse too far to the right.
         if(xMouse->Position->Y < 0)xMouse->Position->Y=0;//< Don't draw the mouse too high up.
-        if(xMouse->Position->X > Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX()))xMouse->Position->X=Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX());//< Don't draw the mouse too far to the left.
-        if(xMouse->Position->Y > Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY()))xMouse->Position->Y=Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY());//< Don't draw the mouse too far down.
+        /*Not Handled By Terminal Anymore, Please Implement in Shell*///if(xMouse->Position->X > Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX()))xMouse->Position->X=Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX());//< Don't draw the mouse too far to the left.
+        /*Not Handled By Terminal Anymore, Please Implement in Shell*///if(xMouse->Position->Y > Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY()))xMouse->Position->Y=Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY());//< Don't draw the mouse too far down.
         InputData.Mouse.RightButton=xMouse->RightButton;
         InputData.Mouse.LeftButton=xMouse->LeftButton;
         InputData.Mouse.CenterButton=xMouse->CenterButton;
         InputData.Mouse.Position=*xMouse->Position;
         InputData.Mouse.Good=xMouse->Good;
         InputData.NewMouse=true;
-        kShell.Input(InputData);
+        /*Broke it XD please re-implement*///kShell.Input(InputData);
         InputData.NewMouse=false;
 
     }

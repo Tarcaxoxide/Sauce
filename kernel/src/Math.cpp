@@ -63,4 +63,7 @@ namespace Sauce{
         Result=(*this);
         return Result;
     }
+    size_t ind(size_t X,size_t Y,size_t MaxX){
+        return (X + (Y * MaxX));
+    }
 };

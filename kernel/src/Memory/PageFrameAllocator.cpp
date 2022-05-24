@@ -2,7 +2,6 @@
 
 namespace Sauce{
     namespace Memory{
-        PageFrameAllocator GlobalAllocator;
         uint64_t pageBitmapIndex=0;
         uint64_t freeMemory;
         uint64_t reservedMemory;

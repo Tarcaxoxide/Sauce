@@ -1,7 +1,7 @@
 #include<Sauce/IO/AHCI/AHCI.hpp>
-#include<Sauce/IO/Terminal.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
+#include<Sauce/Global/Global.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -25,14 +25,14 @@ namespace Sauce{
                 Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::Configure]\n\0");
                 StopCMD();
 
-                buffer = (uint8_t*)Sauce::Memory::GlobalAllocator.RequestPage();
+                buffer = (uint8_t*)Sauce::Global::Allocator.RequestPage();
                 Sauce::Memory::memset(buffer,0,0x1000);
 
-                void* newBase = Sauce::Memory::GlobalAllocator.RequestPage();
+                void* newBase = Sauce::Global::Allocator.RequestPage();
                 hbaPort->commandListBase = (uint32_t)(uint64_t)newBase;
                 hbaPort->commandListBaseUpper = (uint32_t)((uint64_t)newBase >> 32);
                 Sauce::Memory::memset((void*)(uint64_t)(hbaPort->commandListBase),0,1024);
-                void* fisBase = Sauce::Memory::GlobalAllocator.RequestPage();
+                void* fisBase = Sauce::Global::Allocator.RequestPage();
                 hbaPort->fisBaseAddress = (uint32_t)(uint64_t)fisBase;
                 hbaPort->fisBaseAddressUpper = (uint32_t)((uint64_t)fisBase >> 32);
                 Sauce::Memory::memset(fisBase,0,256);
@@ -41,7 +41,7 @@ namespace Sauce{
 
                 for(int i=0;i<32;i++){
                     cmdheader[i].prdtLength = 8;
-                    void* cmdTableAddress = Sauce::Memory::GlobalAllocator.RequestPage();
+                    void* cmdTableAddress = Sauce::Global::Allocator.RequestPage();
                     uint64_t address = (uint64_t)cmdTableAddress + (i << 8);
                     cmdheader[i].commandTableBaseAddress = (uint32_t)address;
                     cmdheader[i].commandTableBaseAddressUpper = (uint32_t)(address >> 32);

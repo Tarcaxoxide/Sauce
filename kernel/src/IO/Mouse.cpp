@@ -1,7 +1,6 @@
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/Kernel.hpp>
 #include<Sauce/IO/IO.hpp>
-#include<Sauce/IO/Terminal.hpp>
 
 namespace Sauce{
     namespace IO{

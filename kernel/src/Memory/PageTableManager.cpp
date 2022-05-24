@@ -1,4 +1,5 @@
 #include<Sauce/Memory/PageTableManager.hpp>
+#include<Sauce/Global/Global.hpp>
 
 namespace Sauce{
     namespace Memory{
@@ -13,7 +14,7 @@ namespace Sauce{
             PDE = PML4Address->entries[indexer.PDP_i];
             PageTable* PDP;
             if(!PDE.GetFlag(PT_Flag::Present)){
-                PDP = (PageTable*)GlobalAllocator.RequestPage();
+                PDP = (PageTable*)Sauce::Global::Allocator.RequestPage();
                 memset(PDP,0,0x1000);
                 PDE.SetAddress((uint64_t)PDP >> 12);
                 PDE.SetFlag(PT_Flag::Present,true);
@@ -25,7 +26,7 @@ namespace Sauce{
             PDE = PDP->entries[indexer.PD_i];
             PageTable* PD;
             if(!PDE.GetFlag(PT_Flag::Present)){
-                PD = (PageTable*)GlobalAllocator.RequestPage();
+                PD = (PageTable*)Sauce::Global::Allocator.RequestPage();
                 memset(PD,0,0x1000);
                 PDE.SetAddress((uint64_t)PD >> 12);
                 PDE.SetFlag(PT_Flag::Present,true);
@@ -37,7 +38,7 @@ namespace Sauce{
             PDE = PD->entries[indexer.PT_i];
             PageTable* PT;
             if(!PDE.GetFlag(PT_Flag::Present)){
-                PT = (PageTable*)GlobalAllocator.RequestPage();
+                PT = (PageTable*)Sauce::Global::Allocator.RequestPage();
                 memset(PT,0,0x1000);
                 PDE.SetAddress((uint64_t)PT >> 12);
                 PDE.SetFlag(PT_Flag::Present,true);
