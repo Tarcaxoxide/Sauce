@@ -6,7 +6,7 @@ namespace Sauce{
     namespace Graphics{
         GOP_PixelStructure Terminal_cl::ForegroundColor{0xFF,0x00,0x00,0xFF};
         GOP_PixelStructure Terminal_cl::BackgroundColor{0x10,0x10,0x10,0xFF};
-        Terminal_cl* GlobalTerminal;
+        
 
         Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Point64_t Offset){
             this->PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];

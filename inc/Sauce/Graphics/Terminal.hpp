@@ -28,7 +28,6 @@ namespace Sauce{
                 uPoint64_t Size();
                 bool Move(Point64_t Offset);
         };
-        extern Terminal_cl* GlobalTerminal;
     };
 };
 

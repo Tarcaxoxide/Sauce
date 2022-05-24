@@ -20,6 +20,7 @@
 #include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
+#include<Sauce/Global/Global.hpp>
 
 
 namespace Sauce{
@@ -43,12 +44,12 @@ namespace Sauce{
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
         
-        Sauce::Graphics::GlobalTerminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-
+        Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({1800,900,0},{60,40,0});
 
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
-        Sauce::Graphics::GlobalTerminal->Clear();
+        Sauce::Global::Terminal->Clear();
 
         asm volatile("sti");
         
@@ -62,113 +63,19 @@ namespace Sauce{
         
         /*testing terminal*/{
             for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
-                Sauce::Graphics::GlobalTerminal->RowFill(i,{0x40,0x00,0x00,0XFF});
+                Sauce::Global::Terminal->RowFill(i,{0x40,0x00,0x00,0XFF});
             }
             for(size_t i=0;i<DFBL->FrameBuffer->Height-5;i+=5){
-                Sauce::Graphics::GlobalTerminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
+                Sauce::Global::Terminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
             }
 
-            Sauce::Graphics::Shell_cl TestWindow({1800,900,0},{60,40,0});
+            Sauce::Global::Shell->PutChar('T');
 
-            TestWindow.PutChar(L'\"');
-            TestWindow.PutChar(L'\'');
-            TestWindow.PutChar(L' ');
-            TestWindow.PutChar(L'!');
-            TestWindow.PutChar(L'#');
-            TestWindow.PutChar(L'$');
-            TestWindow.PutChar(L'%');
-            TestWindow.PutChar(L'&');
-            TestWindow.PutChar(L'(');
-            TestWindow.PutChar(L')');
-            TestWindow.PutChar(L'*');
-            TestWindow.PutChar(L'+');
-            TestWindow.PutChar(L',');
-            TestWindow.PutChar(L'-');
-            TestWindow.PutChar(L'.');
-            TestWindow.PutChar(L'/');
-            TestWindow.PutChar(L'0');
-            TestWindow.PutChar(L'1');
-            TestWindow.PutChar(L'2');
-            TestWindow.PutChar(L'3');
-            TestWindow.PutChar(L'4');
-            TestWindow.PutChar(L'5');
-            TestWindow.PutChar(L'6');
-            TestWindow.PutChar(L'7');
-            TestWindow.PutChar(L'8');
-            TestWindow.PutChar(L'9');
-            TestWindow.PutChar(L':');
-            TestWindow.PutChar(L';');
-            TestWindow.PutChar(L'<');
-            TestWindow.PutChar(L'=');
-            TestWindow.PutChar(L'>');
-            TestWindow.PutChar(L'?');
-            TestWindow.PutChar(L'@');
-            TestWindow.PutChar(L'A');
-            TestWindow.PutChar(L'B');
-            TestWindow.PutChar(L'C');
-            TestWindow.PutChar(L'D');
-            TestWindow.PutChar(L'E');
-            TestWindow.PutChar(L'F');
-            TestWindow.PutChar(L'G');
-            TestWindow.PutChar(L'H');
-            TestWindow.PutChar(L'I');
-            TestWindow.PutChar(L'J');
-            TestWindow.PutChar(L'K');
-            TestWindow.PutChar(L'L');
-            TestWindow.PutChar(L'M');
-            TestWindow.PutChar(L'N');
-            TestWindow.PutChar(L'O');
-            TestWindow.PutChar(L'P');
-            TestWindow.PutChar(L'Q');
-            TestWindow.PutChar(L'R');
-            TestWindow.PutChar(L'T');
-            TestWindow.PutChar(L'U');
-            TestWindow.PutChar(L'V');
-            TestWindow.PutChar(L'W');
-            TestWindow.PutChar(L'X');
-            TestWindow.PutChar(L'Y');
-            TestWindow.PutChar(L'Z');
-            TestWindow.PutChar(L'[');
-            TestWindow.PutChar(L'\\');
-            TestWindow.PutChar(L']');
-            TestWindow.PutChar(L'^');
-            TestWindow.PutChar(L'_');
-            TestWindow.PutChar(L'`');
-            TestWindow.PutChar(L'a');
-            TestWindow.PutChar(L'b');
-            TestWindow.PutChar(L'c');
-            TestWindow.PutChar(L'd');
-            TestWindow.PutChar(L'e');
-            TestWindow.PutChar(L'f');
-            TestWindow.PutChar(L'g');
-            TestWindow.PutChar(L'h');
-            TestWindow.PutChar(L'i');
-            TestWindow.PutChar(L'j');
-            TestWindow.PutChar(L'k');
-            TestWindow.PutChar(L'l');
-            TestWindow.PutChar(L'm');
-            TestWindow.PutChar(L'n');
-            TestWindow.PutChar(L'o');
-            TestWindow.PutChar(L'p');
-            TestWindow.PutChar(L'q');
-            TestWindow.PutChar(L'r');
-            TestWindow.PutChar(L's');
-            TestWindow.PutChar(L't');
-            TestWindow.PutChar(L'u');
-            TestWindow.PutChar(L'v');
-            TestWindow.PutChar(L'w');
-            TestWindow.PutChar(L'x');
-            TestWindow.PutChar(L'y');
-            TestWindow.PutChar(L'z');
-            TestWindow.PutChar(L'{');
-            TestWindow.PutChar(L'|');
-            TestWindow.PutChar(L'}');
-            TestWindow.PutChar(L'~');
-            TestWindow.PutChar(L'€');
+            
 
-            Sauce::Graphics::GlobalTerminal->CopyFrom(&TestWindow);
+            Sauce::Global::Terminal->CopyFrom(Sauce::Global::Shell);
 
-            Sauce::Graphics::GlobalTerminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+            Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         };
     }
     void Kernel_cl::MainLoop(){
@@ -180,13 +87,13 @@ namespace Sauce{
     }
     void Kernel_cl::Prep_GlobalAllocator(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_GlobalAllocator]\n\0");
-        Sauce::Memory::GlobalAllocator = Sauce::Memory::PageFrameAllocator();
+        Sauce::Global::Allocator = Sauce::Memory::PageFrameAllocator();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
-        Sauce::Memory::GlobalAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
+        Sauce::Global::Allocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
         kernelSize = ((uint64_t)&_KernelEndRef)-((uint64_t)&_KernelStartRef);
         kernelPages = (uint64_t)kernelSize/4096 +1;
-        Sauce::Memory::GlobalAllocator.LockPages(&_KernelStartRef,kernelPages);
-        PML4 = (Sauce::Memory::PageTable*)Sauce::Memory::GlobalAllocator.RequestPage();
+        Sauce::Global::Allocator.LockPages(&_KernelStartRef,kernelPages);
+        PML4 = (Sauce::Memory::PageTable*)Sauce::Global::Allocator.RequestPage();
         Sauce::Memory::memset(PML4,0,0x1000);
         Sauce::Memory::GlobalPageTableManager = Sauce::Memory::PageTableManager(PML4);
     }
@@ -197,7 +104,7 @@ namespace Sauce{
         }
         DFBL->fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
         DFBL->fbSize = (uint64_t)DFBL->FrameBuffer->BufferSize + 0x1000;
-        Sauce::Memory::GlobalAllocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
+        Sauce::Global::Allocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
         for(uint64_t t=DFBL->fbBase;t<DFBL->fbBase+DFBL->fbSize;t+=0x1000){
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
@@ -219,7 +126,7 @@ namespace Sauce{
     void Kernel_cl::Prep_Interrupts(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_Interrupts]\n\0");
         idtr.Limit = 0x0FFF;
-        idtr.Offset= (uint64_t)Sauce::Memory::GlobalAllocator.RequestPage();
+        idtr.Offset= (uint64_t)Sauce::Global::Allocator.RequestPage();
 
         Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
         Sauce::IO::Debug::COM1_Console.Write((char*)"->(PageFault_handler)\n\0");
