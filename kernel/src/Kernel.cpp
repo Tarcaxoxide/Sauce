@@ -69,7 +69,7 @@ namespace Sauce{
                 Sauce::Global::Terminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
             }
 
-            Sauce::Global::Shell->PutChar('T');
+            Sauce::Global::Shell->SetColor({0x00,0xFA,0xFA,0xFF});
 
             Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
             Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
@@ -168,15 +168,13 @@ namespace Sauce{
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
         if(xMouse->Position->X < 0)xMouse->Position->X=0;//< Don't draw the mouse too far to the right.
         if(xMouse->Position->Y < 0)xMouse->Position->Y=0;//< Don't draw the mouse too high up.
-        /*Not Handled By Terminal Anymore, Please Implement in Shell*///if(xMouse->Position->X > Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX()))xMouse->Position->X=Sauce::IO::GlobalTerminal->MaxX(Sauce::IO::GlobalTerminal->CharX());//< Don't draw the mouse too far to the left.
-        /*Not Handled By Terminal Anymore, Please Implement in Shell*///if(xMouse->Position->Y > Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY()))xMouse->Position->Y=Sauce::IO::GlobalTerminal->MaxY(Sauce::IO::GlobalTerminal->CharY());//< Don't draw the mouse too far down.
         InputData.Mouse.RightButton=xMouse->RightButton;
         InputData.Mouse.LeftButton=xMouse->LeftButton;
         InputData.Mouse.CenterButton=xMouse->CenterButton;
         InputData.Mouse.Position=*xMouse->Position;
         InputData.Mouse.Good=xMouse->Good;
         InputData.NewMouse=true;
-        /*Broke it XD please re-implement*///kShell.Input(InputData);
+ 
         InputData.NewMouse=false;
 
     }
