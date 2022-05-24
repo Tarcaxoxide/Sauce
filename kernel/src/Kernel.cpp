@@ -71,18 +71,14 @@ namespace Sauce{
 
             Sauce::Global::Shell->PutChar('T');
 
-            
-
-            Sauce::Global::Terminal->CopyFrom(Sauce::Global::Shell);
-
             Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+            Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         };
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         do{
-            asm volatile("cli");
-            asm volatile("sti");
+            
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
@@ -155,13 +151,18 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
+
+        if(xKeyboard.visible && xKeyboard.Press){
+            Sauce::Global::Shell->PutChar(xKeyboard.Display);
+            Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        }
+
         InputData.Keyboard.Capital=xKeyboard.Capital;
         InputData.Keyboard.Press=xKeyboard.Press;
         InputData.Keyboard.visible=xKeyboard.visible;
         InputData.Keyboard.Key=xKeyboard.Key;
         InputData.Keyboard.Display=xKeyboard.Display;
         InputData.NewKeyboard=true;
-        /*Broke it XD please re-implement*///kShell.Input(InputData);
         InputData.NewKeyboard=false;
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
