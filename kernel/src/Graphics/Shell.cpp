@@ -14,6 +14,7 @@ namespace Sauce{
 
             switch(chrindex){
                 case '\n':{GoDown();}break;
+                case '\b':{GoLeft();}break;
                 default:{
                     for(size_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
                         for(size_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
