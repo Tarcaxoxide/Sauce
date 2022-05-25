@@ -7,6 +7,7 @@ namespace Sauce{
         Sauce::Graphics::Terminal_cl* Terminal;
         Sauce::Graphics::Shell_cl* Shell;
         Sauce::Memory::PageFrameAllocator Allocator;
+        Sauce::Graphics::Mouse_cl* Mouse;
     };
 };
 

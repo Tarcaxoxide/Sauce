@@ -22,7 +22,6 @@
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global/Global.hpp>
 
-
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
@@ -46,6 +45,8 @@ namespace Sauce{
         
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({1800,900,0},{60,40,0});
+        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({5,5,0});
+
 
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
@@ -63,26 +64,20 @@ namespace Sauce{
         
         /*testing terminal*/{
             for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
-                Sauce::Global::Terminal->RowFill(i,{0x40,0x00,0x00,0XFF});
+                Sauce::Global::Terminal->RowFill(i,{0x40,0x00,0x00,0xFF});
             }
             for(size_t i=0;i<DFBL->FrameBuffer->Height-5;i+=5){
-                Sauce::Global::Terminal->ColumnFill(i,{0x00,0x40,0x00,0XFF});
+                Sauce::Global::Terminal->ColumnFill(i,{0x00,0x40,0x00,0xFF});
             }
 
             Sauce::Global::Shell->SetColor({0x00,0xFA,0xFA,0xFF});
-
-            Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-            Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-        
-            Mouse_cl TestMouse({5,5,0});
-        
-        
+            DrawUI(true);
         };
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         do{
-            
+            Sauce::Interrupts::PIT::Sleep(1000);
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
@@ -146,7 +141,6 @@ namespace Sauce{
     void Kernel_cl::Prep_IO(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_IO]\n\0");
         Sauce::Interrupts::RemapPic();
-        /*Not Handled By Terminal Anymore, Please Implement in Shell*///Sauce::IO::PS2MouseInitialize({Sauce::IO::GlobalTerminal->CharX()*5,Sauce::IO::GlobalTerminal->CharY()*5,0});
     }
     void Kernel_cl::Prep_ACPI(){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_ACPI]\n\0");
@@ -155,23 +149,25 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
+        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\n\0");
         if(xKeyboard.visible && xKeyboard.Press){
             Sauce::Global::Shell->PutChar(xKeyboard.Display);
-            Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+            DrawUI();
         }
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
-        if(xMouse->Position->X < 0)xMouse->Position->X=0;//< Don't draw the mouse too far to the right.
-        if(xMouse->Position->Y < 0)xMouse->Position->Y=0;//< Don't draw the mouse too high up.
-        InputData.Mouse.RightButton=xMouse->RightButton;
-        InputData.Mouse.LeftButton=xMouse->LeftButton;
-        InputData.Mouse.CenterButton=xMouse->CenterButton;
-        InputData.Mouse.Position=*xMouse->Position;
-        InputData.Mouse.Good=xMouse->Good;
-        InputData.NewMouse=true;
- 
-        InputData.NewMouse=false;
-
+        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
+        //if(xMouse->Position->X < 0)xMouse->Position->X=0;//< Don't draw the mouse too far to the right.
+        //if(xMouse->Position->Y < 0)xMouse->Position->Y=0;//< Don't draw the mouse too high up.
+        //if(xMouse->Position->X > DFBL->FrameBuffer->PixelsPerScanLine)xMouse->Position->X=0;
+        //if(xMouse->Position->Y > DFBL->FrameBuffer->Height)xMouse->Position->Y=0;
+        //Sauce::Global::Mouse->Move({xMouse->Position->X,xMouse->Position->Y,0});
+        //DrawUI();
+    }
+    void Kernel_cl::DrawUI(bool Background){
+        if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         switch(InterruptData.TypeCode){
@@ -187,6 +183,7 @@ namespace Sauce{
                 Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
             }break;
         }
+        asm volatile("sti");
     }
     void Kernel_cl::Stop(bool ClearInterrupts){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Stop]\n\0");

@@ -7,7 +7,7 @@ namespace Sauce{
     namespace Graphics{
         class Mouse_cl : public Terminal_cl {
             Point64_t Cursor{0,0,0};
-            void PutChar(wchar_t chr);
+            void PutChar(size_t chr);
             public:
                 Mouse_cl(Point64_t InitialPosition);
         };
