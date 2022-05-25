@@ -152,7 +152,6 @@ namespace Sauce{
                 default:{   
                     if(xKeyboard.visible){
                         Sauce::Global::Shell->PutChar(xKeyboard.Display);
-                        DrawUI();
                     }else{
                         Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
                         Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(xKeyboard.Key));
@@ -161,6 +160,7 @@ namespace Sauce{
                 }break;
             }
         }
+        DrawUI();
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
         // not ready yet.

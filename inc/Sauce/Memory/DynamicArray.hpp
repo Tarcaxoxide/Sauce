@@ -183,6 +183,12 @@ namespace Sauce{
             TT& operator[](size_t TargetIndex){
                 return Contents[TargetIndex];
             }
+            bool operator==(TT* OtherValue){
+                for(size_t i=0;i<Contents.Size();i++){
+                    if(Contents[i] != OtherValue[i])return false;
+                }
+                return true;
+            }
             TT* Raw(){ //<- does basically the same thing as c_str() but for any type (hence why i don't call it c_str() because it's not a string)
                 return *Contents;
             }

@@ -1,21 +1,25 @@
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
+
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Point64_t Size,Point64_t Offset)
         :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
             Clear();
         }
-        void Shell_cl::PutChar(wchar_t chr){
+        void Shell_cl::PutChar(wchar_t chr,bool AddToBuffer){
+            Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::PutChar]\n\0");
             size_t chrindex = (size_t)chr;
             if(chrindex > 255)chrindex-=8236; //<- get out of here you stupid "wide characters",
                                               // i'll deal with you later but for now i'm not insane enough.
 
             switch(chrindex){
                 case '\n':{
-                    CharBuffer.AddLast(chr);
-                    RunCmd();
+                    if(AddToBuffer){
+                        CharBuffer.AddLast(chr);
+                        RunCmd();
+                    }
                     GoDown();
                 }break;
                 case '\b':{
@@ -27,7 +31,7 @@ namespace Sauce{
                 }break;
                 case '\r':{GoFarLeft();}break;
                 default:{
-                    CharBuffer.AddLast(chr);
+                    if(AddToBuffer)CharBuffer.AddLast(chr);
                     for(size_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
                         for(size_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
                             GOP_PixelStructure ThisColor{0,0,0,0xFF};
@@ -51,6 +55,13 @@ namespace Sauce{
                         }
                     }
                 }break;
+            }
+        }
+        void Shell_cl::PutString(const wchar_t* str,bool AddToBuffer){
+            while(true){
+                char ThisChar = (char)*str++;
+                if(ThisChar == '\0')break;
+                PutChar((wchar_t)ThisChar,AddToBuffer);
             }
         }
         bool Shell_cl::GoDown(size_t amount){
@@ -107,6 +118,12 @@ namespace Sauce{
                 Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
                 Sauce::IO::Debug::COM1_Console.Write(ArgBuffer[i]->Raw());
                 Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+            }
+            if((*ArgBuffer[0]) == (char*)"test"){
+                PutString(L"\n\roK!\n\r",false);
+            }else{
+                Sauce::IO::Debug::COM1_Console.Write(ArgBuffer[0]->Raw());
+                Sauce::IO::Debug::COM1_Console.Write((char*)"'\n\0");
             }
         }
     };
