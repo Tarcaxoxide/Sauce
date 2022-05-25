@@ -164,7 +164,7 @@ namespace Sauce{
     }
     int testcount=0;
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
+        //Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
         //Point64_t Position = *xMouse->Position;
         //Sauce::Global::Mouse->Move({Position.X,Position.Y,Position.Z});
         //DrawUI();
