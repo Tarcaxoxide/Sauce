@@ -102,6 +102,7 @@ namespace Sauce{
                     CrawlerVal=i;
                 }
             }
+            CharBuffer.Clear();
             for(size_t i=0;i<ArgBuffer.Size();i++){
                 Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
                 Sauce::IO::Debug::COM1_Console.Write(ArgBuffer[i]->Raw());
