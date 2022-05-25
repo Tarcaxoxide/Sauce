@@ -64,6 +64,13 @@ namespace Sauce{
                 PutChar((wchar_t)ThisChar,AddToBuffer);
             }
         }
+        void Shell_cl::PutString(const char* str,bool AddToBuffer){
+            while(true){
+                char ThisChar = (char)*str++;
+                if(ThisChar == '\0')break;
+                PutChar((wchar_t)ThisChar,AddToBuffer);
+            }
+        }
         bool Shell_cl::GoDown(size_t amount){
             if((Cursor.Y+(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) > (PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) )return false;
             Cursor.Y+=(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount;
@@ -121,7 +128,11 @@ namespace Sauce{
             }
             if((*ArgBuffer[0]) == (char*)"test"){
                 PutString(L"\n\roK!\n\r",false);
-            }else{
+            }
+            else{
+                PutString(L"\n\rUnknown Command:'",false);
+                PutString(ArgBuffer[0]->Raw(),false);
+                PutString(L"'\n\r",false);
                 Sauce::IO::Debug::COM1_Console.Write(ArgBuffer[0]->Raw());
                 Sauce::IO::Debug::COM1_Console.Write((char*)"'\n\0");
             }

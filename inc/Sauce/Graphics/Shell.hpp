@@ -16,6 +16,7 @@ namespace Sauce{
                 Shell_cl(Point64_t Size,Point64_t Offset={0,0,0});
                 void PutChar(wchar_t chr,bool AddToBuffer=true);
                 void PutString(const wchar_t* str,bool AddToBuffer=true);
+                void PutString(const char* str,bool AddToBuffer=true);
                 bool GoDown(size_t amount=1);
                 bool GoUp(size_t amount=1);
                 bool GoRight(size_t amount=1);
