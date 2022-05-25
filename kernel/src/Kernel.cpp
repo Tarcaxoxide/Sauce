@@ -30,31 +30,21 @@ namespace Sauce{
         this->DFBL=DFBL;
         if(Self == NULL)Self=this;
         asm volatile("cli");
-
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
-
         Sauce::Interrupts::PIT::SetDivisor(65535);
         Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
-        
         Prep_Interrupts();
-
         Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
                   // or at least that's what it looks like because it wont type the finish text till then.
-        
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({1800,900,0},{60,40,0});
-        /*not ready yet*///Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({5,5,0});
-
-
+        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({5,5,0});
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Sauce::Global::Terminal->Clear();
-
         asm volatile("sti");
-        
-
         Prep_ACPI();
         PreLoop();
         MainLoop();
@@ -69,7 +59,6 @@ namespace Sauce{
             for(size_t i=0;i<DFBL->FrameBuffer->Height-5;i+=5){
                 Sauce::Global::Terminal->ColumnFill(i,{0x00,0x40,0x00,0xFF});
             }
-
             Sauce::Global::Shell->SetColor({0x00,0xFA,0xFA,0xFF});
             DrawUI(true);
         };
@@ -172,8 +161,6 @@ namespace Sauce{
                 }break;
             }
         }
-
-        
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
         // not ready yet.
@@ -181,7 +168,7 @@ namespace Sauce{
     void Kernel_cl::DrawUI(bool Background){
         if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-        /*not ready yet*///Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         switch(InterruptData.TypeCode){

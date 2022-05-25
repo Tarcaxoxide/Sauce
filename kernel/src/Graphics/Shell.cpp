@@ -13,7 +13,11 @@ namespace Sauce{
                                               // i'll deal with you later but for now i'm not insane enough.
 
             switch(chrindex){
-                case '\n':{GoDown();}break;
+                case '\n':{
+                    CharBuffer.AddLast(chr);
+                    RunCmd();
+                    GoDown();
+                }break;
                 case '\b':{
                     if(!GoLeft()){
                         if(GoUp()){
@@ -23,6 +27,7 @@ namespace Sauce{
                 }break;
                 case '\r':{GoFarLeft();}break;
                 default:{
+                    CharBuffer.AddLast(chr);
                     for(size_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
                         for(size_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
                             GOP_PixelStructure ThisColor{0,0,0,0xFF};
@@ -47,7 +52,6 @@ namespace Sauce{
                     }
                 }break;
             }
-            
         }
         bool Shell_cl::GoDown(size_t amount){
             if((Cursor.Y+(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) > (PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) )return false;
@@ -80,6 +84,29 @@ namespace Sauce{
         }
         void Shell_cl::GoFarLeft(){
             Cursor.X=0;
+        }
+        void Shell_cl::RunCmd(){
+            Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::RunCmd]\n\0");
+            Sauce::Memory::List_cl<Sauce::Memory::List_cl<char>*> ArgBuffer;
+            size_t CrawlerVal=0;
+            for(size_t i=0;i<CharBuffer.Size();i++){
+                if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
+                    Sauce::Memory::List_cl<char>* str = new Sauce::Memory::List_cl<char>;
+                    for(size_t a=CrawlerVal;a<i;a++){
+                        if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
+                            str->AddLast((char)CharBuffer[a]);
+                        }
+                    }
+                    ArgBuffer.AddLast(str);
+                    delete[] str;
+                    CrawlerVal=i;
+                }
+            }
+            for(size_t i=0;i<ArgBuffer.Size();i++){
+                Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
+                Sauce::IO::Debug::COM1_Console.Write(ArgBuffer[i]->Raw());
+                Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+            }
         }
     };
 };
