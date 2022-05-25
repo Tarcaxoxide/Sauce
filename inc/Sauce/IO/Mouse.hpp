@@ -16,7 +16,6 @@
 
 namespace Sauce{
     namespace IO{
-
         void MouseWait();
         void MouseWaitInput();
         void MouseWrite(uint8_t value);

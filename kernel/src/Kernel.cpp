@@ -162,8 +162,14 @@ namespace Sauce{
         }
         DrawUI();
     }
+    int testcount=0;
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
-        // not ready yet.
+        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
+        //Point64_t Position = *xMouse->Position;
+        //Sauce::Global::Mouse->Move({Position.X,Position.Y,Position.Z});
+        //DrawUI();
+
+        //Something weird is happenning with the mouse interrupt.
     }
     void Kernel_cl::DrawUI(bool Background){
         if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
