@@ -45,7 +45,7 @@ namespace Sauce{
         
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({1800,900,0},{60,40,0});
-        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({5,5,0});
+        /*not ready yet*///Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({5,5,0});
 
 
         Sauce::IO::outb(PIC1_DATA,0b11111000);
@@ -150,24 +150,38 @@ namespace Sauce{
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
         Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\n\0");
-        if(xKeyboard.visible && xKeyboard.Press){
-            Sauce::Global::Shell->PutChar(xKeyboard.Display);
-            DrawUI();
+
+        if(xKeyboard.Press){
+            switch(xKeyboard.Key){
+                case 0xD6:{
+                    Sauce::Global::Shell->PutChar('\n');
+                    Sauce::Global::Shell->PutChar('\r');
+                }break;
+                case 0x1C:{
+                    Sauce::Global::Shell->PutChar('\b');
+                }break;
+                default:{   
+                    if(xKeyboard.visible){
+                        Sauce::Global::Shell->PutChar(xKeyboard.Display);
+                        DrawUI();
+                    }else{
+                        Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
+                        Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(xKeyboard.Key));
+                        Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                    }
+                }break;
+            }
         }
+
+        
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
-        //if(xMouse->Position->X < 0)xMouse->Position->X=0;//< Don't draw the mouse too far to the right.
-        //if(xMouse->Position->Y < 0)xMouse->Position->Y=0;//< Don't draw the mouse too high up.
-        //if(xMouse->Position->X > DFBL->FrameBuffer->PixelsPerScanLine)xMouse->Position->X=0;
-        //if(xMouse->Position->Y > DFBL->FrameBuffer->Height)xMouse->Position->Y=0;
-        //Sauce::Global::Mouse->Move({xMouse->Position->X,xMouse->Position->Y,0});
-        //DrawUI();
+        // not ready yet.
     }
     void Kernel_cl::DrawUI(bool Background){
         if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-        Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        /*not ready yet*///Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         switch(InterruptData.TypeCode){
