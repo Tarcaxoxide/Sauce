@@ -73,6 +73,10 @@ namespace Sauce{
 
             Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
             Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        
+            Mouse_cl TestMouse({5,5,0});
+        
+        
         };
     }
     void Kernel_cl::MainLoop(){
@@ -151,19 +155,10 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
-
         if(xKeyboard.visible && xKeyboard.Press){
             Sauce::Global::Shell->PutChar(xKeyboard.Display);
             Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         }
-
-        InputData.Keyboard.Capital=xKeyboard.Capital;
-        InputData.Keyboard.Press=xKeyboard.Press;
-        InputData.Keyboard.visible=xKeyboard.visible;
-        InputData.Keyboard.Key=xKeyboard.Key;
-        InputData.Keyboard.Display=xKeyboard.Display;
-        InputData.NewKeyboard=true;
-        InputData.NewKeyboard=false;
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
         if(xMouse->Position->X < 0)xMouse->Position->X=0;//< Don't draw the mouse too far to the right.
