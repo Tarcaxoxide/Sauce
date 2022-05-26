@@ -137,7 +137,7 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
-        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\n\0");
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
                 case 0xD6:{
@@ -151,9 +151,9 @@ namespace Sauce{
                     if(xKeyboard.visible){
                         Sauce::Global::Shell->PutChar(xKeyboard.Display);
                     }else{
-                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
-                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(xKeyboard.Key));
-                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
+                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(xKeyboard.Key));
+                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
                     }
                 }break;
             }
@@ -162,31 +162,33 @@ namespace Sauce{
     }
     int testcount=0;
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
-        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
+        Sauce::Global::Mouse->Move({xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z});
+        DrawUI();
     }
     void Kernel_cl::DrawUI(bool Background){
-        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::DrawUI]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::DrawUI]\n\0");
         if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
-        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Notify]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Notify]\n\0");
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
-                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Mouse)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Mouse)\n\0");
                 Sauce::IO::HandlePS2Mouse(InterruptData.RawInterruptData);
                 Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
-                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Keyboard)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Keyboard)\n\0");
                 Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
-                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(NULL)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(NULL)\n\0");
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
-                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Time)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Time)\n\0");
             }break;
         }
         asm volatile("sti");

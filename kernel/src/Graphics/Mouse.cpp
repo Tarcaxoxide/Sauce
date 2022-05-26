@@ -1,6 +1,6 @@
 #include<Sauce/Graphics/Mouse.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-
+#include<Sauce/IO/Mouse.hpp>
 
 uint8_t Glyphs[][13*13]={
                 {
@@ -40,12 +40,14 @@ namespace Sauce{
                     }
                 }
             }
+
         }
         Mouse_cl::Mouse_cl(Point64_t InitialPosition)
         :Terminal_cl((13*13),13,InitialPosition){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[Mouse_cl::Mouse_cl]\n\0");
             Clear();
             PutChar(0);
+            Sauce::IO::PS2MouseInitialize(InitialPosition);
         }
     };
 

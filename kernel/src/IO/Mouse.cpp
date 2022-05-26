@@ -41,7 +41,7 @@ namespace Sauce{
         bool MousePacketReady=false;
 
         void HandlePS2Mouse(uint8_t data){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[HandlePS2Mouse]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[HandlePS2Mouse]\n\0");
             switch(MouseCycle){
                 case 0:{
                     if(MousePacketReady)break;
@@ -65,7 +65,7 @@ namespace Sauce{
 
         Sauce::IO::Mouse_st nMouseData;
         Sauce::IO::Mouse_st* ProcessMousePacket(){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[ProcessMousePacket]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[ProcessMousePacket]\n\0");
             nMouseData.Good=false;
             if(!MousePacketReady)return &nMouseData;
             nMouseData.Good=true;

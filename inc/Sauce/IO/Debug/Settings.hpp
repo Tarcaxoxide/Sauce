@@ -4,6 +4,7 @@ namespace Sauce{
             static const bool FUNCTION_CALLS=true; // the first print of every function, this just tells us what function we are currently executing.
             static const bool FUNCTION_DETAILS=false; // anything after the FUNCTION_CALLS and before the FUNCTION_RETURNS.
             static const bool FUNCTION_RETURNS=false; // the value or values if a structure, we are returning to the calling function.
+            static const bool SPAMMY=false; // prints i consider to be particularly spammy.
         };
         namespace Debug{ // specific settings
             static const bool CONVERSIONS=false;
@@ -22,7 +23,7 @@ namespace Sauce{
             static const bool AHCI=false;
             static const bool PCI=false;
             static const bool MEMORY=false;
-            static const bool KERNEL=false;
+            static const bool KERNEL=true;
         };
     };
 };
