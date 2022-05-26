@@ -9,6 +9,7 @@ namespace Sauce{
             double TimeSinceBoot = 0;
             uint16_t Divisor=65535;
             void Sleepd(double seconds){
+                if(Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[Sleepd]\n\0");
                 Sauce::IO::Debug::COM1_Console.Write((char*)"[Sleepd] ->(\0");
                 Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(seconds));
                 Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
@@ -18,9 +19,11 @@ namespace Sauce{
                 }
             }
             void Sleep(uint64_t milliseconds){
+                if(Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[Sleep]\n\0");
                 Sleepd((double)milliseconds/1000);
             }
             void SetDivisor(uint16_t divisor){
+                if(Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[SetDivisor]\n\0");
                 if(divisor < 100)divisor=100;
                 Divisor=divisor;
                 Sauce::IO::outb_w(0x40,(uint8_t)(Divisor & 0x00ff));
@@ -28,12 +31,15 @@ namespace Sauce{
 
             }
             uint64_t GetFrequency(){
+                if(Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetFrequency]\n\0");
                 return BaseFrequency/Divisor;
             }
             void SetFrequency(uint64_t frequency){
+                if(Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[SetFrequency]\n\0");
                 SetDivisor(BaseFrequency/frequency);
             }
             void Tick(){
+                if(Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[Tick]\n\0");
                 TimeSinceBoot += 1 / (double)GetFrequency();
             }
         };

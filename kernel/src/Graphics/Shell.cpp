@@ -6,10 +6,11 @@ namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Point64_t Size,Point64_t Offset)
         :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::Shell_cl]\n\0");
             Clear();
         }
         void Shell_cl::PutChar(wchar_t chr,bool AddToBuffer){
-            Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::PutChar]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::PutChar]\n\0");
             size_t chrindex = (size_t)chr;
             if(chrindex > 255)chrindex-=8236; //<- get out of here you stupid "wide characters",
                                               // i'll deal with you later but for now i'm not insane enough.
@@ -62,6 +63,7 @@ namespace Sauce{
             }
         }
         void Shell_cl::PutString(const wchar_t* str,bool AddToBuffer){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::PutString]\n\0");
             while(true){
                 char ThisChar = (char)*str++;
                 if(ThisChar == '\0')break;
@@ -69,6 +71,7 @@ namespace Sauce{
             }
         }
         void Shell_cl::PutString(const char* str,bool AddToBuffer){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::PutString]\n\0");
             while(true){
                 char ThisChar = (char)*str++;
                 if(ThisChar == '\0')break;
@@ -76,39 +79,47 @@ namespace Sauce{
             }
         }
         bool Shell_cl::GoDown(size_t amount){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::GoDown]\n\0");
             if((Cursor.Y+(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) > (PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) )return false;
             Cursor.Y+=(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount;
             return true;
         }
         bool Shell_cl::GoUp(size_t amount){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::GoUp]\n\0");
             if((Cursor.Y-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) < 0)return false;
             Cursor.Y-=(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount;
             return true;
         }
         bool Shell_cl::GoRight(size_t amount){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::GoRight]\n\0");
             if((Cursor.X+(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) > (PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) )return false;
             Cursor.X+=(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount;
             return true;
         }
         bool Shell_cl::GoLeft(size_t amount){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::GoLeft]\n\0");
             if((Cursor.X-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) < 0)return false;
             Cursor.X-=(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount;
             return true;
         }
         void Shell_cl::GoFarDown(){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::GoFarDown]\n\0");
             Cursor.Y=PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2);
         }
         void Shell_cl::GoFarUp(){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::GoFarUp]\n\0");
             Cursor.Y=0;
         }
         void Shell_cl::GoFarRight(){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::GoFarRight]\n\0");
             Cursor.X=PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2);
         }
         void Shell_cl::GoFarLeft(){
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::GoFarLeft]\n\0");
             Cursor.X=0;
         }
         void Shell_cl::RunCmd(){
-            Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::RunCmd]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Shell_cl::RunCmd]\n\0");
             Sauce::Memory::List_cl<Sauce::Memory::List_cl<char>*> ArgBuffer;
             size_t CrawlerVal=0;
             for(size_t i=0;i<CharBuffer.Size();i++){
@@ -125,11 +136,6 @@ namespace Sauce{
                 }
             }
             CharBuffer.Clear();
-            for(size_t i=0;i<ArgBuffer.Size();i++){
-                Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
-                Sauce::IO::Debug::COM1_Console.Write(ArgBuffer[i]->Raw());
-                Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
-            }
             if((*ArgBuffer[0]) == (char*)"test"){
                 PutString(L"\n\roK!\n\r",false);
             }
@@ -137,8 +143,6 @@ namespace Sauce{
                 PutString(L"\n\rUnknown Command:'",false);
                 PutString(ArgBuffer[0]->Raw(),false);
                 PutString(L"'\n\r",false);
-                Sauce::IO::Debug::COM1_Console.Write(ArgBuffer[0]->Raw());
-                Sauce::IO::Debug::COM1_Console.Write((char*)"'\n\0");
             }
         }
     };

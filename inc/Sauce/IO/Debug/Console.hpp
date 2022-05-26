@@ -1,5 +1,6 @@
 #pragma once
 #include<Sauce/IO/Debug/Serial.hpp>
+#include "Sauce/IO/Debug/Settings.hpp"
 
 namespace Sauce{
     namespace IO{

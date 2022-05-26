@@ -94,3 +94,6 @@
     - graphics
     - hardware accelerated graphics
 
+# current working on
+- IO
+- debugging (making it easy to turn off/on certain things for printing to serial)
