@@ -18,7 +18,7 @@ namespace Sauce{
             static const bool MOUSE=true;
             static const bool KEYBOARD=true;
             static const bool SHELL=false;
-            static const bool TERMINAL=false;
+            static const bool TERMINAL=true;
             static const bool INTERRUPT_DESCRIPTOR_TABLE=false;
             static const bool AHCI=false;
             static const bool PCI=false;

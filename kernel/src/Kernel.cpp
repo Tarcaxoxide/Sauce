@@ -161,9 +161,14 @@ namespace Sauce{
         DrawUI();
     }
     int testcount=0;
+    Point64_t CurrentMouseCursorPosition{0,0,0};
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
-        Sauce::Global::Mouse->Move({xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z});
+        
+        if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
+            CurrentMouseCursorPosition = Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
+            Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
+        }
         DrawUI();
     }
     void Kernel_cl::DrawUI(bool Background){
