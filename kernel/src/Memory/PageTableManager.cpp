@@ -1,14 +1,17 @@
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Global/Global.hpp>
+#include<Sauce/IO/Debug/Console.hpp>
 
 namespace Sauce{
     namespace Memory{
         PageTableManager GlobalPageTableManager = NULL;
         PageTableManager::PageTableManager(PageTable* PML4Address){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageTableManager::PageTableManager]\n\0");
             if(this->PML4Address != NULL)return;
             this->PML4Address=PML4Address;
         }
         void PageTableManager::MapMemory(void* virtualMemory,void* physicalMemory){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageTableManager::MapMemory]\n\0");
             PageMapIndexer indexer = PageMapIndexer((uint64_t)virtualMemory);
             PageDirectoryEntry PDE;
             PDE = PML4Address->entries[indexer.PDP_i];
@@ -55,6 +58,3 @@ namespace Sauce{
         }
     };
 };
-
-//comment
-/*aa*/ 

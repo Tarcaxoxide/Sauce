@@ -7,7 +7,7 @@ namespace Sauce{
     namespace IO{
         Point64_t MousePosition {0,0,0};
         void MouseWait(){
-            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseWait]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseWait]\n\0");
             uint64_t timeout=100000;
             while(timeout--){
                 if((inb(0x64) & 0b10) == 0){
@@ -16,7 +16,7 @@ namespace Sauce{
             }
         }
         void MouseWaitInput(){
-            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseWaitInput]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseWaitInput]\n\0");
             uint64_t timeout=100000;
             while(timeout--){
                 if(inb(0x64) & 0b1){
@@ -25,14 +25,14 @@ namespace Sauce{
             }
         }
         void MouseWrite(uint8_t value){
-            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseWrite]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseWrite]\n\0");
             MouseWait();
             outb(0x64,0xD4);
             MouseWait();
             outb(0x60,value);
         }
         uint8_t MouseRead(){
-            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseRead]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseRead]\n\0");
             MouseWaitInput();
             return inb(0x60);
         }
@@ -41,7 +41,7 @@ namespace Sauce{
         bool MousePacketReady=false;
 
         void HandlePS2Mouse(uint8_t data){
-            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[HandlePS2Mouse]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[HandlePS2Mouse]\n\0");
             switch(MouseCycle){
                 case 0:{
                     if(MousePacketReady)break;
@@ -65,7 +65,7 @@ namespace Sauce{
 
         Sauce::IO::Mouse_st nMouseData;
         Sauce::IO::Mouse_st* ProcessMousePacket(){
-            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[ProcessMousePacket]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[ProcessMousePacket]\n\0");
             nMouseData.Good=false;
             if(!MousePacketReady)return &nMouseData;
             nMouseData.Good=true;
@@ -112,7 +112,7 @@ namespace Sauce{
             return &nMouseData;
         }
         void PS2MouseInitialize(Point64_t InitMousePosition){
-            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[PS2MouseInitialize]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[PS2MouseInitialize]\n\0");
             MousePosition.X=InitMousePosition.X;
             MousePosition.Y=InitMousePosition.Y;
             MousePosition.Z=InitMousePosition.Z;

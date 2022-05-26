@@ -3,10 +3,12 @@
 #include<Sauce/Convert/To_String.hpp>
 #include<Sauce/IO/AHCI/AHCI.hpp>
 #include<Sauce/Memory/Heap.hpp>
+#include<Sauce/IO/Debug/Console.hpp>
 
 namespace Sauce{
     namespace IO{
         void EnemerateFunction(uint64_t deviceAddress,uint64_t function){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[EnemerateFunction]\n\0");
             uint64_t offset = function << 12;
             uint64_t functionAddress = deviceAddress + offset;
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)functionAddress,(void*)functionAddress);
@@ -29,6 +31,7 @@ namespace Sauce{
             }
         }
         void EnumerateDevice(uint64_t busAddress,uint64_t device){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[EnumerateDevice]\n\0");
             uint64_t offset = device << 15;
             uint64_t deviceAddress = busAddress + offset;
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)deviceAddress,(void*)deviceAddress);
@@ -40,6 +43,7 @@ namespace Sauce{
             }
         }
         void EnumerateBus(uint64_t baseAddress,uint64_t bus){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[EnumerateBus]\n\0");
             uint64_t offset = bus << 20;
             uint64_t busAddress = baseAddress + offset;
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)busAddress,(void*)busAddress);
@@ -51,6 +55,7 @@ namespace Sauce{
             }
         }
         void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[EnumeratePCI]\n\0");
             int entries = ((mcfg->Header.Length) - sizeof(Sauce::IO::ACPI::MCFGHeader)) / sizeof(Sauce::IO::ACPI::DeviceConfig);
             for(int t=0;t<entries;t++){
                 Sauce::IO::ACPI::DeviceConfig *nDeviceConfig = (Sauce::IO::ACPI::DeviceConfig*)((uint64_t)mcfg + sizeof(Sauce::IO::ACPI::MCFGHeader) + (sizeof(Sauce::IO::ACPI::DeviceConfig)*t));
@@ -82,6 +87,7 @@ namespace Sauce{
             "Non Essential Instrumentation"
         };
         const char* GetVenderName(uint16_t VendorID){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetVenderName]\n\0");
             switch(VendorID){
                 case 0x8086:return "Intel Corperation";
                 case 0x1022:return "AMD";
@@ -90,6 +96,7 @@ namespace Sauce{
             }
         }
         const char* GetDeviceName(uint16_t VendorID,uint16_t DeviceID){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetDeviceName]\n\0");
             switch(VendorID){
                 case 0x8086:{
                     switch(DeviceID){
@@ -109,6 +116,7 @@ namespace Sauce{
             }
         }
         const char* GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetSubClassName]\n\0");
             switch(ClassCode){
                 case 0x01:{
                     switch(SubClassCode){
@@ -164,6 +172,7 @@ namespace Sauce{
             }
         }
         const char* GetProgIFName(uint8_t ClassCode, uint8_t SubClassCode, uint8_t ProgIFCode){
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetProgIFName]\n\0");
             switch (ClassCode){
                 case 0x01:{
                     switch (SubClassCode){

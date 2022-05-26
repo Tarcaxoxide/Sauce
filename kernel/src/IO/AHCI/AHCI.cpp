@@ -7,7 +7,7 @@ namespace Sauce{
     namespace IO{
         namespace AHCI{
             PortType CheckPortType(HBAPort* port){
-                if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[CheckPortType]\n\0");
+                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[CheckPortType]\n\0");
                 uint32_t sataStatus = port->sataStatus;
                 uint8_t interfacePowerManagement = (sataStatus >> 8) & 0b111;
                 uint8_t deviceDetection = sataStatus & 0b111;
@@ -23,7 +23,7 @@ namespace Sauce{
                 return PortType::None; //<- if for some odd reason you get here, should be impossible but still.
             }
             void Port::Configure(){
-                if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::Configure]\n\0");
+                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::Configure]\n\0");
                 StopCMD();
 
                 buffer = (uint8_t*)Sauce::Global::Allocator.RequestPage();
@@ -52,27 +52,27 @@ namespace Sauce{
                 StartCMD();
             }
             void Port::StopCMD(){
-                if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::StopCMD]\n\0");
+                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::StopCMD]\n\0");
                 hbaPort->cmdStatus &= ~HBA_PxCMD_ST;
                 hbaPort->cmdStatus &= ~HBA_PxCMD_FRE;
                 while((hbaPort->cmdStatus & HBA_PxCMD_FR) || (hbaPort->cmdStatus & HBA_PxCMD_CR));
             }
             void Port::StartCMD(){
-                if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::StartCMD]\n\0");
+                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::StartCMD]\n\0");
                 while(hbaPort->cmdStatus & HBA_PxCMD_CR);
 
                 hbaPort->cmdStatus |= HBA_PxCMD_FRE;
                 hbaPort->cmdStatus |= HBA_PxCMD_ST;
             }
             bool Port::Read(uint64_t sector,uint32_t sectorCount){
-                if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::Read]\n\0");
-                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(sector:\0");
-                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(sector));
-                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)",sectorCount:\0");
-                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(sectorCount));
-                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)",buffer:\0");
-                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString((uint64_t)buffer));
-                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::Read]\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(sector:\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(sector));
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)",sectorCount:\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(sectorCount));
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)",buffer:\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString((uint64_t)buffer));
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
 
                //Sauce::IO::Debug::COM1_Console.Write((char*)"\t(Waiting for port to be free)\n\0");
                 uint64_t spin=0;
@@ -80,11 +80,11 @@ namespace Sauce{
                     spin++;
                 }
                 if(spin >= 1000000){
-                    if(Sauce::IO::Debug::FUNCTION_RETURNS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
+                    if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
                     return false;
                 }
                 if(buffer == nullptr){
-                   if(Sauce::IO::Debug::FUNCTION_RETURNS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
+                   if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
                     return false;
                 }
                 uint32_t sectorL = (uint32_t)sector;
@@ -123,14 +123,14 @@ namespace Sauce{
 
                 while(!((hbaPort->commandIssue == 0) || (hbaPort->interruptStatus & HBA_PxIS_TFES)));
                 if(hbaPort->interruptStatus & HBA_PxIS_TFES){
-                    if(Sauce::IO::Debug::FUNCTION_RETURNS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
+                    if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
                     return false;
                 }
-                if(Sauce::IO::Debug::FUNCTION_RETURNS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
                 return true;
             }
             AHCIDriver::AHCIDriver(Sauce::IO::PCIDeviceHeader* pciBaseAddress){
-               if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[AHCIDriver::AHCIDriver]\n\0");
+               if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[AHCIDriver::AHCIDriver]\n\0");
                 this->PCIBaseAddress=pciBaseAddress;
 
                 ABAR = (Sauce::IO::AHCI::HBAMemory*)(uint64_t)((Sauce::IO::PCIHeader0*)pciBaseAddress)->BAR5;
@@ -139,74 +139,74 @@ namespace Sauce{
                 for(int i=0;i<Ports.Size();i++){
                     Ports[i].Configure();
 
-                    if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
-                    if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(i));
-                    if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                    if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
+                    if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(i));
+                    if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
 
                     if(Ports[i].Read(0,4)){
-                        if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
+                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
                         for(int t=0;t<1024;t++){
                             char out[4]{0};
                             out[0]=(char)Ports[i].buffer[t];
-                            if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write(out);
+                            if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write(out);
                         }
-                       if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                       if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
                     }else{
-                       if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Failed to read)\n\0");
+                       if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Failed to read)\n\0");
                     }
                     switch(Ports[i].portType){
                             case PortType::SATA:{
-                               if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SATA)\n\0");
+                               if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SATA)\n\0");
                             }break;
                             case PortType::SEMB:{
-                               if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SEMB)\n\0");
+                               if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SEMB)\n\0");
                             }break;
                             case PortType::PM:{
-                               if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(PM)\n\0");
+                               if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(PM)\n\0");
                             }break;
                             case PortType::SATAPI:{
-                               if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SATAPI)\n\0");
+                               if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SATAPI)\n\0");
                             }break;
                             default:{
-                               if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
-                               if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"?:\0");
-                               if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(ABAR->ports[i].signature));
-                               if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                               if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
+                               if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"?:\0");
+                               if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(ABAR->ports[i].signature));
+                               if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
                             }break;
                         }
                 }
             }
             AHCIDriver::~AHCIDriver(){
-               if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[AHCIDriver::~AHCIDriver]\n\0");
+               if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[AHCIDriver::~AHCIDriver]\n\0");
             }
             void AHCIDriver::ProbePorts(){
-               if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[AHCIDriver::ProbePorts]\n\0");
+               if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[AHCIDriver::ProbePorts]\n\0");
                 uint32_t portsImplemented = ABAR->portsImplemented;
                 for(int i=0;i<32;i++){
                     if(portsImplemented & (1 << i)){
                         PortType portType = CheckPortType(&ABAR->ports[i]);
                         switch(portType){
                             case PortType::SATA:{
-                                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SATA)\n\0");
+                                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SATA)\n\0");
                                 Ports.AddLast({&ABAR->ports[i],portType,nullptr,(uint8_t)i});
                             }break;
                             case PortType::SEMB:{
-                                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SEMB)\n\0");
+                                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SEMB)\n\0");
                                 Ports.AddLast({&ABAR->ports[i],portType,nullptr,(uint8_t)i});
                             }break;
                             case PortType::PM:{
-                                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(PM)\n\0");
+                                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(PM)\n\0");
                                 Ports.AddLast({&ABAR->ports[i],portType,nullptr,(uint8_t)i});
                             }break;
                             case PortType::SATAPI:{
-                                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SATAPI)\n\0");
+                                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(SATAPI)\n\0");
                                 Ports.AddLast({&ABAR->ports[i],portType,nullptr,(uint8_t)i});
                             }break;
                             default:{
-                                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
-                                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)"?:\0");
-                                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(ABAR->ports[i].signature));
-                                if(Sauce::IO::Debug::FUNCTION_DETAILS)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
+                                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"?:\0");
+                                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(ABAR->ports[i].signature));
+                                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
                             }break;
                         }
                     }

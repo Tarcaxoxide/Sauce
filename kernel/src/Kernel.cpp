@@ -26,7 +26,7 @@ namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Kernel_cl]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Kernel_cl]\n\0");
         this->DFBL=DFBL;
         if(Self == NULL)Self=this;
         asm volatile("cli");
@@ -50,8 +50,7 @@ namespace Sauce{
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
-        
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
         /*testing terminal*/{
             for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
                 Sauce::Global::Terminal->RowFill(i,{0x40,0x00,0x00,0xFF});
@@ -64,13 +63,13 @@ namespace Sauce{
         };
     }
     void Kernel_cl::MainLoop(){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         do{
             Sauce::Interrupts::PIT::Sleep(1000);
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_GlobalAllocator]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_GlobalAllocator]\n\0");
         Sauce::Global::Allocator = Sauce::Memory::PageFrameAllocator();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
         Sauce::Global::Allocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
@@ -82,7 +81,7 @@ namespace Sauce{
         Sauce::Memory::GlobalPageTableManager = Sauce::Memory::PageTableManager(PML4);
     }
     void Kernel_cl::Prep_VirtualAddresses(){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_VirtualAddresses]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_VirtualAddresses]\n\0");
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
         }
@@ -95,49 +94,50 @@ namespace Sauce{
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
     void Kernel_cl::Prep_GDT(){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_GDT]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_GDT]\n\0");
         gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_st)-1;
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
         LoadGDT(&gdtDescriptor);
     }
     void Kernel_cl::Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Add_Interrupt]\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Add_Interrupt]\n\0");
         Sauce::Interrupts::IDTDescriptorEntry* Interrupt = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + Interrupt_Number * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
         Interrupt->SetOffset((uint64_t)Interrupt_Handler);
         Interrupt->type_attr = type_attr;
         Interrupt->selector=selector;
     }
     void Kernel_cl::Prep_Interrupts(){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_Interrupts]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_Interrupts]\n\0");
         idtr.Limit = 0x0FFF;
         idtr.Offset= (uint64_t)Sauce::Global::Allocator.RequestPage();
 
         Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
-        Sauce::IO::Debug::COM1_Console.Write((char*)"->(PageFault_handler)\n\0");
+        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(PageFault_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::DoubleFault_handler,0x8,IDT_TA_InterruptGate,0x08);
-        Sauce::IO::Debug::COM1_Console.Write((char*)"->(DoubleFault_handler)\n\0");
+        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(DoubleFault_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::GeneralProtectionFault_handler,0xD,IDT_TA_InterruptGate,0x08);
-        Sauce::IO::Debug::COM1_Console.Write((char*)"->(GeneralProtectionFault_handler)\n\0");
+        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(GeneralProtectionFault_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::KeyboardInterrupt_handler,0x21,IDT_TA_InterruptGate,0x08);
-        Sauce::IO::Debug::COM1_Console.Write((char*)"->(KeyboardInterrupt_handler)\n\0");
+        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(KeyboardInterrupt_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::MouseInterrupt_handler,0x2C,IDT_TA_InterruptGate,0x08);
-        Sauce::IO::Debug::COM1_Console.Write((char*)"->(MouseInterrupt_handler)\n\0");
+        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(MouseInterrupt_handler)\n\0");
         Add_Interrupt((void*)&Sauce::Interrupts::PITInterrupt_handler,0x20,IDT_TA_InterruptGate,0x08);
-        Sauce::IO::Debug::COM1_Console.Write((char*)"->(PITInterrupt_handler)\n\0");
+        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(PITInterrupt_handler)\n\0");
 
         asm volatile("lidt %0" : : "m" (idtr));
     }
     void Kernel_cl::Prep_IO(){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_IO]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_IO]\n\0");
         Sauce::Interrupts::RemapPic();
     }
     void Kernel_cl::Prep_ACPI(){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_ACPI]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_ACPI]\n\0");
         Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
         Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\n\0");
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
                 case 0xD6:{
@@ -151,9 +151,9 @@ namespace Sauce{
                     if(xKeyboard.visible){
                         Sauce::Global::Shell->PutChar(xKeyboard.Display);
                     }else{
-                        Sauce::IO::Debug::COM1_Console.Write((char*)" ->(\0");
-                        Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(xKeyboard.Key));
-                        Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
+                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(xKeyboard.Key));
+                        if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
                     }
                 }break;
             }
@@ -162,39 +162,37 @@ namespace Sauce{
     }
     int testcount=0;
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[?Mouse?]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
     }
     void Kernel_cl::DrawUI(bool Background){
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::DrawUI]\n\0");
         if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Notify]\n\0");
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
-                Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\0");
-                Sauce::IO::Debug::COM1_Console.Write((char*)" ->(Mouse)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Mouse)\n\0");
                 Sauce::IO::HandlePS2Mouse(InterruptData.RawInterruptData);
                 Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
-                Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\0");
-                Sauce::IO::Debug::COM1_Console.Write((char*)" ->(Keyboard)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Keyboard)\n\0");
                 Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
-                //Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\0");
-                //Sauce::IO::Debug::COM1_Console.Write((char*)" ->(NULL)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(NULL)\n\0");
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
-                //Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\0");
-                //Sauce::IO::Debug::COM1_Console.Write((char*)" ->(Time)\n\0");
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Time)\n\0");
             }break;
         }
         asm volatile("sti");
     }
     void Kernel_cl::Stop(bool ClearInterrupts){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Stop]\n\0");
+        if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Stop]\n\0");
         while(true){
             if(ClearInterrupts)asm volatile("cli");
             asm volatile("hlt");
