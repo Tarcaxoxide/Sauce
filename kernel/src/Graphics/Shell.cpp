@@ -23,13 +23,17 @@ namespace Sauce{
                     GoDown();
                 }break;
                 case '\b':{
+                    if(AddToBuffer)CharBuffer.RemoveLast();
                     if(!GoLeft()){
                         if(GoUp()){
                             GoFarRight();
                         }
                     }
                 }break;
-                case '\r':{GoFarLeft();}break;
+                case '\r':{
+                    GoFarLeft();
+                    if(AddToBuffer)CharBuffer.Clear();
+                }break;
                 default:{
                     if(AddToBuffer)CharBuffer.AddLast(chr);
                     for(size_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){

@@ -138,8 +138,6 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
-        Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\n\0");
-
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
                 case 0xD6:{
@@ -164,12 +162,7 @@ namespace Sauce{
     }
     int testcount=0;
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
-        //Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
-        //Point64_t Position = *xMouse->Position;
-        //Sauce::Global::Mouse->Move({Position.X,Position.Y,Position.Z});
-        //DrawUI();
-
-        //Something weird is happenning with the mouse interrupt.
+        Sauce::IO::Debug::COM1_Console.Write((char*)"[?Mouse?]\n\0");
     }
     void Kernel_cl::DrawUI(bool Background){
         if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
@@ -179,15 +172,23 @@ namespace Sauce{
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
+                Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\0");
+                Sauce::IO::Debug::COM1_Console.Write((char*)" ->(Mouse)\n\0");
                 Sauce::IO::HandlePS2Mouse(InterruptData.RawInterruptData);
+                Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
-                    Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
+                Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\0");
+                Sauce::IO::Debug::COM1_Console.Write((char*)" ->(Keyboard)\n\0");
+                Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
+                //Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\0");
+                //Sauce::IO::Debug::COM1_Console.Write((char*)" ->(NULL)\n\0");
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
-                Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
+                //Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\0");
+                //Sauce::IO::Debug::COM1_Console.Write((char*)" ->(Time)\n\0");
             }break;
         }
         asm volatile("sti");
