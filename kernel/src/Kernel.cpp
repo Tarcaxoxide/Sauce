@@ -66,7 +66,7 @@ namespace Sauce{
     void Kernel_cl::MainLoop(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         do{
-            Sauce::Interrupts::PIT::Sleep(1000);
+            Sauce::Interrupts::PIT::Sleep(500);
             DrawUI();
         }while(true);
     }
@@ -161,7 +161,7 @@ namespace Sauce{
                 }break;
             }
         }
-        DrawUI();
+        MainLoop();
     }
     int testcount=0;
     Point64_t CurrentMouseCursorPosition{0,0,0};
@@ -173,7 +173,7 @@ namespace Sauce{
             CurrentMouseCursorPosition = Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
             Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
         }
-        DrawUI();
+        MainLoop();
     }
     void Kernel_cl::DrawUI(bool Background){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::DrawUI]\n\0");
