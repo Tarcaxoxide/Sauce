@@ -25,6 +25,7 @@
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
+    bool ReadyToDraw=true;
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Kernel_cl]\n\0");
         this->DFBL=DFBL;
@@ -59,13 +60,14 @@ namespace Sauce{
                 Sauce::Global::Terminal->ColumnFill(i,{0x00,0x40,0x00,0xFF});
             }
             Sauce::Global::Shell->SetColor({0x00,0xFA,0xFA,0xFF});
-            DrawUI(true);
         };
+        DrawUI(true);
     }
     void Kernel_cl::MainLoop(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         do{
             Sauce::Interrupts::PIT::Sleep(1000);
+            DrawUI();
         }while(true);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
@@ -137,6 +139,7 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
+        ReadyToDraw=false;
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_KeyPress]\n\0");
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
@@ -163,6 +166,7 @@ namespace Sauce{
     int testcount=0;
     Point64_t CurrentMouseCursorPosition{0,0,0};
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
+        ReadyToDraw=false;
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::oNotify_Of_Mouse]\n\0");
         
         if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
@@ -173,9 +177,15 @@ namespace Sauce{
     }
     void Kernel_cl::DrawUI(bool Background){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::DrawUI]\n\0");
+        if(!ReadyToDraw){
+            ReadyToDraw=true;
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+            return;
+        }
         if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Notify]\n\0");
@@ -197,6 +207,7 @@ namespace Sauce{
             }break;
         }
         asm volatile("sti");
+        if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
     }
     void Kernel_cl::Stop(bool ClearInterrupts){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Stop]\n\0");
@@ -204,5 +215,6 @@ namespace Sauce{
             if(ClearInterrupts)asm volatile("cli");
             asm volatile("hlt");
         }
+        if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
     }
 };
