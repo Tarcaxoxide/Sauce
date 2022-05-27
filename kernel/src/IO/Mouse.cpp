@@ -2,6 +2,7 @@
 #include<Sauce/Kernel.hpp>
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
+#include<Sauce/Convert/To_String.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -14,6 +15,7 @@ namespace Sauce{
                     return;
                 }
             }
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         void MouseWaitInput(){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseWaitInput]\n\0");
@@ -23,6 +25,7 @@ namespace Sauce{
                     return;
                 }
             }
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         void MouseWrite(uint8_t value){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseWrite]\n\0");
@@ -30,16 +33,17 @@ namespace Sauce{
             outb(0x64,0xD4);
             MouseWait();
             outb(0x60,value);
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         uint8_t MouseRead(){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseRead]\n\0");
             MouseWaitInput();
             return inb(0x60);
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         uint8_t MouseCycle=0;
         uint8_t MousePacket[4];
         bool MousePacketReady=false;
-
         void HandlePS2Mouse(uint8_t data){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[HandlePS2Mouse]\n\0");
             switch(MouseCycle){
@@ -61,13 +65,28 @@ namespace Sauce{
                     MouseCycle=0;
                 }break;
             }
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
-
         Sauce::IO::Mouse_st nMouseData;
         Sauce::IO::Mouse_st* ProcessMousePacket(){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[ProcessMousePacket]\n\0");
             nMouseData.Good=false;
-            if(!MousePacketReady)return &nMouseData;
+            if(!MousePacketReady){
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::SPAMMY){
+                    Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\0");
+                    nMouseData.RightButton ? Sauce::IO::Debug::COM1_Console.Write((char*)"RightButton:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"RightButton:False,\0");
+                    nMouseData.LeftButton ? Sauce::IO::Debug::COM1_Console.Write((char*)"LeftButton:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"LeftButton:False,\0");
+                    nMouseData.CenterButton ? Sauce::IO::Debug::COM1_Console.Write((char*)"CenterButton:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"CenterButton:False,\0");
+                    Sauce::IO::Debug::COM1_Console.Write((char*)"Position:{X:\0");
+                    Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(nMouseData.Position->X));
+                    Sauce::IO::Debug::COM1_Console.Write((char*)",Y:\0");
+                    Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(nMouseData.Position->Y));
+                    Sauce::IO::Debug::COM1_Console.Write((char*)"},\0");
+                    Sauce::IO::Debug::COM1_Console.Write((char*)"},Not Good\0");
+                    Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                }
+                return &nMouseData;
+            }
             nMouseData.Good=true;
 
             bool xNegative,yNegative,xOverflow,yOverflow;
@@ -109,6 +128,19 @@ namespace Sauce{
             nMouseData.CenterButton=(MousePacket[0] & PS2MiddleButton);
             nMouseData.RightButton=(MousePacket[0] & PS2RightButton);
             
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::SPAMMY){
+                Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\0");
+                nMouseData.RightButton ? Sauce::IO::Debug::COM1_Console.Write((char*)"RightButton:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"RightButton:False,\0");
+                nMouseData.LeftButton ? Sauce::IO::Debug::COM1_Console.Write((char*)"LeftButton:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"LeftButton:False,\0");
+                nMouseData.CenterButton ? Sauce::IO::Debug::COM1_Console.Write((char*)"CenterButton:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"CenterButton:False,\0");
+                Sauce::IO::Debug::COM1_Console.Write((char*)"Position:{X:\0");
+                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(nMouseData.Position->X));
+                Sauce::IO::Debug::COM1_Console.Write((char*)",Y:\0");
+                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(nMouseData.Position->Y));
+                Sauce::IO::Debug::COM1_Console.Write((char*)"},\0");
+                Sauce::IO::Debug::COM1_Console.Write((char*)"},Good\0");
+                Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+            }
             return &nMouseData;
         }
         void PS2MouseInitialize(Point64_t InitMousePosition){
@@ -133,6 +165,7 @@ namespace Sauce{
 
             MouseWrite(0xF4); // enable mouse
             MouseRead();
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
     };
 };

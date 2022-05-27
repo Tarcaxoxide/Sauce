@@ -34,27 +34,32 @@ namespace Sauce{
               }
             } while(input != 0);
             PIC1_Done();
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_KEYBOARD)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[MouseInterrupt_handler]\n\0");
             uint8_t mouseData = Sauce::IO::inb(0x60);
             Kernel_cl::Notify({InterruptTypeCode::ITC__Mouse,mouseData});
             PIC2_Done();
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PITInterrupt_handler]\n\0");
             Sauce::Interrupts::PIT::Tick();
             Kernel_cl::Notify({InterruptTypeCode::ITC__Time,0xFF});
             PIC1_Done();
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         void PIC1_Done(){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PIC1_Done]\n\0");
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         void PIC2_Done(){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PIC2_Done]\n\0");
             Sauce::IO::outb(PIC2_COMMAND,PIC_EOI);
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         void RemapPic(){
             if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[RemapPic]\n\0");
@@ -77,6 +82,7 @@ namespace Sauce{
 
             Sauce::IO::outb_w(PIC1_DATA,a1);
             Sauce::IO::outb_w(PIC2_DATA,a2);
+            if(Sauce::IO::Debug::FUNCTION_RETURNS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
     };
 };

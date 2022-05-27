@@ -1,5 +1,6 @@
 #include<Sauce/IO/ACPI/ACPI.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
+#include<Sauce/Convert/To_String.hpp>
 
 
 namespace Sauce{
@@ -14,9 +15,17 @@ namespace Sauce{
                         if(nSDTHeader->Signature[i] != signature[i]){
                             break;
                         }
-                        if(i == 3)return nSDTHeader;
+                        if(i == 3){
+                            if(Sauce::IO::Debug::FUNCTION_RETURNS){
+                                Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\0");
+                                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString((uint64_t)nSDTHeader));
+                                Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                            }
+                            return nSDTHeader;
+                        }
                     }
                 }
+                if(Sauce::IO::Debug::FUNCTION_RETURNS)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(NULL)\n\0");
                 return NULL;
             }
         };

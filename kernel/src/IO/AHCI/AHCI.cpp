@@ -12,14 +12,15 @@ namespace Sauce{
                 uint8_t interfacePowerManagement = (sataStatus >> 8) & 0b111;
                 uint8_t deviceDetection = sataStatus & 0b111;
 
-                if(deviceDetection != HBA_PORT_DEV_PRESENT)return PortType::None;
+                if(deviceDetection != HBA_PORT_DEV_PRESENT){if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(PortType::None)\n\0");return PortType::None;}
                 switch(port->signature){
-                    case SATA_SIG_ATAPI:return PortType::SATAPI;
-                    case SATA_SIG_ATA:return PortType::SATA;
-                    case SATA_SIG_SEMB:return PortType::SEMB;
-                    case SATA_SIG_PM:return PortType::PM;
-                    default:return PortType::None;
+                    case SATA_SIG_ATAPI:{if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(PortType::SATAPI)\n\0");return PortType::SATAPI;}
+                    case SATA_SIG_ATA:{if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(PortType::SATA)\n\0");return PortType::SATA;}
+                    case SATA_SIG_SEMB:{if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(PortType::SEMB)\n\0");return PortType::SEMB;}
+                    case SATA_SIG_PM:{if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(PortType::PM)\n\0");return PortType::PM;}
+                    default:{if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(PortType::None)\n\0");return PortType::None;}
                 }
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(PortType::None)\n\0");
                 return PortType::None; //<- if for some odd reason you get here, should be impossible but still.
             }
             void Port::Configure(){
@@ -48,14 +49,15 @@ namespace Sauce{
                     cmdheader[i].commandTableBaseAddressUpper = (uint32_t)(address >> 32);
                     Sauce::Memory::memset(cmdTableAddress,0,256);
                 }
-
                 StartCMD();
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
             }
             void Port::StopCMD(){
                 if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::StopCMD]\n\0");
                 hbaPort->cmdStatus &= ~HBA_PxCMD_ST;
                 hbaPort->cmdStatus &= ~HBA_PxCMD_FRE;
                 while((hbaPort->cmdStatus & HBA_PxCMD_FR) || (hbaPort->cmdStatus & HBA_PxCMD_CR));
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
             }
             void Port::StartCMD(){
                 if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::StartCMD]\n\0");
@@ -63,6 +65,7 @@ namespace Sauce{
 
                 hbaPort->cmdStatus |= HBA_PxCMD_FRE;
                 hbaPort->cmdStatus |= HBA_PxCMD_ST;
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
             }
             bool Port::Read(uint64_t sector,uint32_t sectorCount){
                 if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[Port::Read]\n\0");
@@ -175,9 +178,11 @@ namespace Sauce{
                             }break;
                         }
                 }
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\"this\")\n\0");
             }
             AHCIDriver::~AHCIDriver(){
                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[AHCIDriver::~AHCIDriver]\n\0");
+               if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
             }
             void AHCIDriver::ProbePorts(){
                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[AHCIDriver::ProbePorts]\n\0");
@@ -211,6 +216,7 @@ namespace Sauce{
                         }
                     }
                 }
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::AHCI)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
             }
         };
     };

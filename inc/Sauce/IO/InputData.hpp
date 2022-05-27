@@ -20,7 +20,6 @@ namespace Sauce{
             Point64_t* Position;
             bool Good;
         }__attribute__((packed));
-
         struct InputData_st{
             bool NewKeyboard;
             bool NewMouse;
