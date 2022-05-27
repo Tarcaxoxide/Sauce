@@ -1,7 +1,6 @@
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Convert/To_String.hpp>
-#include<Sauce/IO/AHCI/AHCI.hpp>
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
@@ -22,7 +21,7 @@ namespace Sauce{
                         case 0x06:{ // serial ata
                             switch(pciDeviceHeader->ProgIF){
                                 case 0x01:{ // ahci 1.0 device
-                                    /*Pointer to AHCIDriver, perhaps I should store it somewhere?*/new Sauce::IO::AHCI::AHCIDriver(pciDeviceHeader);
+                                    // TODO: Re-Implement ahci driver.
                                 }break;
                             }
                         }break;

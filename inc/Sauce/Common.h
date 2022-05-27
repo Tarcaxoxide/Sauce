@@ -10,10 +10,10 @@
 
 #ifndef Compiling_PureC
     #include<Sauce/Memory/efiMemory.hpp>
-    #include<Sauce/IO/ACPI/ACPI.hpp>
+    #include<Sauce/IO/ACPI.hpp>
 #else
     #include<Sauce/Memory/efiMemory.h>
-    #include<Sauce/IO/ACPI/ACPI.h>
+    #include<Sauce/IO/ACPI.h>
 #endif
 typedef struct {
     uint8_t Blue;

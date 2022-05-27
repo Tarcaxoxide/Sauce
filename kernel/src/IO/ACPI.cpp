@@ -1,4 +1,4 @@
-#include<Sauce/IO/ACPI/ACPI.hpp>
+#include<Sauce/IO/ACPI.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Convert/To_String.hpp>
 

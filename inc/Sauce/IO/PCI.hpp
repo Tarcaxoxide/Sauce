@@ -3,7 +3,7 @@
 
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/IO/ACPI/ACPI.hpp>
+#include<Sauce/IO/ACPI.hpp>
 
 
 namespace Sauce{

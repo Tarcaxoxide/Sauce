@@ -9,7 +9,7 @@
 #include<Sauce/Memory/Paging.hpp>
 #include<Sauce/IO/Panic.hpp>
 #include<Sauce/IO/IO.hpp>
-#include<Sauce/IO/ACPI/ACPI.hpp>
+#include<Sauce/IO/ACPI.hpp>
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Math.hpp>
 #include<Sauce/Memory/Heap.hpp>
