@@ -206,7 +206,6 @@ namespace Sauce{
                 if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(Time)\n\0");
             }break;
         }
-        asm volatile("sti");
         if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
     }
     void Kernel_cl::Stop(bool ClearInterrupts){
