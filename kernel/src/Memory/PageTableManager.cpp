@@ -11,7 +11,7 @@ namespace Sauce{
             this->PML4Address=PML4Address;
         }
         void PageTableManager::MapMemory(void* virtualMemory,void* physicalMemory){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageTableManager::MapMemory]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageTableManager::MapMemory]\n\0");
             PageMapIndexer indexer = PageMapIndexer((uint64_t)virtualMemory);
             PageDirectoryEntry PDE;
             PDE = PML4Address->entries[indexer.PDP_i];

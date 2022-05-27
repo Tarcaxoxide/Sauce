@@ -4,7 +4,7 @@
 namespace Sauce{
     namespace Memory{
         uint64_t GetMemorySize(Sauce::Memory::EFI_MEMORY_DESCRIPTOR*mMap,uint64_t mMapEntries,uint64_t mDescriptorSize){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetMemorySize]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetMemorySize]\n\0");
             static uint64_t memorySizeBytes = 0;
             if(memorySizeBytes)return memorySizeBytes;
             for(int i=0;i<mMapEntries;i++){

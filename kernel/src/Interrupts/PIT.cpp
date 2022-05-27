@@ -31,7 +31,7 @@ namespace Sauce{
 
             }
             uint64_t GetFrequency(){
-                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetFrequency]\n\0");
+                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetFrequency]\n\0");
                 return BaseFrequency/Divisor;
             }
             void SetFrequency(uint64_t frequency){
@@ -39,7 +39,7 @@ namespace Sauce{
                 SetDivisor(BaseFrequency/frequency);
             }
             void Tick(){
-                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[Tick]\n\0");
+                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Tick]\n\0");
                 TimeSinceBoot += 1 / (double)GetFrequency();
             }
         };

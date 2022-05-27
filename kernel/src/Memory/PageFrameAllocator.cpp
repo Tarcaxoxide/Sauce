@@ -70,7 +70,7 @@ namespace Sauce{
             }
         }
         void PageFrameAllocator::ReleasePage(void* address){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageFrameAllocator::ReleasePage]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageFrameAllocator::ReleasePage]\n\0");
             uint64_t index = (uint64_t)address / 4096;
             if(PageBitmap[index] == false)return;
             if(PageBitmap.Set(index,false)){
@@ -80,7 +80,7 @@ namespace Sauce{
             }
         }
         void PageFrameAllocator::ReservePage(void* address){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageFrameAllocator::ReservePage]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageFrameAllocator::ReservePage]\n\0");
             uint64_t index = (uint64_t)address / 4096;
             if(PageBitmap[index] == true)return;
             if(PageBitmap.Set(index,true)){

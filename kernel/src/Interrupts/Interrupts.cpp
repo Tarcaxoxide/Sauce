@@ -42,17 +42,17 @@ namespace Sauce{
             PIC2_Done();
         }
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[PITInterrupt_handler]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PITInterrupt_handler]\n\0");
             Sauce::Interrupts::PIT::Tick();
             Kernel_cl::Notify({InterruptTypeCode::ITC__Time,0xFF});
             PIC1_Done();
         }
         void PIC1_Done(){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE)Sauce::IO::Debug::COM1_Console.Write((char*)"[PIC1_Done]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PIC1_Done]\n\0");
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);
         }
         void PIC2_Done(){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE)Sauce::IO::Debug::COM1_Console.Write((char*)"[PIC2_Done]\n\0");
+            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PIC2_Done]\n\0");
             Sauce::IO::outb(PIC2_COMMAND,PIC_EOI);
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);
         }

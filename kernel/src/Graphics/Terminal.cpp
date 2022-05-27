@@ -14,34 +14,45 @@ namespace Sauce{
             this->PixelsPerLine=PixelsPerLine;
             PixelsBufferHeight=(PixelBufferTotalSize/PixelsPerLine);
             MyOffset=Offset;
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\"this\")\n\0");
         }
         bool Terminal_cl::SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::SetColor]\n\0");
             this->ForegroundColor=ForegroundColor;
             this->BackgroundColor=BackgroundColor;
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
             return true;
         }
         bool Terminal_cl::SetColor(GOP_PixelStructure ForegroundColor){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::SetColor]\n\0");
             this->ForegroundColor=ForegroundColor;
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
             return true;
         }
         bool Terminal_cl::RowFill(size_t RowIndex,GOP_PixelStructure TheColor){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::TERMINAL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::RowFill]\n\0");
-            if(RowIndex > PixelsPerLine)return false;
+            if(RowIndex > PixelsPerLine){
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
+                return false;
+            }
             PixelPointer.X=RowIndex;
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
             return true;
         }
         bool Terminal_cl::ColumnFill(size_t ColumnIndex,GOP_PixelStructure TheColor){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::TERMINAL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::ColumnFill]\n\0");
-            if(ColumnIndex > PixelsPerLine)return false;
+            if(ColumnIndex > PixelsPerLine){
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
+                return false;
+            }
             PixelPointer.Y=ColumnIndex;
             for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
                 PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
             return true;
         }
         bool Terminal_cl::Fill(GOP_PixelStructure TheColor){
@@ -51,6 +62,7 @@ namespace Sauce{
                     PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
                 }
             }
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
             return true;
         }
         bool Terminal_cl::RowClear(size_t RowIndex){
@@ -68,6 +80,7 @@ namespace Sauce{
         bool Terminal_cl::SetCursor(int64_t X,int64_t Y,int64_t Z){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::SetCursor]\n\0");
             PixelPointer={X,Y,Z};
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
             return true;
         }
         bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset){
@@ -75,12 +88,16 @@ namespace Sauce{
             Offset.X+=MyOffset.X;
             Offset.Y+=MyOffset.Y;
             Offset.Z+=MyOffset.Z;
-            if(OtherPixelBufferTotalSize < PixelBufferTotalSize+(Offset.X*Offset.Y))return false;
+            if(OtherPixelBufferTotalSize < PixelBufferTotalSize+(Offset.X*Offset.Y)){
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(False)\n\0");
+                return false;
+            }
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
                     OtherPixelBuffer[Sauce::ind(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
                 }
             }
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
             return true;
         }
         bool Terminal_cl::CopyFrom(Terminal_cl* OtherTerminal){
@@ -89,11 +106,21 @@ namespace Sauce{
         }
         uPoint64_t Terminal_cl::Size(){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::Size]\n\0");
+            
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL){
+                Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\0");
+                Sauce::IO::Debug::COM1_Console.Write((char*)"Width:\0");
+                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(PixelsPerLine));
+                Sauce::IO::Debug::COM1_Console.Write((char*)",Height:\0");
+                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(PixelsBufferHeight));
+                Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+            }
             return {PixelsPerLine,PixelsBufferHeight,0};
         }
         bool Terminal_cl::Move(Point64_t Offset){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::TERMINAL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Terminal_cl::Move]\n\0");
             MyOffset=Offset;
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(True)\n\0");
             return true;
         }
     };

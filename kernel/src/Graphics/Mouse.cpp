@@ -40,7 +40,7 @@ namespace Sauce{
                     }
                 }
             }
-
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }
         Mouse_cl::Mouse_cl(Point64_t InitialPosition)
         :Terminal_cl((13*13),13,InitialPosition){
@@ -48,6 +48,7 @@ namespace Sauce{
             Clear();
             PutChar(0);
             Sauce::IO::PS2MouseInitialize(InitialPosition);
+            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\"this\")\n\0");
         }
     };
 
