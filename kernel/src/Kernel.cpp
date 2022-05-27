@@ -51,6 +51,7 @@ namespace Sauce{
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
+        asm volatile("sti");
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
         /*testing terminal*/{
             for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
@@ -61,14 +62,13 @@ namespace Sauce{
             }
             Sauce::Global::Shell->SetColor({0x00,0xFA,0xFA,0xFF});
         };
-        DrawUI(true);
     }
     void Kernel_cl::MainLoop(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
-        do{
+        while(true){
             Sauce::Interrupts::PIT::Sleep(500);
-            DrawUI();
-        }while(true);
+            DrawUI(true);
+        }
     }
     void Kernel_cl::Prep_GlobalAllocator(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_GlobalAllocator]\n\0");
@@ -161,7 +161,6 @@ namespace Sauce{
                 }break;
             }
         }
-        MainLoop();
     }
     int testcount=0;
     Point64_t CurrentMouseCursorPosition{0,0,0};
@@ -173,7 +172,6 @@ namespace Sauce{
             CurrentMouseCursorPosition = Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
             Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
         }
-        MainLoop();
     }
     void Kernel_cl::DrawUI(bool Background){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::DrawUI]\n\0");
