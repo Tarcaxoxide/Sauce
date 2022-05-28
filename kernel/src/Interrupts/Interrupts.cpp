@@ -24,15 +24,8 @@ namespace Sauce{
         }
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame){
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_KEYBOARD)Sauce::IO::Debug::COM1_Console.Write((char*)"[KeyboardInterrupt_handler]\n\0");
-            uint8_t input = 0;
-            do {
-              if(Sauce::IO::inb(0x60) != input) {
-                input = Sauce::IO::inb(0x60);
-                if(input > 0) {
-                    Kernel_cl::Notify({InterruptTypeCode::ITC__Keyboard,input});
-                }
-              }
-            } while(input != 0);
+            uint8_t input = Sauce::IO::inb(0x60);
+            Kernel_cl::Notify({InterruptTypeCode::ITC__Keyboard,input});
             PIC1_Done();
             if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_KEYBOARD)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
         }

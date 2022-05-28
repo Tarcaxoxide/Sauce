@@ -44,8 +44,8 @@ namespace Sauce{
         Prep_IO();
         asm volatile("cli");
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-        Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({1800,900,0},{60,40,0});
-        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({5,5,0});
+        Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
+        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({50,50,0});
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Sauce::Global::Terminal->Clear();
@@ -55,15 +55,7 @@ namespace Sauce{
     }
     void Kernel_cl::PreLoop(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
-        /*testing terminal*/{
-            for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
-                Sauce::Global::Terminal->RowFill(i,{0x40,0x00,0x00,0xFF});
-            }
-            for(size_t i=0;i<DFBL->FrameBuffer->Height-5;i+=5){
-                Sauce::Global::Terminal->ColumnFill(i,{0x00,0x40,0x00,0xFF});
-            }
-            Sauce::Global::Shell->SetColor({0x00,0xFA,0xFA,0xFF});
-        };
+        Sauce::Global::Shell->SetColor({0x00,0xFA,0xFA,0xFF});
     }
     void Kernel_cl::MainLoop(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
@@ -189,6 +181,7 @@ namespace Sauce{
         if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
+        asm volatile("cli");
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Notify]\n\0");
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
@@ -208,6 +201,7 @@ namespace Sauce{
             }break;
         }
         if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+        asm volatile("sti");
     }
     void Kernel_cl::Stop(bool ClearInterrupts){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Stop]\n\0");
