@@ -95,5 +95,5 @@
     - hardware accelerated graphics
 
 # current working on
-- Hard Drive access (with addition confusion XD).
+- disk access (with addition confusion XD).
 - debugging (making it easy to turn off/on certain things for printing to serial)
