@@ -1,5 +1,5 @@
 #include<Sauce/Kernel.hpp>
-#include<Sauce/Convert/To_String.hpp>
+#include<Sauce/Utilities/Conversion.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Memory/efiMemory.h>
 #include<Sauce/Memory/Memory.hpp>
@@ -72,26 +72,26 @@ namespace Sauce{
     }
     void Kernel_cl::Prep_GlobalAllocator(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_GlobalAllocator]\n\0");
-        Sauce::Global::Allocator = Sauce::Memory::PageFrameAllocator();
+        Sauce::Global::PageFrameAllocator = Sauce::Memory::PageFrameAllocator_cl();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
-        Sauce::Global::Allocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
+        Sauce::Global::PageFrameAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
         kernelSize = ((uint64_t)&_KernelEndRef)-((uint64_t)&_KernelStartRef);
         kernelPages = (uint64_t)kernelSize/4096 +1;
-        Sauce::Global::Allocator.LockPages(&_KernelStartRef,kernelPages);
-        PML4 = (Sauce::Memory::PageTable*)Sauce::Global::Allocator.RequestPage();
+        Sauce::Global::PageFrameAllocator.LockPages(&_KernelStartRef,kernelPages);
+        PML4 = (Sauce::Memory::PageTable*)Sauce::Global::PageFrameAllocator.RequestPage();
         Sauce::Memory::memset(PML4,0,0x1000);
-        Sauce::Memory::GlobalPageTableManager = Sauce::Memory::PageTableManager(PML4);
+        Sauce::Global::PageTableManager = Sauce::Memory::PageTableManager_cl(PML4);
     }
     void Kernel_cl::Prep_VirtualAddresses(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_VirtualAddresses]\n\0");
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
-            Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
+            Sauce::Global::PageTableManager.MapMemory((void*)t,(void*)t);
         }
         DFBL->fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
         DFBL->fbSize = (uint64_t)DFBL->FrameBuffer->BufferSize + 0x1000;
-        Sauce::Global::Allocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
+        Sauce::Global::PageFrameAllocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
         for(uint64_t t=DFBL->fbBase;t<DFBL->fbBase+DFBL->fbSize;t+=0x1000){
-            Sauce::Memory::GlobalPageTableManager.MapMemory((void*)t,(void*)t);
+            Sauce::Global::PageTableManager.MapMemory((void*)t,(void*)t);
         }
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
@@ -111,7 +111,7 @@ namespace Sauce{
     void Kernel_cl::Prep_Interrupts(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Prep_Interrupts]\n\0");
         idtr.Limit = 0x0FFF;
-        idtr.Offset= (uint64_t)Sauce::Global::Allocator.RequestPage();
+        idtr.Offset= (uint64_t)Sauce::Global::PageFrameAllocator.RequestPage();
 
         Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
         if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(PageFault_handler)\n\0");

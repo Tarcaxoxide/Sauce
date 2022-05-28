@@ -1,5 +1,5 @@
 #include<Sauce/Graphics/Terminal.hpp>
-#include<Sauce/Convert/To_String.hpp>
+#include<Sauce/Utilities/Conversion.hpp>
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 namespace Sauce{

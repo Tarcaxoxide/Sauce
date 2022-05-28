@@ -1,8 +1,9 @@
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
-#include<Sauce/Convert/To_String.hpp>
+#include<Sauce/Utilities/Conversion.hpp>
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
+#include<Sauce/Global/Global.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -10,7 +11,7 @@ namespace Sauce{
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[EnemerateFunction]\n\0");
             uint64_t offset = function << 12;
             uint64_t functionAddress = deviceAddress + offset;
-            Sauce::Memory::GlobalPageTableManager.MapMemory((void*)functionAddress,(void*)functionAddress);
+            Sauce::Global::PageTableManager.MapMemory((void*)functionAddress,(void*)functionAddress);
             PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)functionAddress;
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
@@ -33,7 +34,7 @@ namespace Sauce{
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[EnumerateDevice]\n\0");
             uint64_t offset = device << 15;
             uint64_t deviceAddress = busAddress + offset;
-            Sauce::Memory::GlobalPageTableManager.MapMemory((void*)deviceAddress,(void*)deviceAddress);
+            Sauce::Global::PageTableManager.MapMemory((void*)deviceAddress,(void*)deviceAddress);
             PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)deviceAddress;
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
@@ -45,7 +46,7 @@ namespace Sauce{
             if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::PCI)Sauce::IO::Debug::COM1_Console.Write((char*)"[EnumerateBus]\n\0");
             uint64_t offset = bus << 20;
             uint64_t busAddress = baseAddress + offset;
-            Sauce::Memory::GlobalPageTableManager.MapMemory((void*)busAddress,(void*)busAddress);
+            Sauce::Global::PageTableManager.MapMemory((void*)busAddress,(void*)busAddress);
             PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)busAddress;
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;

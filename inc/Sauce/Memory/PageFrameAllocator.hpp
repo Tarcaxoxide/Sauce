@@ -8,7 +8,7 @@
 
 namespace Sauce{
     namespace Memory{
-        class PageFrameAllocator{
+        class PageFrameAllocator_cl{
             public:
             Bitmap_t PageBitmap;
             void ReadEfiMemoryMap(EFI_MEMORY_DESCRIPTOR* mMap,size_t mMapSize,size_t mDescriptorSize);

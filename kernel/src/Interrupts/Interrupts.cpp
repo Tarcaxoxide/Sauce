@@ -2,7 +2,7 @@
 #include<Sauce/Kernel.hpp>
 #include<Sauce/IO/Panic.hpp>
 #include<Sauce/IO/IO.hpp>
-#include<Sauce/Convert/To_String.hpp>
+#include<Sauce/Utilities/Conversion.hpp>
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>

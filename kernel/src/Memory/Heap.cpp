@@ -1,6 +1,6 @@
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Convert/To_String.hpp>
+#include<Sauce/Utilities/Conversion.hpp>
 #include<Sauce/Global/Global.hpp>
 
 namespace Sauce{
@@ -61,7 +61,7 @@ namespace Sauce{
             void* pos = heapAddress;
 
             for(size_t i=0;i<PageCount;i++){
-                Sauce::Memory::GlobalPageTableManager.MapMemory(pos,Sauce::Global::Allocator.RequestPage());
+                Sauce::Global::PageTableManager.MapMemory(pos,Sauce::Global::PageFrameAllocator.RequestPage());
                 pos = (void*)((size_t)pos + 0x1000);
             }
             size_t heapLength=PageCount*0x1000;
@@ -132,7 +132,7 @@ namespace Sauce{
             size_t pageCount = length/0x1000;
             HeapSegmentHeader* newSegment = (HeapSegmentHeader*)heapEnd;
             for(size_t i=0;i<pageCount;i++){
-                Sauce::Memory::GlobalPageTableManager.MapMemory(heapEnd,Sauce::Global::Allocator.RequestPage());
+                Sauce::Global::PageTableManager.MapMemory(heapEnd,Sauce::Global::PageFrameAllocator.RequestPage());
                 heapEnd = (void*)((size_t)heapEnd+0x1000);
             }
             newSegment->free=true;
