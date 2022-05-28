@@ -60,7 +60,7 @@ namespace Sauce{
     void Kernel_cl::MainLoop(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         while(true){
-            asm volatile("sti");Sauce::Interrupts::PIT::Sleep(500);asm volatile("cli");
+            AcceptingInterrupts(500);
             DrawUI();
         }
     }
@@ -179,6 +179,11 @@ namespace Sauce{
         Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
         Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+    }
+    void Kernel_cl::AcceptingInterrupts(size_t TimeSpan){
+        asm volatile("sti");
+        Sauce::Interrupts::PIT::Sleep(TimeSpan);
+        asm volatile("cli");
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         asm volatile("cli");

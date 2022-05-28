@@ -45,5 +45,6 @@ namespace Sauce{
             void oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
             void oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse);
             void DrawUI();
+            void AcceptingInterrupts(size_t TimeSpan);
     };
 };
