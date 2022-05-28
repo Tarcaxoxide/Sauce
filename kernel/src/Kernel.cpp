@@ -36,7 +36,7 @@ namespace Sauce{
         Prep_VirtualAddresses();
         Prep_GDT();
         
-        Sauce::Interrupts::PIT::SetDivisor(65535);
+        Sauce::Interrupts::PIT::SetDivisor(65535/6);
         Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
 
         Prep_Interrupts();
@@ -45,7 +45,7 @@ namespace Sauce{
         asm volatile("cli");
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
-        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({50,50,0});
+        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Sauce::Global::Terminal->Clear();
@@ -60,7 +60,7 @@ namespace Sauce{
     void Kernel_cl::MainLoop(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         while(true){
-            AcceptingInterrupts(500);
+            AcceptingInterrupts(100);
             DrawUI();
         }
     }
@@ -206,7 +206,6 @@ namespace Sauce{
             }break;
         }
         if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
-        asm volatile("sti");
     }
     void Kernel_cl::Stop(bool ClearInterrupts){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Stop]\n\0");
