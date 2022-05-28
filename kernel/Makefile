@@ -36,6 +36,14 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::
 
 
+
+$(BUILDDIR)/$(OSNAME).iso: $(BUILDDIR)/$(OSNAME).img
+	mkdir $(BUILDDIR)/ISOdir
+	sudo mount $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/ISOdir
+	mkisofs -d -D -J -l -r -U -relaxed-filenames -o $(BUILDDIR)/$(OSNAME).iso $(BUILDDIR)/ISOdir
+	sudo umount $(BUILDDIR)/ISOdir
+
+
 $(OBJDIR)/Interrupts/Interrupts_cpp.o:$(SRCDIR)/Interrupts/Interrupts.cpp
 	@echo ##$^ -> $@
 	@mkdir -p $(@D)
@@ -62,7 +70,7 @@ setup:
 	@mkdir -p $(OBJDIR)
 
 
-.PHONY: clean
+.PHONY: clean run run_iso
 clean:
 	rm -frv bin/* lib/*
 
