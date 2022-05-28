@@ -38,10 +38,8 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 
 
 $(BUILDDIR)/$(OSNAME).iso: $(BUILDDIR)/$(OSNAME).img
-	mkdir $(BUILDDIR)/ISOdir
-	sudo mount $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/ISOdir
-	mkisofs -d -D -J -l -r -U -relaxed-filenames -o $(BUILDDIR)/$(OSNAME).iso $(BUILDDIR)/ISOdir
-	sudo umount $(BUILDDIR)/ISOdir
+	mkisofs -d -D -J -l -r -U -relaxed-filenames -o $@ $<
+	
 
 
 $(OBJDIR)/Interrupts/Interrupts_cpp.o:$(SRCDIR)/Interrupts/Interrupts.cpp

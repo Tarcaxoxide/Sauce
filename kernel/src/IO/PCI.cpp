@@ -12,7 +12,7 @@ namespace Sauce{
             uint64_t offset = function << 12;
             uint64_t functionAddress = deviceAddress + offset;
             Sauce::Global::PageTableManager.MapMemory((void*)functionAddress,(void*)functionAddress);
-            PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)functionAddress;
+            PCIDeviceHeader_st* pciDeviceHeader = (PCIDeviceHeader_st*)functionAddress;
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
 
@@ -22,7 +22,7 @@ namespace Sauce{
                         case 0x06:{ // serial ata
                             switch(pciDeviceHeader->ProgIF){
                                 case 0x01:{ // ahci 1.0 device
-                                    // TODO: Re-Implement ahci driver.
+                                    Sauce::Global::AHCIDriver = new Sauce::Storage::AHCIDriver_cl(pciDeviceHeader);
                                 }break;
                             }
                         }break;
@@ -35,7 +35,7 @@ namespace Sauce{
             uint64_t offset = device << 15;
             uint64_t deviceAddress = busAddress + offset;
             Sauce::Global::PageTableManager.MapMemory((void*)deviceAddress,(void*)deviceAddress);
-            PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)deviceAddress;
+            PCIDeviceHeader_st* pciDeviceHeader = (PCIDeviceHeader_st*)deviceAddress;
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
             for(uint64_t function=0;function < 8;function++){
@@ -47,7 +47,7 @@ namespace Sauce{
             uint64_t offset = bus << 20;
             uint64_t busAddress = baseAddress + offset;
             Sauce::Global::PageTableManager.MapMemory((void*)busAddress,(void*)busAddress);
-            PCIDeviceHeader* pciDeviceHeader = (PCIDeviceHeader*)busAddress;
+            PCIDeviceHeader_st* pciDeviceHeader = (PCIDeviceHeader_st*)busAddress;
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
             for(uint64_t device =0;device < 32;device++){

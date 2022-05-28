@@ -44,6 +44,6 @@ namespace Sauce{
             static void Notify(Sauce::Interrupts::InterruptDataStruct InterruptData);
             void oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
             void oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse);
-            void DrawUI(bool Background=false);
+            void DrawUI();
     };
 };

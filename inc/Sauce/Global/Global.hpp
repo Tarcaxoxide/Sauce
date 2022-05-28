@@ -7,6 +7,7 @@
 #include<Sauce/Memory/PageFrameAllocator.hpp>
 #include<Sauce/Graphics/Mouse.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
+#include<Sauce/Storage/AHCI.hpp>
 
 
 namespace Sauce{
@@ -16,5 +17,6 @@ namespace Sauce{
         extern Sauce::Memory::PageFrameAllocator_cl PageFrameAllocator;
         extern Sauce::Graphics::Mouse_cl* Mouse;
         extern Sauce::Memory::PageTableManager_cl PageTableManager;
+        extern Sauce::Storage::AHCIDriver_cl* AHCIDriver;
     };
 };

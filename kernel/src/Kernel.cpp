@@ -27,31 +27,33 @@ namespace Sauce{
                             //when being updated by the hardware (Example: interrupts)
     bool ReadyToDraw=true;
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
+        asm volatile("cli");
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::Kernel_cl]\n\0");
         this->DFBL=DFBL;
         if(Self == NULL)Self=this;
-        asm volatile("cli");
+        
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
+        
         Sauce::Interrupts::PIT::SetDivisor(65535);
         Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
+
         Prep_Interrupts();
-        Prep_IO();// in qemu it wont actually continue past this point until it receives a mouse event.
-                  // or at least that's what it looks like because it wont type the finish text till then.
+        asm volatile("sti");
+        Prep_IO();
+        asm volatile("cli");
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({1800,900,0},{60,40,0});
         Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({5,5,0});
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Sauce::Global::Terminal->Clear();
-        asm volatile("sti");
         Prep_ACPI();
         PreLoop();
         MainLoop();
     }
     void Kernel_cl::PreLoop(){
-        asm volatile("sti");
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::PreLoop]\n\0");
         /*testing terminal*/{
             for(size_t i=0;i<DFBL->FrameBuffer->PixelsPerScanLine-5;i+=5){
@@ -66,8 +68,8 @@ namespace Sauce{
     void Kernel_cl::MainLoop(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::MainLoop]\n\0");
         while(true){
-            Sauce::Interrupts::PIT::Sleep(500);
-            DrawUI(true);
+            asm volatile("sti");Sauce::Interrupts::PIT::Sleep(500);asm volatile("cli");
+            DrawUI();
         }
     }
     void Kernel_cl::Prep_GlobalAllocator(){
@@ -173,16 +175,17 @@ namespace Sauce{
             Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
         }
     }
-    void Kernel_cl::DrawUI(bool Background){
+    void Kernel_cl::DrawUI(){
         if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Kernel_cl::DrawUI]\n\0");
         if(!ReadyToDraw){
             ReadyToDraw=true;
             if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
             return;
         }
-        if(Background)Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-        Sauce::Global::Shell->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-        Sauce::Global::Mouse->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        
+        Sauce::Global::Terminal->CopyFrom(Sauce::Global::Shell);
+        Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
+        Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KERNEL && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){

@@ -8,7 +8,7 @@
 
 namespace Sauce{
     namespace IO{
-        struct PCIDeviceHeader{
+        struct PCIDeviceHeader_st{
             uint16_t VendorID;
             uint16_t DeviceID;
             uint16_t Command;
@@ -22,8 +22,8 @@ namespace Sauce{
             uint8_t HeaderType;
             uint8_t BIST;
         };
-        struct PCIHeader0{
-            PCIDeviceHeader Header;
+        struct PCIHeader0_st{
+            PCIDeviceHeader_st Header;
             uint32_t BAR0;
             uint32_t BAR1;
             uint32_t BAR2;

@@ -8,7 +8,8 @@ namespace Sauce{
         Sauce::Graphics::Shell_cl* Shell=nullptr;
         Sauce::Memory::PageFrameAllocator_cl PageFrameAllocator;
         Sauce::Graphics::Mouse_cl* Mouse=nullptr;
-        Sauce::Memory::PageTableManager_cl PageTableManager = NULL;
+        Sauce::Memory::PageTableManager_cl PageTableManager =NULL;
+        Sauce::Storage::AHCIDriver_cl* AHCIDriver=nullptr;
     };
 };
 
