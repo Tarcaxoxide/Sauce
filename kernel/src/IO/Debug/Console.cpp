@@ -46,30 +46,73 @@ namespace Sauce{
             Console_cl COM6_Console;
             Console_cl COM7_Console;
             Console_cl COM8_Console;
-            size_t NestLevel=0;
 
-            void Print_Call(char* msg,bool FunctionSpecific,bool Done,bool Spam){
+            void Print_Call(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam){
                 if(Sauce::IO::Debug::FUNCTION_CALLS && FunctionSpecific && (Sauce::IO::Debug::SPAMMY || (!Spam))){
-                    Sauce::IO::Debug::COM1_Console.Write((char*)"[\0");
-                    Sauce::IO::Debug::COM1_Console.Write(msg);
-                    if(Done)Sauce::IO::Debug::COM1_Console.Write((char*)"]\0");
+                    switch(Done){
+                        case StartOfPrint::Single:{
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"[\0");
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"]\n\0");
+                        }break;
+                        case StartOfPrint::Start:{
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"[\0");
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                        }break;
+                        case StartOfPrint::Middle:{
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                        }break;
+                        case StartOfPrint::End:{
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"]\n\0");
+                        }break;
+                    } 
                 }
-                if(Done)NestLevel++;
+
             }
-            void Print_Detail(char* msg,bool FunctionSpecific,bool Done,bool Spam){
+            void Print_Detail(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam){
                 if(Sauce::IO::Debug::FUNCTION_DETAILS && FunctionSpecific && (Sauce::IO::Debug::SPAMMY || (!Spam))){
-                    Sauce::IO::Debug::COM1_Console.Write((char*)"{\0");
-                    Sauce::IO::Debug::COM1_Console.Write(msg);
-                    if(Done)Sauce::IO::Debug::COM1_Console.Write((char*)"}\0");
+                    switch(Done){
+                        case StartOfPrint::Single:{
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"\t{\0");
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"}\n\0");
+                        }break;
+                        case StartOfPrint::Start:{
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"\t{\0");
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                        }break;
+                        case StartOfPrint::Middle:{
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                        }break;
+                        case StartOfPrint::End:{
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"}\n\0");
+                        }break;
+                    } 
                 }
             }
-            void Print_Return(char* msg,bool FunctionSpecific,bool Done,bool Spam){
+            void Print_Return(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam){
                 if(Sauce::IO::Debug::FUNCTION_RETURNS && FunctionSpecific && (Sauce::IO::Debug::SPAMMY || (!Spam))){
-                    Sauce::IO::Debug::COM1_Console.Write((char*)"(\0");
-                    Sauce::IO::Debug::COM1_Console.Write(msg);
-                    if(Done)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                    switch(Done){
+                        case StartOfPrint::Single:{
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"\t(\0");
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                            Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                        }break;
+                        case StartOfPrint::Start:{
+                            Sauce::IO::Debug::COM1_Console.Write((char*)"\t(\0");
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                        }break;
+                        case StartOfPrint::Middle:{
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                        }break;
+                        case StartOfPrint::End:{
+                            Sauce::IO::Debug::COM1_Console.Write(msg);
+                            Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                        }break;
+                    } 
                 }
-                if(Done)NestLevel--;
             }
         };
     };

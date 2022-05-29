@@ -6,12 +6,12 @@ namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Point64_t Size,Point64_t Offset)
         :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
-            Sauce::IO::Debug::Print_Call("Shell_cl::Shell_cl",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::Shell_cl",Sauce::IO::Debug::SHELL);
             Clear();
-            Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::PutChar(wchar_t chr,bool AddToBuffer){
-            Sauce::IO::Debug::Print_Call("Shell_cl::PutChar",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::PutChar",Sauce::IO::Debug::SHELL);
             size_t chrindex = (size_t)chr;
             if(chrindex > 255)chrindex-=8236; //<- get out of here you stupid "wide characters",
                                               // i'll deal with you later but for now i'm not insane enough.
@@ -62,88 +62,88 @@ namespace Sauce{
                     }
                 }break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::PutString(const wchar_t* str,bool AddToBuffer){
-            Sauce::IO::Debug::Print_Call("Shell_cl::PutString",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::PutString",Sauce::IO::Debug::SHELL);
             while(true){
                 char ThisChar = (char)*str++;
                 if(ThisChar == '\0')break;
                 PutChar((wchar_t)ThisChar,AddToBuffer);
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::PutString(const char* str,bool AddToBuffer){
-            Sauce::IO::Debug::Print_Call("Shell_cl::PutString",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::PutString",Sauce::IO::Debug::SHELL);
             while(true){
                 char ThisChar = (char)*str++;
                 if(ThisChar == '\0')break;
                 PutChar((wchar_t)ThisChar,AddToBuffer);
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }
         bool Shell_cl::GoDown(size_t amount){
-            Sauce::IO::Debug::Print_Call("Shell_cl::GoDown",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::GoDown",Sauce::IO::Debug::SHELL);
             if((Cursor.Y+(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) > (PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) ){
-                Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::SHELL,true);
+                Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::SHELL);
                 return false;
             }
             Cursor.Y+=(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount;
-            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::SHELL);
             return true;
         }
         bool Shell_cl::GoUp(size_t amount){
-            Sauce::IO::Debug::Print_Call("Shell_cl::GoUp",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::GoUp",Sauce::IO::Debug::SHELL);
             if((Cursor.Y-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) < 0){
-                Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::SHELL,true);
+                Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::SHELL);
                 return false;
             }
             Cursor.Y-=(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount;
-            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::SHELL);
             return true;
         }
         bool Shell_cl::GoRight(size_t amount){
-            Sauce::IO::Debug::Print_Call("Shell_cl::GoRight",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::GoRight",Sauce::IO::Debug::SHELL);
             if((Cursor.X+(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) > (PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) ){
-                Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::SHELL,true);
+                Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::SHELL);
                 return false;
             }
             Cursor.X+=(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount;
-            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::SHELL);
             return true;
         }
         bool Shell_cl::GoLeft(size_t amount){
-            Sauce::IO::Debug::Print_Call("Shell_cl::GoLeft",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::GoLeft",Sauce::IO::Debug::SHELL);
             if((Cursor.X-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) < 0){
-                Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::SHELL,true);
+                Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::SHELL);
                 return false;
             }
             Cursor.X-=(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount;
-            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::SHELL);
             return true;
         }
         void Shell_cl::GoFarDown(){
-            Sauce::IO::Debug::Print_Call("Shell_cl::GoFarDown",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::GoFarDown",Sauce::IO::Debug::SHELL);
             Cursor.Y=PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2);
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::GoFarUp(){
-            Sauce::IO::Debug::Print_Call("Shell_cl::GoFarUp",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::GoFarUp",Sauce::IO::Debug::SHELL);
             Cursor.Y=0;
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::GoFarRight(){
-            Sauce::IO::Debug::Print_Call("Shell_cl::GoFarRight",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::GoFarRight",Sauce::IO::Debug::SHELL);
             Cursor.X=PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2);
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::GoFarLeft(){
-            Sauce::IO::Debug::Print_Call("Shell_cl::GoFarLeft",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::GoFarLeft",Sauce::IO::Debug::SHELL);
             Cursor.X=0;
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::RunCmd(){
-            Sauce::IO::Debug::Print_Call("Shell_cl::RunCmd",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Call("Shell_cl::RunCmd",Sauce::IO::Debug::SHELL);
             Sauce::Memory::List_cl<Sauce::Memory::List_cl<char>*> ArgBuffer;
             size_t CrawlerVal=0;
             for(size_t i=0;i<CharBuffer.Size();i++){
@@ -168,7 +168,7 @@ namespace Sauce{
                 PutString(ArgBuffer[0]->Raw(),false);
                 PutString(L"'\n\r",false);
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }
     };
 };

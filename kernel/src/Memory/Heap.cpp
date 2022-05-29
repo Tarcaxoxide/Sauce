@@ -10,7 +10,7 @@ namespace Sauce{
         HeapSegmentHeader* LastSegmentHeader;
 
         void HeapSegmentHeader::CombinedForward(){
-            Sauce::IO::Debug::Print_Call("HeapSegmentHeader::CombinedForward",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Call("HeapSegmentHeader::CombinedForward",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
             if(NextSegment == NULL)return;
             if(!NextSegment->free)return;
             if(NextSegment == LastSegmentHeader)LastSegmentHeader=this;
@@ -19,19 +19,19 @@ namespace Sauce{
             }
             Length = Length + NextSegment->Length + sizeof(HeapSegmentHeader);
             NextSegment = NextSegment->NextSegment;
-            Sauce::IO::Debug::Print_Return(Sauce::Convert::ToString(Length),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Return(Sauce::Convert::ToString(Length),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
         }
         void HeapSegmentHeader::CombinedBackward(){
-            Sauce::IO::Debug::Print_Call("HeapSegmentHeader::CombinedBackward",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Call("HeapSegmentHeader::CombinedBackward",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
             if(LastSegment != NULL && LastSegment->free)LastSegment->CombinedForward();
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
         }
         HeapSegmentHeader* HeapSegmentHeader::Split(size_t splitLength){
-            Sauce::IO::Debug::Print_Call("HeapSegmentHeader::Split",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
-            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(splitLength),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
-            if(splitLength > 0x10){Sauce::IO::Debug::Print_Return("NULL",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);return NULL;} // <- splitLength smaller than causes a crash. this is incorrect code but the correct code does not work *shrugs* 
+            Sauce::IO::Debug::Print_Call("HeapSegmentHeader::Split",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
+            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(splitLength),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
+            if(splitLength > 0x10){Sauce::IO::Debug::Print_Return("NULL",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);return NULL;} // <- splitLength smaller than causes a crash. this is incorrect code but the correct code does not work *shrugs* 
             int64_t  splitSegmentLength = Length - splitLength - (sizeof(HeapSegmentHeader));
-            if(splitSegmentLength > 0x10){Sauce::IO::Debug::Print_Return("NULL",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);return NULL;}
+            if(splitSegmentLength > 0x10){Sauce::IO::Debug::Print_Return("NULL",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);return NULL;}
             HeapSegmentHeader* nSplitHeader = (HeapSegmentHeader*)((size_t)this +splitLength+sizeof(HeapSegmentHeader));
             NextSegment->LastSegment = nSplitHeader;
             nSplitHeader->NextSegment = NextSegment;
@@ -42,17 +42,17 @@ namespace Sauce{
             Length = splitLength;
             if(LastSegmentHeader == this)LastSegmentHeader=nSplitHeader;
 
-            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)nSplitHeader),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)nSplitHeader),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
             return nSplitHeader;
         }
         
         void InitalizeHeap(void* heapAddress,size_t PageCount){
-            Sauce::IO::Debug::Print_Call("InitalizeHeap",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Call("InitalizeHeap",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
 
-            Sauce::IO::Debug::Print_Detail("Address:",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,false);
-            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString((uint64_t)heapAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,false);
-            Sauce::IO::Debug::Print_Detail(",PageCount:",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,false);
-            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(PageCount),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Detail("Address:",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,Sauce::IO::Debug::StartOfPrint::Start);
+            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString((uint64_t)heapAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,Sauce::IO::Debug::StartOfPrint::Middle);
+            Sauce::IO::Debug::Print_Detail(",PageCount:",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,Sauce::IO::Debug::StartOfPrint::Middle);
+            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(PageCount),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,Sauce::IO::Debug::StartOfPrint::End);
             void* pos = heapAddress;
 
             for(size_t i=0;i<PageCount;i++){
@@ -69,17 +69,17 @@ namespace Sauce{
             startSegment->LastSegment = NULL;
             startSegment->free=true;
             LastSegmentHeader = startSegment;
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
         }
         void* malloc(size_t size){
-            Sauce::IO::Debug::Print_Call("malloc",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
-            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(size),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Call("malloc",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
+            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(size),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
             
             if(size%0x10 > 0){ // is not a multiple of 0x10
                 size-=(size%0x10);
                 size+=0x10;
             }
-            if(size == 0){Sauce::IO::Debug::Print_Return("NULL",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);return NULL;}
+            if(size == 0){Sauce::IO::Debug::Print_Return("NULL",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);return NULL;}
             HeapSegmentHeader* currentSegment = (HeapSegmentHeader*)heapBegin;
             while(true){
                 if(currentSegment->free){
@@ -88,15 +88,15 @@ namespace Sauce{
                         currentSegment->free=false;
                         
                         void* TheAddress = (void*)((uint64_t)currentSegment +sizeof(HeapSegmentHeader));
-                        Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)TheAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+                        Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)TheAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
                         return TheAddress;
                     }
                     if(currentSegment->Length == size){
                         currentSegment->free=false;
                         
-                        Sauce::IO::Debug::Print_Return("",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+                        Sauce::IO::Debug::Print_Return("",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
                         void* TheAddress = (void*)((uint64_t)currentSegment +sizeof(HeapSegmentHeader));
-                        Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)TheAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+                        Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)TheAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
                         return TheAddress;
                     }
                 }
@@ -105,21 +105,21 @@ namespace Sauce{
             }
             Sauce::Memory::ExpandHeap(size);
             void* TheAddress = malloc(size);
-            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)TheAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)TheAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
             return TheAddress;
         }
         void free(void* address){
-            Sauce::IO::Debug::Print_Call("free",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
-            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString((uint64_t)address),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Call("free",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
+            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString((uint64_t)address),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
             HeapSegmentHeader* segment = (HeapSegmentHeader*)address - 1;
             segment->free=true;
             segment->CombinedForward();
             segment->CombinedBackward();
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
         }
         void ExpandHeap(size_t length){
-            Sauce::IO::Debug::Print_Call("ExpandHeap",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
-            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(length),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Call("ExpandHeap",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
+            Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(length),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
             if(length%0x1000){
                 length-=length%0x1000;
                 length+=0x1000;
@@ -137,7 +137,7 @@ namespace Sauce{
             newSegment->NextSegment=NULL;
             newSegment->Length = length - sizeof(HeapSegmentHeader);
             newSegment->CombinedBackward();
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP,true);
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::HEAP);
         }
     };
 };

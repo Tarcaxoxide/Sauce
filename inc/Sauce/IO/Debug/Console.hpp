@@ -21,21 +21,25 @@ namespace Sauce{
             extern Console_cl COM6_Console;
             extern Console_cl COM7_Console;
             extern Console_cl COM8_Console;
-            extern size_t NestLevel;
 
-            void Print_Call(char* msg,bool FunctionSpecific,bool Done,bool Spam);
-            void Print_Detail(char* msg,bool FunctionSpecific,bool Done,bool Spam);
-            void Print_Return(char* msg,bool FunctionSpecific,bool Done,bool Spam);
+            enum StartOfPrint{
+                Single=0,
+                Start,
+                Middle,
+                End
+            };
 
-            inline void Print_Call(const char* msg,bool FunctionSpecific,bool Done){Print_Call((char*)msg,FunctionSpecific,Done,false);}
-            inline void Print_Detail(const char* msg,bool FunctionSpecific,bool Done){Print_Detail((char*)msg,FunctionSpecific,Done,false);}
-            inline void Print_Return(const char* msg,bool FunctionSpecific,bool Done){Print_Return((char*)msg,FunctionSpecific,Done,false);}
+            void Print_Call(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
+            void Print_Detail(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
+            void Print_Return(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
+
+            inline void Print_Call(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Call((char*)msg,FunctionSpecific,Done,false);}
+            inline void Print_Detail(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Detail((char*)msg,FunctionSpecific,Done,false);}
+            inline void Print_Return(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Return((char*)msg,FunctionSpecific,Done,false);}
             
-            inline void Print_Spammy_Call(const char* msg,bool FunctionSpecific,bool Done){Print_Call((char*)msg,FunctionSpecific,Done,true);}
-            inline void Print_Spammy_Detail(const char* msg,bool FunctionSpecific,bool Done){Print_Detail((char*)msg,FunctionSpecific,Done,true);}
-            inline void Print_Spammy_Return(const char* msg,bool FunctionSpecific,bool Done){Print_Return((char*)msg,FunctionSpecific,Done,true);}
-
-            inline void SetNestLevel(size_t nNestLevel){NestLevel=nNestLevel;}
+            inline void Print_Spammy_Call(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Call((char*)msg,FunctionSpecific,Done,true);}
+            inline void Print_Spammy_Detail(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Detail((char*)msg,FunctionSpecific,Done,true);}
+            inline void Print_Spammy_Return(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Return((char*)msg,FunctionSpecific,Done,true);}
         };
     };
 };
@@ -44,3 +48,7 @@ namespace Sauce{
 
 
 //Sauce::IO::Debug::Print_("",Sauce::IO::Debug::KERNEL,true);
+
+
+
+//Sauce::IO::Debug::StartOfPrint::
