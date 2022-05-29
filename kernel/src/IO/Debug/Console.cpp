@@ -46,6 +46,31 @@ namespace Sauce{
             Console_cl COM6_Console;
             Console_cl COM7_Console;
             Console_cl COM8_Console;
+            size_t NestLevel=0;
+
+            void Print_Call(char* msg,bool FunctionSpecific,bool Done,bool Spam){
+                if(Sauce::IO::Debug::FUNCTION_CALLS && FunctionSpecific && (Sauce::IO::Debug::SPAMMY || (!Spam))){
+                    Sauce::IO::Debug::COM1_Console.Write((char*)"[\0");
+                    Sauce::IO::Debug::COM1_Console.Write(msg);
+                    if(Done)Sauce::IO::Debug::COM1_Console.Write((char*)"]\0");
+                }
+                if(Done)NestLevel++;
+            }
+            void Print_Detail(char* msg,bool FunctionSpecific,bool Done,bool Spam){
+                if(Sauce::IO::Debug::FUNCTION_DETAILS && FunctionSpecific && (Sauce::IO::Debug::SPAMMY || (!Spam))){
+                    Sauce::IO::Debug::COM1_Console.Write((char*)"{\0");
+                    Sauce::IO::Debug::COM1_Console.Write(msg);
+                    if(Done)Sauce::IO::Debug::COM1_Console.Write((char*)"}\0");
+                }
+            }
+            void Print_Return(char* msg,bool FunctionSpecific,bool Done,bool Spam){
+                if(Sauce::IO::Debug::FUNCTION_RETURNS && FunctionSpecific && (Sauce::IO::Debug::SPAMMY || (!Spam))){
+                    Sauce::IO::Debug::COM1_Console.Write((char*)"(\0");
+                    Sauce::IO::Debug::COM1_Console.Write(msg);
+                    if(Done)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                }
+                if(Done)NestLevel--;
+            }
         };
     };
 };

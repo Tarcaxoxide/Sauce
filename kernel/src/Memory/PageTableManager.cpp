@@ -6,12 +6,16 @@
 namespace Sauce{
     namespace Memory{
         PageTableManager_cl::PageTableManager_cl(PageTable* PML4Address){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageTableManager_cl::PageTableManager_cl]\n\0");
+            Sauce::IO::Debug::Print_Spammy_Call("PageTableManager_cl::PageTableManager_cl",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager,true);
             if(this->PML4Address != NULL)return;
             this->PML4Address=PML4Address;
+            Sauce::IO::Debug::Print_Spammy_Return("this",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager,true);
         }
         void PageTableManager_cl::MapMemory(void* virtualMemory,void* physicalMemory){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageTableManager_cl::MapMemory]\n\0");
+            Sauce::IO::Debug::Print_Spammy_Call("PageTableManager_cl::MapMemory",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager,true);
+            Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Convert::HexToString((uint64_t)virtualMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager,true);
+            Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Convert::HexToString((uint64_t)physicalMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager,true);
+            
             PageMapIndexer indexer = PageMapIndexer((uint64_t)virtualMemory);
             PageDirectoryEntry PDE;
             PDE = PML4Address->entries[indexer.PDP_i];
@@ -55,6 +59,7 @@ namespace Sauce{
             PDE.SetFlag(PT_Flag::Present,true);
             PDE.SetFlag(PT_Flag::ReadWrite,true);
             PT->entries[indexer.P_i] = PDE;
+            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager,true);
         }
     };
 };

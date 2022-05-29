@@ -9,48 +9,41 @@ namespace Sauce{
             double TimeSinceBoot = 0;
             uint16_t Divisor=65535;
             void Sleepd(double seconds){
-                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[Sleepd]\n\0");
-                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"\t->(\0");
-                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(seconds));
-                if(Sauce::IO::Debug::FUNCTION_DETAILS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+                Sauce::IO::Debug::Print_Spammy_Call("Sleepd",Sauce::IO::Debug::INTERRUPT_PIT,true);
+                Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Convert::ToString(seconds),Sauce::IO::Debug::INTERRUPT_PIT,true);
                 double startTime = TimeSinceBoot;
                 while(TimeSinceBoot < startTime+seconds){
                     asm("hlt");
                 }
-                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+                Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::INTERRUPT_PIT,true);
             }
             void Sleep(uint64_t milliseconds){
-                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[Sleep]\n\0");
+                Sauce::IO::Debug::Print_Spammy_Call("Sleep",Sauce::IO::Debug::INTERRUPT_PIT,true);
                 Sleepd((double)milliseconds/1000);
-                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+                Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::INTERRUPT_PIT,true);
             }
             void SetDivisor(uint16_t divisor){
-                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[SetDivisor]\n\0");
+                Sauce::IO::Debug::Print_Spammy_Call("SetDivisor",Sauce::IO::Debug::INTERRUPT_PIT,true);
                 if(divisor < 100)divisor=100;
                 Divisor=divisor;
                 Sauce::IO::outb_w(0x40,(uint8_t)(Divisor & 0x00ff));
                 Sauce::IO::outb_w(0x40,(uint8_t)((Divisor & 0xff00)>>8));
-                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+                Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::INTERRUPT_PIT,true);
             }
             uint64_t GetFrequency(){
-                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[GetFrequency]\n\0");
-                
-                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPT_PIT){
-                    Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\0");
-                    Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::ToString(BaseFrequency/Divisor));
-                    Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
-                }
+                Sauce::IO::Debug::Print_Spammy_Call("GetFrequency",Sauce::IO::Debug::INTERRUPT_PIT,true);
+                Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(BaseFrequency/Divisor),Sauce::IO::Debug::INTERRUPT_PIT,true);
                 return BaseFrequency/Divisor;
             }
             void SetFrequency(uint64_t frequency){
-                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"[SetFrequency]\n\0");
+                Sauce::IO::Debug::Print_Spammy_Call("SetFrequency",Sauce::IO::Debug::INTERRUPT_PIT,true);
                 SetDivisor(BaseFrequency/frequency);
-                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPT_PIT)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+                Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::INTERRUPT_PIT,true);
             }
             void Tick(){
-                if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::INTERRUPT_PIT && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[Tick]\n\0");
+                Sauce::IO::Debug::Print_Spammy_Call("Tick",Sauce::IO::Debug::INTERRUPT_PIT,true);
                 TimeSinceBoot += 1 / (double)GetFrequency();
-                if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::INTERRUPT_PIT && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+                Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::INTERRUPT_PIT,true);
             }
         };
     };

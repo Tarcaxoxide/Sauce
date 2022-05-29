@@ -5,7 +5,7 @@
 namespace Sauce{
     namespace IO{
         uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KEYBOARD)Sauce::IO::Debug::COM1_Console.Write((char*)"[Translate_KeyCode]\n\0");
+            Sauce::IO::Debug::Print_Call("Translate_KeyCode",Sauce::IO::Debug::KEYBOARD,true);
             static bool isShift;
             static bool isCaps;
             uint8_t* KeyMapCodes = NULL;
@@ -34,13 +34,11 @@ namespace Sauce{
             if(isCaps != isShift){
                 KeyCodeDecoded += 0x0100; // if we are shifted or capitalized but not at the same time then make the indicator so it's capital letter of what ever key is being pressed.
             }
-            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KEYBOARD)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\0");
-            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KEYBOARD)Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(KeyCodeDecoded));
-            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KEYBOARD)Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
+            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(KeyCodeDecoded),Sauce::IO::Debug::KEYBOARD,true);
             return KeyCodeDecoded;
         }
         Sauce::IO::Keyboard_st Code_To_Key(uint16_t TranslatedKeyCode){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::KEYBOARD)Sauce::IO::Debug::COM1_Console.Write((char*)"[Code_To_Key]\n\0");
+            Sauce::IO::Debug::Print_Call("Code_To_Key",Sauce::IO::Debug::KEYBOARD,true);
             uint8_t IPress = (((uint8_t)(TranslatedKeyCode >> 12)) << 4);
             uint8_t ICapital = (((uint8_t)(TranslatedKeyCode >> 8)) << 4);
             uint8_t IKey = ((uint8_t)TranslatedKeyCode);
@@ -187,20 +185,18 @@ namespace Sauce{
                     case 0x78:IDisplay = ' ';break;
                 }
             }
-            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::KEYBOARD){
-                Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\0");
-                Capital ? Sauce::IO::Debug::COM1_Console.Write((char*)"Capital:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"Capital:False,\0");
-                Press ? Sauce::IO::Debug::COM1_Console.Write((char*)"Press:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"Press:False,\0");
-                IVisible ? Sauce::IO::Debug::COM1_Console.Write((char*)"IVisible:True,\0") : Sauce::IO::Debug::COM1_Console.Write((char*)"IVisible:False,\0");
-                Sauce::IO::Debug::COM1_Console.Write((char*)"IKey:\0");
-                Sauce::IO::Debug::COM1_Console.Write(Sauce::Convert::HexToString(IKey));
-                Sauce::IO::Debug::COM1_Console.Write((char*)",\0");
-                char strIDisplay[2]{0};
-                strIDisplay[0]=IDisplay;
-                Sauce::IO::Debug::COM1_Console.Write((char*)"IDisplay:\0");
-                Sauce::IO::Debug::COM1_Console.Write(strIDisplay);
-                Sauce::IO::Debug::COM1_Console.Write((char*)")\n\0");
-            }
+
+
+            Capital ? Sauce::IO::Debug::Print_Return("Capital:True,",Sauce::IO::Debug::KEYBOARD,false) : Sauce::IO::Debug::Print_Return("Capital:False,",Sauce::IO::Debug::KEYBOARD,false);
+            Press ? Sauce::IO::Debug::Print_Return("Press:True,",Sauce::IO::Debug::KEYBOARD,false) : Sauce::IO::Debug::Print_Return("Press:False,",Sauce::IO::Debug::KEYBOARD,false);
+            IVisible ? Sauce::IO::Debug::Print_Return("Visible:True,",Sauce::IO::Debug::KEYBOARD,false) : Sauce::IO::Debug::Print_Return("Visible:False,",Sauce::IO::Debug::KEYBOARD,false);
+            Sauce::IO::Debug::Print_Return("Key:",Sauce::IO::Debug::KEYBOARD,false);
+            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(IKey),Sauce::IO::Debug::KEYBOARD,false);
+            Sauce::IO::Debug::Print_Return(",",Sauce::IO::Debug::KEYBOARD,false);
+            Sauce::IO::Debug::Print_Return("Display:",Sauce::IO::Debug::KEYBOARD,false);
+            char xDisplay[2]={0};
+            xDisplay[0]=IDisplay;
+            Sauce::IO::Debug::Print_Return(xDisplay,Sauce::IO::Debug::KEYBOARD,true);
             return {Capital,Press,IVisible,IKey,IDisplay}; // we return a structure of the values which is defined in Keyboard.hpp
         }
     };

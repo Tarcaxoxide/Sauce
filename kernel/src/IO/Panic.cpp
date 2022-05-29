@@ -4,12 +4,12 @@
 namespace Sauce{
     namespace IO{
         void Panic(const char* str){
-            if(Sauce::IO::Debug::FUNCTION_CALLS)Sauce::IO::Debug::COM1_Console.Write((char*)"[Panic]\n\0");
+            Sauce::IO::Debug::Print_Call("Panic",true,true);
             
-            /*Not Handled By Terminal Anymore, Please Implement in Shell*///GlobalTerminal->PutString(str);
             while(true){
                 asm volatile("cli;hlt");
             }
+            Sauce::IO::Debug::Print_Return("void",true,true); // Unlikely that we would return but just in case.
         }
     };
 };

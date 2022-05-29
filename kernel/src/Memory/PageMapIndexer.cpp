@@ -4,7 +4,7 @@
 namespace Sauce{
     namespace Memory{
         PageMapIndexer::PageMapIndexer(uint64_t virtualAddress){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::SPAMMY)Sauce::IO::Debug::COM1_Console.Write((char*)"[PageMapIndexer::PageMapIndexer]\n\0");
+            Sauce::IO::Debug::Print_Spammy_Call("PageMapIndexer::PageMapIndexer",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::INDEXER,true);
             virtualAddress >>= 12;
             P_i = virtualAddress & 0x1ff;
             virtualAddress >>= 9;
@@ -13,6 +13,7 @@ namespace Sauce{
             PD_i = virtualAddress & 0x1ff;
             virtualAddress >>= 9;
             PDP_i = virtualAddress & 0x1ff;
+            Sauce::IO::Debug::Print_Spammy_Return("this",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::INDEXER,true);
         }
     };
 };

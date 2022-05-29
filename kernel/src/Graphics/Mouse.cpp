@@ -24,7 +24,7 @@ uint8_t Glyphs[][13*13]={
 namespace Sauce{
     namespace Graphics{
         void Mouse_cl::PutChar(size_t chr){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[Mouse_cl::PutChar]\n\0");
+            Sauce::IO::Debug::Print_Call("Mouse_cl::PutChar",Sauce::IO::Debug::MOUSE,true);
             for(size_t X=0;X<13;X++){
                 for(size_t Y=0;Y<13;Y++){
                     GOP_PixelStructure ThisColor{0,0,0,0xFF};
@@ -40,15 +40,15 @@ namespace Sauce{
                     }
                 }
             }
-            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(void)\n\0");
+            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MOUSE,true);
         }
         Mouse_cl::Mouse_cl(Point64_t InitialPosition)
         :Terminal_cl((13*13),13,InitialPosition){
-            if(Sauce::IO::Debug::FUNCTION_CALLS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"[Mouse_cl::Mouse_cl]\n\0");
+            Sauce::IO::Debug::Print_Call("Mouse_cl::Mouse_cl",Sauce::IO::Debug::MOUSE,true);
             Clear();
             PutChar(0);
             Sauce::IO::PS2MouseInitialize(InitialPosition);
-            if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::MOUSE)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\"this\")\n\0");
+            Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::MOUSE,true);
         }
     };
 
