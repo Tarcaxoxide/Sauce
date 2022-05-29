@@ -123,9 +123,9 @@ namespace Sauce{
             nMouseData.CenterButton=(MousePacket[0] & PS2MiddleButton);
             nMouseData.RightButton=(MousePacket[0] & PS2RightButton);
             
-            nMouseData.RightButton ? Sauce::IO::Debug::Print_Return("RightButton:True",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("RightButton:False",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start);
-            nMouseData.LeftButton ? Sauce::IO::Debug::Print_Return("LeftButton:True",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("LeftButton:False",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-            nMouseData.CenterButton ? Sauce::IO::Debug::Print_Return("CenterButton:True",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("CenterButton:False",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
+            nMouseData.RightButton ? Sauce::IO::Debug::Print_Return("RightButton:True,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("RightButton:False,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start);
+            nMouseData.LeftButton ? Sauce::IO::Debug::Print_Return("LeftButton:True,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("LeftButton:False,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
+            nMouseData.CenterButton ? Sauce::IO::Debug::Print_Return("CenterButton:True,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("CenterButton:False,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return("{X:",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return(Sauce::Convert::ToString(nMouseData.Position->X),Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return(",Y:",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
