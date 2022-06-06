@@ -2,6 +2,9 @@
 
 namespace Sauce{
     namespace IO{
+        void io_wait(){
+            asm volatile("outb %%al, $0x80" : : "a"(0));
+        }
         void outb(uint16_t port,uint8_t value){
             asm volatile("outb %0, %1" : : "a"(value),"Nd"(port));
         }
@@ -12,15 +15,34 @@ namespace Sauce{
             : "Nd"(port));
             return value;
         }
-        void io_wait(){
-            asm volatile("outb %%al, $0x80" : : "a"(0));
+
+        void outw(uint16_t port,uint16_t value){
+            asm volatile("outw %0, %1" : : "a"(value),"Nd"(port));
         }
+        uint16_t inw(uint16_t port){
+            uint16_t value;
+            asm volatile("inw %1, %0" 
+            : "=a"(value) 
+            : "Nd"(port));
+            return value;
+        }
+
         void outb_w(uint16_t port,uint8_t value){
             outb(port,value);
             io_wait();
         }
         uint8_t inb_w(uint16_t port){
             uint8_t ret = inb(port);
+            io_wait();
+            return ret;
+        }
+
+        void outw_w(uint16_t port,uint16_t value){
+            outw(port,value);
+            io_wait();
+        }
+        uint16_t inw_w(uint16_t port){
+            uint16_t ret = inb(port);
             io_wait();
             return ret;
         }

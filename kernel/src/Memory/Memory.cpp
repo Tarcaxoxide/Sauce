@@ -2,6 +2,8 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Utilities/Conversion.hpp>
 
+#define THRESHOLD sizeof(long)
+
 namespace Sauce{
     namespace Memory{
         uint64_t GetMemorySize(Sauce::Memory::EFI_MEMORY_DESCRIPTOR*mMap,uint64_t mMapEntries,uint64_t mDescriptorSize){
@@ -12,7 +14,6 @@ namespace Sauce{
                 EFI_MEMORY_DESCRIPTOR* descriptor = (EFI_MEMORY_DESCRIPTOR*)((uint64_t)mMap + (i*mDescriptorSize));
                 memorySizeBytes+=descriptor->numPages*4096;
             }
-
             Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(memorySizeBytes),Sauce::IO::Debug::MEMORY);
             return memorySizeBytes;
         }
@@ -21,6 +22,23 @@ namespace Sauce{
             for(uint64_t i=0;i<size;i++){
                 *(uint8_t*)((uint64_t)address+i)=value;
             }
+            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY);
+        }
+        void memcpy(const void* srcPtr,const void* destPtr,size_t s){
+            // EXPERIMENTAL! 
+            Sauce::IO::Debug::Print_Spammy_Call("memcpy",Sauce::IO::Debug::MEMORY);
+                char *pszDest = (char *)destPtr;
+                const char *pszSource =( const char*)srcPtr;
+
+                if((pszDest!= NULL) && (pszSource!= NULL))
+                {
+                    while(s) //till s
+                    {
+                        //Copy byte by byte
+                        *(pszDest++)= *(pszSource++);
+                        --s;
+                    }
+                }
             Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY);
         }
         int64_t memcmp(const void* aptr,const void* bptr,size_t s){

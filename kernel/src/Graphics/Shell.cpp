@@ -160,13 +160,25 @@ namespace Sauce{
                 }
             }
             CharBuffer.Clear();
-            if((*ArgBuffer[0]) == (char*)"test"){
-                PutString(L"\n\roK!\n\r",false);
-            }
-            else{
-                PutString(L"\n\rUnknown Command:'",false);
-                PutString(ArgBuffer[0]->Raw(),false);
-                PutString(L"'\n\r",false);
+            /*actually run the command*/{
+                if((*ArgBuffer[0]) == (char*)"test"){
+                    PutString(L"\n\roK!\n\r",false);
+                }
+                else if((*ArgBuffer[0]) == (char*)"shutdown"){
+                    if(ArgBuffer.Size() < 2)PutString(L"\n\rNo System Specified, Supported Systems (qemu,bochs,virtualbox)\n\r",false);
+                    
+                    if((*ArgBuffer[1]) == (char*)"qemu")Sauce::IO::outw(0x604, 0x2000);
+                    else if((*ArgBuffer[1]) == (char*)"bochs")Sauce::IO::outw(0xB004, 0x2000);
+                    else if((*ArgBuffer[1]) == (char*)"virtualbox")Sauce::IO::outw(0x4004, 0x3400);
+                    else{
+                        PutString(L"\n\rUnsupported System!\n\r",false);
+                    }
+                }
+                else{
+                    PutString(L"\n\rUnknown Command:'",false);
+                    PutString(ArgBuffer[0]->Raw(),false);
+                    PutString(L"'\n\r",false);
+                }
             }
             Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::SHELL);
         }

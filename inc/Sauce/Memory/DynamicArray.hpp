@@ -21,7 +21,7 @@ namespace Sauce{
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
                         nArray[Array_Size]=Array[Array_Size];
                     }
-                    nArray[Array_Size++]=nValue; // i forget if it should be ++V or V++ , i'll test V++ first.
+                    nArray[Array_Size++]=nValue; 
                     delete[] Array;
                     Array = nArray;
                 }else{
@@ -34,7 +34,7 @@ namespace Sauce{
                     Array_Capacity+=StageSize;
                     T* nArray = new T[Array_Capacity];
                     Array_Size=0;
-                    nArray[Array_Size++]=nValue; // i forget if it should be ++V or V++ , i'll test V++ first.
+                    nArray[Array_Size++]=nValue;
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
                         nArray[Array_Size]=Array[Array_Size-1];// we shuffle the array forward to make room for the new element.
                     }
@@ -198,7 +198,7 @@ namespace Sauce{
             void Clear(){
                 Contents.Clear();
             }
-            void ForEach(void (*CallBack)(TT &Item)){
+            void ForEach(void (*CallBack)(TT &Item)){ //void Function(TT &item){/*Do something with item*/}
                 for(size_t i=0;i<Contents.Size();i++){
                     (*CallBack)(Contents[i]);
                 }

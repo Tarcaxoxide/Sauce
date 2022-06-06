@@ -178,10 +178,10 @@ namespace Sauce{
         Sauce::IO::Debug::Print_Call("Kernel_cl::oNotify_Of_Mouse",Sauce::IO::Debug::KERNEL);
         ReadyToDraw=false;
         
-        if(xMouse->Position->X > (DFBL->FrameBuffer->PixelsPerScanLine-Sauce::Global::Mouse->Size().X))xMouse->Position->X=(DFBL->FrameBuffer->PixelsPerScanLine-Sauce::Global::Mouse->Size().X);
-        if(xMouse->Position->X < 0)xMouse->Position->X=0;
-        if(xMouse->Position->Y > (DFBL->FrameBuffer->Height-Sauce::Global::Mouse->Size().Y))xMouse->Position->Y=(DFBL->FrameBuffer->Height-Sauce::Global::Mouse->Size().Y);
-        if(xMouse->Position->Y < 0)xMouse->Position->Y=0;
+        if(xMouse->Position->Y < 0){xMouse->Position->Y=0;}
+        if(xMouse->Position->X < 0){xMouse->Position->X=0;}
+        if((xMouse->Position->Y+Sauce::Global::Mouse->Size().Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Mouse->Size().Y;}
+        if((xMouse->Position->X+Sauce::Global::Mouse->Size().X) > DFBL->FrameBuffer->Width){xMouse->Position->X=DFBL->FrameBuffer->Width-Sauce::Global::Mouse->Size().X;}
 
         if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
             CurrentMouseCursorPosition = Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};

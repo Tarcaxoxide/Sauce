@@ -73,4 +73,4 @@ clean:
 	rm -frv bin/* lib/*
 
 run: $(BUILDDIR)/$(OSNAME).img
-	qemu-system-x86_64 -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
+	qemu-system-x86_64 -display full-screen=on,type=sdl -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
