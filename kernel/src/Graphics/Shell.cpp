@@ -165,7 +165,7 @@ namespace Sauce{
                     PutString(L"\n\roK!\n\r",false);
                 }
                 else if((*ArgBuffer[0]) == (char*)"shutdown"){
-                    if(ArgBuffer.Size() < 2)PutString(L"\n\rNo System Specified, Supported Systems (qemu,bochs,virtualbox)\n\r",false);
+                    if(ArgBuffer.Size() < 1)PutString(L"\n\rNo System Specified, Supported Systems (qemu,bochs,virtualbox)\n\r",false);
                     
                     if((*ArgBuffer[1]) == (char*)"qemu")Sauce::IO::outw(0x604, 0x2000);
                     else if((*ArgBuffer[1]) == (char*)"bochs")Sauce::IO::outw(0xB004, 0x2000);
