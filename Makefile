@@ -29,6 +29,6 @@ git_SwitchTo_Master:
 	git checkout UEFI_Master
 
 
-run:
+run: compile
 	cd kernel &&\
 	make run
