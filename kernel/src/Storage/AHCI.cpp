@@ -138,6 +138,20 @@ namespace Sauce{
             return true;
         }
 
+        void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr){
+            if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage();
+
+            for(size_t SectorI=0;SectorI<sectorCount;SectorI++){
+                Sauce::Memory::memset(HBAPorts[portNumber].buffer,0,1024);
+                HBAPorts[portNumber].Read(startingSector+SectorI,1,HBAPorts[portNumber].buffer);
+                
+                for(int t=0;t<512;t++){
+                    Bufferr.AddLast((uint8_t)HBAPorts[portNumber].buffer[t]);
+                }
+            }
+        }
+
+
         AHCIDriver_cl::AHCIDriver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress){
             Sauce::IO::Debug::Print_Call("AHCIDriver_cl::AHCIDriver_cl",Sauce::IO::Debug::STORAGE);
             this->pciBaseAddress=pciBaseAddress;
@@ -146,23 +160,15 @@ namespace Sauce{
             ProbePorts();
 
             /*Testing*/{
-                Sauce::IO::Debug::Print_Detail("#TEST START#",Sauce::IO::Debug::STORAGE);
-                for(int i=0;i<HBAPorts.Size();i++){
-                    {
-                        if(HBAPorts[i].Type != HBAPortType::NONE){
-                            HBAPorts[i].buffer = (uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage();
-                            Sauce::Memory::memset(HBAPorts[i].buffer,0,0x1000);
-                            HBAPorts[i].Read(0,4,HBAPorts[i].buffer);
-                            char BuffChars[1025]{0};
-                            for(int t=0;t<1024;t++){
-                                BuffChars[t]=HBAPorts[i].buffer[t];
-                            }
-                            Sauce::IO::Debug::Print_Detail(BuffChars,Sauce::IO::Debug::STORAGE);
-                        }
-                        
-                    }
+
+                Sauce::Memory::List_cl<uint8_t> bufferr;
+                Read(0,0,8,bufferr);
+                for(size_t ib=0;ib<bufferr.Size();ib++){
+                    if(bufferr[ib] == 0x00)bufferr[ib]=(uint8_t)' ';
                 }
-                Sauce::IO::Debug::Print_Detail("#TEST END#",Sauce::IO::Debug::STORAGE);
+                Sauce::IO::Debug::Print_Detail("v-DATA READ FROM DISK-v\n",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Start);
+                Sauce::IO::Debug::Print_Detail((char*)bufferr.Raw(),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);    
+                Sauce::IO::Debug::Print_Detail("\n^-DATA READ FROM DISK-^",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::End);
             }
 
             Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::STORAGE);
