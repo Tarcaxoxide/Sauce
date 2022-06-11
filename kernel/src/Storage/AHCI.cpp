@@ -150,8 +150,6 @@ namespace Sauce{
                 }
             }
         }
-
-
         AHCIDriver_cl::AHCIDriver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress){
             Sauce::IO::Debug::Print_Call("AHCIDriver_cl::AHCIDriver_cl",Sauce::IO::Debug::STORAGE);
             this->pciBaseAddress=pciBaseAddress;
@@ -159,17 +157,6 @@ namespace Sauce{
             Sauce::Global::PageTableManager.MapMemory(ABAR,ABAR);
             ProbePorts();
 
-            /*Testing*/{
-
-                Sauce::Memory::List_cl<uint8_t> bufferr;
-                Read(0,0,8,bufferr);
-                for(size_t ib=0;ib<bufferr.Size();ib++){
-                    if(bufferr[ib] == 0x00)bufferr[ib]=(uint8_t)' ';
-                }
-                Sauce::IO::Debug::Print_Detail("v-DATA READ FROM DISK-v\n",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Start);
-                Sauce::IO::Debug::Print_Detail((char*)bufferr.Raw(),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);    
-                Sauce::IO::Debug::Print_Detail("\n^-DATA READ FROM DISK-^",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::End);
-            }
 
             Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::STORAGE);
         }
