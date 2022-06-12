@@ -47,83 +47,89 @@
         <br><h1>Terminal.{cpp,hpp}</h1>
         <p>this is the primary class for what is effectively a 'window' (for lack of a better comparison) in my OS.</p>
         <ul>
-            <li><b>Terminal_cl::Terminal_cl</b><ul>
-                <li>this sets the appropriate variables based on what is passed into it.</li>
-                <li>currently it only sets variables and calls the debugg prints.</li>
-            </ul></li>
-            <li><b>Terminal_cl::SetColor</b><ul>
-                <li>takes a foreground color and optional background color and sets the appropriate variables to have those colors used.</li>
-            </ul></li>
-            <li><b>Terminal_cl::RowFill</b><ul>
-                <li>fills the given row with the optionally given color or the foreground color if a color is not given.</li>
-                <li>'Terminal_cl::RowClear' calls this function with the background color as the given color.</li>
-            </ul></li>
-            <li><b>Terminal_cl::ColumnFill</b><ul>
-                <li>fills the given column with the optionally given color or the foreground color if a color is not given.</li>
-                <li>'Terminal_cl::ColumnClear' calls this function with the background color as the given color.</li>
-            </ul></li>
-            <li><b>Terminal_cl::Fill</b><ul>
-                <li>fills the entire terminal with the optionally given color or the foreground color if a color is not given.</li>
-                <li>'Terminal_cl::Clear' calls this function with the background color as the given color.</li>
-            </ul></li>
-            <li><b>Terminal_cl::SetCursor</b><ul>
-                <li>this sets the "pixel cursor" (it's effectively the text cursor but for pixels and not to be confused with the mouse cursor) to the coordinance given.</li>
-            </ul></li>
-            <li><b>Terminal_cl::CopyTo</b><ul>
-                <li>copys its contents to the framebuffer given.</li>
-                <li>this is used to to get the data into raw buffers such as the actual screen.</li>
-            </ul></li>
-            <li><b>Terminal_cl::CopyFrom</b><ul>
-                <li>copies from another terminal object to itself.</li>
-                <li>this is to copy from other things before putting it's contents onto the actual screen,</li>
-                <li>things such as the mouse and shells will be copied to a common terminal before copied to the actual screen.</li>
-            </ul></li>
-            <li><b>Terminal_cl::Size</b><ul>
-                <li>returns the size of the terminal.</li>
-            </ul></li>
-            <li><b>Terminal_cl::Move</b><ul>
-                <li>sets an offset variable that "moves" the terminal, it actually just tells where to start drawing the terminal.</li>
+            <li><b>Terminal_cl</b><ul>
+                <li>Terminal_cl<ul>
+                    <li>this sets the appropriate variables based on what is passed into it.</li>
+                    <li>currently it only sets variables and calls the debugg prints.</li>
+                </ul></li>
+                <li>SetColor<ul>
+                    <li>takes a foreground color and optional background color and sets the appropriate variables to have those colors used.</li>
+                </ul></li>
+                <li>RowFill<ul>
+                    <li>fills the given row with the optionally given color or the foreground color if a color is not given.</li>
+                    <li>'RowClear' calls this function with the background color as the given color.</li>
+                </ul></li>
+                <li>ColumnFill<ul>
+                    <li>fills the given column with the optionally given color or the foreground color if a color is not given.</li>
+                    <li>'ColumnClear' calls this function with the background color as the given color.</li>
+                </ul></li>
+                <li>Fill<ul>
+                    <li>fills the entire terminal with the optionally given color or the foreground color if a color is not given.</li>
+                    <li>'Clear' calls this function with the background color as the given color.</li>
+                </ul></li>
+                <li>SetCursor<ul>
+                    <li>this sets the "pixel cursor" (it's effectively the text cursor but for pixels and not to be confused with the mouse cursor) to the coordinance given.</li>
+                </ul></li>
+                <li>CopyTo<ul>
+                    <li>copys its contents to the framebuffer given.</li>
+                    <li>this is used to to get the data into raw buffers such as the actual screen.</li>
+                </ul></li>
+                <li>CopyFrom<ul>
+                    <li>copies from another terminal object to itself.</li>
+                    <li>this is to copy from other things before putting it's contents onto the actual screen,</li>
+                    <li>things such as the mouse and shells will be copied to a common terminal before copied to the actual screen.</li>
+                </ul></li>
+                <li>Size<ul>
+                    <li>returns the size of the terminal.</li>
+                </ul></li>
+                <li>Move<ul>
+                    <li>sets an offset variable that "moves" the terminal, it actually just tells where to start drawing the terminal.</li>
+                </ul></li>
             </ul></li>
         </ul>
 
         <br><h1>Shell.{cpp,hpp}</h1>
         <p>inherits from Terminal, the default shell for the OS.</p>
         <ul>
-            <li><b>Shell_cl::Shell_cl</b><ul>
-                <li>calls the terminal constructor and than Clear</li>
-            </ul></li>
-            <li><b>Shell_cl::PutChar</b><ul>
-                <li>puts a char onto the terminal and to a buffer that hold the current line.</li>
-            </ul></li>
-            <li><b>Shell_cl::PutString</b><ul>
-                <li>places a char array (aka a string), it can take either a char* or a wchar_t* .</li>
-            </ul></li>
-            <li><b>Shell_cl::GoDown</b><ul>
-                <li>goes down by the amount given in chars.</li>
-            </ul></li>
-            <li><b>Shell_cl::GoUp</b><ul>
-                <li>goes up by the amount given in chars.</li>
-            </ul></li>
-            <li><b>Shell_cl::GoRight</b><ul>
-                <li>goes right by the amount given in chars.</li>
-            </ul></li>
-            <li><b>Shell_cl::GoLeft</b><ul>
-                <li>goes left by the amount given in chars.</li>
-            </ul></li>
-            <li><b>Shell_cl::GoFarDown</b><ul>
-                <li>goes to the bottom of the terminal.</li>
-            </ul></li>
-            <li><b>Shell_cl::GoFarUp</b><ul>
-                <li>goes to the top of the terminal.</li>
-            </ul></li>
-            <li><b>Shell_cl::GoFarRight</b><ul>
-                <li>goes to the far right of the terminal.</li>
-            </ul></li>
-            <li><b>Shell_cl::GoFarLeft</b><ul>
-                <li>goes to the far left of the terminal.</li>
-            </ul></li>
-            <li><b>Shell_cl::RunCmd</b><ul>
-                <li>runs the current line buffer as a command in the shell.</li>
+            <li><b>Shell_cl</b><ul>
+                <ul>
+                    <li>Shell_cl<ul>
+                        <li>calls the terminal constructor and than Clear</li>
+                    </ul></li>
+                    <li>PutChar<ul>
+                        <li>puts a char onto the terminal and to a buffer that hold the current line.</li>
+                    </ul></li>
+                    <li>PutString<ul>
+                        <li>places a char array (aka a string), it can take either a char* or a wchar_t* .</li>
+                    </ul></li>
+                    <li>GoDown<ul>
+                        <li>goes down by the amount given in chars.</li>
+                    </ul></li>
+                    <li>GoUp<ul>
+                        <li>goes up by the amount given in chars.</li>
+                    </ul></li>
+                    <li>GoRight<ul>
+                        <li>goes right by the amount given in chars.</li>
+                    </ul></li>
+                    <li>GoLeft<ul>
+                        <li>goes left by the amount given in chars.</li>
+                    </ul></li>
+                    <li>GoFarDown<ul>
+                        <li>goes to the bottom of the terminal.</li>
+                    </ul></li>
+                    <li>GoFarUp<ul>
+                        <li>goes to the top of the terminal.</li>
+                    </ul></li>
+                    <li>GoFarRight<ul>
+                        <li>goes to the far right of the terminal.</li>
+                    </ul></li>
+                    <li>GoFarLeft<ul>
+                        <li>goes to the far left of the terminal.</li>
+                    </ul></li>
+                    <li>RunCmd<ul>
+                        <li>runs the current line buffer as a command in the shell.</li>
+                    </ul></li>
+                </ul>
             </ul></li>
         </ul>
 
@@ -134,44 +140,46 @@
         <p>used for debugging, using the serial com ports.</p>
 
         <br><h1>DynamicArray.hpp</h1>
-        <p>custom dynamic array, meant to replace std::vector,std::deque and std::string, there is actually 2 classes just, DynamicArray_cl which is the base class and than List_cl which is the one you will normally use and so List_cl will be documented only since DynamicArray_cl is not meant to be used directly.</p>
+        <p>custom dynamic array, meant to replace std::vector,std::deque and std::string, there is actually 2 classes just, DynamicArray_cl which is the base class and than List_cl which is the one you will normally use.</p>
         <ul>
-            <li><b>List_cl (constructor)</b><ul>
-                <li>takes an optional value that is optionally const. the value's type must be of the base type of the array specifed 'List_cl&lt;base_type&gt;' </li>
-            </ul></li>
-            <li><b>operator=</b><ul>
-                <li>makes it's content equal the value given, it must be an array of the base type, it also returns this array.</li>
-            </ul></li>
-            <li><b>AddFirst</b><ul>
-                <li>Adds the value to the front of the array, value must by of the base type.</li>
-            </ul></li>
-            <li><b>AddLast</b><ul>
-                <li>Adds the value to the back of the array, value must by of the base type.</li>
-            </ul></li>
-            <li><b>First</b><ul>
-                <li>returns the value at the front of the array.</li>
-            </ul></li>
-            <li><b>Last</b><ul>
-                <li>returns the value at the back of the array.</li>
-            </ul></li>
-            <li><b>operator[]</b><ul>
-                <li>returns the value at the index given in the array.</li>
-            </ul></li>
-            <li><b>operator==</b><ul>
-                <li>compares an array of the base value with its array.</li>
-            </ul></li>
-            <li><b>Raw</b><ul>
-                <li>returns the internal array, this kind of acts like c_str()</li>
-            </ul></li>
-            <li><b>Size</b><ul>
-                <li>returns the size of the array.</li>
-            </ul></li>
-            <li><b>Clear</b><ul>
-                <li>clears the array.</li>
-            </ul></li>
-            <li><b>ForEach</b><ul>
-                <li>takes a pointer to a function that takes a value of the base type.</li>
-                <li>loops through the array and calls the given function for each of the array's elements.</li>
+            <li><b>List_cl</b><ul>
+                <li>List_cl</b><ul>
+                    <li>takes an optional value that is optionally const. the value's type must be of the base type of the array specifed 'List_cl&lt;base_type&gt;' </li>
+                </ul></li>
+                <li>operator=<ul>
+                    <li>makes it's content equal the value given, it must be an array of the base type, it also returns this array.</li>
+                </ul></li>
+                <li>AddFirst<ul>
+                    <li>Adds the value to the front of the array, value must by of the base type.</li>
+                </ul></li>
+                <li>AddLast<ul>
+                    <li>Adds the value to the back of the array, value must by of the base type.</li>
+                </ul></li>
+                <li>First<ul>
+                    <li>returns the value at the front of the array.</li>
+                </ul></li>
+                <li>Last<ul>
+                    <li>returns the value at the back of the array.</li>
+                </ul></li>
+                <li>operator[]<ul>
+                    <li>returns the value at the index given in the array.</li>
+                </ul></li>
+                <li>operator==<ul>
+                    <li>compares an array of the base value with its array.</li>
+                </ul></li>
+                <li>Raw<ul>
+                    <li>returns the internal array, this kind of acts like c_str()</li>
+                </ul></li>
+                <li>Size<ul>
+                    <li>returns the size of the array.</li>
+                </ul></li>
+                <li>Clear<ul>
+                    <li>clears the array.</li>
+                </ul></li>
+                <li>ForEach<ul>
+                    <li>takes a pointer to a function that takes a value of the base type.</li>
+                    <li>loops through the array and calls the given function for each of the array's elements.</li>
+                </ul></li>
             </ul></li>
         </ul>
 
@@ -217,7 +225,7 @@
 
         <br><h1>Memory.{cpp,hpp}</h1>
         <p>works with the AHCI to read from a hard drive.</p>
-        
+
     </body>
 </html>
 
