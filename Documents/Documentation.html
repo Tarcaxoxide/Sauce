@@ -126,6 +126,54 @@
                 <li>runs the current line buffer as a command in the shell.</li>
             </ul></li>
         </ul>
+
+        <br><h1>Mouse.{cpp,hpp} (the graphical ones)</h1>
+        <p>inherits from Terminal.</p>
+
+        <br><h1>{Console,Serial,Settings}.{cpp,hpp} </h1>
+        <p>used for debugging, using the serial com ports.</p>
+
+        <br><h1>DynamicArray.hpp</h1>
+        <p>custom dynamic array, meant to replace std::vector,std::deque and std::string, there is actually 2 classes just, DynamicArray_cl which is the base class and than List_cl which is the one you will normally use and so List_cl will be documented only since DynamicArray_cl is not meant to be used directly.</p>
+        <ul>
+            <li><b>List_cl (constructor)</b><ul>
+                <li>takes an optional value that is optionally const. the value's type must be of the base type of the array specifed 'List_cl&lt;base_type&gt;' </li>
+            </ul></li>
+            <li><b>operator=</b><ul>
+                <li>makes it's content equal the value given, it must be an array of the base type, it also returns this array.</li>
+            </ul></li>
+            <li><b>AddFirst</b><ul>
+                <li>Adds the value to the front of the array, value must by of the base type.</li>
+            </ul></li>
+            <li><b>AddLast</b><ul>
+                <li>Adds the value to the back of the array, value must by of the base type.</li>
+            </ul></li>
+            <li><b>First</b><ul>
+                <li>returns the value at the front of the array.</li>
+            </ul></li>
+            <li><b>Last</b><ul>
+                <li>returns the value at the back of the array.</li>
+            </ul></li>
+            <li><b>operator[]</b><ul>
+                <li>returns the value at the index given in the array.</li>
+            </ul></li>
+            <li><b>operator==</b><ul>
+                <li>compares an array of the base value with its array.</li>
+            </ul></li>
+            <li><b>Raw</b><ul>
+                <li>returns the internal array, this kind of acts like c_str()</li>
+            </ul></li>
+            <li><b>Size</b><ul>
+                <li>returns the size of the array.</li>
+            </ul></li>
+            <li><b>Clear</b><ul>
+                <li>clears the array.</li>
+            </ul></li>
+            <li><b>ForEach</b><ul>
+                <li>takes a pointer to a function that takes a value of the base type.</li>
+                <li>loops through the array and calls the given function for each of the array's elements.</li>
+            </ul></li>
+        </ul>
     </body>
 </html>
 
