@@ -174,6 +174,46 @@
                 <li>loops through the array and calls the given function for each of the array's elements.</li>
             </ul></li>
         </ul>
+
+        <br><h1>Heap.{cpp,hpp}</h1>
+        <p>memory allocation functions, your traditional malloc and free functions, they generally operate about the same as everywhere else.</p>
+
+        <br><h1>Memory.{cpp,hpp}</h1>
+        <p>functions partaining to memory manipulation. all the mem* stuff that is normally in string.h</p>
+
+        <br><h1>VirtualMachine.{cpp,hpp}</h1>
+        <p>this will eventually be for running userland binaries once i figure out how to load from the disk entire files.</p>
+        <ul>
+            <li><b>OpCode</b><ul>
+                <li>enum of uint32_t op codes./li>
+            </ul></li>
+            <li><b>SzCode</b><ul>
+                <li>enum of size codes to determine which sized stack to use.</li>
+            </ul></li>
+            <li><b>CommonInputDataExtended</b><ul>
+                <li>an enum, this is an attempt to make inputs into the inputs stacks more predictable by defining their values.</li>
+            </ul></li>
+            <li><b>VirtualStack (namespace)</b><ul>
+                <li>list of virtual stack base types for creation of the stacks.</li>
+            </ul></li>
+            <li><b>VirtualStack_st</b><ul>
+                <li>struct of a virtual stack, takes a base type that is used for the data.</li>
+            </ul></li>
+            <li><b>VirtualMachine_cl</b><ul>
+                <li>the main class for the virtual machine.</li>
+                <ul>
+                    <li>AddInstruction<ul>
+                        <li>adds an instruction to the virtual code stacks.</li>
+                    </ul></li>
+                    <li>AddToVirtualStack<ul>
+                        <li>adds a value to the virtual data stacks</li>
+                    </ul></li>
+                    <li>Run<ul>
+                        <li>loops (get instruction from virtual code stack, run instruction, exit when finished)</li>
+                    </ul></li>
+                </ul>
+            </ul></li>
+        </ul>
     </body>
 </html>
 
@@ -181,4 +221,6 @@
 <li><b></b><ul>
     <li></li>
 </ul></li>
+
+<br><h1>.{cpp,hpp}</h1>
 -->
