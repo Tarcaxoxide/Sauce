@@ -25,24 +25,25 @@
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
-    bool ReadyToDraw=true;
+    int testcount=0;
+    Point64_t CurrentMouseCursorPosition{0,0,0};
+
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
-        
         asm volatile("cli");
         this->DFBL=DFBL;
         if(Self == NULL)Self=this;
-        
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
-        
+        //setting up divisor for timer interrupt and initializing the heap, should happen after virtual address
+        //but before setting up the interrupts.
         Sauce::Interrupts::PIT::SetDivisor(65535/6);
-        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
-
+        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10); 
         Prep_Interrupts();
         asm volatile("sti");
         Prep_IO();
-        asm volatile("cli");
+        asm volatile("cli");//be default we have interrupts disabled and we enable them when we want to recieve them,
+                            //this happens in the main loop when we call 'AcceptingIntterupts'
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
         Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
@@ -50,26 +51,18 @@ namespace Sauce{
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Sauce::Global::Terminal->Clear();
         Prep_ACPI();
-        PreLoop();
         MainLoop();
         Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::KERNEL);
     }
-    void Kernel_cl::PreLoop(){
-        
-        Sauce::IO::Debug::Print_Call("Kernel_cl::PreLoop",Sauce::IO::Debug::KERNEL);
-        Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
-    }
     void Kernel_cl::MainLoop(){
-        
         Sauce::IO::Debug::Print_Call("Kernel_cl::MainLoop",Sauce::IO::Debug::KERNEL);
         while(true){
-            AcceptingInterrupts(100);
-            DrawUI();
+            AcceptingInterrupts(100);// are accepting interrupts for X miliseconds, X being the number passed to 'AcceptingInterrupts(X)'.
+            DrawUI();// we do all the drawing operations by calling this function, it's effectively 'double buffering'.
         }
         Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::Prep_GlobalAllocator(){
-        
         Sauce::IO::Debug::Print_Call("Kernel_cl::Prep_GlobalAllocator",Sauce::IO::Debug::KERNEL);
         Sauce::Global::PageFrameAllocator = Sauce::Memory::PageFrameAllocator_cl();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
@@ -83,7 +76,6 @@ namespace Sauce{
         Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::Prep_VirtualAddresses(){
-        
         Sauce::IO::Debug::Print_Call("Kernel_cl::Prep_VirtualAddresses",Sauce::IO::Debug::KERNEL);
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             Sauce::Global::PageTableManager.MapMemory((void*)t,(void*)t);
@@ -98,7 +90,6 @@ namespace Sauce{
         Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::Prep_GDT(){
-        
         Sauce::IO::Debug::Print_Call("Kernel_cl::Prep_GDT",Sauce::IO::Debug::KERNEL);
         gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_st)-1;
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
@@ -114,11 +105,9 @@ namespace Sauce{
         Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::Prep_Interrupts(){
-        
         Sauce::IO::Debug::Print_Call("Kernel_cl::Prep_Interrupts",Sauce::IO::Debug::KERNEL);
         idtr.Limit = 0x0FFF;
         idtr.Offset= (uint64_t)Sauce::Global::PageFrameAllocator.RequestPage();
-
         Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
         Sauce::IO::Debug::Print_Detail("PageFault_handler",Sauce::IO::Debug::KERNEL);
         Add_Interrupt((void*)&Sauce::Interrupts::DoubleFault_handler,0x8,IDT_TA_InterruptGate,0x08);
@@ -131,18 +120,15 @@ namespace Sauce{
         Sauce::IO::Debug::Print_Detail("MouseInterrupt_handler",Sauce::IO::Debug::KERNEL);
         Add_Interrupt((void*)&Sauce::Interrupts::PITInterrupt_handler,0x20,IDT_TA_InterruptGate,0x08);
         Sauce::IO::Debug::Print_Detail("PITInterrupt_handler",Sauce::IO::Debug::KERNEL);
-
         asm volatile("lidt %0" : : "m" (idtr));
         Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::Prep_IO(){
-        
         Sauce::IO::Debug::Print_Call("Kernel_cl::Prep_IO",Sauce::IO::Debug::KERNEL);
         Sauce::Interrupts::RemapPic();
         Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::Prep_ACPI(){
-        
         Sauce::IO::Debug::Print_Call("Kernel_cl::Prep_ACPI",Sauce::IO::Debug::KERNEL);
         Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
         Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
@@ -151,7 +137,6 @@ namespace Sauce{
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
         Sauce::IO::Debug::Print_Call("Kernel_cl::oNotify_Of_KeyPress",Sauce::IO::Debug::KERNEL);
-        ReadyToDraw=false;
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
                 case 0xD6:{
@@ -172,17 +157,12 @@ namespace Sauce{
         }
         Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
-    int testcount=0;
-    Point64_t CurrentMouseCursorPosition{0,0,0};
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
         Sauce::IO::Debug::Print_Call("Kernel_cl::oNotify_Of_Mouse",Sauce::IO::Debug::KERNEL);
-        ReadyToDraw=false;
-        
         if(xMouse->Position->Y < 0){xMouse->Position->Y=0;}
         if(xMouse->Position->X < 0){xMouse->Position->X=0;}
         if((xMouse->Position->Y+Sauce::Global::Mouse->Size().Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Mouse->Size().Y;}
         if((xMouse->Position->X+Sauce::Global::Mouse->Size().X) > DFBL->FrameBuffer->Width){xMouse->Position->X=DFBL->FrameBuffer->Width-Sauce::Global::Mouse->Size().X;}
-
         if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
             CurrentMouseCursorPosition = Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
             Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
@@ -191,12 +171,6 @@ namespace Sauce{
     }
     void Kernel_cl::DrawUI(){
         Sauce::IO::Debug::Print_Call("Kernel_cl::DrawUI",Sauce::IO::Debug::KERNEL);
-        if(!ReadyToDraw){
-            ReadyToDraw=true;
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
-            return;
-        }
-        
         Sauce::Global::Terminal->CopyFrom(Sauce::Global::Shell);
         Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
         Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
@@ -230,13 +204,5 @@ namespace Sauce{
             }break;
         }
         Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::KERNEL);
-    }
-    void Kernel_cl::Stop(bool ClearInterrupts){
-        Sauce::IO::Debug::Print_Call("Kernel_cl::Stop",Sauce::IO::Debug::KERNEL);
-        while(true){
-            if(ClearInterrupts)asm volatile("cli");
-            asm volatile("hlt");
-        }
-        Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
 };

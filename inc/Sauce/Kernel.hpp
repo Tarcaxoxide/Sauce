@@ -35,12 +35,10 @@ namespace Sauce{
             void Prep_IO();
             void Prep_ACPI();
             void Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector);
-            void PreLoop(); // execute before the main loop
             void MainLoop(); // the main loop 
         public: //public variables
         public: //public functions
             Kernel_cl(DataStructure* DFBL);
-            void Stop(bool ClearInterrupts=false);
             static void Notify(Sauce::Interrupts::InterruptDataStruct InterruptData);
             void oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
             void oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse);
