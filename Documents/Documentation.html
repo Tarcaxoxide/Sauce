@@ -86,7 +86,46 @@
             </ul></li>
         </ul>
 
-        <br><h1>....{cpp,hpp}</h1>
+        <br><h1>Shell.{cpp,hpp}</h1>
+        <p>inherits from Terminal, the default shell for the OS.</p>
+        <ul>
+            <li><b>Shell_cl::Shell_cl</b><ul>
+                <li>calls the terminal constructor and than Clear</li>
+            </ul></li>
+            <li><b>Shell_cl::PutChar</b><ul>
+                <li>puts a char onto the terminal and to a buffer that hold the current line.</li>
+            </ul></li>
+            <li><b>Shell_cl::PutString</b><ul>
+                <li>places a char array (aka a string), it can take either a char* or a wchar_t* .</li>
+            </ul></li>
+            <li><b>Shell_cl::GoDown</b><ul>
+                <li>goes down by the amount given in chars.</li>
+            </ul></li>
+            <li><b>Shell_cl::GoUp</b><ul>
+                <li>goes up by the amount given in chars.</li>
+            </ul></li>
+            <li><b>Shell_cl::GoRight</b><ul>
+                <li>goes right by the amount given in chars.</li>
+            </ul></li>
+            <li><b>Shell_cl::GoLeft</b><ul>
+                <li>goes left by the amount given in chars.</li>
+            </ul></li>
+            <li><b>Shell_cl::GoFarDown</b><ul>
+                <li>goes to the bottom of the terminal.</li>
+            </ul></li>
+            <li><b>Shell_cl::GoFarUp</b><ul>
+                <li>goes to the top of the terminal.</li>
+            </ul></li>
+            <li><b>Shell_cl::GoFarRight</b><ul>
+                <li>goes to the far right of the terminal.</li>
+            </ul></li>
+            <li><b>Shell_cl::GoFarLeft</b><ul>
+                <li>goes to the far left of the terminal.</li>
+            </ul></li>
+            <li><b>Shell_cl::RunCmd</b><ul>
+                <li>runs the current line buffer as a command in the shell.</li>
+            </ul></li>
+        </ul>
     </body>
 </html>
 
