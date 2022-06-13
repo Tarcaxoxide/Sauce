@@ -30,7 +30,3 @@
     - Multi-processing (not multi-threading)
     - graphics
     - hardware accelerated graphics
-
-# current working on
-- disk access (with addition confusion XD).
-- debugging (making it easy to turn off/on certain things for printing to serial)
