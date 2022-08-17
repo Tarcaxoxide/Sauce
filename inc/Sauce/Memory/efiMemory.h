@@ -4,13 +4,15 @@
 #include<stdint.h>
 
 
-struct EFI_MEMORY_DESCRIPTOR{
-    uint32_t type;
-    void* physAddr=nullptr;
-    void* virtAddr=nullptr;
-    uint64_t numPages;
-    uint64_t attribs;
-};
+//typedef struct{
+//    uint32_t type;
+//    uint32_t pad;
+//    void* physAddr;
+//    void* virtAddr;
+//    uint64_t numPages;
+//    uint64_t attribs;
+//} EFI_MEMORY_DESCRIPTOR;
+
 extern const char* EFI_MEMORY_TYPE_STRINGS[];
 enum EfiMemoryType{
     EfiMemoryType_EfiReservedMemoryType=0,
@@ -26,5 +28,5 @@ enum EfiMemoryType{
     EfiMemoryType_EfiACPIMemoryNVS,
     EfiMemoryType_EfiMemoryMappedIO,
     EfiMemoryType_EfiMemoryMappedPortSpace,
-    EfiMemoryType_EfiPalCode,
+    EfiMemoryType_EfiPalCode
 };

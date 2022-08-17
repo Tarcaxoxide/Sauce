@@ -27,7 +27,7 @@ namespace Sauce{
             EfiMemoryType_EfiACPIMemoryNVS,
             EfiMemoryType_EfiMemoryMappedIO,
             EfiMemoryType_EfiMemoryMappedPortSpace,
-            EfiMemoryType_EfiPalCode,
+            EfiMemoryType_EfiPalCode
         };
     };
 };
