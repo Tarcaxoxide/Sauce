@@ -23,7 +23,7 @@ namespace Sauce{
             static const bool AHCI=true;
             static const bool PCI=true;
             static const bool MEMORY=true;
-            static const bool HEAP=false;
+            static const bool HEAP=true;
             static const bool ALLOCATOR=true;
             static const bool INDEXER=true;
             static const bool TableManager=true;
