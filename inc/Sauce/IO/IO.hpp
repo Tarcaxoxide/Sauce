@@ -23,5 +23,34 @@ namespace Sauce{
 
         void outl_w(uint16_t port,uint32_t value);
         uint32_t inl_w(uint16_t port);
+
+        //IO port classes
+        class Port8Bit{
+            uint16_t portNumber;
+            bool Slow;
+            public:
+            Port8Bit(uint16_t portNumber,bool Slow=false);
+            ~Port8Bit();
+            void operator<<(uint8_t data);
+            void operator>>(uint8_t &data);
+        };
+        class Port16Bit{
+            uint16_t portNumber;
+            bool Slow;
+            public:
+            Port16Bit(uint16_t portNumber,bool Slow=false);
+            ~Port16Bit();
+            void operator<<(uint16_t data);
+            void operator>>(uint16_t &data);
+        };
+        class Port32Bit{
+            uint16_t portNumber;
+            bool Slow;
+            public:
+            Port32Bit(uint16_t portNumber,bool Slow=false);
+            ~Port32Bit();
+            void operator<<(uint32_t data);
+            void operator>>(uint32_t &data);
+        };
     };
 };

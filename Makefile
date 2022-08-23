@@ -14,8 +14,7 @@ purge:
 	make &&\
 	make bootloader
 	cd kernel &&\
-	make clean&&\
-	make
+	make clean
 
 git_push: compile
 	git add .

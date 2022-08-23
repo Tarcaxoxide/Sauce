@@ -67,5 +67,40 @@ namespace Sauce{
             io_wait();
             return ret;
         }
+
+        //IO port classes
+        Port8Bit::Port8Bit(uint16_t portNumber,bool Slow){this->portNumber=portNumber;this->Slow=Slow;}
+        Port16Bit::Port16Bit(uint16_t portNumber,bool Slow){this->portNumber=portNumber;this->Slow=Slow;}
+        Port32Bit::Port32Bit(uint16_t portNumber,bool Slow){this->portNumber=portNumber;this->Slow=Slow;}
+
+        void Port8Bit::operator<<(uint8_t data){
+            outb(portNumber,data);
+            if(Slow)io_wait();
+        }
+        void Port8Bit::operator>>(uint8_t &data){
+            data = inb(portNumber);
+            if(Slow)io_wait();
+        }
+        void Port16Bit::operator<<(uint16_t data){
+            outw(portNumber,data);
+            if(Slow)io_wait();
+        }
+        void Port16Bit::operator>>(uint16_t &data){
+            data = inw(portNumber);
+            if(Slow)io_wait();
+        }
+        void Port32Bit::operator<<(uint32_t data){
+            outl(portNumber,data);
+            if(Slow)io_wait();
+        }
+        void Port32Bit::operator>>(uint32_t &data){
+            data = inl(portNumber);
+            if(Slow)io_wait();
+        }
+
+        Port32Bit::~Port32Bit(){}
+        Port16Bit::~Port16Bit(){}
+        Port8Bit::~Port8Bit(){}
+        
     };
 };
