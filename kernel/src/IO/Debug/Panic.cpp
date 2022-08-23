@@ -1,4 +1,4 @@
-#include<Sauce/IO/Panic.hpp>
+#include<Sauce/IO/Debug/Panic.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
 namespace Sauce{

@@ -1,6 +1,6 @@
 #include<Sauce/Interrupts/Interrupts.hpp>
 #include<Sauce/Kernel.hpp>
-#include<Sauce/IO/Panic.hpp>
+#include<Sauce/IO/Debug/Panic.hpp>
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/Utilities/Conversion.hpp>
 #include<Sauce/IO/Mouse.hpp>
