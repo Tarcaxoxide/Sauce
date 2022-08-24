@@ -30,3 +30,7 @@
     - Multi-processing (not multi-threading)
     - graphics
     - hardware accelerated graphics
+> -
+- Working on
+    - Clickable windows (attempting to at least.).
+    - (once i get clickable windows) movable windows.

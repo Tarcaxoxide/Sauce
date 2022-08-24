@@ -72,7 +72,6 @@ namespace Sauce{
         Port8Bit::Port8Bit(uint16_t portNumber,bool Slow){this->portNumber=portNumber;this->Slow=Slow;}
         Port16Bit::Port16Bit(uint16_t portNumber,bool Slow){this->portNumber=portNumber;this->Slow=Slow;}
         Port32Bit::Port32Bit(uint16_t portNumber,bool Slow){this->portNumber=portNumber;this->Slow=Slow;}
-
         void Port8Bit::operator<<(uint8_t data){
             outb(portNumber,data);
             if(Slow)io_wait();
@@ -97,7 +96,6 @@ namespace Sauce{
             data = inl(portNumber);
             if(Slow)io_wait();
         }
-
         Port32Bit::~Port32Bit(){}
         Port16Bit::~Port16Bit(){}
         Port8Bit::~Port8Bit(){}
