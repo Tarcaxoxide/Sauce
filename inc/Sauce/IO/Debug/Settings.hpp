@@ -30,7 +30,7 @@ namespace Sauce{
             static const bool VirtualMachine=true;
             static const bool PAGING=true;
             static const bool STORAGE=true;
-            static const bool KERNEL=false;
+            static const bool KERNEL=true;
         };
     };
 };
