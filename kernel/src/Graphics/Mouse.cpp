@@ -43,7 +43,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MOUSE);
         }
         Mouse_cl::Mouse_cl(Point64_t InitialPosition)
-        :Terminal_cl((13*13),13,InitialPosition){
+        :Terminal_cl((13*13),13,"Mouse",InitialPosition){
             Sauce::IO::Debug::Print_Call("Mouse_cl::Mouse_cl",Sauce::IO::Debug::MOUSE);
             Clear();
             PutChar(0);

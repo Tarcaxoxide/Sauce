@@ -18,6 +18,7 @@
 #include<Sauce/UserLand/VirtualMachine.hpp>
 #include<Sauce/IO/Debug/Serial.hpp>
 #include<Sauce/Graphics/Terminal.hpp>
+#include<Sauce/Graphics/Window.hpp>
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global/Global.hpp>
@@ -44,9 +45,15 @@ namespace Sauce{
         Prep_IO();
         asm volatile("cli");//be default we have interrupts disabled and we enable them when we want to recieve them,
                             //this happens in the main loop when we call 'AcceptingIntterupts'
-        Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-        Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
+        Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,"Main");
+        Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0},{DFBL->FrameBuffer->PixelsPerScanLine/4,DFBL->FrameBuffer->Height/4,0});
         Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
+
+
+        Sauce::Global::Terminal->SetColor({0x22,0x22,0x22,0x00},{0x22,0x22,0x22,0x00});
+
+        Sauce::Global::Terminals.AddLast(Sauce::Global::Shell);
+        
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
         Sauce::Global::Terminal->Clear();
@@ -167,6 +174,22 @@ namespace Sauce{
             CurrentMouseCursorPosition = Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
             Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
         }
+        if(xMouse->CenterButton){
+            for(size_t i=0;i<Sauce::Global::Terminals.Size();i++){
+                Sauce::Global::Terminals[i]->Notify_Of_CenterClick(CurrentMouseCursorPosition);
+            }
+        }
+        if(xMouse->RightButton){
+            for(size_t i=0;i<Sauce::Global::Terminals.Size();i++){
+                Sauce::Global::Terminals[i]->Notify_Of_RightClick(CurrentMouseCursorPosition);
+            }
+        }
+        if(xMouse->LeftButton){
+            for(size_t i=0;i<Sauce::Global::Terminals.Size();i++){
+                Sauce::Global::Terminals[i]->Notify_Of_LeftClick(CurrentMouseCursorPosition);
+            }
+        }
+
         Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::DrawUI(){
