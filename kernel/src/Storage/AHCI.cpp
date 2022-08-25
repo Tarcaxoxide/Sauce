@@ -73,21 +73,21 @@ namespace Sauce{
             }
 
             StartCMD();
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::STORAGE);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::STORAGE);
         }
         void ParsedHBAPort_st::StartCMD(){
             Sauce::IO::Debug::Print_Call("ParsedHBAPort_st::StartCMD",Sauce::IO::Debug::STORAGE);
             while(Address->cmdSts & HBA_PxCMD_CR);
             Address->cmdSts |=  HBA_PxCMD_FRE;
             Address->cmdSts |=  HBA_PxCMD_ST;
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::STORAGE);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::STORAGE);
         }
         void ParsedHBAPort_st::StopCMD(){
             Sauce::IO::Debug::Print_Call("ParsedHBAPort_st::StopCMD",Sauce::IO::Debug::STORAGE);
             Address->cmdSts &= ~HBA_PxCMD_ST;
             Address->cmdSts &= ~HBA_PxCMD_FRE;
             while((Address->cmdSts & HBA_PxCMD_FR || Address->cmdSts & HBA_PxCMD_CR));
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::STORAGE);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::STORAGE);
         }
         bool ParsedHBAPort_st::Read(uint64_t sector,uint16_t sectorCount,void* buffer){
             Sauce::IO::Debug::Print_Call("ParsedHBAPort_st::Read",Sauce::IO::Debug::STORAGE);
@@ -95,7 +95,7 @@ namespace Sauce{
             size_t spin=0;
             while((Address->taskFileData & (ATA_DEV_BUSY | ATA_DEV_DRQ)) && spin < 1000000){spin++;}
 
-            if(spin == 1000000){Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::STORAGE);return false;}
+            if(spin == 1000000){Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::STORAGE);return false;}
 
             uint32_t sectorL = (uint32_t)sector;
             uint32_t sectorH = (uint32_t)(sector >> 32);
@@ -134,7 +134,7 @@ namespace Sauce{
 
             while(!(Address->commandIssue == 0)){if(Address->interruptStatus & HBA_PxIS_TFES){Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::STORAGE);return false;}}
 
-            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::STORAGE);
+            Sauce::IO::Debug::Print_Return("<True>",Sauce::IO::Debug::STORAGE);
             return true;
         }
 
@@ -158,7 +158,7 @@ namespace Sauce{
             ProbePorts();
 
 
-            Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::STORAGE);
+            Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::STORAGE);
         }
         void AHCIDriver_cl::ProbePorts(){
             Sauce::IO::Debug::Print_Call("AHCIDriver_cl::ProbePorts",Sauce::IO::Debug::STORAGE);
@@ -204,11 +204,11 @@ namespace Sauce{
                 }
             }
             
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::STORAGE);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::STORAGE);
         }
         AHCIDriver_cl::~AHCIDriver_cl(){
             Sauce::IO::Debug::Print_Call("AHCIDriver_cl::~AHCIDriver_cl",Sauce::IO::Debug::STORAGE);
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::STORAGE);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::STORAGE);
         }
     };
 };

@@ -21,7 +21,7 @@ namespace Sauce{
                         }
                     }
                 }
-                Sauce::IO::Debug::Print_Return("NULL",true);
+                Sauce::IO::Debug::Print_Return("<NULL>",true);
                 return NULL;
             }
         };

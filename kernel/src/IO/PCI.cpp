@@ -29,7 +29,7 @@ namespace Sauce{
                     }
                 }break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::PCI);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::PCI);
         }
         void EnumerateDevice(uint64_t busAddress,uint64_t device){
             Sauce::IO::Debug::Print_Call("EnumerateDevice",Sauce::IO::Debug::PCI);
@@ -42,7 +42,7 @@ namespace Sauce{
             for(uint64_t function=0;function < 8;function++){
                 EnemerateFunction(deviceAddress,function);
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::PCI);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::PCI);
         }
         void EnumerateBus(uint64_t baseAddress,uint64_t bus){
             Sauce::IO::Debug::Print_Call("EnumerateBus",Sauce::IO::Debug::PCI);
@@ -55,7 +55,7 @@ namespace Sauce{
             for(uint64_t device =0;device < 32;device++){
                 EnumerateDevice(busAddress,device);
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::PCI);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::PCI);
         }
         void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg){
             Sauce::IO::Debug::Print_Call("EnumeratePCI",Sauce::IO::Debug::PCI);
@@ -66,7 +66,7 @@ namespace Sauce{
                     EnumerateBus(nDeviceConfig->BaseAddress,Bus);
                 }
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::PCI);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::PCI);
         }
         const char* DeviceClasses[]{
             "Unclassified",

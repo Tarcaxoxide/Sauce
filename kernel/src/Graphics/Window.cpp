@@ -8,7 +8,7 @@ namespace Sauce{
         :Terminal_cl((Size.X*Size.Y),Size.X,"Window",Offset){
             Sauce::IO::Debug::Print_Call("Shell_cl::Shell_cl",Sauce::IO::Debug::SHELL);
             Clear();
-            Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::SHELL);
+            Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::SHELL);
         }
         
     };

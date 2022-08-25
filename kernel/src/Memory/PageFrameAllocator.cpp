@@ -11,7 +11,7 @@ namespace Sauce{
         bool Initialized=false;
         void PageFrameAllocator_cl::ReadEfiMemoryMap(EFI_MEMORY_DESCRIPTOR* mMap,size_t mMapSize,size_t mDescriptorSize){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::ReadEfiMemoryMap",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
-            if(Initialized){Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);return;}
+            if(Initialized){Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);return;}
             Initialized=true;
             uint64_t mMapEntries = mMapSize/mDescriptorSize;
             void* LargestFreeMemorySegment=NULL;
@@ -41,7 +41,7 @@ namespace Sauce{
             ReservePages(0,0x100);// reserver between 0 and 0x100000 , protect the bios!
             LockPages(PageBitmap.Buffer,PageBitmap.Size/4096 + 1);
             // reserve pages of unusable/reserved memory
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::InitializeBitmap(size_t bitmapSize,void* bufferAddress){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::InitializeBitmap",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
@@ -50,7 +50,7 @@ namespace Sauce{
             for(int i=0;i<bitmapSize;i++){
                 *(uint8_t*)(PageBitmap.Buffer + i) = 0;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::FreePage(void* address){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::FreePage",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
@@ -61,7 +61,7 @@ namespace Sauce{
                 freeMemory+=4096;
                 usedMemory-=4096;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::LockPage(void* address){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::LockPage",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
@@ -71,7 +71,7 @@ namespace Sauce{
                 freeMemory-=4096;
                 usedMemory+=4096;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::ReleasePage(void* address){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::ReleasePage",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
@@ -82,7 +82,7 @@ namespace Sauce{
                 freeMemory+=4096;
                 reservedMemory-=4096;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::ReservePage(void* address){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::ReservePage",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
@@ -92,35 +92,35 @@ namespace Sauce{
                 freeMemory-=4096;
                 reservedMemory+=4096;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::FreePages(void* address,uint64_t pageCount){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::FreePages",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             for(size_t t=0;t<pageCount;t++){
                 FreePage((void*)((uint64_t)address+(t*4096)));
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::LockPages(void* address,uint64_t pageCount){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::LockPages",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             for(size_t t=0;t<pageCount;t++){
                 LockPage((void*)((uint64_t)address+(t*4096)));
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::ReservePages(void* address,uint64_t pageCount){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::ReservePages",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             for(size_t t=0;t<pageCount;t++){
                 ReservePage((void*)((uint64_t)address+(t*4096)));
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         void PageFrameAllocator_cl::ReleasePages(void* address,uint64_t pageCount){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::ReleasePages",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             for(size_t t=0;t<pageCount;t++){
                 ReleasePage((void*)((uint64_t)address+(t*4096)));
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
         }
         uint64_t PageFrameAllocator_cl::GetFreeRAM(){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::GetFreeRAM",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
@@ -153,7 +153,7 @@ namespace Sauce{
                 return TheAddress;
             }
             //TODO::Page Frame Swap to file
-            Sauce::IO::Debug::Print_Spammy_Return("NULL",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return("<NULL>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             return NULL;
         }
     };

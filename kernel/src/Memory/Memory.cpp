@@ -22,7 +22,7 @@ namespace Sauce{
             for(uint64_t i=0;i<size;i++){
                 *(uint8_t*)((uint64_t)address+i)=value;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY);
         }
         void memcpy(const void* srcPtr,const void* destPtr,size_t s){
             // EXPERIMENTAL! 
@@ -39,7 +39,7 @@ namespace Sauce{
                         --s;
                     }
                 }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY);
         }
         int64_t memcmp(const void* aptr,const void* bptr,size_t s){
             Sauce::IO::Debug::Print_Spammy_Call("memcmp",Sauce::IO::Debug::MEMORY);

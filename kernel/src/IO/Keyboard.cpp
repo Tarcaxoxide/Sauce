@@ -187,9 +187,9 @@ namespace Sauce{
             }
 
 
-            Capital ? Sauce::IO::Debug::Print_Return("Capital:True,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("Capital:False,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Start);
-            Press ? Sauce::IO::Debug::Print_Return("Press:True,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("Press:False,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
-            IVisible ? Sauce::IO::Debug::Print_Return("Visible:True,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("Visible:False,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            Capital ? Sauce::IO::Debug::Print_Return("Capital:<True>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("Capital:<False>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Start);
+            Press ? Sauce::IO::Debug::Print_Return("Press:<True>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("Press:<False>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            IVisible ? Sauce::IO::Debug::Print_Return("Visible:<True>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("Visible:<False>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return("Key:",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(IKey),Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return(",",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);

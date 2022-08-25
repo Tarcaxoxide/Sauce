@@ -9,7 +9,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Call("PageTableManager_cl::PageTableManager_cl",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
             if(this->PML4Address != NULL)return;
             this->PML4Address=PML4Address;
-            Sauce::IO::Debug::Print_Spammy_Return("this",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
+            Sauce::IO::Debug::Print_Spammy_Return("<this>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
         }
         void PageTableManager_cl::MapMemory(void* virtualMemory,void* physicalMemory){
             Sauce::IO::Debug::Print_Spammy_Call("PageTableManager_cl::MapMemory",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
@@ -59,7 +59,7 @@ namespace Sauce{
             PDE.SetFlag(PT_Flag::Present,true);
             PDE.SetFlag(PT_Flag::ReadWrite,true);
             PT->entries[indexer.P_i] = PDE;
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
         }
     };
 };

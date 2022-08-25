@@ -40,7 +40,7 @@ namespace Sauce{
                     }
                 }
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::MOUSE);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::MOUSE);
         }
         Mouse_cl::Mouse_cl(Point64_t InitialPosition)
         :Terminal_cl((13*13),13,"Mouse",InitialPosition){
@@ -48,7 +48,7 @@ namespace Sauce{
             Clear();
             PutChar(0);
             Sauce::IO::PS2MouseInitialize(InitialPosition);
-            Sauce::IO::Debug::Print_Return("this",Sauce::IO::Debug::MOUSE);
+            Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::MOUSE);
         }
     };
 

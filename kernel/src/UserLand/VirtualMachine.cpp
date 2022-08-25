@@ -26,7 +26,7 @@ namespace Sauce{
                 case SzCode::V08_E08:{CurrentInstruction=(void*)&_VirtualInstructions_08_08[InstructionCounter_08_08];}break;
                case SzCode::SZ__NULL:{CurrentInstruction=nullptr;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         bool VirtualMachine_cl::RunInstruction(){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::RunInstruction",Sauce::IO::Debug::VirtualMachine);
@@ -34,7 +34,7 @@ namespace Sauce{
                 case SzCode::V64_E64:{VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -195,7 +195,7 @@ namespace Sauce{
                 case SzCode::V64_E32:{VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -356,7 +356,7 @@ namespace Sauce{
                 case SzCode::V64_E16:{VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -517,7 +517,7 @@ namespace Sauce{
                 case SzCode::V64_E08:{VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -678,7 +678,7 @@ namespace Sauce{
                 case SzCode::V32_E64:{VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -839,7 +839,7 @@ namespace Sauce{
                 case SzCode::V32_E32:{VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -1000,7 +1000,7 @@ namespace Sauce{
                 case SzCode::V32_E16:{VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -1161,7 +1161,7 @@ namespace Sauce{
                 case SzCode::V32_E08:{VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -1322,7 +1322,7 @@ namespace Sauce{
                 case SzCode::V16_E64:{VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -1483,7 +1483,7 @@ namespace Sauce{
                 case SzCode::V16_E32:{VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -1644,7 +1644,7 @@ namespace Sauce{
                 case SzCode::V16_E16:{VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -1805,7 +1805,7 @@ namespace Sauce{
                 case SzCode::V16_E08:{VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -1966,7 +1966,7 @@ namespace Sauce{
                 case SzCode::V08_E64:{VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -2127,7 +2127,7 @@ namespace Sauce{
                 case SzCode::V08_E32:{VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -2288,7 +2288,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -2449,7 +2449,7 @@ namespace Sauce{
                 case SzCode::V08_E08:{VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>* ThisInstruction = (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>*)CurrentInstruction;
                     switch(ThisInstruction->opcode){
                         case OpCode::OP__NULL:{
-                            Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);
+                            Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);
                             return false;
                         }break;
                         case OpCode::OP__EXIT:{
@@ -2607,9 +2607,9 @@ namespace Sauce{
                     }//switch(ThisInstruction->opcode)
                     InstructionCounter_08_08++;
                 }break;
-               case SzCode::SZ__NULL:{Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);return false;}break;
+               case SzCode::SZ__NULL:{Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);return false;}break;
             }//switch(CurrentSizeCode)
-            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<True>",Sauce::IO::Debug::VirtualMachine);
             return true;
         }//bool VirtualMachine_cl::RunInstruction()
         void VirtualMachine_cl::Run(){
@@ -2619,24 +2619,24 @@ namespace Sauce{
                 GetInstruction();
             }while(RunInstruction());
             RemoveEnd();
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
-        void VirtualMachine_cl::AddInstruction_64_64(OpCode opcode,TpCode tpcode,int64_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_64_64",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_64_32(OpCode opcode,TpCode tpcode,int64_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_64_32",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_64_16(OpCode opcode,TpCode tpcode,int64_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_64_16",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_64_08(OpCode opcode,TpCode tpcode,int64_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_64_08",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_32_64(OpCode opcode,TpCode tpcode,int32_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_32_64",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_32_32(OpCode opcode,TpCode tpcode,int32_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_32_32",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_32_16(OpCode opcode,TpCode tpcode,int32_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_32_16",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_32_08(OpCode opcode,TpCode tpcode,int32_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_32_08",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_16_64(OpCode opcode,TpCode tpcode,int16_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_16_64",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_16_32(OpCode opcode,TpCode tpcode,int16_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_16_32",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_16_16(OpCode opcode,TpCode tpcode,int16_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_16_16",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_16_08(OpCode opcode,TpCode tpcode,int16_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_16_08",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_08_64(OpCode opcode,TpCode tpcode,int8_t value,int64_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_08_64",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);} 
-        void VirtualMachine_cl::AddInstruction_08_32(OpCode opcode,TpCode tpcode,int8_t value,int32_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_08_32",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);} 
-        void VirtualMachine_cl::AddInstruction_08_16(OpCode opcode,TpCode tpcode,int8_t value,int16_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_08_16",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddInstruction_08_08(OpCode opcode,TpCode tpcode,int8_t value,int8_t extended)  {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_08_08",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);} 
+        void VirtualMachine_cl::AddInstruction_64_64(OpCode opcode,TpCode tpcode,int64_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_64_64",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_64_32(OpCode opcode,TpCode tpcode,int64_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_64_32",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_64_16(OpCode opcode,TpCode tpcode,int64_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_64_16",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_64_08(OpCode opcode,TpCode tpcode,int64_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_64_08",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_32_64(OpCode opcode,TpCode tpcode,int32_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_32_64",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_32_32(OpCode opcode,TpCode tpcode,int32_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_32_32",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_32_16(OpCode opcode,TpCode tpcode,int32_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_32_16",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_32_08(OpCode opcode,TpCode tpcode,int32_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_32_08",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_16_64(OpCode opcode,TpCode tpcode,int16_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_16_64",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_16_32(OpCode opcode,TpCode tpcode,int16_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_16_32",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_16_16(OpCode opcode,TpCode tpcode,int16_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_16_16",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_16_08(OpCode opcode,TpCode tpcode,int16_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_16_08",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_08_64(OpCode opcode,TpCode tpcode,int8_t value,int64_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_08_64",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);} 
+        void VirtualMachine_cl::AddInstruction_08_32(OpCode opcode,TpCode tpcode,int8_t value,int32_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_08_32",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);} 
+        void VirtualMachine_cl::AddInstruction_08_16(OpCode opcode,TpCode tpcode,int8_t value,int16_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_08_16",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddInstruction_08_08(OpCode opcode,TpCode tpcode,int8_t value,int8_t extended)  {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction_08_08",Sauce::IO::Debug::VirtualMachine);_VirtualInstructions_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);} 
         void VirtualMachine_cl::AddInstruction(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value,int8_t extended){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddInstruction",Sauce::IO::Debug::VirtualMachine);
             switch(szcode){
@@ -2658,24 +2658,24 @@ namespace Sauce{
                 case SzCode::V08_E08:{AddInstruction_08_08(opcode,tpcode,value,extended);}break;
                case SzCode::SZ__NULL:{CurrentInstruction=nullptr;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
-        void VirtualMachine_cl::AddToVirtualStack_64_64(OpCode opcode,TpCode tpcode,int64_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_64_64",Sauce::IO::Debug::VirtualMachine);_VirtualStack_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_64_32(OpCode opcode,TpCode tpcode,int64_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_64_32",Sauce::IO::Debug::VirtualMachine);_VirtualStack_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_64_16(OpCode opcode,TpCode tpcode,int64_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_64_16",Sauce::IO::Debug::VirtualMachine);_VirtualStack_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_64_08(OpCode opcode,TpCode tpcode,int64_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_64_08",Sauce::IO::Debug::VirtualMachine);_VirtualStack_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_32_64(OpCode opcode,TpCode tpcode,int32_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_32_64",Sauce::IO::Debug::VirtualMachine);_VirtualStack_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_32_32(OpCode opcode,TpCode tpcode,int32_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_32_32",Sauce::IO::Debug::VirtualMachine);_VirtualStack_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_32_16(OpCode opcode,TpCode tpcode,int32_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_32_16",Sauce::IO::Debug::VirtualMachine);_VirtualStack_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_32_08(OpCode opcode,TpCode tpcode,int32_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_32_08",Sauce::IO::Debug::VirtualMachine);_VirtualStack_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_16_64(OpCode opcode,TpCode tpcode,int16_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_16_64",Sauce::IO::Debug::VirtualMachine);_VirtualStack_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_16_32(OpCode opcode,TpCode tpcode,int16_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_16_32",Sauce::IO::Debug::VirtualMachine);_VirtualStack_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_16_16(OpCode opcode,TpCode tpcode,int16_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_16_16",Sauce::IO::Debug::VirtualMachine);_VirtualStack_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_16_08(OpCode opcode,TpCode tpcode,int16_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_16_08",Sauce::IO::Debug::VirtualMachine);_VirtualStack_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_08_64(OpCode opcode,TpCode tpcode,int8_t value,int64_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_08_64",Sauce::IO::Debug::VirtualMachine);_VirtualStack_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_08_32(OpCode opcode,TpCode tpcode,int8_t value,int32_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_08_32",Sauce::IO::Debug::VirtualMachine);_VirtualStack_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_08_16(OpCode opcode,TpCode tpcode,int8_t value,int16_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_08_16",Sauce::IO::Debug::VirtualMachine);_VirtualStack_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
-        void VirtualMachine_cl::AddToVirtualStack_08_08(OpCode opcode,TpCode tpcode,int8_t value,int8_t extended)  {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_08_08",Sauce::IO::Debug::VirtualMachine);_VirtualStack_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_64_64(OpCode opcode,TpCode tpcode,int64_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_64_64",Sauce::IO::Debug::VirtualMachine);_VirtualStack_64_64.AddLast((VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>{opcode,tpcode,SzCode::V64_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_64_32(OpCode opcode,TpCode tpcode,int64_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_64_32",Sauce::IO::Debug::VirtualMachine);_VirtualStack_64_32.AddLast((VirtualStack_st<VirtualStack::V64::E32::VirtualStack_st>{opcode,tpcode,SzCode::V64_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_64_16(OpCode opcode,TpCode tpcode,int64_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_64_16",Sauce::IO::Debug::VirtualMachine);_VirtualStack_64_16.AddLast((VirtualStack_st<VirtualStack::V64::E16::VirtualStack_st>{opcode,tpcode,SzCode::V64_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_64_08(OpCode opcode,TpCode tpcode,int64_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_64_08",Sauce::IO::Debug::VirtualMachine);_VirtualStack_64_08.AddLast( (VirtualStack_st<VirtualStack::V64::E8::VirtualStack_st>{opcode,tpcode,SzCode::V64_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_32_64(OpCode opcode,TpCode tpcode,int32_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_32_64",Sauce::IO::Debug::VirtualMachine);_VirtualStack_32_64.AddLast((VirtualStack_st<VirtualStack::V32::E64::VirtualStack_st>{opcode,tpcode,SzCode::V32_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_32_32(OpCode opcode,TpCode tpcode,int32_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_32_32",Sauce::IO::Debug::VirtualMachine);_VirtualStack_32_32.AddLast((VirtualStack_st<VirtualStack::V32::E32::VirtualStack_st>{opcode,tpcode,SzCode::V32_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_32_16(OpCode opcode,TpCode tpcode,int32_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_32_16",Sauce::IO::Debug::VirtualMachine);_VirtualStack_32_16.AddLast((VirtualStack_st<VirtualStack::V32::E16::VirtualStack_st>{opcode,tpcode,SzCode::V32_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_32_08(OpCode opcode,TpCode tpcode,int32_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_32_08",Sauce::IO::Debug::VirtualMachine);_VirtualStack_32_08.AddLast( (VirtualStack_st<VirtualStack::V32::E8::VirtualStack_st>{opcode,tpcode,SzCode::V32_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_16_64(OpCode opcode,TpCode tpcode,int16_t value,int64_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_16_64",Sauce::IO::Debug::VirtualMachine);_VirtualStack_16_64.AddLast((VirtualStack_st<VirtualStack::V16::E64::VirtualStack_st>{opcode,tpcode,SzCode::V16_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_16_32(OpCode opcode,TpCode tpcode,int16_t value,int32_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_16_32",Sauce::IO::Debug::VirtualMachine);_VirtualStack_16_32.AddLast((VirtualStack_st<VirtualStack::V16::E32::VirtualStack_st>{opcode,tpcode,SzCode::V16_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_16_16(OpCode opcode,TpCode tpcode,int16_t value,int16_t extended){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_16_16",Sauce::IO::Debug::VirtualMachine);_VirtualStack_16_16.AddLast((VirtualStack_st<VirtualStack::V16::E16::VirtualStack_st>{opcode,tpcode,SzCode::V16_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_16_08(OpCode opcode,TpCode tpcode,int16_t value,int8_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_16_08",Sauce::IO::Debug::VirtualMachine);_VirtualStack_16_08.AddLast( (VirtualStack_st<VirtualStack::V16::E8::VirtualStack_st>{opcode,tpcode,SzCode::V16_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_08_64(OpCode opcode,TpCode tpcode,int8_t value,int64_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_08_64",Sauce::IO::Debug::VirtualMachine);_VirtualStack_08_64.AddLast( (VirtualStack_st<VirtualStack::V8::E64::VirtualStack_st>{opcode,tpcode,SzCode::V08_E64,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_08_32(OpCode opcode,TpCode tpcode,int8_t value,int32_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_08_32",Sauce::IO::Debug::VirtualMachine);_VirtualStack_08_32.AddLast( (VirtualStack_st<VirtualStack::V8::E32::VirtualStack_st>{opcode,tpcode,SzCode::V08_E32,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_08_16(OpCode opcode,TpCode tpcode,int8_t value,int16_t extended) {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_08_16",Sauce::IO::Debug::VirtualMachine);_VirtualStack_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{opcode,tpcode,SzCode::V08_E16,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
+        void VirtualMachine_cl::AddToVirtualStack_08_08(OpCode opcode,TpCode tpcode,int8_t value,int8_t extended)  {Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack_08_08",Sauce::IO::Debug::VirtualMachine);_VirtualStack_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{opcode,tpcode,SzCode::V08_E08,{value,extended}}));Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);}
         void VirtualMachine_cl::AddToVirtualStack(SzCode szcode,OpCode opcode,TpCode tpcode,int8_t value,int8_t extended){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddToVirtualStack",Sauce::IO::Debug::VirtualMachine);
             switch(szcode){
@@ -2697,7 +2697,7 @@ namespace Sauce{
                 case SzCode::V08_E08:{AddToVirtualStack_08_08(opcode,tpcode,value,extended);}break;
                case SzCode::SZ__NULL:{CurrentInstruction=nullptr;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
 
         VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st> VirtualMachine_cl::GetLastFromVirtualStack_64_64(){Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetLastFromVirtualStack_64_64",Sauce::IO::Debug::VirtualMachine);Sauce::IO::Debug::Print_Return("(TODO)VirtualStack_st<VirtualStack::V64::E64::VirtualStack_st>",Sauce::IO::Debug::VirtualMachine);return _VirtualStack_64_64.Last();}
@@ -2770,7 +2770,7 @@ namespace Sauce{
             if(!hasEnd){_VirtualInstructions_08_16.AddLast( (VirtualStack_st<VirtualStack::V8::E16::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
             if(!hasEnd){_VirtualInstructions_08_08.AddLast(  (VirtualStack_st<VirtualStack::V8::E8::VirtualStack_st>{OpCode::OP__NULL,TpCode::TP__NULL,SzCode::SZ__NULL,{0,0}}));}
             hasEnd=true;
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::RemoveEnd(){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::RemoveEnd",Sauce::IO::Debug::VirtualMachine);
@@ -2791,7 +2791,7 @@ namespace Sauce{
             if(hasEnd){_VirtualInstructions_08_16.RemoveLast();}
             if(hasEnd){_VirtualInstructions_08_08.RemoveLast();}
             hasEnd=false;
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
 
         void VirtualMachine_cl::GetValueFromVirtualInstructions(SzCode szcode,int8_t &value,size_t ThisInstructionCounter){
@@ -2814,7 +2814,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{value=(int8_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Value;}break;
                 case SzCode::V08_E08:{value=(int8_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetValueFromVirtualInstructions(SzCode szcode,int16_t &value,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetValueFromVirtualInstructions",Sauce::IO::Debug::VirtualMachine);
@@ -2836,7 +2836,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{value=(int16_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Value;}break;
                 case SzCode::V08_E08:{value=(int16_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetValueFromVirtualInstructions(SzCode szcode,int32_t &value,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetValueFromVirtualInstructions",Sauce::IO::Debug::VirtualMachine);
@@ -2858,7 +2858,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{value=(int32_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Value;}break;
                 case SzCode::V08_E08:{value=(int32_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetValueFromVirtualInstructions(SzCode szcode,int64_t &value,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetValueFromVirtualInstructions",Sauce::IO::Debug::VirtualMachine);
@@ -2880,7 +2880,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{value=(int64_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Value;}break;
                 case SzCode::V08_E08:{value=(int64_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Value;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,int8_t &extended,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetExtendedFromVirtualInstructions",Sauce::IO::Debug::VirtualMachine);
@@ -2902,7 +2902,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{extended=(int8_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
                 case SzCode::V08_E08:{extended=(int8_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,int16_t &extended,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetExtendedFromVirtualInstructions",Sauce::IO::Debug::VirtualMachine);
@@ -2924,7 +2924,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{extended=(int16_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
                 case SzCode::V08_E08:{extended=(int16_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,int32_t &extended,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetExtendedFromVirtualInstructions",Sauce::IO::Debug::VirtualMachine);
@@ -2946,7 +2946,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{extended=(int32_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
                 case SzCode::V08_E08:{extended=(int32_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetExtendedFromVirtualInstructions(SzCode szcode,int64_t &extended,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetExtendedFromVirtualInstructions",Sauce::IO::Debug::VirtualMachine);
@@ -2968,7 +2968,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{extended=(int64_t)GetFromVirtualInstructions_08_16(ThisInstructionCounter).Data.Extended;}break;
                 case SzCode::V08_E08:{extended=(int64_t)GetFromVirtualInstructions_08_08(ThisInstructionCounter).Data.Extended;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int8_t &value){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetValueFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -2990,7 +2990,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{value=(int8_t)GetLastFromVirtualStack_08_16().Data.Value;}break;
                 case SzCode::V08_E08:{value=(int8_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int16_t &value){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetValueFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -3012,7 +3012,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{value=(int16_t)GetLastFromVirtualStack_08_16().Data.Value;}break;
                 case SzCode::V08_E08:{value=(int16_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int32_t &value){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetValueFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -3034,7 +3034,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{value=(int32_t)GetLastFromVirtualStack_08_16().Data.Value;}break;
                 case SzCode::V08_E08:{value=(int32_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetValueFromVirtualStack(SzCode szcode,int64_t &value){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetValueFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -3056,7 +3056,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{value=(int64_t)GetLastFromVirtualStack_08_16().Data.Value;}break;
                 case SzCode::V08_E08:{value=(int64_t)GetLastFromVirtualStack_08_08().Data.Value;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,int8_t &extended){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetExtendedFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -3078,7 +3078,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{extended=(int8_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
                 case SzCode::V08_E08:{extended=(int8_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,int16_t &extended){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetExtendedFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -3100,7 +3100,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{extended=(int16_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
                 case SzCode::V08_E08:{extended=(int16_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,int32_t &extended){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetExtendedFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -3122,7 +3122,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{extended=(int32_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
                 case SzCode::V08_E08:{extended=(int32_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetExtendedFromVirtualStack(SzCode szcode,int64_t &extended){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetExtendedFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -3144,7 +3144,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{extended=(int64_t)GetLastFromVirtualStack_08_16().Data.Extended;}break;
                 case SzCode::V08_E08:{extended=(int64_t)GetLastFromVirtualStack_08_08().Data.Extended;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
 
         void VirtualMachine_cl::GetTpCodeFromVirtualStack(SzCode szcode,TpCode &tpcode){
@@ -3167,7 +3167,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{tpcode=GetLastFromVirtualStack_08_16().Type;}break;
                 case SzCode::V08_E08:{tpcode=GetLastFromVirtualStack_08_08().Type;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::GetTpCodeFromVirtualInstructions(SzCode szcode,TpCode &tpcode,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetTpCodeFromVirtualInstructions",Sauce::IO::Debug::VirtualMachine);
@@ -3189,7 +3189,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{tpcode=GetFromVirtualInstructions_08_16(ThisInstructionCounter).Type;}break;
                 case SzCode::V08_E08:{tpcode=GetFromVirtualInstructions_08_08(ThisInstructionCounter).Type;}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void  VirtualMachine_cl::PushToStack(SzCode Instruction_szcode,size_t ThisInstructionCounter){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::PushToStack",Sauce::IO::Debug::VirtualMachine);
@@ -3211,7 +3211,7 @@ namespace Sauce{
                 case SzCode::V08_E16:{int8_t ThisValue;int16_t ThisExtended;TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_16(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
                 case SzCode::V08_E08:{int8_t ThisValue;int8_t ThisExtended; TpCode ThisTpCode; GetTpCodeFromVirtualInstructions(Instruction_szcode,ThisTpCode,ThisInstructionCounter);GetValueFromVirtualInstructions(Instruction_szcode,ThisValue,ThisInstructionCounter);GetExtendedFromVirtualInstructions(Instruction_szcode,ThisExtended,ThisInstructionCounter);AddToVirtualStack_08_08(OpCode::OP__DATA,ThisTpCode,ThisValue,ThisExtended);}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         void VirtualMachine_cl::RemoveFromVirtualStack(SzCode szcode){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::RemoveFromVirtualStack",Sauce::IO::Debug::VirtualMachine);
@@ -3233,21 +3233,21 @@ namespace Sauce{
                 case SzCode::V08_E16:{_VirtualStack_08_16.RemoveLast();}break;
                 case SzCode::V08_E08:{_VirtualStack_08_08.RemoveLast();}break;
             }
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
         bool VirtualMachine_cl::GetKeyboard(int8_t &value,int8_t &extended){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::GetKeyboard",Sauce::IO::Debug::VirtualMachine);
-            if(_Virtual_Keyboard.Size() < 1){Sauce::IO::Debug::Print_Return("False",Sauce::IO::Debug::VirtualMachine);return false;}
+            if(_Virtual_Keyboard.Size() < 1){Sauce::IO::Debug::Print_Return("<False>",Sauce::IO::Debug::VirtualMachine);return false;}
             value = _Virtual_Keyboard.Last().Data.Value;
             extended = _Virtual_Keyboard.Last().Data.Extended;
             _Virtual_Keyboard.RemoveLast();
-            Sauce::IO::Debug::Print_Return("True",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<True>",Sauce::IO::Debug::VirtualMachine);
             return true;
         }
         void VirtualMachine_cl::AddKeyboard(int8_t value,int8_t extended){
             Sauce::IO::Debug::Print_Call("VirtualMachine_cl::AddKeyboard",Sauce::IO::Debug::VirtualMachine);
             _Virtual_Keyboard.AddFirst({OpCode::OP__DATA,TpCode::TP__KEYBOARD,SzCode::V08_E08,{value,extended}});
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::VirtualMachine);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::VirtualMachine);
         }
     };
 };

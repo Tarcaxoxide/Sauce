@@ -9,7 +9,7 @@ namespace Sauce{
             for(size_t a = 0;(a < 512);a++){
                 haxString[a] = 0;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::CONVERSIONS);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::CONVERSIONS);
         }
         char* HexToString(uint8_t value,bool ClearBefore){
             Sauce::IO::Debug::Print_Spammy_Call("HexToString (8)",Sauce::IO::Debug::CONVERSIONS);

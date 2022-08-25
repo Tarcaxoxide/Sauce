@@ -9,7 +9,7 @@ namespace Sauce{
             offset0 = (uint16_t)(offset & 0x000000000000ffff);
             offset1 = (uint16_t)((offset & 0x00000000ffff0000) >> 16);
             offset2 = (uint32_t)((offset & 0xffffffff00000000) >> 32);
-            Sauce::IO::Debug::Print_Return("void",Sauce::IO::Debug::INTERRUPT_DESCRIPTOR_TABLE);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPT_DESCRIPTOR_TABLE);
         }
         uint64_t IDTDescriptorEntry::GetOffset(){
             Sauce::IO::Debug::Print_Call("IDTDescriptorEntry::GetOffset",Sauce::IO::Debug::INTERRUPT_DESCRIPTOR_TABLE);
