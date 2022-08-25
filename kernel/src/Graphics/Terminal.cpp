@@ -137,7 +137,7 @@ namespace Sauce{
 
         void Terminal_cl::Notify_Of_LeftClick(Point64_t ClickLocation){
             if(ClickLocation.Y > MyOffset.Y && ClickLocation.Y < MyOffset.Y+PixelsBufferHeight){
-                if(ClickLocation.X > MyOffset.X && ClickLocation.X < MyOffset.Y+PixelsPerLine){
+                if(ClickLocation.X > MyOffset.X && ClickLocation.X < MyOffset.X+PixelsPerLine){
                     Sauce::IO::Debug::Print_Detail(name,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                     Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                     Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(ClickLocation.X),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
