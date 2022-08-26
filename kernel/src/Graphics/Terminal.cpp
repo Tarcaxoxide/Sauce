@@ -17,13 +17,13 @@ namespace Sauce{
             MyOffset=Offset;
             this->name=(char*)name;
             if(Sauce::IO::Debug::FUNCTION_RETURNS && Sauce::IO::Debug::TERMINAL)Sauce::IO::Debug::COM1_Console.Write((char*)"\t<-(\"this\")\n\0");
-            Sauce::IO::Debug::Print_Spammy_Return("this",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<this>",Sauce::IO::Debug::TERMINAL);
         }
         bool Terminal_cl::SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::SetColor",Sauce::IO::Debug::TERMINAL);
             this->ForegroundColor=ForegroundColor;
             this->BackgroundColor=BackgroundColor;
-            Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
         void Terminal_cl::ReverseColor(){
@@ -34,33 +34,33 @@ namespace Sauce{
         bool Terminal_cl::SetColor(GOP_PixelStructure ForegroundColor){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::SetColor",Sauce::IO::Debug::TERMINAL);
             this->ForegroundColor=ForegroundColor;
-            Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
         bool Terminal_cl::RowFill(size_t RowIndex,GOP_PixelStructure TheColor){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::RowFill",Sauce::IO::Debug::TERMINAL);
             if(RowIndex > PixelsPerLine){
-                Sauce::IO::Debug::Print_Spammy_Return("False",Sauce::IO::Debug::TERMINAL);
+                Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
                 return false;
             }
             PixelPointer.X=RowIndex;
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
         bool Terminal_cl::ColumnFill(size_t ColumnIndex,GOP_PixelStructure TheColor){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::ColumnFill",Sauce::IO::Debug::TERMINAL);
             if(ColumnIndex > PixelsPerLine){
-                Sauce::IO::Debug::Print_Spammy_Return("False",Sauce::IO::Debug::TERMINAL);
+                Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
                 return false;
             }
             PixelPointer.Y=ColumnIndex;
             for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
                 PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
         bool Terminal_cl::Fill(GOP_PixelStructure TheColor){
@@ -70,31 +70,31 @@ namespace Sauce{
                     PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
                 }
             }
-            Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
         bool Terminal_cl::RowClear(size_t RowIndex){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::RowClear",Sauce::IO::Debug::TERMINAL);
             bool Ret=RowFill(RowIndex,BackgroundColor);
-            Ret? Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("False",Sauce::IO::Debug::TERMINAL);
+            Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
             return Ret;
         }
         bool Terminal_cl::ColumnClear(size_t ColumnIndex){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::ColumnClear",Sauce::IO::Debug::TERMINAL);
             bool Ret = ColumnFill(ColumnIndex,BackgroundColor);
-            Ret? Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("False",Sauce::IO::Debug::TERMINAL);
+            Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
             return Ret;
         }
         bool Terminal_cl::Clear(){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Clear",Sauce::IO::Debug::TERMINAL);
             bool Ret = Fill(BackgroundColor);
-            Ret? Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("False",Sauce::IO::Debug::TERMINAL);
+            Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
             return Ret;
         }
         bool Terminal_cl::SetCursor(int64_t X,int64_t Y,int64_t Z){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::SetCursor",Sauce::IO::Debug::TERMINAL);
             PixelPointer={X,Y,Z};
-            Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
         bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset){
@@ -103,7 +103,7 @@ namespace Sauce{
             Offset.Y+=MyOffset.Y;
             Offset.Z+=MyOffset.Z;
             if(OtherPixelBufferTotalSize < PixelBufferTotalSize+(Offset.X*Offset.Y)){
-                Sauce::IO::Debug::Print_Spammy_Return("False",Sauce::IO::Debug::TERMINAL);
+                Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
                 return false;
             }
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
@@ -111,13 +111,13 @@ namespace Sauce{
                     OtherPixelBuffer[Sauce::ind(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
                 }
             }
-            Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
         bool Terminal_cl::CopyFrom(Terminal_cl* OtherTerminal){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::CopyFrom",Sauce::IO::Debug::TERMINAL);
             bool Ret = OtherTerminal->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,MyOffset);
-            Ret? Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("False",Sauce::IO::Debug::TERMINAL);
+            Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
             return Ret;
         }
         uPoint64_t Terminal_cl::Size(){
@@ -131,7 +131,7 @@ namespace Sauce{
         bool Terminal_cl::Move(Point64_t Offset){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Move",Sauce::IO::Debug::TERMINAL);
             MyOffset=Offset;
-            Sauce::IO::Debug::Print_Spammy_Return("True",Sauce::IO::Debug::TERMINAL);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
 
