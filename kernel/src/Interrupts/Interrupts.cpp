@@ -38,25 +38,25 @@ namespace Sauce{
             uint8_t mouseData = Sauce::IO::inb(0x60);
             Kernel_cl::Notify({InterruptTypeCode::ITC__Mouse,mouseData});
             PIC2_Done();
-            Sauce::IO::Debug::Print_Return("<void",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_MOUSE);
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_MOUSE);
         }
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Print_Spammy_Call("PITInterrupt_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT);
             Sauce::Interrupts::PIT::Tick();
             Kernel_cl::Notify({InterruptTypeCode::ITC__Time,0xFF});
             PIC1_Done();
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT);
         }
         void PIC1_Done(){
             Sauce::IO::Debug::Print_Spammy_Call("PIC1_Done",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
         }
         void PIC2_Done(){
             Sauce::IO::Debug::Print_Spammy_Call("PIC2_Done",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
             Sauce::IO::outb(PIC2_COMMAND,PIC_EOI);
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);
-            Sauce::IO::Debug::Print_Spammy_Return("void",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
         }
         void RemapPic(){
             Sauce::IO::Debug::Print_Call("RemapPic",true);
