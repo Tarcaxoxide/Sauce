@@ -2,10 +2,10 @@
 #include<Sauce/Kernel.hpp>
 #include<Sauce/IO/Debug/Panic.hpp>
 #include<Sauce/IO/IO.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
-#include<Sauce/IO/Mouse.hpp>
+//#include<Sauce/Utilities/Conversion.hpp>
+//#include<Sauce/IO/Mouse.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
-#include<Sauce/Memory/DynamicArray.hpp>
+//#include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
 namespace Sauce{

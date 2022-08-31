@@ -6,7 +6,7 @@
 
 namespace Sauce{
     namespace IO{
-        Point64_t MousePosition {0,0,0};
+		Sauce::Math::Point64_t MousePosition {0,0,0};
         void MouseWait(){
             Sauce::IO::Debug::Print_Call("MouseWait",Sauce::IO::Debug::MOUSE);
             uint64_t timeout=100000;
@@ -72,9 +72,9 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Call("ProcessMousePacket",Sauce::IO::Debug::MOUSE);
             nMouseData.Good=false;
             if(!MousePacketReady){
-                nMouseData.RightButton ? Sauce::IO::Debug::Print_Return("RightButton:<True>",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("RightButton:<False>",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start);
-                nMouseData.LeftButton ? Sauce::IO::Debug::Print_Return("LeftButton:<True>",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("LeftButton:<False>",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-                nMouseData.CenterButton ? Sauce::IO::Debug::Print_Return("CenterButton:<True>",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("CenterButton:<False>",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
+                nMouseData.RightButton ? Sauce::IO::Debug::Print_Return("RightButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("RightButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start);
+                nMouseData.LeftButton ? Sauce::IO::Debug::Print_Return("LeftButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("LeftButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
+                nMouseData.CenterButton ? Sauce::IO::Debug::Print_Return("CenterButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("CenterButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Return("{X:",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Return(Sauce::Convert::ToString(nMouseData.Position->X),Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Return(",Y:",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -133,7 +133,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Return("},Good",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::End);
             return &nMouseData;
         }
-        void PS2MouseInitialize(Point64_t InitMousePosition){
+        void PS2MouseInitialize(Sauce::Math::Point64_t InitMousePosition){
             Sauce::IO::Debug::Print_Call("PS2MouseInitialize",Sauce::IO::Debug::MOUSE);
             MousePosition.X=InitMousePosition.X;
             MousePosition.Y=InitMousePosition.Y;

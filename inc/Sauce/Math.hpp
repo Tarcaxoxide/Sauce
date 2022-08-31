@@ -1,61 +1,66 @@
 #pragma once
-
 #include<stddef.h>
 #include<stdint.h>
 
 namespace Sauce{
-    struct uPoint8_t{
-        uint8_t X;
-        uint8_t Y;
-        uint8_t Z;
-    };
-    struct uPoint16_t{
-        uint16_t X;
-        uint16_t Y;
-        uint16_t Z;
-    };
-    struct uPoint32_t{
-        uint32_t X;
-        uint32_t Y;
-        uint32_t Z;
-    };
-    struct uPoint64_t{
-        uint64_t X;
-        uint64_t Y;
-        uint64_t Z;
-    };
-    struct Point8_t{
-        int8_t X;
-        int8_t Y;
-        int8_t Z;
-    };
-    struct Point16_t{
-        int16_t X;
-        int16_t Y;
-        int16_t Z;
-    };
-    struct Point32_t{
-        int32_t X;
-        int32_t Y;
-        int32_t Z;
-    };
-    struct Point64_t{
-        int64_t X;
-        int64_t Y;
-        int64_t Z;
-    };
-    struct Decimal_st{
-        int64_t WholeValue;
-        int64_t DecimalValue;
-        Decimal_st operator=(Decimal_st Other);
-        Decimal_st operator+=(Decimal_st Other);
-        Decimal_st operator-=(Decimal_st Other);
-        //Decimal_st operator++();
-        //Decimal_st operator--();
-        double operator()();
-        Decimal_st operator=(double Other);
-        Decimal_st operator+=(double Other);
-        Decimal_st operator-=(double Other);
-    };
-    size_t ind(size_t X,size_t Y,size_t MaxX);
+	namespace Math{
+    	struct uPoint8_t{
+        	uint8_t X;
+        	uint8_t Y;
+        	uint8_t Z;
+    	};
+    	struct uPoint16_t{
+        	uint16_t X;
+        	uint16_t Y;
+        	uint16_t Z;
+    	};
+    	struct uPoint32_t{
+        	uint32_t X;
+        	uint32_t Y;
+        	uint32_t Z;
+    	};
+    	struct uPoint64_t{
+        	uint64_t X;
+        	uint64_t Y;
+        	uint64_t Z;
+    	};
+    	struct Point8_t{
+        	int8_t X;
+        	int8_t Y;
+        	int8_t Z;
+    	};
+    	struct Point16_t{
+        	int16_t X;
+        	int16_t Y;
+        	int16_t Z;
+    	};
+    	struct Point32_t{
+        	int32_t X;
+        	int32_t Y;
+    		int32_t Z;
+    	};
+    	struct Point64_t{
+        	int64_t X;
+        	int64_t Y;
+        	int64_t Z;
+    	};
+    	struct Decimal_st{
+        	int64_t WholeValue;
+        	int64_t DecimalValue;
+        	Decimal_st operator=(Decimal_st Other);
+        	Decimal_st operator+=(Decimal_st Other);
+        	Decimal_st operator-=(Decimal_st Other);
+        	double operator()();
+        	Decimal_st operator=(double Other);
+        	Decimal_st operator+=(double Other);
+        	Decimal_st operator-=(double Other);
+    	};
+    	size_t ind(size_t X,size_t Y,size_t MaxX);
+//		size_t Round(double num, double medium=0.5){
+//			int A1=(int)num;
+//			double A2=num-A1;
+//			size_t A=0;
+//			return A;
+//		}
+	};
 };

@@ -10,10 +10,10 @@
 namespace Sauce{
     namespace Graphics{
         class Shell_cl : public Terminal_cl {
-            Point64_t Cursor{0,0,0};
+			Sauce::Math::Point64_t Cursor{0,0,0};
             Sauce::Memory::List_cl<wchar_t> CharBuffer;
             public:
-                Shell_cl(Point64_t Size,Point64_t Offset={0,0,0});
+                Shell_cl(Sauce::Math::Point64_t Size,Sauce::Math::Point64_t Offset={0,0,0});
                 void PutChar(wchar_t chr,bool AddToBuffer=true);
                 void PutString(const wchar_t* str,bool AddToBuffer=true);
                 void PutString(const char* str,bool AddToBuffer=true);

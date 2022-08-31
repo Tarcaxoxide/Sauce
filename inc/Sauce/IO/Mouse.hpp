@@ -22,7 +22,7 @@ namespace Sauce{
         uint8_t MouseRead();
         void HandlePS2Mouse(uint8_t data);
         Sauce::IO::Mouse_st* ProcessMousePacket();
-        void PS2MouseInitialize(Point64_t InitMousePosition);
-        extern Point64_t MousePosition;
+        void PS2MouseInitialize(Sauce::Math::Point64_t InitMousePosition);
+        extern Sauce::Math::Point64_t MousePosition;
     };
 };

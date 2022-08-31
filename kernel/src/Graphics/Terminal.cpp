@@ -8,7 +8,7 @@ namespace Sauce{
         GOP_PixelStructure Terminal_cl::ForegroundColor{0xFF,0xFF,0xFF,0xFF};
         GOP_PixelStructure Terminal_cl::BackgroundColor{0x00,0x00,0x00,0xFF};
         
-        Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,const char* name,Point64_t Offset){
+        Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,const char* name,Sauce::Math::Point64_t Offset){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Terminal_cl",Sauce::IO::Debug::TERMINAL);
             this->PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];
             this->PixelBufferTotalSize=PixelBufferTotalSize;
@@ -45,7 +45,7 @@ namespace Sauce{
             }
             PixelPointer.X=RowIndex;
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
-                PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
+                PixelBuffer[Sauce::Math::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
@@ -58,7 +58,7 @@ namespace Sauce{
             }
             PixelPointer.Y=ColumnIndex;
             for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
+                PixelBuffer[Sauce::Math::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
@@ -67,7 +67,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Fill",Sauce::IO::Debug::TERMINAL);
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                    PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
+                    PixelBuffer[Sauce::Math::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
                 }
             }
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
@@ -97,7 +97,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
-        bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Point64_t Offset){
+        bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Sauce::Math::Point64_t Offset){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::CopyTo",Sauce::IO::Debug::TERMINAL);
             Offset.X+=MyOffset.X;
             Offset.Y+=MyOffset.Y;
@@ -108,7 +108,7 @@ namespace Sauce{
             }
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                    OtherPixelBuffer[Sauce::ind(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
+                    OtherPixelBuffer[Sauce::Math::ind(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::Math::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
                 }
             }
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
@@ -120,7 +120,7 @@ namespace Sauce{
             Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
             return Ret;
         }
-        uPoint64_t Terminal_cl::Size(){
+		Sauce::Math::uPoint64_t Terminal_cl::Size(){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Size",Sauce::IO::Debug::TERMINAL);
             Sauce::IO::Debug::Print_Spammy_Return("Width:",Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
             Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(PixelsPerLine),Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -128,14 +128,14 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(PixelsBufferHeight),Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             return {PixelsPerLine,PixelsBufferHeight,0};
         }
-        bool Terminal_cl::Move(Point64_t Offset){
+        bool Terminal_cl::Move(Sauce::Math::Point64_t Offset){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Move",Sauce::IO::Debug::TERMINAL);
             MyOffset=Offset;
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
 
-        void Terminal_cl::Notify_Of_LeftClick(Point64_t ClickLocation){
+        void Terminal_cl::Notify_Of_Mouse_Left_Down(Sauce::Math::Point64_t ClickLocation){
             if(ClickLocation.Y > MyOffset.Y && ClickLocation.Y < MyOffset.Y+PixelsBufferHeight){
                 if(ClickLocation.X > MyOffset.X && ClickLocation.X < MyOffset.X+PixelsPerLine){
                     Sauce::IO::Debug::Print_Detail(name,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
@@ -143,11 +143,11 @@ namespace Sauce{
                     Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(ClickLocation.X),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                     Sauce::IO::Debug::Print_Detail("x",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                     Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(ClickLocation.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
-                    Sauce::IO::Debug::Print_Detail("}, Left Click",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
+                    Sauce::IO::Debug::Print_Detail("}, Left button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
                 }
             }
         }
-        void Terminal_cl::Notify_Of_RightClick(Point64_t ClickLocation){
+        void Terminal_cl::Notify_Of_Mouse_Right_Down(Sauce::Math::Point64_t ClickLocation){
             if(ClickLocation.Y > MyOffset.Y && ClickLocation.Y < MyOffset.Y+PixelsBufferHeight){
                 if(ClickLocation.X > MyOffset.X && ClickLocation.X < MyOffset.X+PixelsPerLine){
                     Sauce::IO::Debug::Print_Detail(name,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
@@ -155,11 +155,11 @@ namespace Sauce{
                     Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(ClickLocation.X),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                     Sauce::IO::Debug::Print_Detail("x",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                     Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(ClickLocation.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
-                    Sauce::IO::Debug::Print_Detail("}, Right Click",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
+                    Sauce::IO::Debug::Print_Detail("}, Right button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
                 }
             }
         }
-        void Terminal_cl::Notify_Of_CenterClick(Point64_t ClickLocation){
+        void Terminal_cl::Notify_Of_Mouse_Center_Down(Sauce::Math::Point64_t ClickLocation){
             if(ClickLocation.Y > MyOffset.Y && ClickLocation.Y < MyOffset.Y+PixelsBufferHeight){
                 if(ClickLocation.X > MyOffset.X && ClickLocation.X < MyOffset.X+PixelsPerLine){
                     Sauce::IO::Debug::Print_Detail(name,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
@@ -167,9 +167,12 @@ namespace Sauce{
                     Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(ClickLocation.X),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                     Sauce::IO::Debug::Print_Detail("x",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                     Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(ClickLocation.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
-                    Sauce::IO::Debug::Print_Detail("}, Center Click",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
+                    Sauce::IO::Debug::Print_Detail("}, Center button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
                 }
             }
         }
+		void Terminal_cl::Notify_Of_Mouse_Left_Up(Sauce::Math::Point64_t ClickLocation){}
+		void Terminal_cl::Notify_Of_Mouse_Right_Up(Sauce::Math::Point64_t ClickLocation){}
+		void Terminal_cl::Notify_Of_Mouse_Center_Up(Sauce::Math::Point64_t ClickLocation){}
     };
 };

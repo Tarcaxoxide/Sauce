@@ -27,7 +27,7 @@ namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
     int testcount=0;
-    Point64_t CurrentMouseCursorPosition{0,0,0};
+	Sauce::Math::Point64_t CurrentMouseCursorPosition{0,0,0};
 
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
         asm volatile("cli");
@@ -171,22 +171,22 @@ namespace Sauce{
         if((xMouse->Position->Y+Sauce::Global::Mouse->Size().Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Mouse->Size().Y;}
         if((xMouse->Position->X+Sauce::Global::Mouse->Size().X) > DFBL->FrameBuffer->Width){xMouse->Position->X=DFBL->FrameBuffer->Width-Sauce::Global::Mouse->Size().X;}
         if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
-            CurrentMouseCursorPosition = Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
+            CurrentMouseCursorPosition = Sauce::Math::Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
             Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
         }
         if(xMouse->CenterButton){
             for(size_t i=0;i<Sauce::Global::Terminals.Size();i++){
-                Sauce::Global::Terminals[i]->Notify_Of_CenterClick(CurrentMouseCursorPosition);
+                Sauce::Global::Terminals[i]->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
             }
         }
         if(xMouse->RightButton){
             for(size_t i=0;i<Sauce::Global::Terminals.Size();i++){
-                Sauce::Global::Terminals[i]->Notify_Of_RightClick(CurrentMouseCursorPosition);
+                Sauce::Global::Terminals[i]->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
             }
         }
         if(xMouse->LeftButton){
             for(size_t i=0;i<Sauce::Global::Terminals.Size();i++){
-                Sauce::Global::Terminals[i]->Notify_Of_LeftClick(CurrentMouseCursorPosition);
+                Sauce::Global::Terminals[i]->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
             }
         }
 
