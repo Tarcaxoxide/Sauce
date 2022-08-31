@@ -2,9 +2,9 @@
 
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/Math.hpp>
 #include<Sauce/IO/InputData.hpp>
-
+#include<Sauce/Math/Types.hpp>
+#include<Sauce/Math/Functions.hpp>
 
 #define PS2LeftButton 0b00000001
 #define PS2RightButton 0b00000010

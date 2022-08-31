@@ -11,7 +11,6 @@
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/IO/ACPI.hpp>
 #include<Sauce/IO/PCI.hpp>
-#include<Sauce/Math.hpp>
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
@@ -22,6 +21,8 @@
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global/Global.hpp>
+#include<Sauce/Math/Types.hpp>
+#include<Sauce/Math/Functions.hpp>
 
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
@@ -50,7 +51,7 @@ namespace Sauce{
         Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
 
 
-        Sauce::Global::Terminal->SetColor({0x22,0x22,0x22,0x00},{0x22,0x22,0x22,0x00});
+        Sauce::Global::Terminal->SetColor({0x11,0x11,0x11,0x00},{0x11,0x11,0x11,0x00});
 
         Sauce::Global::Terminals.AddLast(Sauce::Global::Shell);
         

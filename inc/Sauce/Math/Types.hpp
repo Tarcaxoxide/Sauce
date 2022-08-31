@@ -55,12 +55,5 @@ namespace Sauce{
         	Decimal_st operator+=(double Other);
         	Decimal_st operator-=(double Other);
     	};
-    	size_t ind(size_t X,size_t Y,size_t MaxX);
-//		size_t Round(double num, double medium=0.5){
-//			int A1=(int)num;
-//			double A2=num-A1;
-//			size_t A=0;
-//			return A;
-//		}
 	};
 };

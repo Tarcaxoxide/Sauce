@@ -4,8 +4,9 @@
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/Graphics/Font.hpp>
-#include<Sauce/Math.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/Math/Types.hpp>
+#include<Sauce/Math/Functions.hpp>
 
 namespace Sauce{
     namespace Graphics{
