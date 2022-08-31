@@ -44,16 +44,5 @@ namespace Sauce{
         	int64_t Y;
         	int64_t Z;
     	};
-    	struct Decimal_st{
-        	int64_t WholeValue;
-        	int64_t DecimalValue;
-        	Decimal_st operator=(Decimal_st Other);
-        	Decimal_st operator+=(Decimal_st Other);
-        	Decimal_st operator-=(Decimal_st Other);
-        	double operator()();
-        	Decimal_st operator=(double Other);
-        	Decimal_st operator+=(double Other);
-        	Decimal_st operator-=(double Other);
-    	};
 	};
 };

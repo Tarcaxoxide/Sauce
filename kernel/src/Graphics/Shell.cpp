@@ -1,5 +1,8 @@
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
+#include<Sauce/Math/Types.hpp>
+#include<Sauce/Math/Functions.hpp>
+#include<Sauce/Utilities/Conversion.hpp>
 
 
 namespace Sauce{
@@ -44,14 +47,14 @@ namespace Sauce{
                             ThisColor.Red=ForegroundColor.Red/9;
                             ThisColor.Green=ForegroundColor.Green/9;
                             ThisColor.Blue=ForegroundColor.Blue/9;
-                            ThisColor.Red*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::ind(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-                            ThisColor.Green*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::ind(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-                            ThisColor.Blue*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::ind(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-                            ThisColor.Alpha=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::ind(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+                            ThisColor.Red*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+                            ThisColor.Green*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+                            ThisColor.Blue*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+                            ThisColor.Alpha=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
                             if(ThisColor.Red == 0x00 && ThisColor.Blue == 0x00 && ThisColor.Green == 0x00 && ThisColor.Alpha == 0x00){
-                                PixelBuffer[Sauce::Math::ind(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=BackgroundColor;
+                                PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=BackgroundColor;
                             }else{
-                                PixelBuffer[Sauce::Math::ind(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=ThisColor;
+                                PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=ThisColor;
                             }
                         }
                     }
@@ -163,6 +166,11 @@ namespace Sauce{
             /*actually run the command*/
                 if((*ArgBuffer[0]) == (char*)"test"){
                     PutString(L"\n\roK!\n\r",false);
+                    Sauce::Memory::List_cl<Sauce::Math::Point64_t> testLine;
+                    make_line({100,100,0},{400,400,0},testLine);
+                    for(size_t i=0;i<testLine.Size();i++){
+                        PutPixel(testLine[i]);
+                    }
                 }
                 else if((*ArgBuffer[0]) == (char*)"shutdown"){
                     if(ArgBuffer.Size() < 2){

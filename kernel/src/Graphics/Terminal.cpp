@@ -45,9 +45,13 @@ namespace Sauce{
             }
             PixelPointer.X=RowIndex;
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
-                PixelBuffer[Sauce::Math::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
+                PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
+            return true;
+        }
+        bool Terminal_cl::PutPixel(Sauce::Math::Point64_t Location,GOP_PixelStructure TheColor){
+            PixelBuffer[Sauce::Math::index(Location.X,Location.Y,PixelsPerLine)]=TheColor;
             return true;
         }
         bool Terminal_cl::ColumnFill(size_t ColumnIndex,GOP_PixelStructure TheColor){
@@ -58,7 +62,7 @@ namespace Sauce{
             }
             PixelPointer.Y=ColumnIndex;
             for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                PixelBuffer[Sauce::Math::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
+                PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
             }
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
@@ -67,7 +71,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Fill",Sauce::IO::Debug::TERMINAL);
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                    PixelBuffer[Sauce::Math::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
+                    PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
                 }
             }
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
@@ -108,7 +112,7 @@ namespace Sauce{
             }
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                    OtherPixelBuffer[Sauce::Math::ind(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::Math::ind(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
+                    OtherPixelBuffer[Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
                 }
             }
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);

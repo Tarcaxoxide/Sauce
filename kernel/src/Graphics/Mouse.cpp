@@ -31,12 +31,12 @@ namespace Sauce{
                     ThisColor.Red=ForegroundColor.Red/9;
                     ThisColor.Green=ForegroundColor.Green/9;
                     ThisColor.Blue=ForegroundColor.Blue/9;
-                    ThisColor.Red*=Glyphs[chr][Sauce::Math::ind(X-1,Y-1,13)];
-                    ThisColor.Green*=Glyphs[chr][Sauce::Math::ind(X-1,Y-1,13)];
-                    ThisColor.Blue*=Glyphs[chr][Sauce::Math::ind(X-1,Y-1,13)];
-                    ThisColor.Alpha=Glyphs[chr][Sauce::Math::ind(X-1,Y-1,13)];
+                    ThisColor.Red*=Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
+                    ThisColor.Green*=Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
+                    ThisColor.Blue*=Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
+                    ThisColor.Alpha=Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
                     if(!(ThisColor.Red == 0x00 && ThisColor.Blue == 0x00 && ThisColor.Green == 0x00 && ThisColor.Alpha == 0x00)){
-                        PixelBuffer[Sauce::Math::ind(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=ThisColor;
+                        PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=ThisColor;
                     }
                 }
             }

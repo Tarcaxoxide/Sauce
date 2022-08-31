@@ -22,6 +22,7 @@ namespace Sauce{
                 bool RowFill(size_t RowIndex,GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
                 bool ColumnFill(size_t ColumnIndex,GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
                 bool Fill(GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
+                bool PutPixel(Sauce::Math::Point64_t Location,GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
                 bool RowClear(size_t RowIndex);
                 bool ColumnClear(size_t ColumnIndex);
                 bool Clear();
