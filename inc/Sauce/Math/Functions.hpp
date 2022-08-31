@@ -12,5 +12,6 @@ namespace Sauce{
 		int make_positive(int number);
 		int make_negative(int number);
 		void make_line(Point64_t pointA,Point64_t PointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line);
+		inline int abs(int number){return make_positive(number);}
 	};
 };
