@@ -38,6 +38,9 @@ namespace Sauce{
 				void Notify_Of_Mouse_Left_Up(Sauce::Math::Point64_t Location);
 				void Notify_Of_Mouse_Right_Up(Sauce::Math::Point64_t Location);
 				void Notify_Of_Mouse_Center_Up(Sauce::Math::Point64_t Location);
+                void Notify_Of_Mouse_Left_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation);
+				void Notify_Of_Mouse_Right_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation);
+				void Notify_Of_Mouse_Center_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation);
 		};
     };
 };
