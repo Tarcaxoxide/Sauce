@@ -13,6 +13,7 @@ namespace Sauce{
 		int make_negative(int number);
 		void make_line(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line);
 		void make_circle(Sauce::Math::Point64_t point,int radius,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Circle);
+		void make_rectangle(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Rectangle);
 		inline int abs(int number){return make_positive(number);}
 	};
 };

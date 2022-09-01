@@ -77,6 +77,12 @@ namespace Sauce{
    				}
 			}
 		}
+		void make_rectangle(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Rectangle){
+			make_line({pointA.X,pointA.Y,0},{pointB.X,pointA.Y,0},Rectangle);
+            make_line({pointB.X,pointA.Y,0},{pointB.X,pointB.Y,0},Rectangle);
+            make_line({pointB.X,pointB.Y,0},{pointA.X,pointB.Y,0},Rectangle);
+            make_line({pointA.X,pointB.Y,0},{pointA.X,pointA.Y,0},Rectangle);
+		}
 		void make_circle(Sauce::Math::Point64_t point,int radius,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Circle){
 			int x = 0, y = radius;
     		int d = 3 - 2 * radius;

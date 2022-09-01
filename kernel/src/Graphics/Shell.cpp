@@ -167,10 +167,7 @@ namespace Sauce{
                 if((*ArgBuffer[0]) == (char*)"test"){
                     PutString(L"\n\roK!\n\r",false);
                     Sauce::Memory::List_cl<Sauce::Math::Point64_t> test;
-                    make_line({200,200,0},{400,200,0},test);
-                    make_line({400,200,0},{400,400,0},test);
-                    make_line({400,400,0},{200,400,0},test);
-                    make_line({200,400,0},{200,200,0},test);
+                    make_rectangle({200,200,0},{400,400,0},test);
 
                     for(size_t i=0;i<test.Size();i++){
                         PutPixel(test[i]);
