@@ -3,7 +3,7 @@
 
 
 
-void drawCircle(int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Circle)
+void drawCircle(int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle)
 {
 	Circle.AddLast({xc+x,yc+y,0});
 	Circle.AddLast({xc-x,yc+y,0});
@@ -50,8 +50,8 @@ namespace Sauce{
 			if(number > 0)return (number-number-number);
 			return number;
 		}
-		void make_line(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line){
-			Sauce::Math::Point64_t point_smaller,point_bigger;
+		void make_line(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Line){
+			Sauce::Point64_st point_smaller,point_bigger;
 
 			if(pointA.X > pointB.X){point_smaller=pointB;point_bigger=pointA;}else{point_smaller=pointA;point_bigger=pointB;}
 			
@@ -77,13 +77,13 @@ namespace Sauce{
    				}
 			}
 		}
-		void make_rectangle(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Rectangle){
+		void make_rectangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Rectangle){
 			make_line({pointA.X,pointA.Y,0},{pointB.X,pointA.Y,0},Rectangle);
 			make_line({pointB.X,pointA.Y,0},{pointB.X,pointB.Y,0},Rectangle);
 			make_line({pointB.X,pointB.Y,0},{pointA.X,pointB.Y,0},Rectangle);
 			make_line({pointA.X,pointB.Y,0},{pointA.X,pointA.Y,0},Rectangle);
 		}
-		void make_circle(Sauce::Math::Point64_t point,int radius,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Circle){
+		void make_circle(Sauce::Point64_st point,int radius,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle){
 			int x = 0, y = radius;
     		int d = 3 - 2 * radius;
     		drawCircle(point.X, point.Y, x, y,Circle);

@@ -1,5 +1,5 @@
 #pragma once
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
 
 namespace Sauce{
@@ -11,9 +11,9 @@ namespace Sauce{
 		double average(double number1,double number2);
 		int make_positive(int number);
 		int make_negative(int number);
-		void make_line(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line);
-		void make_circle(Sauce::Math::Point64_t point,int radius,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Circle);
-		void make_rectangle(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Rectangle);
+		void make_line(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Line);
+		void make_circle(Sauce::Point64_st point,int radius,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle);
+		void make_rectangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Rectangle);
 		inline int abs(int number){return make_positive(number);}
 	};
 };

@@ -1,13 +1,13 @@
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/Utilities/Conversion.hpp>
 
 
 namespace Sauce{
     namespace Graphics{
-        Shell_cl::Shell_cl(Sauce::Math::Point64_t Size,Sauce::Math::Point64_t Offset)
+        Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
         :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
             Sauce::IO::Debug::Print_Call("Shell_cl::Shell_cl",Sauce::IO::Debug::SHELL);
             Clear();
@@ -166,9 +166,9 @@ namespace Sauce{
             /*actually run the command*/
                 if((*ArgBuffer[0]) == (char*)"test"){
                     PutString(L"\n\roK!\n\r",false);
-                    Sauce::Memory::List_cl<Sauce::Math::Point64_t> test;
-                    make_rectangle({0,0,0},{(int64_t)PixelsPerLine-1,(int64_t)PixelsBufferHeight-1,0},test);
-                    make_circle({(int64_t)(PixelsPerLine-1)/2,(int64_t)(PixelsBufferHeight-1)/2,0},(Sauce::Math::minimum(PixelsPerLine,PixelsBufferHeight)-1)/4,test);
+                    Sauce::Memory::List_cl<Sauce::Point64_st> test;
+                    Sauce::Math::make_rectangle({0,0,0},{(int64_t)PixelsPerLine-1,(int64_t)PixelsBufferHeight-1,0},test);
+                    Sauce::Math::make_circle({(int64_t)(PixelsPerLine-1)/2,(int64_t)(PixelsBufferHeight-1)/2,0},(Sauce::Math::minimum(PixelsPerLine,PixelsBufferHeight)-1)/4,test);
                     for(size_t i=0;i<test.Size();i++){
                         PutPixel(test[i],{0xA5,0x00,0xA5,0xFF});
                     }

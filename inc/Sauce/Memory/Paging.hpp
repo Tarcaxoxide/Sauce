@@ -1,6 +1,5 @@
 #pragma once
-#include<stddef.h>
-#include<stdint.h>
+#include<Sauce/Types.hpp>
 
 namespace Sauce{
     namespace Memory{

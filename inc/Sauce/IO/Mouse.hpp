@@ -1,9 +1,6 @@
 #pragma once
 
-#include<stddef.h>
-#include<stdint.h>
-#include<Sauce/IO/InputData.hpp>
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 
 #define PS2LeftButton 0b00000001
@@ -21,8 +18,8 @@ namespace Sauce{
         void MouseWrite(uint8_t value);
         uint8_t MouseRead();
         void HandlePS2Mouse(uint8_t data);
-        Sauce::IO::Mouse_st* ProcessMousePacket();
-        void PS2MouseInitialize(Sauce::Math::Point64_t InitMousePosition);
-        extern Sauce::Math::Point64_t MousePosition;
+        Sauce::Mouse_st* ProcessMousePacket();
+        void PS2MouseInitialize(Sauce::Point64_st InitMousePosition);
+        extern Sauce::Point64_st MousePosition;
     };
 };

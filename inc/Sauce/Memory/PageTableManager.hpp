@@ -1,9 +1,6 @@
 #pragma once
 
-#include<stddef.h>
-#include<stdint.h>
-#include <cstring>
-
+#include<Sauce/Types.hpp>
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/Memory/Paging.hpp>
 #include<Sauce/Memory/PageMapIndexer.hpp>

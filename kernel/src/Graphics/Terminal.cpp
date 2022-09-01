@@ -8,7 +8,7 @@ namespace Sauce{
         //GOP_PixelStructure Terminal_cl::ForegroundColor{0xFF,0xFF,0xFF,0xFF};
         //GOP_PixelStructure Terminal_cl::BackgroundColor{0x00,0x00,0x00,0xFF};
         
-        Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Math::Point64_t Offset){
+        Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Terminal_cl",Sauce::IO::Debug::TERMINAL);
             this->PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];
             this->PixelBufferTotalSize=PixelBufferTotalSize;
@@ -49,7 +49,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
-        bool Terminal_cl::PutPixel(Sauce::Math::Point64_t Location,GOP_PixelStructure TheColor){
+        bool Terminal_cl::PutPixel(Sauce::Point64_st Location,GOP_PixelStructure TheColor){
             PixelBuffer[Sauce::Math::index(Location.X,Location.Y,PixelsPerLine)]=TheColor;
             return true;
         }
@@ -100,7 +100,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
             return true;
         }
-        bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Sauce::Math::Point64_t Offset){
+        bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Sauce::Point64_st Offset){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::CopyTo",Sauce::IO::Debug::TERMINAL);
             Offset.X+=MyOffset.X;
             Offset.Y+=MyOffset.Y;
@@ -123,7 +123,7 @@ namespace Sauce{
             Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
             return Ret;
         }
-		Sauce::Math::uPoint64_t Terminal_cl::Size(){
+		Sauce::uPoint64_st Terminal_cl::Size(){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Size",Sauce::IO::Debug::TERMINAL);
             Sauce::IO::Debug::Print_Spammy_Return("Width:",Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
             Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(PixelsPerLine),Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -131,7 +131,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(PixelsBufferHeight),Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             return {PixelsPerLine,PixelsBufferHeight,0};
         }
-        bool Terminal_cl::Move(Sauce::Math::Point64_t Offset){
+        bool Terminal_cl::Move(Sauce::Point64_st Offset){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Move",Sauce::IO::Debug::TERMINAL);
             MyOffset=Offset;
             Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
@@ -144,11 +144,11 @@ namespace Sauce{
             }
         }
 
-        bool Terminal_cl::Is_Mouse_Over(Sauce::Math::Point64_t Location){
+        bool Terminal_cl::Is_Mouse_Over(Sauce::Point64_st Location){
             return (Location.Y > MyOffset.Y && Location.Y < MyOffset.Y+PixelsBufferHeight\
                     && Location.X > MyOffset.X && Location.X < MyOffset.X+PixelsPerLine);
         }
-        void Terminal_cl::Notify_Of_Mouse_Left_Down(Sauce::Math::Point64_t Location){
+        void Terminal_cl::Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -158,7 +158,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Left button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-        void Terminal_cl::Notify_Of_Mouse_Right_Down(Sauce::Math::Point64_t Location){
+        void Terminal_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -168,7 +168,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Right button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-        void Terminal_cl::Notify_Of_Mouse_Center_Down(Sauce::Math::Point64_t Location){
+        void Terminal_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -178,7 +178,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Center button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-		void Terminal_cl::Notify_Of_Mouse_Left_Up(Sauce::Math::Point64_t Location){
+		void Terminal_cl::Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -188,7 +188,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Left button up",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-		void Terminal_cl::Notify_Of_Mouse_Right_Up(Sauce::Math::Point64_t Location){
+		void Terminal_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -198,7 +198,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Right button up",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-		void Terminal_cl::Notify_Of_Mouse_Center_Up(Sauce::Math::Point64_t Location){
+		void Terminal_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -208,7 +208,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Center button up",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-        void Terminal_cl::Notify_Of_Mouse_Left_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation){
+        void Terminal_cl::Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -222,7 +222,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Left button dragged",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-		void Terminal_cl::Notify_Of_Mouse_Right_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation){
+		void Terminal_cl::Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -236,7 +236,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Right button dragged",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-		void Terminal_cl::Notify_Of_Mouse_Center_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation){
+		void Terminal_cl::Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -250,6 +250,6 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail("}, Center button dragged",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
         }
-        void Terminal_cl::Notify_Of_Keyboard_Press(Sauce::IO::Keyboard_st KeyData){}
+        void Terminal_cl::Notify_Of_Keyboard_Press(Sauce::Keyboard_st KeyData){}
     };
 };

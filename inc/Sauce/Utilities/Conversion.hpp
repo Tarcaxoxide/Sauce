@@ -1,8 +1,6 @@
 #pragma once
 
-#include<stddef.h>
-#include<stdint.h>
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 
 namespace Sauce{

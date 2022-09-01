@@ -1,8 +1,7 @@
 #pragma once
 
 
-#include<stddef.h>
-#include<stdint.h>
+#include<Sauce/Types.hpp>
 #include<Sauce/IO/ACPI.hpp>
 
 

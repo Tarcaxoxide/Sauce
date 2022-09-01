@@ -6,7 +6,7 @@
 
 namespace Sauce{
     namespace IO{
-		Sauce::Math::Point64_t MousePosition {0,0,0};
+		Sauce::Point64_st MousePosition {0,0,0};
         void MouseWait(){
             Sauce::IO::Debug::Print_Call("MouseWait",Sauce::IO::Debug::MOUSE);
             uint64_t timeout=100000;
@@ -67,8 +67,8 @@ namespace Sauce{
             }
             Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::MOUSE);
         }
-        Sauce::IO::Mouse_st nMouseData;
-        Sauce::IO::Mouse_st* ProcessMousePacket(){
+        Sauce::Mouse_st nMouseData;
+        Sauce::Mouse_st* ProcessMousePacket(){
             Sauce::IO::Debug::Print_Call("ProcessMousePacket",Sauce::IO::Debug::MOUSE);
             nMouseData.Good=false;
             if(!MousePacketReady){
@@ -133,7 +133,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Return("},Good",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::End);
             return &nMouseData;
         }
-        void PS2MouseInitialize(Sauce::Math::Point64_t InitMousePosition){
+        void PS2MouseInitialize(Sauce::Point64_st InitMousePosition){
             Sauce::IO::Debug::Print_Call("PS2MouseInitialize",Sauce::IO::Debug::MOUSE);
             MousePosition.X=InitMousePosition.X;
             MousePosition.Y=InitMousePosition.Y;

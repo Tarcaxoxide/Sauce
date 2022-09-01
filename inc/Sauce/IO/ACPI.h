@@ -1,7 +1,6 @@
 #pragma once
 
-#include<stddef.h>
-#include<stdint.h>
+#include<Sauce/Types.hpp>
 
 // Pure C doesn't have namespaces ;(
 

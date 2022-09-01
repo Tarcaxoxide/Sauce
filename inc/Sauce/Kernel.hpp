@@ -1,7 +1,6 @@
 #pragma once
 
-#include<stddef.h>
-#include<stdint.h>
+#include<Sauce/Types.hpp>
 #include<Sauce/Common.h>
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Mouse.hpp>
@@ -40,8 +39,8 @@ namespace Sauce{
         public: //public functions
             Kernel_cl(DataStructure* DFBL);
             static void Notify(Sauce::Interrupts::InterruptDataStruct InterruptData);
-            void oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard);
-            void oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse);
+            void oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard);
+            void oNotify_Of_Mouse(Sauce::Mouse_st* xMouse);
             void DrawUI();
             void AcceptingInterrupts(size_t TimeSpan);
     };

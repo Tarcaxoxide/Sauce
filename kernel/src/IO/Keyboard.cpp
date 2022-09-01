@@ -37,7 +37,7 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(KeyCodeDecoded),Sauce::IO::Debug::KEYBOARD);
             return KeyCodeDecoded;
         }
-        Sauce::IO::Keyboard_st Code_To_Key(uint16_t TranslatedKeyCode){
+        Sauce::Keyboard_st Code_To_Key(uint16_t TranslatedKeyCode){
             Sauce::IO::Debug::Print_Call("Code_To_Key",Sauce::IO::Debug::KEYBOARD);
             uint8_t IPress = (((uint8_t)(TranslatedKeyCode >> 12)) << 4);
             uint8_t ICapital = (((uint8_t)(TranslatedKeyCode >> 8)) << 4);

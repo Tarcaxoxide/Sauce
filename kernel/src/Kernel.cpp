@@ -21,17 +21,17 @@
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global/Global.hpp>
-#include<Sauce/Math/Types.hpp>
+
 #include<Sauce/Math/Functions.hpp>
 
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
                             //when being updated by the hardware (Example: interrupts)
     int testcount=0;
-	Sauce::Math::Point64_t CurrentMouseCursorPosition{0,0,0};
+	Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
 
-    Sauce::IO::Mouse_st oMouse;
-    Sauce::Math::Point64_t oMousePosition;
+    Sauce::Mouse_st oMouse;
+    Sauce::Point64_st oMousePosition;
 
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
         asm volatile("cli");
@@ -156,7 +156,7 @@ namespace Sauce{
         Sauce::IO::EnumeratePCI(mcfg);
         Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::KERNEL);
     }
-    void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Keyboard_st xKeyboard){
+    void Kernel_cl::oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard){
         Sauce::IO::Debug::Print_Call("Kernel_cl::oNotify_Of_KeyPress",Sauce::IO::Debug::KERNEL);
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
@@ -178,14 +178,14 @@ namespace Sauce{
         }
         Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::KERNEL);
     }
-    void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Mouse_st* xMouse){
+    void Kernel_cl::oNotify_Of_Mouse(Sauce::Mouse_st* xMouse){
         Sauce::IO::Debug::Print_Call("Kernel_cl::oNotify_Of_Mouse",Sauce::IO::Debug::KERNEL);
         if(xMouse->Position->Y < 0){xMouse->Position->Y=0;}
         if(xMouse->Position->X < 0){xMouse->Position->X=0;}
         if((xMouse->Position->Y+Sauce::Global::Mouse->Size().Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Mouse->Size().Y;}
         if((xMouse->Position->X+Sauce::Global::Mouse->Size().X) > DFBL->FrameBuffer->Width){xMouse->Position->X=DFBL->FrameBuffer->Width-Sauce::Global::Mouse->Size().X;}
         if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
-            CurrentMouseCursorPosition = Sauce::Math::Point64_t{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
+            CurrentMouseCursorPosition = Sauce::Point64_st{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
             Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
         }
         
