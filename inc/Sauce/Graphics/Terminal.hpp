@@ -11,7 +11,7 @@ namespace Sauce{
             protected:
                 GOP_PixelStructure* PixelBuffer=nullptr;
                 size_t PixelBufferTotalSize,PixelsPerLine,PixelsBufferHeight;
-                /*static*/ GOP_PixelStructure ForegroundColor{0xFF,0xFF,0xFF,0xFF},BackgroundColor{0x00,0x00,0x00,0x00};
+                GOP_PixelStructure ForegroundColor{0xFF,0xFF,0xFF,0xFF},BackgroundColor{0x00,0x00,0x00,0x00};
 				Sauce::Math::Point64_t PixelPointer{0,0,0};
 				Sauce::Math::Point64_t MyOffset{0,0,0};
             public:
