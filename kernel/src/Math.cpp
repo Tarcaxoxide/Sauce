@@ -51,8 +51,6 @@ namespace Sauce{
 			return number;
 		}
 		void make_line(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line){
-			
-			
 			Sauce::Math::Point64_t point_smaller,point_bigger;
 
 			if(pointA.X > pointB.X){point_smaller=pointB;point_bigger=pointA;}else{point_smaller=pointA;point_bigger=pointB;}
