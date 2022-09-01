@@ -27,7 +27,6 @@ DIRS = $(wildcard $(SRCDIR)/*)
 
 $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=93750
-	@#mformat -i $(BUILDDIR)/$(OSNAME).img -f 1440 ::
 	mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
 	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
 	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
@@ -35,6 +34,12 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::
+
+
+
+$(BUILDDIR)/$(OSNAME).iso: $(BUILDDIR)/$(OSNAME).img
+	mkisofs -d -D -J -l -r -U -relaxed-filenames -o $@ $<
+	
 
 
 $(OBJDIR)/Interrupts/Interrupts_cpp.o:$(SRCDIR)/Interrupts/Interrupts.cpp
@@ -63,10 +68,9 @@ setup:
 	@mkdir -p $(OBJDIR)
 
 
-.PHONY: clean
+.PHONY: clean run run_iso
 clean:
 	rm -frv bin/* lib/*
 
 run: $(BUILDDIR)/$(OSNAME).img
-	touch $(BUILDDIR)/$(OSNAME)_BlankDrive.img
-	qemu-system-x86_64 -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -drive format=raw,file=$(BUILDDIR)/$(OSNAME)_BlankDrive.img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd" -net none
+	qemu-system-x86_64 -display gtk,zoom-to-fit=on -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"

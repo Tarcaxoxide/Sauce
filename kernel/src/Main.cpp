@@ -21,6 +21,5 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader 
     
 
     Sauce::Kernel_cl Kernel(DFBL);
-    Kernel.Stop(true);
     return DFBL->TestNumber;
 }

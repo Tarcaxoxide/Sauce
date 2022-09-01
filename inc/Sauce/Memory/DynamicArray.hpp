@@ -21,7 +21,7 @@ namespace Sauce{
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
                         nArray[Array_Size]=Array[Array_Size];
                     }
-                    nArray[Array_Size++]=nValue; // i forget if it should be ++V or V++ , i'll test V++ first.
+                    nArray[Array_Size++]=nValue; 
                     delete[] Array;
                     Array = nArray;
                 }else{
@@ -34,7 +34,7 @@ namespace Sauce{
                     Array_Capacity+=StageSize;
                     T* nArray = new T[Array_Capacity];
                     Array_Size=0;
-                    nArray[Array_Size++]=nValue; // i forget if it should be ++V or V++ , i'll test V++ first.
+                    nArray[Array_Size++]=nValue;
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
                         nArray[Array_Size]=Array[Array_Size-1];// we shuffle the array forward to make room for the new element.
                     }
@@ -183,6 +183,12 @@ namespace Sauce{
             TT& operator[](size_t TargetIndex){
                 return Contents[TargetIndex];
             }
+            bool operator==(TT* OtherValue){
+                for(size_t i=0;i<Contents.Size();i++){
+                    if(Contents[i] != OtherValue[i])return false;
+                }
+                return true;
+            }
             TT* Raw(){ //<- does basically the same thing as c_str() but for any type (hence why i don't call it c_str() because it's not a string)
                 return *Contents;
             }
@@ -192,7 +198,7 @@ namespace Sauce{
             void Clear(){
                 Contents.Clear();
             }
-            void ForEach(void (*CallBack)(TT &Item)){
+            void ForEach(void (*CallBack)(TT &Item)){ //void Function(TT &item){/*Do something with item*/}
                 for(size_t i=0;i<Contents.Size();i++){
                     (*CallBack)(Contents[i]);
                 }

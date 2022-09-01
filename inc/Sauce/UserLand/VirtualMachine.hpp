@@ -5,7 +5,7 @@
 
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/Graphics/Terminal.hpp>
-#include<Sauce/Convert/To_String.hpp>
+
 
 namespace Sauce{
     namespace UserLand{
@@ -358,3 +358,25 @@ namespace Sauce{
     };
 };
 
+
+
+
+
+/*
+0000 01  04
+0001 02  08
+0010 03  12
+0011 04  16
+0100 05  20
+0101 06  24
+0110 07  28
+0111 08  32
+1000 09  36
+1001 10  40
+1010 11  44
+1011 12  48
+1100 13  52
+1101 14  56
+1110 15  60
+1111 16  64
+*/

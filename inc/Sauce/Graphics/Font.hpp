@@ -1,5 +1,6 @@
 #pragma once
-#include<Sauce/Math.hpp>
+#include<Sauce/Math/Types.hpp>
+#include<Sauce/Math/Functions.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
 
 namespace Sauce{

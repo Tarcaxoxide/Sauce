@@ -1,0 +1,248 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Kernel.{cpp,hpp}</h1>
+        <p>the kernel itself.</p>
+        <ul>
+            <li><b>Kernel_cl::Kernel_cl</b><ul>
+                <li>takes a pointer to the structure provided by the bootstraping portion of the code.</li>
+                <li>this is where the main body of the kernel starts.</li>
+            </ul></li>
+            <li><b>Kernel_cl::MainLoop</b><ul>
+                <li>this is the main loop of the kernel body.</li>
+                <li>it doesn't do much on it's own but it loops infinitely and calls the approprate other functions.</li>
+            </ul></li>
+            <li><b>Kernel_cl::Prep_*</b><ul>
+                <li>functions that prepare certain specific things, seperated only for so i can keep track of what is going on.</li>
+            </ul></li>
+            <li><b>Kernel_cl::Add_Interrupt</b><ul>
+                <li>adds the approprate interrupt handler to the interrupt table</li>
+            </ul></li>
+            <li><b>Kernel_cl::oNotify_Of_KeyPress</b><ul>
+                <li>called by the static function 'Kernel_cl::Notify' when a keyboard interrupt is recieved.</li>
+            </ul></li>
+            <li><b>Kernel_cl::oNotify_Of_Mouse</b><ul>
+                <li>called by the static function 'Kernel_cl::Notify' when a mouse interrupt is recieved.</li>
+            </ul></li>
+            <li><b>Kernel_cl::DrawUI</b><ul>
+                <li>called by the 'Kernel_cl::MainLoop' function to draw to the screen/terminal.</li>
+            </ul></li>
+            <li><b>Kernel_cl::AcceptingInterrupts</b><ul>
+                <li>called by the 'Kernel_cl::MainLoop' function to accept interrupts for the specified miliseconds.</li>
+                <li>this way i can have interrupts disabled by default and enable them when they are expected.</li>
+                <li>the exception to this of course are faults, i'm pretty sure they will still fire?</li>
+            </ul></li>
+            <li><b>Kernel_cl::Notify</b><ul>
+                <li>a static function called by the interrupt handlers which simple pass the type of interrupt and the data to it.</li>
+                <li>than I use a switch on the type code to determine what to do with the information</li>
+            </ul></li>
+        </ul>
+
+        <br><h1>Font.{cpp,hpp}</h1>
+        <p>this is a custom (currently) 13x13 pixel font made primarily for usage in my kernel's shell,
+            it consist of a 3D array of uint8_t which go from 0 to 9 as a ?contrast level?,
+            0 = none , 1 = darkest, 9 = lightest.
+        </p>
+
+        <br><h1>Terminal.{cpp,hpp}</h1>
+        <p>this is the primary class for what is effectively a 'window' (for lack of a better comparison) in my OS.</p>
+        <ul>
+            <li><b>Terminal_cl</b><ul>
+                <li>Terminal_cl<ul>
+                    <li>this sets the appropriate variables based on what is passed into it.</li>
+                    <li>currently it only sets variables and calls the debugg prints.</li>
+                </ul></li>
+                <li>SetColor<ul>
+                    <li>takes a foreground color and optional background color and sets the appropriate variables to have those colors used.</li>
+                </ul></li>
+                <li>RowFill<ul>
+                    <li>fills the given row with the optionally given color or the foreground color if a color is not given.</li>
+                    <li>'RowClear' calls this function with the background color as the given color.</li>
+                </ul></li>
+                <li>ColumnFill<ul>
+                    <li>fills the given column with the optionally given color or the foreground color if a color is not given.</li>
+                    <li>'ColumnClear' calls this function with the background color as the given color.</li>
+                </ul></li>
+                <li>Fill<ul>
+                    <li>fills the entire terminal with the optionally given color or the foreground color if a color is not given.</li>
+                    <li>'Clear' calls this function with the background color as the given color.</li>
+                </ul></li>
+                <li>SetCursor<ul>
+                    <li>this sets the "pixel cursor" (it's effectively the text cursor but for pixels and not to be confused with the mouse cursor) to the coordinance given.</li>
+                </ul></li>
+                <li>CopyTo<ul>
+                    <li>copys its contents to the framebuffer given.</li>
+                    <li>this is used to to get the data into raw buffers such as the actual screen.</li>
+                </ul></li>
+                <li>CopyFrom<ul>
+                    <li>copies from another terminal object to itself.</li>
+                    <li>this is to copy from other things before putting it's contents onto the actual screen,</li>
+                    <li>things such as the mouse and shells will be copied to a common terminal before copied to the actual screen.</li>
+                </ul></li>
+                <li>Size<ul>
+                    <li>returns the size of the terminal.</li>
+                </ul></li>
+                <li>Move<ul>
+                    <li>sets an offset variable that "moves" the terminal, it actually just tells where to start drawing the terminal.</li>
+                </ul></li>
+            </ul></li>
+        </ul>
+
+        <br><h1>Shell.{cpp,hpp}</h1>
+        <p>inherits from Terminal, the default shell for the OS.</p>
+        <ul>
+            <li><b>Shell_cl</b><ul>
+                <ul>
+                    <li>Shell_cl<ul>
+                        <li>calls the terminal constructor and than Clear</li>
+                    </ul></li>
+                    <li>PutChar<ul>
+                        <li>puts a char onto the terminal and to a buffer that hold the current line.</li>
+                    </ul></li>
+                    <li>PutString<ul>
+                        <li>places a char array (aka a string), it can take either a char* or a wchar_t* .</li>
+                    </ul></li>
+                    <li>GoDown<ul>
+                        <li>goes down by the amount given in chars.</li>
+                    </ul></li>
+                    <li>GoUp<ul>
+                        <li>goes up by the amount given in chars.</li>
+                    </ul></li>
+                    <li>GoRight<ul>
+                        <li>goes right by the amount given in chars.</li>
+                    </ul></li>
+                    <li>GoLeft<ul>
+                        <li>goes left by the amount given in chars.</li>
+                    </ul></li>
+                    <li>GoFarDown<ul>
+                        <li>goes to the bottom of the terminal.</li>
+                    </ul></li>
+                    <li>GoFarUp<ul>
+                        <li>goes to the top of the terminal.</li>
+                    </ul></li>
+                    <li>GoFarRight<ul>
+                        <li>goes to the far right of the terminal.</li>
+                    </ul></li>
+                    <li>GoFarLeft<ul>
+                        <li>goes to the far left of the terminal.</li>
+                    </ul></li>
+                    <li>RunCmd<ul>
+                        <li>runs the current line buffer as a command in the shell.</li>
+                    </ul></li>
+                </ul>
+            </ul></li>
+        </ul>
+
+        <br><h1>Mouse.{cpp,hpp} (the graphical ones)</h1>
+        <p>inherits from Terminal.</p>
+
+        <br><h1>{Console,Serial,Settings}.{cpp,hpp} </h1>
+        <p>used for debugging, using the serial com ports.</p>
+
+        <br><h1>DynamicArray.hpp</h1>
+        <p>custom dynamic array, meant to replace std::vector,std::deque and std::string, there is actually 2 classes just, DynamicArray_cl which is the base class and than List_cl which is the one you will normally use.</p>
+        <ul>
+            <li><b>List_cl</b><ul>
+                <li>List_cl</b><ul>
+                    <li>takes an optional value that is optionally const. the value's type must be of the base type of the array specifed 'List_cl&lt;base_type&gt;' </li>
+                </ul></li>
+                <li>operator=<ul>
+                    <li>makes it's content equal the value given, it must be an array of the base type, it also returns this array.</li>
+                </ul></li>
+                <li>AddFirst<ul>
+                    <li>Adds the value to the front of the array, value must by of the base type.</li>
+                </ul></li>
+                <li>AddLast<ul>
+                    <li>Adds the value to the back of the array, value must by of the base type.</li>
+                </ul></li>
+                <li>First<ul>
+                    <li>returns the value at the front of the array.</li>
+                </ul></li>
+                <li>Last<ul>
+                    <li>returns the value at the back of the array.</li>
+                </ul></li>
+                <li>operator[]<ul>
+                    <li>returns the value at the index given in the array.</li>
+                </ul></li>
+                <li>operator==<ul>
+                    <li>compares an array of the base value with its array.</li>
+                </ul></li>
+                <li>Raw<ul>
+                    <li>returns the internal array, this kind of acts like c_str()</li>
+                </ul></li>
+                <li>Size<ul>
+                    <li>returns the size of the array.</li>
+                </ul></li>
+                <li>Clear<ul>
+                    <li>clears the array.</li>
+                </ul></li>
+                <li>ForEach<ul>
+                    <li>takes a pointer to a function that takes a value of the base type.</li>
+                    <li>loops through the array and calls the given function for each of the array's elements.</li>
+                </ul></li>
+            </ul></li>
+        </ul>
+
+        <br><h1>Heap.{cpp,hpp}</h1>
+        <p>memory allocation functions, your traditional malloc and free functions, they generally operate about the same as everywhere else.</p>
+
+        <br><h1>Memory.{cpp,hpp}</h1>
+        <p>functions partaining to memory manipulation. all the mem* stuff that is normally in string.h</p>
+
+        <br><h1>VirtualMachine.{cpp,hpp}</h1>
+        <p>this will eventually be for running userland binaries once i figure out how to load from the disk entire files.</p>
+        <ul>
+            <li><b>OpCode</b><ul>
+                <li>enum of uint32_t op codes./li>
+            </ul></li>
+            <li><b>SzCode</b><ul>
+                <li>enum of size codes to determine which sized stack to use.</li>
+            </ul></li>
+            <li><b>CommonInputDataExtended</b><ul>
+                <li>an enum, this is an attempt to make inputs into the inputs stacks more predictable by defining their values.</li>
+            </ul></li>
+            <li><b>VirtualStack (namespace)</b><ul>
+                <li>list of virtual stack base types for creation of the stacks.</li>
+            </ul></li>
+            <li><b>VirtualStack_st</b><ul>
+                <li>struct of a virtual stack, takes a base type that is used for the data.</li>
+            </ul></li>
+            <li><b>VirtualMachine_cl</b><ul>
+                <li>the main class for the virtual machine.</li>
+                <ul>
+                    <li>AddInstruction<ul>
+                        <li>adds an instruction to the virtual code stacks.</li>
+                    </ul></li>
+                    <li>AddToVirtualStack<ul>
+                        <li>adds a value to the virtual data stacks</li>
+                    </ul></li>
+                    <li>Run<ul>
+                        <li>loops (get instruction from virtual code stack, run instruction, exit when finished)</li>
+                    </ul></li>
+                </ul>
+            </ul></li>
+        </ul>
+
+        <br><h1>AHCI.{cpp,hpp}</h1>
+        <p>works with the AHCI to read from a hard drive.</p>
+        <ul>
+            <li><b>ParsedHBAPort_st</b><ul>
+                <li>Configure<ul>
+                    <li>setup the ahci port.</li>
+                </ul></li>
+                <li>Read<ul>
+                    <li>reads a given number of sectors starting at a given sector and fills a given buffer with the information.</li>
+                </ul></li>
+            </ul></li>
+        </ul>
+
+    </body>
+</html>
+
+<!--
+<li><b></b><ul>
+    <li></li>
+</ul></li>
+
+<br><h1>.{cpp,hpp}</h1>
+-->

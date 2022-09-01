@@ -8,6 +8,9 @@ namespace Sauce{
         // press,release
         // press,release
         // etc...
+        // reason for this is 
+        //  press codes are garanteed to be odd numbers and 
+        //  release codes are garanteed to be even numbers.
         const uint8_t KeyMapCodes_1[]= {
                                     0x29,0xA9,
                                     0x02,0x82,

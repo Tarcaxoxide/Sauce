@@ -2,7 +2,8 @@
 
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/Math.hpp>
+#include<Sauce/Math/Types.hpp>
+#include<Sauce/Math/Functions.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -17,10 +18,9 @@ namespace Sauce{
             bool RightButton;
             bool LeftButton;
             bool CenterButton;
-            Point64_t* Position;
+			Sauce::Math::Point64_t* Position;
             bool Good;
         }__attribute__((packed));
-
         struct InputData_st{
             bool NewKeyboard;
             bool NewMouse;
@@ -29,7 +29,7 @@ namespace Sauce{
             bool RightButton;
             bool LeftButton;
             bool CenterButton;
-            Point64_t Position;
+			Sauce::Math::Point64_t Position;
             bool Good;
             }Mouse;
         };

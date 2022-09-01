@@ -2,9 +2,9 @@
 
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/Math.hpp>
 #include<Sauce/IO/InputData.hpp>
-
+#include<Sauce/Math/Types.hpp>
+#include<Sauce/Math/Functions.hpp>
 
 #define PS2LeftButton 0b00000001
 #define PS2RightButton 0b00000010
@@ -16,14 +16,13 @@
 
 namespace Sauce{
     namespace IO{
-
         void MouseWait();
         void MouseWaitInput();
         void MouseWrite(uint8_t value);
         uint8_t MouseRead();
         void HandlePS2Mouse(uint8_t data);
         Sauce::IO::Mouse_st* ProcessMousePacket();
-        void PS2MouseInitialize(Point64_t InitMousePosition);
-        extern Point64_t MousePosition;
+        void PS2MouseInitialize(Sauce::Math::Point64_t InitMousePosition);
+        extern Sauce::Math::Point64_t MousePosition;
     };
 };

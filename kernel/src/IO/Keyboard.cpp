@@ -1,13 +1,15 @@
 #include<Sauce/IO/Keyboard.hpp>
+#include<Sauce/IO/Debug/Console.hpp>
+#include<Sauce/Utilities/Conversion.hpp>
 
 namespace Sauce{
     namespace IO{
         uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet){
+            Sauce::IO::Debug::Print_Call("Translate_KeyCode",Sauce::IO::Debug::KEYBOARD);
             static bool isShift;
             static bool isCaps;
             uint8_t* KeyMapCodes = NULL;
             uint16_t KeyCodeDecoded = 0;
-          
           
             switch(KeySet){
                 case 1:KeyMapCodes = (uint8_t*)&KeyMapCodes_1;break;
@@ -32,9 +34,11 @@ namespace Sauce{
             if(isCaps != isShift){
                 KeyCodeDecoded += 0x0100; // if we are shifted or capitalized but not at the same time then make the indicator so it's capital letter of what ever key is being pressed.
             }
+            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(KeyCodeDecoded),Sauce::IO::Debug::KEYBOARD);
             return KeyCodeDecoded;
         }
         Sauce::IO::Keyboard_st Code_To_Key(uint16_t TranslatedKeyCode){
+            Sauce::IO::Debug::Print_Call("Code_To_Key",Sauce::IO::Debug::KEYBOARD);
             uint8_t IPress = (((uint8_t)(TranslatedKeyCode >> 12)) << 4);
             uint8_t ICapital = (((uint8_t)(TranslatedKeyCode >> 8)) << 4);
             uint8_t IKey = ((uint8_t)TranslatedKeyCode);
@@ -181,6 +185,18 @@ namespace Sauce{
                     case 0x78:IDisplay = ' ';break;
                 }
             }
+
+
+            Capital ? Sauce::IO::Debug::Print_Return("Capital:<True>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("Capital:<False>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Start);
+            Press ? Sauce::IO::Debug::Print_Return("Press:<True>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("Press:<False>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            IVisible ? Sauce::IO::Debug::Print_Return("Visible:<True>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("Visible:<False>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            Sauce::IO::Debug::Print_Return("Key:",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(IKey),Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            Sauce::IO::Debug::Print_Return(",",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            Sauce::IO::Debug::Print_Return("Display:",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            char xDisplay[2]={0};
+            xDisplay[0]=IDisplay;
+            Sauce::IO::Debug::Print_Return(xDisplay,Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::End);
             return {Capital,Press,IVisible,IKey,IDisplay}; // we return a structure of the values which is defined in Keyboard.hpp
         }
     };

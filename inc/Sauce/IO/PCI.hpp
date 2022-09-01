@@ -3,12 +3,12 @@
 
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/IO/ACPI/ACPI.hpp>
+#include<Sauce/IO/ACPI.hpp>
 
 
 namespace Sauce{
     namespace IO{
-        struct PCIDeviceHeader{
+        struct PCIDeviceHeader_st{
             uint16_t VendorID;
             uint16_t DeviceID;
             uint16_t Command;
@@ -22,8 +22,8 @@ namespace Sauce{
             uint8_t HeaderType;
             uint8_t BIST;
         };
-        struct PCIHeader0{
-            PCIDeviceHeader Header;
+        struct PCIHeader0_st{
+            PCIDeviceHeader_st Header;
             uint32_t BAR0;
             uint32_t BAR1;
             uint32_t BAR2;
@@ -48,9 +48,9 @@ namespace Sauce{
         void EnumerateBus(uint64_t baseAddress,uint64_t bus);
         void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg);
         extern const char* DeviceClasses[];
-       const char* GetVenderName(uint16_t VendorID);
-       const char* GetDeviceName(uint16_t VendorID,uint16_t DeviceID);
-       const char* GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode);
-       const char* GetProgIFName(uint8_t ClassCode,uint8_t SubClassCode,uint8_t ProgIFCode);
+        const char* GetVenderName(uint16_t VendorID);
+        const char* GetDeviceName(uint16_t VendorID,uint16_t DeviceID);
+        const char* GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode);
+        const char* GetProgIFName(uint8_t ClassCode,uint8_t SubClassCode,uint8_t ProgIFCode);
     };
 };

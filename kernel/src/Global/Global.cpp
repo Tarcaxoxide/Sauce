@@ -4,9 +4,13 @@
 
 namespace Sauce{
     namespace Global{
-        Sauce::Graphics::Terminal_cl* Terminal;
-        Sauce::Graphics::Shell_cl* Shell;
-        Sauce::Memory::PageFrameAllocator Allocator;
+        Sauce::Graphics::Terminal_cl* Terminal=nullptr;
+        Sauce::Memory::List_cl<Sauce::Graphics::Terminal_cl*> Terminals;
+        Sauce::Graphics::Shell_cl* Shell=nullptr;
+        Sauce::Memory::PageFrameAllocator_cl PageFrameAllocator;
+        Sauce::Graphics::Mouse_cl* Mouse=nullptr;
+        Sauce::Memory::PageTableManager_cl PageTableManager=NULL;
+        Sauce::Storage::AHCIDriver_cl* AHCIDriver=nullptr;
     };
 };
 
