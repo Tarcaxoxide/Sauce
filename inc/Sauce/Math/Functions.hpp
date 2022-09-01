@@ -11,7 +11,8 @@ namespace Sauce{
 		double average(double number1,double number2);
 		int make_positive(int number);
 		int make_negative(int number);
-		void make_line(Point64_t pointA,Point64_t PointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line);
+		void make_line(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line);
+		void make_circle(Sauce::Math::Point64_t point,int radius,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Circle);
 		inline int abs(int number){return make_positive(number);}
 	};
 };

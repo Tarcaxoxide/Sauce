@@ -1,6 +1,21 @@
 
 #include<Sauce/Math/Functions.hpp>
 
+
+
+void drawCircle(int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Circle)
+{
+	Circle.AddLast({xc+x,yc+y,0});
+	Circle.AddLast({xc-x,yc+y,0});
+	Circle.AddLast({xc+x,yc-y,0});
+	Circle.AddLast({xc-x,yc-y,0});
+	Circle.AddLast({xc+y,yc+x,0});
+	Circle.AddLast({xc-y,yc+x,0});
+	Circle.AddLast({xc+y,yc-x,0});
+	Circle.AddLast({xc-y,yc-x,0});
+}
+
+
 namespace Sauce{
     namespace Math{
     	size_t index(size_t X,size_t Y,size_t MaxX){
@@ -35,83 +50,56 @@ namespace Sauce{
 			if(number > 0)return (number-number-number);
 			return number;
 		}
-		void make_line(Point64_t pointA,Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line){
-			int i, dx, dy, dz, l, m, n, x_inc, y_inc, z_inc, err_1, err_2, dx2, dy2, dz2;
-		    int point[3];
+		void make_line(Sauce::Math::Point64_t pointA,Sauce::Math::Point64_t pointB,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Line){
+			
+			
+			Sauce::Math::Point64_t point_smaller,point_bigger;
 
-		    point[0] = pointA.X;
-		    point[1] = pointA.Y;
-		    point[2] = pointA.Z;
-		    dx = pointB.X - pointA.X;
-		    dy = pointB.Y - pointA.Y;
-		    dz = pointB.Z - pointA.Z;
-		    x_inc = (dx < 0) ? -1 : 1;
-		    l = make_positive(dx); // make_positive = "abs"
-		    y_inc = (dy < 0) ? -1 : 1;
-		    m = make_positive(dy); // make_positive = "abs"
-		    z_inc = (dz < 0) ? -1 : 1;
-		    n = make_positive(dz); // make_positive = "abs"
-		    dx2 = l << 1;
-		    dy2 = m << 1;
-		    dz2 = n << 1;
-
-		    if ((l >= m) && (l >= n)) {
-		        err_1 = dy2 - l;
-		        err_2 = dz2 - l;
-		        for (i = 0; i < l; i++) {
-		            //output->getTileAt(point[0], point[1], point[2])->setSymbol(symbol);
-					Line.AddLast({point[0], point[1], point[2]});
-		            if (err_1 > 0) {
-		                point[1] += y_inc;
-		                err_1 -= dx2;
-		            }
-		            if (err_2 > 0) {
-		                point[2] += z_inc;
-		                err_2 -= dx2;
-		            }
-		            err_1 += dy2;
-		            err_2 += dz2;
-		            point[0] += x_inc;
-		        }
-		    } else if ((m >= l) && (m >= n)) {
-		        err_1 = dx2 - m;
-		        err_2 = dz2 - m;
-		        for (i = 0; i < m; i++) {
-		            //output->getTileAt(point[0], point[1], point[2])->setSymbol(symbol);
-					Line.AddLast({point[0], point[1], point[2]});
-		            if (err_1 > 0) {
-		                point[0] += x_inc;
-		                err_1 -= dy2;
-		            }
-		            if (err_2 > 0) {
-		                point[2] += z_inc;
-		                err_2 -= dy2;
-		            }
-		            err_1 += dx2;
-		            err_2 += dz2;
-		            point[1] += y_inc;
-		        }
-		    } else {
-		        err_1 = dy2 - n;
-		        err_2 = dx2 - n;
-		        for (i = 0; i < n; i++) {
-		            //output->getTileAt(point[0], point[1], point[2])->setSymbol(symbol);
-					Line.AddLast({point[0], point[1], point[2]});
-		            if (err_1 > 0) {
-		                point[1] += y_inc;
-		                err_1 -= dz2;
-		            }
-		            if (err_2 > 0) {
-		                point[0] += x_inc;
-		                err_2 -= dz2;
-		            }
-		            err_1 += dy2;
-		            err_2 += dx2;
-		            point[2] += z_inc;
-		        }
-		    }
-		    //output->getTileAt(point[0], point[1], point[2])->setSymbol(symbol);
-			Line.AddLast({point[0], point[1], point[2]});
+			if(pointA.X > pointB.X){point_smaller=pointB;point_bigger=pointA;}else{point_smaller=pointA;point_bigger=pointB;}
+			
+			int m_new = 2 * (point_bigger.Y - point_smaller.Y);
+   			int slope_error_new = m_new - (point_bigger.X - point_smaller.X);
+   			
+			if(point_smaller.X != point_bigger.X){
+				for (int x = point_smaller.X, y = point_smaller.Y; x <= point_bigger.X; x++)
+   				{
+				   Line.AddLast({x,y,0});
+   				   slope_error_new += m_new;
+   				   if (slope_error_new >= 0)
+   				   {
+   				      y++;
+   				      slope_error_new  -= 2 * (point_bigger.X - point_smaller.X);
+   				   }
+   				}
+			}else{
+				if(pointA.Y > pointB.Y){point_smaller=pointB;point_bigger=pointA;}else{point_smaller=pointA;point_bigger=pointB;}
+				for (int y = point_smaller.Y; y <= point_bigger.Y; y++)
+   				{
+				   Line.AddLast({point_bigger.X,y,0});
+   				}
+			}
 		}
+		void make_circle(Sauce::Math::Point64_t point,int radius,Sauce::Memory::List_cl<Sauce::Math::Point64_t> &Circle){
+			int x = 0, y = radius;
+    		int d = 3 - 2 * radius;
+    		drawCircle(point.X, point.Y, x, y,Circle);
+    		while (y >= x)
+    		{
+    		    // for each pixel we will
+    		    // draw all eight pixels
+    		    x++;
+    		    // check for decision parameter
+    		    // and correspondingly
+    		    // update d, x, y
+    		    if (d > 0)
+    		    {
+    		        y--;
+    		        d = d + 4 * (x - y) + 10;
+    		    }
+    		    else
+    		        d = d + 4 * x + 6;
+    		    drawCircle(point.X, point.Y, x, y, Circle);
+    		}
+		}	
 	};
 };
