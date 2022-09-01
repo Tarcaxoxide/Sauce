@@ -5,7 +5,7 @@
 namespace Sauce{
     namespace Global{
         Sauce::Graphics::Terminal_cl* Terminal=nullptr;
-        Sauce::Memory::List_cl<Sauce::Graphics::Terminal_cl*> Terminals;
+        Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
         Sauce::Graphics::Shell_cl* Shell=nullptr;
         Sauce::Memory::PageFrameAllocator_cl PageFrameAllocator;
         Sauce::Graphics::Mouse_cl* Mouse=nullptr;
