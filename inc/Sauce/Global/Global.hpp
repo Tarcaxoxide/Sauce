@@ -14,7 +14,7 @@
 
 namespace Sauce{
     namespace Global{
-        extern Sauce::Graphics::Terminal_cl* Terminal;
+        extern Sauce::Graphics::Terminal_cl* Terminal; //<- represents the entire screen. effectively a "double buffer"
         extern Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
         extern Sauce::Graphics::Shell_cl* Shell;
         extern Sauce::Memory::PageFrameAllocator_cl PageFrameAllocator;

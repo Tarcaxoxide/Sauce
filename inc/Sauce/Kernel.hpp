@@ -26,7 +26,6 @@ namespace Sauce{
             Sauce::GDT::GDTDescriptor_st gdtDescriptor; //global descriptor table
             Sauce::Interrupts::IDTR idtr; // interrupt descriptor table.
             static Kernel_cl* Self; // Pointer to the kernel itself , used in static functions. it kind of acts like python's self.
-            Sauce::IO::InputData_st InputData;
         private: //private functions
             void Prep_GlobalAllocator();
             void Prep_VirtualAddresses();
@@ -34,6 +33,7 @@ namespace Sauce{
             void Prep_Interrupts();
             void Prep_IO();
             void Prep_ACPI();
+            void Prep_Windows();
             void Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector);
             void MainLoop(); // the main loop 
         public: //public variables

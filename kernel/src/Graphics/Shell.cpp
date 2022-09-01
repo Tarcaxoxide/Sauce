@@ -8,7 +8,7 @@
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Math::Point64_t Size,Sauce::Math::Point64_t Offset)
-        :Terminal_cl((Size.X*Size.Y),Size.X,"Shell",Offset){
+        :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
             Sauce::IO::Debug::Print_Call("Shell_cl::Shell_cl",Sauce::IO::Debug::SHELL);
             Clear();
             Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::SHELL);

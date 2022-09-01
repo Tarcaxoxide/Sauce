@@ -3,6 +3,7 @@
 #include<Sauce/Common.h>
 #include<Sauce/Math/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
+#include<Sauce/IO/InputData.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -13,9 +14,9 @@ namespace Sauce{
                 /*static*/ GOP_PixelStructure ForegroundColor{0xFF,0xFF,0xFF,0xFF},BackgroundColor{0x00,0x00,0x00,0x00};
 				Sauce::Math::Point64_t PixelPointer{0,0,0};
 				Sauce::Math::Point64_t MyOffset{0,0,0};
-                char* name;
             public:
-                Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,const char* name,Sauce::Math::Point64_t Offset={0,0,0});
+                char ID[64]{'\0'};
+                Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Math::Point64_t Offset={0,0,0});
                 bool SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor);
                 bool SetColor(GOP_PixelStructure ForegroundColor);
                 void ReverseColor();
@@ -31,6 +32,7 @@ namespace Sauce{
                 bool CopyFrom(Terminal_cl* OtherTerminal);
 				Sauce::Math::uPoint64_t Size();
                 bool Move(Sauce::Math::Point64_t Offset);
+                void setID(const char* nID);
                 //Mouse related functions
                 bool Is_Mouse_Over(Sauce::Math::Point64_t Location);
 				void Notify_Of_Mouse_Left_Down(Sauce::Math::Point64_t Location);
@@ -42,7 +44,8 @@ namespace Sauce{
                 void Notify_Of_Mouse_Left_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation);
 				void Notify_Of_Mouse_Right_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation);
 				void Notify_Of_Mouse_Center_Drag(Sauce::Math::Point64_t Location,Sauce::Math::Point64_t OldLocation);
-		};
+                void Notify_Of_Keyboard_Press(Sauce::IO::Keyboard_st KeyData);
+        };
     };
 };
 

@@ -49,18 +49,13 @@ namespace Sauce{
         Prep_IO();
         asm volatile("cli");//be default we have interrupts disabled and we enable them when we want to recieve them,
                             //this happens in the main loop when we call 'AcceptingIntterupts'
-        Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,"Main");
-        Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0},{DFBL->FrameBuffer->PixelsPerScanLine/4,DFBL->FrameBuffer->Height/4,0});
-        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
-
-
-        Sauce::Global::Terminal->SetColor({0x11,0x11,0x11,0x00},{0x11,0x11,0x11,0x00});
-
-        Sauce::Global::Windows.AddLast((Sauce::Graphics::Window_cl*)Sauce::Global::Shell);
         
+        Prep_Windows();
+
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
-        Sauce::Global::Terminal->Clear();
+        
+        // these are for the click detection
         oMouse.Position=&oMousePosition;
         oMouse.CenterButton=false;
         oMouse.RightButton=false;
@@ -68,6 +63,17 @@ namespace Sauce{
         Prep_ACPI();
         MainLoop();
         Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::KERNEL);
+    }
+    void Kernel_cl::Prep_Windows(){
+        Sauce::IO::Debug::Print_Call("Kernel_cl::Prep_Windows",Sauce::IO::Debug::KERNEL);
+        Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
+        Sauce::Global::Terminal->SetColor({0x11,0x11,0x11,0x00},{0x11,0x11,0x11,0x00});
+        Sauce::Global::Terminal->setID("Terminator");
+        Sauce::Global::Terminal->Clear();
+        Sauce::Global::Windows.AddLast(new Sauce::Graphics::Window_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0},{DFBL->FrameBuffer->PixelsPerScanLine/4,DFBL->FrameBuffer->Height/4,0}));
+        Sauce::Global::Windows.Last()->setID("Shell");
+        Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::Print_Call("Kernel_cl::MainLoop",Sauce::IO::Debug::KERNEL);
@@ -155,15 +161,15 @@ namespace Sauce{
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
                 case 0xD6:{
-                    Sauce::Global::Shell->PutChar('\n');
-                    Sauce::Global::Shell->PutChar('\r');
+                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\n');
+                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\r');
                 }break;
                 case 0x1C:{
-                    Sauce::Global::Shell->PutChar('\b');
+                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\b');
                 }break;
                 default:{   
                     if(xKeyboard.visible){
-                        Sauce::Global::Shell->PutChar(xKeyboard.Display);
+                        /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar(xKeyboard.Display);
                     }else{
                        Sauce::IO::Debug::Print_Detail(Sauce::Convert::HexToString(xKeyboard.Key),Sauce::IO::Debug::KERNEL);
                     }
@@ -236,7 +242,9 @@ namespace Sauce{
     }
     void Kernel_cl::DrawUI(){
         Sauce::IO::Debug::Print_Call("Kernel_cl::DrawUI",Sauce::IO::Debug::KERNEL);
-        Sauce::Global::Terminal->CopyFrom(Sauce::Global::Shell);
+        for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
+            Sauce::Global::Terminal->CopyFrom(Sauce::Global::Windows[i]);
+        }
         Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
         Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::KERNEL);
