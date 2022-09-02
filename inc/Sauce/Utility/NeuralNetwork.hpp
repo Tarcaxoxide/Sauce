@@ -9,6 +9,7 @@ namespace Sauce{
             struct Neuron_st{
                 Sauce::Memory::List_cl<Neuron_st*> Connections;
                 double Value;
+                void Poke();
             };
             
             struct Network_st{

@@ -4,6 +4,7 @@
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 
+#include<Sauce/Utility/NeuralNetwork.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -177,6 +178,8 @@ namespace Sauce{
                     for(size_t i=0;i<test.Size();i++){
                         PutPixel(test[i],{0xA5,0x00,0xA5,0xFF});
                     }
+                    Sauce::Utility::Neural::Network_st TestNetwork(5,5,5,5);
+                    TestNetwork.EntryNeurons.First()->Poke();
                 }
                 else if((*ArgBuffer[0]) == (char*)"shutdown"){
                     if(ArgBuffer.Size() < 2){

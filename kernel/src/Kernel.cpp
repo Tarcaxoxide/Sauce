@@ -56,10 +56,7 @@ namespace Sauce{
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
 
-        Sauce::Math::random_seed(8649245912657);        
-        //TEST
-            Sauce::Utility::Neural::Network_st TestNetwork(5,5,5,5);
-        //TEST
+        Sauce::Math::random_seed(8649245912657);
         // these are for the click detection
         oMouse.Position=&oMousePosition;
         oMouse.CenterButton=false;
