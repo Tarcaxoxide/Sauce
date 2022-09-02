@@ -1,6 +1,6 @@
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -34,7 +34,7 @@ namespace Sauce{
             if(isCaps != isShift){
                 KeyCodeDecoded += 0x0100; // if we are shifted or capitalized but not at the same time then make the indicator so it's capital letter of what ever key is being pressed.
             }
-            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(KeyCodeDecoded),Sauce::IO::Debug::KEYBOARD);
+            Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString(KeyCodeDecoded),Sauce::IO::Debug::KEYBOARD);
             return KeyCodeDecoded;
         }
         Sauce::Keyboard_st Code_To_Key(uint16_t TranslatedKeyCode){
@@ -191,7 +191,7 @@ namespace Sauce{
             Press ? Sauce::IO::Debug::Print_Return("Press:<True>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("Press:<False>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
             IVisible ? Sauce::IO::Debug::Print_Return("Visible:<True>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("Visible:<False>,",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return("Key:",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
-            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(IKey),Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
+            Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString(IKey),Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return(",",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
             Sauce::IO::Debug::Print_Return("Display:",Sauce::IO::Debug::KEYBOARD,Sauce::IO::Debug::StartOfPrint::Middle);
             char xDisplay[2]={0};

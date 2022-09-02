@@ -1,6 +1,6 @@
 #include<Sauce/IO/ACPI.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 
 namespace Sauce{
@@ -16,7 +16,7 @@ namespace Sauce{
                             break;
                         }
                         if(i == 3){
-                            Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString((uint64_t)nSDTHeader),true);
+                            Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString((uint64_t)nSDTHeader),true);
                             return nSDTHeader;
                         }
                     }

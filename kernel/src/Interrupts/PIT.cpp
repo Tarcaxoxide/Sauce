@@ -1,7 +1,7 @@
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
     namespace Interrupts{
@@ -10,7 +10,7 @@ namespace Sauce{
             uint16_t Divisor=65535;
             void Sleepd(double seconds){
                 Sauce::IO::Debug::Print_Spammy_Call("Sleepd",Sauce::IO::Debug::INTERRUPT_PIT);
-                Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Convert::ToString(seconds),Sauce::IO::Debug::INTERRUPT_PIT);
+                Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Utility::ToString(seconds),Sauce::IO::Debug::INTERRUPT_PIT);
                 double startTime = TimeSinceBoot;
                 while(TimeSinceBoot < startTime+seconds){
                     asm("hlt");
@@ -32,7 +32,7 @@ namespace Sauce{
             }
             uint64_t GetFrequency(){
                 Sauce::IO::Debug::Print_Spammy_Call("GetFrequency",Sauce::IO::Debug::INTERRUPT_PIT);
-                Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(BaseFrequency/Divisor),Sauce::IO::Debug::INTERRUPT_PIT);
+                Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::ToString(BaseFrequency/Divisor),Sauce::IO::Debug::INTERRUPT_PIT);
                 return BaseFrequency/Divisor;
             }
             void SetFrequency(uint64_t frequency){

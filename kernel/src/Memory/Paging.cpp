@@ -1,6 +1,6 @@
 #include<Sauce/Memory/Paging.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
     namespace Memory{
@@ -28,7 +28,7 @@ namespace Sauce{
         uint64_t PageDirectoryEntry::GetAddress(){
             Sauce::IO::Debug::Print_Spammy_Call("PageDirectoryEntry::GetAddress",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::PAGING);
             uint64_t Ret = (Value & 0x000ffffffffff000) >> 12;
-            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::HexToString(Ret),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::PAGING);
+            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::HexToString(Ret),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::PAGING);
             return Ret;
         }
     };

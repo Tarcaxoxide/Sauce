@@ -1,6 +1,6 @@
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global/Global.hpp>
@@ -96,7 +96,7 @@ namespace Sauce{
                 case 0x8086:{Sauce::IO::Debug::Print_Return("Intel Corperation",Sauce::IO::Debug::PCI);return "Intel Corperation";}
                 case 0x1022:{Sauce::IO::Debug::Print_Return("AMD",Sauce::IO::Debug::PCI);return "AMD";}
                 case 0x10DE:{Sauce::IO::Debug::Print_Return("NVIDIA Corperation",Sauce::IO::Debug::PCI);return "NVIDIA Corperation";}
-                default: {Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(VendorID),Sauce::IO::Debug::PCI);return (const char*)Sauce::Convert::HexToString(VendorID);}
+                default: {Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString(VendorID),Sauce::IO::Debug::PCI);return (const char*)Sauce::Utility::HexToString(VendorID);}
             }
             
         }
@@ -117,7 +117,7 @@ namespace Sauce{
                 case 0x10DE:{
                     switch(DeviceID){}
                 }
-                default: {Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(DeviceID),Sauce::IO::Debug::PCI);return (const char*)Sauce::Convert::HexToString(DeviceID);}
+                default: {Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString(DeviceID),Sauce::IO::Debug::PCI);return (const char*)Sauce::Utility::HexToString(DeviceID);}
             }
         }
         const char* GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode){
@@ -173,7 +173,7 @@ namespace Sauce{
                         case 0x80:{Sauce::IO::Debug::Print_Return("SerialBusController - Other",Sauce::IO::Debug::PCI);return "SerialBusController - Other";}
                     }
                 }
-                default:{Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(SubClassCode),Sauce::IO::Debug::PCI);return (const char*)Sauce::Convert::HexToString(SubClassCode);}
+                default:{Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString(SubClassCode),Sauce::IO::Debug::PCI);return (const char*)Sauce::Utility::HexToString(SubClassCode);}
             }
         }
         const char* GetProgIFName(uint8_t ClassCode, uint8_t SubClassCode, uint8_t ProgIFCode){
@@ -214,7 +214,7 @@ namespace Sauce{
                         }
                     }
                 }
-                default:{Sauce::IO::Debug::Print_Return(Sauce::Convert::HexToString(SubClassCode),Sauce::IO::Debug::PCI);return (const char*)Sauce::Convert::HexToString(SubClassCode);}
+                default:{Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString(SubClassCode),Sauce::IO::Debug::PCI);return (const char*)Sauce::Utility::HexToString(SubClassCode);}
             }
         }
     };

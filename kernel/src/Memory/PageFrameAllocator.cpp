@@ -1,6 +1,6 @@
 #include<Sauce/Memory/PageFrameAllocator.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
     namespace Memory{
@@ -124,23 +124,23 @@ namespace Sauce{
         }
         uint64_t PageFrameAllocator_cl::GetFreeRAM(){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::GetFreeRAM",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
-            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(freeMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::ToString(freeMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             return freeMemory;
         }
         uint64_t PageFrameAllocator_cl::GetUsedRAM(){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::GetUsedRAM",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
-            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(usedMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::ToString(usedMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             return usedMemory;
         }
         uint64_t PageFrameAllocator_cl::GetReservedRAM(){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::GetReservedRAM",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
-            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(reservedMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::ToString(reservedMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             return reservedMemory;
         }
         uint64_t PageFrameAllocator_cl::GetTotalRAM(){
             Sauce::IO::Debug::Print_Spammy_Call("PageFrameAllocator_cl::GetTotalRAM",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             size_t Ret = GetFreeRAM()+GetUsedRAM()+GetReservedRAM();
-            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(Ret),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::ToString(Ret),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
             return Ret;
         }
         void* PageFrameAllocator_cl::RequestPage(){
@@ -149,7 +149,7 @@ namespace Sauce{
                 if(PageBitmap[pageBitmapIndex] == true)continue;
                 void* TheAddress = (void*)(pageBitmapIndex*4096);
                 LockPage(TheAddress);
-                Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::HexToString((uint64_t)TheAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
+                Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::HexToString((uint64_t)TheAddress),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::ALLOCATOR);
                 return TheAddress;
             }
             //TODO::Page Frame Swap to file

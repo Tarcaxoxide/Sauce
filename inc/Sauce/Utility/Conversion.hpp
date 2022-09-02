@@ -4,7 +4,7 @@
 #include<Sauce/Math/Functions.hpp>
 
 namespace Sauce{
-	namespace Convert{
+	namespace Utility{
 		//Hex 0x0123456789ABC
 		char* HexToString(uint8_t value,bool ClearBefore=true);
 		char* HexToString(uint16_t value,bool ClearBefore=true);

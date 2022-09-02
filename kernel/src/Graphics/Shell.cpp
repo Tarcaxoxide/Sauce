@@ -2,7 +2,7 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 
 namespace Sauce{
@@ -11,7 +11,7 @@ namespace Sauce{
         :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
             Sauce::IO::Debug::Print_Call("Shell_cl::Shell_cl",Sauce::IO::Debug::SHELL);
             ShellClear();
-            Sauce::Math::random_seed(8649245912657);
+            
             Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::PutChar(wchar_t chr,bool AddToBuffer){

@@ -1,7 +1,7 @@
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Global/Global.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
     namespace Memory{
@@ -13,8 +13,8 @@ namespace Sauce{
         }
         void PageTableManager_cl::MapMemory(void* virtualMemory,void* physicalMemory){
             Sauce::IO::Debug::Print_Spammy_Call("PageTableManager_cl::MapMemory",Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
-            Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Convert::HexToString((uint64_t)virtualMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
-            Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Convert::HexToString((uint64_t)physicalMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
+            Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Utility::HexToString((uint64_t)virtualMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
+            Sauce::IO::Debug::Print_Spammy_Detail(Sauce::Utility::HexToString((uint64_t)physicalMemory),Sauce::IO::Debug::MEMORY && Sauce::IO::Debug::TableManager);
             
             PageMapIndexer indexer = PageMapIndexer((uint64_t)virtualMemory);
             PageDirectoryEntry PDE;

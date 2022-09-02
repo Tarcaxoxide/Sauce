@@ -1,8 +1,8 @@
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
 namespace Sauce{
-    namespace Convert{
+    namespace Utility{
         static unsigned char haxString[512] = {0};// instead of having seperate char arrays for every function, i just define 1 global char array.
         void Clear_haxString(){
             Sauce::IO::Debug::Print_Spammy_Call("Clear_haxString",Sauce::IO::Debug::CONVERSIONS);

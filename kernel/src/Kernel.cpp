@@ -1,5 +1,5 @@
 #include<Sauce/Kernel.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Memory/efiMemory.h>
 #include<Sauce/Memory/Memory.hpp>
@@ -21,8 +21,9 @@
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global/Global.hpp>
-
 #include<Sauce/Math/Functions.hpp>
+
+#include<Sauce/Utility/NeuralNetwork.hpp>
 
 namespace Sauce{
     Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
@@ -54,7 +55,15 @@ namespace Sauce{
 
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
-        
+
+        Sauce::Math::random_seed(8649245912657);        
+        //TEST
+            Sauce::Utility::Neural::Network_st TestNetwork;
+            TestNetwork.AddLayer(2);
+            TestNetwork.AddLayer(2);
+            TestNetwork.AddLayer(2);
+            TestNetwork.AddLayer(2);
+        //TEST
         // these are for the click detection
         oMouse.Position=&oMousePosition;
         oMouse.CenterButton=false;
@@ -171,7 +180,7 @@ namespace Sauce{
                     if(xKeyboard.visible){
                         /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar(xKeyboard.Display);
                     }else{
-                       Sauce::IO::Debug::Print_Detail(Sauce::Convert::HexToString(xKeyboard.Key),Sauce::IO::Debug::KERNEL);
+                       Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(xKeyboard.Key),Sauce::IO::Debug::KERNEL);
                     }
                 }break;
             }

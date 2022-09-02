@@ -1,7 +1,7 @@
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global/Global.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
     namespace Storage{
@@ -174,30 +174,30 @@ namespace Sauce{
                 switch(HBAPorts[i].Type){
                     case HBAPortType::NONE:{
                         Sauce::IO::Debug::Print_Detail("HBAPort#",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Start);
-                        Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
+                        Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
                         Sauce::IO::Debug::Print_Detail(",HBAPortType::NONE",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::End);
                     }break;
                     case HBAPortType::SATA:{
                         Sauce::IO::Debug::Print_Detail("HBAPort#",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Start);
-                        Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
+                        Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
                         Sauce::IO::Debug::Print_Detail(",HBAPortType::SATA",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::End);
                         HBAPorts[i].Configure();
                     }break;
                     case HBAPortType::SEMB:{
                         Sauce::IO::Debug::Print_Detail("HBAPort#",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Start);
-                        Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
+                        Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
                         Sauce::IO::Debug::Print_Detail(",HBAPortType::SEMB",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::End);
                         HBAPorts[i].Configure();
                     }break;
                     case HBAPortType::PM:{
                         Sauce::IO::Debug::Print_Detail("HBAPort#",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Start);
-                        Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
+                        Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
                         Sauce::IO::Debug::Print_Detail(",HBAPortType::PM",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::End);
                         HBAPorts[i].Configure();
                     }break;
                     case HBAPortType::SATAPI:{
                         Sauce::IO::Debug::Print_Detail("HBAPort#",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Start);
-                        Sauce::IO::Debug::Print_Detail(Sauce::Convert::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
+                        Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(i),Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::Middle);
                         Sauce::IO::Debug::Print_Detail(",HBAPortType::SATAPI",Sauce::IO::Debug::STORAGE,Sauce::IO::Debug::StartOfPrint::End);
                         HBAPorts[i].Configure();
                     }break;

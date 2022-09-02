@@ -1,6 +1,6 @@
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utilities/Conversion.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 #define THRESHOLD sizeof(long)
 
@@ -14,7 +14,7 @@ namespace Sauce{
                 EFI_MEMORY_DESCRIPTOR* descriptor = (EFI_MEMORY_DESCRIPTOR*)((uint64_t)mMap + (i*mDescriptorSize));
                 memorySizeBytes+=descriptor->numPages*4096;
             }
-            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(memorySizeBytes),Sauce::IO::Debug::MEMORY);
+            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::ToString(memorySizeBytes),Sauce::IO::Debug::MEMORY);
             return memorySizeBytes;
         }
         void memset(void* address,uint8_t value,uint64_t size){
@@ -45,10 +45,10 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Call("memcmp",Sauce::IO::Debug::MEMORY);
             const unsigned char *a=(const unsigned char *)aptr,*b=(const unsigned char *)bptr;
             for(size_t i=0;i<s;i++){// my memcmp is special, it returns the index of the first difference.
-                if(a[i] < b[i]){Sauce::IO::Debug::Print_Return(Sauce::Convert::ToString(-i),Sauce::IO::Debug::MEMORY);return (int64_t)-i;}
-                if(a[i] > b[i]){Sauce::IO::Debug::Print_Return(Sauce::Convert::ToString(i),Sauce::IO::Debug::MEMORY);return (int64_t)i;}
+                if(a[i] < b[i]){Sauce::IO::Debug::Print_Return(Sauce::Utility::ToString(-i),Sauce::IO::Debug::MEMORY);return (int64_t)-i;}
+                if(a[i] > b[i]){Sauce::IO::Debug::Print_Return(Sauce::Utility::ToString(i),Sauce::IO::Debug::MEMORY);return (int64_t)i;}
             }
-            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Convert::ToString(0),Sauce::IO::Debug::MEMORY);
+            Sauce::IO::Debug::Print_Spammy_Return(Sauce::Utility::ToString(0),Sauce::IO::Debug::MEMORY);
             return (int64_t)0;
         }
     };
