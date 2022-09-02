@@ -6,8 +6,11 @@
 namespace Sauce{
     namespace Utility{
         namespace Neural{
+            struct Layer_st;
             struct Neuron_st{
                 double Value,Bias,Weight;
+                struct Layer_st* MyLayer;
+                void Insert(double insertedValue);
             };
             struct Layer_st{
                 Sauce::Memory::List_cl<Neuron_st*> Neurons;

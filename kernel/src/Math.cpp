@@ -39,6 +39,9 @@ namespace Sauce{
 		double average(double number1,double number2){
 			return (number1+number2)/2;
 		}
+		double difference(double number1,double number2){
+			return Sauce::Math::maximum(number1,number2)/Sauce::Math::minimum(number1,number2);
+		}
 		int make_positive(int number){
 			if(number < 0)return (number-number-number);
 			return number;
