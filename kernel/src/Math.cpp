@@ -65,28 +65,6 @@ namespace Sauce{
 				if(Current.Z < pointB.Z)Current.Z++;
 				Line.AddLast(Current);
 			}
-
-			//int m_new = 2 * (pointB.Y - pointA.Y);
-   			//int slope_error_new = m_new - (pointB.X - pointA.X);
-			//if(pointA.X != pointB.X){
-			//	for (int x = pointA.X, y = pointA.Y; x <= pointB.X; x++)
-   			//	{
-			//	   Line.AddLast({x,y,0});
-   			//	   slope_error_new += m_new;
-   			//	   if (slope_error_new >= 0)
-   			//	   {
-   			//	      y++;
-   			//	      slope_error_new  -= 2 * (pointB.X - pointA.X);
-   			//	   }
-   			//	}
-//
-			//}else{
-			//	if(pointA.Y > pointB.Y){pointA=pointB;pointB=pointA;}else{pointA=pointA;pointB=pointB;}
-			//	for (int y = pointA.Y; y <= pointB.Y; y++)
-   			//	{
-			//	   Line.AddLast({pointB.X,y,0});
-   			//	}
-			//}
 		}
 		void make_triangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Point64_st pointC,Sauce::Memory::List_cl<Sauce::Point64_st> &Triangle){
 			/*
