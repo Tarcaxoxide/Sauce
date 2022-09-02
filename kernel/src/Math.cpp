@@ -53,8 +53,6 @@ namespace Sauce{
 			/*
 				A......B
 			*/
-			
-
 			Sauce::Point64_st Current=pointA;
 			while( Current.X != pointB.X || Current.Y != pointB.Y || Current.Z != pointB.Z){
 				if(Current.X > pointB.X)Current.X--;
