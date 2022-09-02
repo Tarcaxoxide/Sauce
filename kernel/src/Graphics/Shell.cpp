@@ -167,8 +167,10 @@ namespace Sauce{
                 if((*ArgBuffer[0]) == (char*)"test"){
                     PutString(L"\n\roK!\n\r",false);
                     Sauce::Memory::List_cl<Sauce::Point64_st> test;
-                    Sauce::Math::make_rectangle({0,0,0},{(int64_t)PixelsPerLine-1,(int64_t)PixelsBufferHeight-1,0},test);
-                    Sauce::Math::make_circle({(int64_t)(PixelsPerLine-1)/2,(int64_t)(PixelsBufferHeight-1)/2,0},(Sauce::Math::minimum(PixelsPerLine,PixelsBufferHeight)-1)/4,test);
+                    //Sauce::Math::make_rectangle({0,0,0},{(int64_t)PixelsPerLine-1,(int64_t)PixelsBufferHeight-1,0},test);
+                    //Sauce::Math::make_circle({(int64_t)(PixelsPerLine-1)/2,(int64_t)(PixelsBufferHeight-1)/2,0},(Sauce::Math::minimum(PixelsPerLine,PixelsBufferHeight)-1)/4,test);
+                    Sauce::Math::make_triangle({200,100,0},{100,200,0},{300,200,0},test);
+                    
                     for(size_t i=0;i<test.Size();i++){
                         PutPixel(test[i],{0xA5,0x00,0xA5,0xFF});
                     }

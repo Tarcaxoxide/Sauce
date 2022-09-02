@@ -15,7 +15,6 @@ void drawCircle(int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Point
 	Circle.AddLast({xc-y,yc-x,0});
 }
 
-
 namespace Sauce{
     namespace Math{
     	size_t index(size_t X,size_t Y,size_t MaxX){
@@ -51,39 +50,71 @@ namespace Sauce{
 			return number;
 		}
 		void make_line(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Line){
-			Sauce::Point64_st point_smaller,point_bigger;
-
-			if(pointA.X > pointB.X){point_smaller=pointB;point_bigger=pointA;}else{point_smaller=pointA;point_bigger=pointB;}
+			/*
+				A......B
+			*/
 			
-			int m_new = 2 * (point_bigger.Y - point_smaller.Y);
-   			int slope_error_new = m_new - (point_bigger.X - point_smaller.X);
-   			
-			if(point_smaller.X != point_bigger.X){
-				for (int x = point_smaller.X, y = point_smaller.Y; x <= point_bigger.X; x++)
-   				{
-				   Line.AddLast({x,y,0});
-   				   slope_error_new += m_new;
-   				   if (slope_error_new >= 0)
-   				   {
-   				      y++;
-   				      slope_error_new  -= 2 * (point_bigger.X - point_smaller.X);
-   				   }
-   				}
-			}else{
-				if(pointA.Y > pointB.Y){point_smaller=pointB;point_bigger=pointA;}else{point_smaller=pointA;point_bigger=pointB;}
-				for (int y = point_smaller.Y; y <= point_bigger.Y; y++)
-   				{
-				   Line.AddLast({point_bigger.X,y,0});
-   				}
+
+			Sauce::Point64_st Current=pointA;
+			while( Current.X != pointB.X || Current.Y != pointB.Y || Current.Z != pointB.Z){
+				if(Current.X > pointB.X)Current.X--;
+				if(Current.X < pointB.X)Current.X++;
+				if(Current.Y > pointB.Y)Current.Y--;
+				if(Current.Y < pointB.Y)Current.Y++;
+				if(Current.Z > pointB.Z)Current.Z--;
+				if(Current.Z < pointB.Z)Current.Z++;
+				Line.AddLast(Current);
 			}
+
+			//int m_new = 2 * (pointB.Y - pointA.Y);
+   			//int slope_error_new = m_new - (pointB.X - pointA.X);
+			//if(pointA.X != pointB.X){
+			//	for (int x = pointA.X, y = pointA.Y; x <= pointB.X; x++)
+   			//	{
+			//	   Line.AddLast({x,y,0});
+   			//	   slope_error_new += m_new;
+   			//	   if (slope_error_new >= 0)
+   			//	   {
+   			//	      y++;
+   			//	      slope_error_new  -= 2 * (pointB.X - pointA.X);
+   			//	   }
+   			//	}
+//
+			//}else{
+			//	if(pointA.Y > pointB.Y){pointA=pointB;pointB=pointA;}else{pointA=pointA;pointB=pointB;}
+			//	for (int y = pointA.Y; y <= pointB.Y; y++)
+   			//	{
+			//	   Line.AddLast({pointB.X,y,0});
+   			//	}
+			//}
+		}
+		void make_triangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Point64_st pointC,Sauce::Memory::List_cl<Sauce::Point64_st> &Triangle){
+			/*
+					A
+				  .   .
+				 .     .
+				B.......C
+			*/
+			make_line(pointB,pointA,Triangle);
+			make_line(pointA,pointC,Triangle);
+			make_line(pointC,pointB,Triangle);
 		}
 		void make_rectangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Rectangle){
+			/*
+				A...
+				.  .
+				...B
+			*/
 			make_line({pointA.X,pointA.Y,0},{pointB.X,pointA.Y,0},Rectangle);
 			make_line({pointB.X,pointA.Y,0},{pointB.X,pointB.Y,0},Rectangle);
 			make_line({pointB.X,pointB.Y,0},{pointA.X,pointB.Y,0},Rectangle);
 			make_line({pointA.X,pointB.Y,0},{pointA.X,pointA.Y,0},Rectangle);
 		}
 		void make_circle(Sauce::Point64_st point,int radius,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle){
+			/*    
+				point = the center of the circle.
+				radius = the radius of the circle.
+			*/
 			int x = 0, y = radius;
     		int d = 3 - 2 * radius;
     		drawCircle(point.X, point.Y, x, y,Circle);
