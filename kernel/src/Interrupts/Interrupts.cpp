@@ -6,8 +6,6 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Math/Functions.hpp>
 
-size_t NextRandomSeed=1;
-
 namespace Sauce{
     namespace Interrupts{
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame){
@@ -44,7 +42,6 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Spammy_Call("PITInterrupt_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT);
             Sauce::Interrupts::PIT::Tick();
             Kernel_cl::Notify({InterruptTypeCode::ITC__Time,0xFF});
-            Sauce::Math::random_seed(NextRandomSeed++);
             PIC1_Done();
             Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT);
         }

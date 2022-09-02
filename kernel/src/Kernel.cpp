@@ -58,11 +58,7 @@ namespace Sauce{
 
         Sauce::Math::random_seed(8649245912657);        
         //TEST
-            Sauce::Utility::Neural::Network_st TestNetwork;
-            TestNetwork.AddLayer(2);
-            TestNetwork.AddLayer(2);
-            TestNetwork.AddLayer(2);
-            TestNetwork.AddLayer(2);
+            Sauce::Utility::Neural::Network_st TestNetwork(5,5,5,5);
         //TEST
         // these are for the click detection
         oMouse.Position=&oMousePosition;

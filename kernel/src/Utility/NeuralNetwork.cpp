@@ -4,27 +4,33 @@
 namespace Sauce{
     namespace Utility{
         namespace Neural{
-            void Neuron_st::Insert(double insertedValue){
-                for(size_t Ai=0;Ai<MyLayer->NextLayer->Neurons.Size();Ai++){
-                    size_t ConnectionWeight = Sauce::Math::difference(Weight,MyLayer->NextLayer->Neurons[Ai]->Weight);
-                    //ActivationFunction?
+            Network_st::Network_st(size_t EntryNeuronCount,size_t MeshNeuronCount,size_t MeshDensity,size_t ExitNeuronCount){
+                //populate the layers.
+                for(size_t i=0;i<EntryNeuronCount;i++){
+                    EntryNeurons.AddLast(new Neuron_st);
                 }
-            
-            }
-            Layer_st::Layer_st(size_t Height){
-                for(size_t i=0;i<Height;i++){
-                    Neurons.AddLast(new Neuron_st{0,0,0});
-                    Neurons.Last()->MyLayer=this;
-                    Neurons.Last()->Bias=((double)Sauce::Math::random_get(100)/(double)100.00);
-                    Neurons.Last()->Weight=((double)Sauce::Math::random_get(100)/(double)100.00);
-                    Neurons.Last()->Value=((double)Sauce::Math::random_get(100)/(double)100.00);
+                for(size_t i=0;i<MeshNeuronCount;i++){
+                    MeshNeurons.AddLast(new Neuron_st);
                 }
-            }
-            void Network_st::AddLayer(size_t Height){
-                Layers.AddLast(new Layer_st(Height));
-                
-                if(Layers.Size() > 1){
-                    Layers[Layers.Size()-2]->NextLayer=Layers[Layers.Size()-1];
+                for(size_t i=0;i<ExitNeuronCount;i++){
+                    ExitNeurons.AddLast(new Neuron_st);
+                }
+                //create the entrence/exit node connections.
+                for(size_t Ai=0;Ai<EntryNeuronCount;Ai++){
+                    for(size_t Bi=0;Bi<MeshNeuronCount;Bi++){
+                        EntryNeurons[Ai]->Connections.AddLast(MeshNeurons[Bi]);
+                    }
+                }
+                for(size_t Ai=0;Ai<ExitNeuronCount;Ai++){
+                    for(size_t Bi=0;Bi<MeshNeuronCount;Bi++){
+                        MeshNeurons[Bi]->Connections.AddLast(ExitNeurons[Ai]);
+                    }
+                }
+                //create the mesh inside the mesh layer.
+                for(size_t Ai=0;Ai<MeshNeuronCount;Ai++){
+                    for(size_t Bi=0;Bi<MeshDensity;Bi++){
+                        MeshNeurons[Ai]->Connections.AddLast(MeshNeurons[Sauce::Math::random_get(MeshNeuronCount)-1]);
+                    }
                 }
             }
         };

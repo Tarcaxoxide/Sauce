@@ -6,20 +6,16 @@
 namespace Sauce{
     namespace Utility{
         namespace Neural{
-            struct Layer_st;
             struct Neuron_st{
-                double Value,Bias,Weight;
-                struct Layer_st* MyLayer;
-                void Insert(double insertedValue);
+                Sauce::Memory::List_cl<Neuron_st*> Connections;
+                double Value;
             };
-            struct Layer_st{
-                Sauce::Memory::List_cl<Neuron_st*> Neurons;
-                Layer_st* NextLayer=nullptr;
-                Layer_st(size_t Height);
-            };
+            
             struct Network_st{
-                Sauce::Memory::List_cl<Layer_st*> Layers;
-                void AddLayer(size_t Height);
+                Sauce::Memory::List_cl<Neuron_st*> EntryNeurons;
+                Sauce::Memory::List_cl<Neuron_st*> MeshNeurons;
+                Sauce::Memory::List_cl<Neuron_st*> ExitNeurons;
+                Network_st(size_t EntryNeuronCount,size_t MeshNeuronCount,size_t MeshDensity,size_t ExitNeuronCount);
             };
         };
     };
