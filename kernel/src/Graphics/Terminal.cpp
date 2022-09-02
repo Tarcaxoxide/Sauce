@@ -91,6 +91,9 @@ namespace Sauce{
         bool Terminal_cl::Clear(){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Clear",Sauce::IO::Debug::TERMINAL);
             bool Ret = Fill(BackgroundColor);
+            PixelPointer.X=0;
+            PixelPointer.Y=0;
+            PixelPointer.Z=0;
             Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
             return Ret;
         }

@@ -27,6 +27,7 @@ namespace Sauce{
                 void GoFarRight();
                 void GoFarLeft();
                 void RunCmd();
+                void ShellClear();
         };
     };
 };

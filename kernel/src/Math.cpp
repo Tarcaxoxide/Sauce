@@ -1,8 +1,6 @@
 
 #include<Sauce/Math/Functions.hpp>
 
-
-
 void drawCircle(int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle)
 {
 	Circle.AddLast({xc+x,yc+y,0});
@@ -64,6 +62,24 @@ namespace Sauce{
 				Line.AddLast(Current);
 			}
 		}
+		void make_line(Sauce::Point64_st point,Sauce::Memory::List_cl<Sauce::Point64_st> &Line,bool reset){
+			/*
+				A......B
+			*/
+			static Sauce::Point64_st Current{0,0,0};
+
+			if(reset)Current=point;
+
+			while( Current.X != point.X || Current.Y != point.Y || Current.Z != point.Z){
+				if(Current.X > point.X)Current.X--;
+				if(Current.X < point.X)Current.X++;
+				if(Current.Y > point.Y)Current.Y--;
+				if(Current.Y < point.Y)Current.Y++;
+				if(Current.Z > point.Z)Current.Z--;
+				if(Current.Z < point.Z)Current.Z++;
+				Line.AddLast(Current);
+			}
+		}
 		void make_triangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Point64_st pointC,Sauce::Memory::List_cl<Sauce::Point64_st> &Triangle){
 			/*
 					A
@@ -71,9 +87,10 @@ namespace Sauce{
 				 .     .
 				B.......C
 			*/
-			make_line(pointB,pointA,Triangle);
-			make_line(pointA,pointC,Triangle);
-			make_line(pointC,pointB,Triangle);
+			make_line(pointB,Triangle,true);
+			make_line(pointA,Triangle);
+			make_line(pointC,Triangle);
+			make_line(pointB,Triangle);
 		}
 		void make_rectangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Rectangle){
 			/*
@@ -81,10 +98,11 @@ namespace Sauce{
 				.  .
 				...B
 			*/
-			make_line({pointA.X,pointA.Y,0},{pointB.X,pointA.Y,0},Rectangle);
-			make_line({pointB.X,pointA.Y,0},{pointB.X,pointB.Y,0},Rectangle);
-			make_line({pointB.X,pointB.Y,0},{pointA.X,pointB.Y,0},Rectangle);
-			make_line({pointA.X,pointB.Y,0},{pointA.X,pointA.Y,0},Rectangle);
+			make_line({pointA.X,pointA.Y,0},Rectangle,true);
+			make_line({pointB.X,pointA.Y,0},Rectangle);
+			make_line({pointB.X,pointB.Y,0},Rectangle);
+			make_line({pointA.X,pointB.Y,0},Rectangle);
+			make_line({pointA.X,pointA.Y,0},Rectangle);
 		}
 		void make_circle(Sauce::Point64_st point,int radius,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle){
 			/*    
@@ -111,6 +129,15 @@ namespace Sauce{
     		        d = d + 4 * x + 6;
     		    drawCircle(point.X, point.Y, x, y, Circle);
     		}
-		}	
+		}
+		
+		size_t next = 1;
+		size_t random_get(size_t max){
+		    next = next * 1103515245 + 12345;
+		    return (next/65536) % max;
+		}
+		void random_seed(size_t seed){
+		    next = seed;
+		}
 	};
 };
