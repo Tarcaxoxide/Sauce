@@ -3,7 +3,7 @@
 #include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/Utility/Conversion.hpp>
-
+#include<Sauce/Global/Global.hpp>
 #include<Sauce/Utility/NeuralNetwork.hpp>
 
 namespace Sauce{
@@ -167,25 +167,42 @@ namespace Sauce{
             ShellClear();
             /*actually run the command*/
                 if((*ArgBuffer[0]) == (char*)"test"){
-                    PutString(L"\n\roK!\n\r",false);
-                    Sauce::Memory::List_cl<Sauce::Point64_st> test;
-
-                    size_t numberOfLines=Sauce::Math::random_get(30);
-                    size_t maxRandomNumber=Sauce::Math::minimum(PixelsPerLine,PixelsBufferHeight);
-                    for(size_t i=0;i<numberOfLines;i++){
-                        Sauce::Math::make_line({(int64_t)Sauce::Math::random_get(maxRandomNumber),(int64_t)Sauce::Math::random_get(maxRandomNumber),0},test);
+                    if(ArgBuffer.Size() < 2){
+                        PutString(L"\n\rno test specified.\n\r",false);
+                        return;
                     }
-                    for(size_t i=0;i<test.Size();i++){
-                        PutPixel(test[i],{0xA5,0x00,0xA5,0xFF});
+                    if((*ArgBuffer[1]) == (char*)"text"){
+                        PutString(L"\n\roK!\n\r",false);
+                    }else
+                    if((*ArgBuffer[1]) == (char*)"graphics"){
+                        Sauce::Memory::List_cl<Sauce::Point64_st> test;
+                        size_t numberOfLines=Sauce::Math::random_get(30);
+                        size_t maxRandomNumber=Sauce::Math::minimum(PixelsPerLine,PixelsBufferHeight);
+                        for(size_t i=0;i<numberOfLines;i++){
+                            Sauce::Math::make_line({(int64_t)Sauce::Math::random_get(maxRandomNumber),(int64_t)Sauce::Math::random_get(maxRandomNumber),0},test);
+                        }
+                        for(size_t i=0;i<test.Size();i++){
+                            PutPixel(test[i],{0xA5,0x00,0xA5,0xFF});
+                        }
+                    }else
+                    if((*ArgBuffer[1]) == (char*)"neural"){
+                        Sauce::Utility::Neural::Network_st TestNetwork(5,20,5,5);
+                        TestNetwork.EntryNeurons.First()->Poke();
+                    }else
+                    if((*ArgBuffer[1]) == (char*)"ahci"){
+                        Sauce::Memory::List_cl<uint8_t> Bufferr;
+                        Sauce::Global::AHCIDriver->Read(0,0,12,Bufferr);
+                        for(size_t i=0;i<Bufferr.Size();i++){
+                            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(Bufferr[i]),Sauce::IO::Debug::SHELL);
+                        }
                     }
-                    Sauce::Utility::Neural::Network_st TestNetwork(5,20,5,5);
-                    TestNetwork.EntryNeurons.First()->Poke();
                 }
                 else if((*ArgBuffer[0]) == (char*)"shutdown"){
                     if(ArgBuffer.Size() < 2){
                         PutString(L"\n\rNo System Specified, Supported Systems (qemu,bochs,virtualbox)\n\r",false);
+                        return;
                     }
-                    else if((*ArgBuffer[1]) == (char*)"qemu"){Sauce::IO::outw(0x604, 0x2000);}
+                    if((*ArgBuffer[1]) == (char*)"qemu"){Sauce::IO::outw(0x604, 0x2000);}
                     else if((*ArgBuffer[1]) == (char*)"bochs"){Sauce::IO::outw(0xB004, 0x2000);}
                     else if((*ArgBuffer[1]) == (char*)"virtualbox"){Sauce::IO::outw(0x4004, 0x3400);}
                     else{
