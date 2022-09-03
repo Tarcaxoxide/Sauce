@@ -14,19 +14,4 @@
     - cdrtools
         - mkisofs
 
-# plans
-> -
-- things done.
-    - Text output "printf"
-    - Dynamic Memory
-    - strings "std::string" <- `Sauce::Memory::List_cl<char> StringVariableName`
-> -
-- Not yet done.
-    - Userland Virtual Machines
-    - UserLand Binary Compiler
-    - UserLand binaries
-    - disk access
-    - loading of UserLand binaries
-    - Multi-processing (not multi-threading)
-    - graphics
-    - hardware accelerated graphics
+
