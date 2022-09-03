@@ -19,6 +19,7 @@ namespace Sauce{
             static const bool KEYBOARD=false;
             static const bool SHELL=true;
             static const bool TERMINAL=false;
+            static const bool WINDOW=false;
             static const bool INTERRUPT_DESCRIPTOR_TABLE=false;
             static const bool AHCI=false;
             static const bool PCI=false;
@@ -32,6 +33,7 @@ namespace Sauce{
             static const bool STORAGE=true;
             static const bool KERNEL=false;
             static const bool NEUROL=false;
+            static const bool MATH=false;
         };
     };
 };
@@ -44,3 +46,9 @@ namespace Sauce{
 //function detail    `{detail values}`
 
 //function return    `(return value)`
+
+
+/*
+Sauce::IO::Debug::Print_Call("",Sauce::IO::Debug::);
+Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::);
+*/

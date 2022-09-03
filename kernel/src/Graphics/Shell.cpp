@@ -217,11 +217,13 @@ namespace Sauce{
             Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::ShellClear(){
+            Sauce::IO::Debug::Print_Call("Shell_cl::ShellClear",Sauce::IO::Debug::SHELL);
             CharBuffer.Clear();
             Cursor.X=0;
             Cursor.Y=0;
             Cursor.Z=0;
             Clear();
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::SHELL);
         }
     };
 };

@@ -26,9 +26,11 @@ namespace Sauce{
             return true;
         }
         void Terminal_cl::ReverseColor(){
+            Sauce::IO::Debug::Print_Call("Terminal_cl::ReverseColor",Sauce::IO::Debug::TERMINAL);
             GOP_PixelStructure tmp=ForegroundColor;
             ForegroundColor=BackgroundColor;
             BackgroundColor=tmp;
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
         bool Terminal_cl::SetColor(GOP_PixelStructure ForegroundColor){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::SetColor",Sauce::IO::Debug::TERMINAL);
@@ -141,10 +143,12 @@ namespace Sauce{
             return true;
         }
         void Terminal_cl::setID(const char* nID){
+            Sauce::IO::Debug::Print_Call("Terminal_cl::setID",Sauce::IO::Debug::TERMINAL);
             size_t i=0;
             while( nID[i++] != '\0' && i<63 ){
                 ID[i]=nID[i];
             }
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
 
         bool Terminal_cl::Is_Mouse_Over(Sauce::Point64_st Location){
@@ -152,6 +156,7 @@ namespace Sauce{
                     && Location.X > MyOffset.X && Location.X < MyOffset.X+PixelsPerLine);
         }
         void Terminal_cl::Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Left_Down",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -160,8 +165,10 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(Location.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Left button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
         void Terminal_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Right_Down",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -170,8 +177,10 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(Location.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Right button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
         void Terminal_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Center_Down",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -180,8 +189,10 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(Location.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Center button down",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
 		void Terminal_cl::Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Left_Up",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -190,8 +201,10 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(Location.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Left button up",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
 		void Terminal_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Right_Up",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -200,8 +213,10 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(Location.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Right button up",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
 		void Terminal_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Center_Up",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -210,8 +225,10 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(Location.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Center button up",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
         void Terminal_cl::Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Left_Drag",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -224,8 +241,10 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(OldLocation.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Left button dragged",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
 		void Terminal_cl::Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Right_Drag",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -238,8 +257,10 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(OldLocation.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Right button dragged",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
 		void Terminal_cl::Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Notify_Of_Mouse_Center_Drag",Sauce::IO::Debug::TERMINAL);
             if(Is_Mouse_Over(Location)){
                 Sauce::IO::Debug::Print_Detail(ID,Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Start);
                 Sauce::IO::Debug::Print_Detail(",{",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
@@ -252,6 +273,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(OldLocation.Y),Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::Middle);
                 Sauce::IO::Debug::Print_Detail("}, Center button dragged",Sauce::IO::Debug::MOUSE && Sauce::IO::Debug::TERMINAL,Sauce::IO::Debug::StartOfPrint::End);
             }
+            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::TERMINAL);
         }
         void Terminal_cl::Notify_Of_Keyboard_Press(Sauce::Keyboard_st KeyData){}
     };
