@@ -190,10 +190,8 @@ namespace Sauce{
                         TestNetwork.EntryNeurons.First()->Poke();
                     }else
                     if((*ArgBuffer[1]) == (char*)"ahci"){
-                        Sauce::Memory::List_cl<uint8_t> Bufferr;
-                        Sauce::Global::AHCIDriver->Read(0,0,12,Bufferr);
-                        for(size_t i=0;i<Bufferr.Size();i++){
-                            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(Bufferr[i]),Sauce::IO::Debug::SHELL);
+                        for(size_t i=0;i<512;i++){
+                            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(Sauce::Global::AHCIDriver->Read(0,i)),Sauce::IO::Debug::SHELL);
                         }
                     }
                 }

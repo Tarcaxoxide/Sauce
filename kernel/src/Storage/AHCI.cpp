@@ -150,6 +150,14 @@ namespace Sauce{
                 }
             }
         }
+        uint8_t AHCIDriver_cl::Read(size_t portNumber,size_t ByteToRead){
+            if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage();
+            size_t SectorToRead=ByteToRead/512;
+            size_t SectorOffset=ByteToRead%512;
+
+            HBAPorts[portNumber].Read(SectorToRead,1,HBAPorts[portNumber].buffer);
+            return HBAPorts[portNumber].buffer[SectorOffset];
+        }
         AHCIDriver_cl::AHCIDriver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress){
             Sauce::IO::Debug::Print_Call("AHCIDriver_cl::AHCIDriver_cl",Sauce::IO::Debug::STORAGE);
             this->pciBaseAddress=pciBaseAddress;

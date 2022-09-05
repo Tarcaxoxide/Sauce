@@ -156,6 +156,7 @@ namespace Sauce{
                 ~AHCIDriver_cl();
                 void ProbePorts();
                 void Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr);
+                uint8_t Read(size_t portNumber,size_t ByteToRead);
         };
     };
 };
