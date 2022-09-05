@@ -7,20 +7,20 @@ namespace Sauce{
     namespace Storage{
         namespace FileSystem{
 			struct BIOS_Parameter_Block_st{
-	            uint8_t The_first_three_bytes[3];				//003
-	            uint8_t OEM_identifier[8];						//011
-	            uint8_t Number_of_Bytes_per_sector[2];			//013
-	            uint8_t Number_of_sectors_per_cluster[1];		//014
-	            uint8_t Number_of_reserved_sectors[2];			//016
-	            uint8_t Number_of_File_Allocation_Tables[1];	//017
-	            uint8_t Number_of_root_directory_entries[2];	//019
-	            uint8_t Total_sectors_in_the_logical_volume[2]; //021
-	            uint8_t media_descriptor_type[1];				//022
-	            uint8_t Number_of_sectors_per_FAT[2];			//024
-	            uint8_t Number_of_sectors_per_track[2];			//028
-	            uint8_t Number_of_heads[2];						//030
-	            uint8_t Number_of_hidden_sectors[4];			//034
-	            uint8_t Large_sector_count[4];					//038
+	            uint8_t The_first_three_bytes[3];
+	            uint8_t OEM_identifier[8];
+	            uint8_t Number_of_Bytes_per_sector[2];
+	            uint8_t Number_of_sectors_per_cluster[1];
+	            uint8_t Number_of_reserved_sectors[2];
+	            uint8_t Number_of_File_Allocation_Tables[1];
+	            uint8_t Number_of_root_directory_entries[2];
+	            uint8_t Total_sectors_in_the_logical_volume[2];
+	            uint8_t media_descriptor_type[1];
+	            uint8_t Number_of_sectors_per_FAT[2];
+	            uint8_t Number_of_sectors_per_track[2];
+	            uint8_t Number_of_heads[2];
+	            uint8_t Number_of_hidden_sectors[4];
+	            uint8_t Large_sector_count[4];
 	        }__attribute__((packed));
 	        struct F32_Extended_Boot_Record_st{
 	            uint8_t Sectors_per_FAT[4];
