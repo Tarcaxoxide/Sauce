@@ -193,6 +193,7 @@ namespace Sauce{
                     else if((*ArgBuffer[1]) == (char*)"ahci"){
                         for(size_t i=0;i<512;i++){
                             Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(Sauce::Global::AHCIDriver->Read(0,i)),Sauce::IO::Debug::SHELL);
+                            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(i),Sauce::IO::Debug::SHELL);
                         }
                     }//"ahci"
                     else if((*ArgBuffer[1]) == (char*)"filesystem"){
