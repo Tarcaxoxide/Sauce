@@ -5,6 +5,7 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global/Global.hpp>
 #include<Sauce/Utility/NeuralNetwork.hpp>
+#include<Sauce/Storage/FileSystem/FAT.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -173,8 +174,8 @@ namespace Sauce{
                     }
                     if((*ArgBuffer[1]) == (char*)"text"){
                         PutString(L"\n\roK!\n\r",false);
-                    }else
-                    if((*ArgBuffer[1]) == (char*)"graphics"){
+                    }//"text"
+                    else if((*ArgBuffer[1]) == (char*)"graphics"){
                         Sauce::Memory::List_cl<Sauce::Point64_st> test;
                         size_t numberOfLines=Sauce::Math::random_get(30);
                         size_t maxRandomNumber=Sauce::Math::minimum(PixelsPerLine,PixelsBufferHeight);
@@ -184,17 +185,20 @@ namespace Sauce{
                         for(size_t i=0;i<test.Size();i++){
                             PutPixel(test[i],{0xA5,0x00,0xA5,0xFF});
                         }
-                    }else
-                    if((*ArgBuffer[1]) == (char*)"neural"){
+                    }//"graphics"
+                    else if((*ArgBuffer[1]) == (char*)"neural"){
                         Sauce::Utility::Neural::Network_st TestNetwork(5,20,5,5);
                         TestNetwork.EntryNeurons.First()->Poke();
-                    }else
-                    if((*ArgBuffer[1]) == (char*)"ahci"){
+                    }//"neural"
+                    else if((*ArgBuffer[1]) == (char*)"ahci"){
                         for(size_t i=0;i<512;i++){
                             Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(Sauce::Global::AHCIDriver->Read(0,i)),Sauce::IO::Debug::SHELL);
                         }
+                    }//"ahci"
+                    else if((*ArgBuffer[1]) == (char*)"filesystem"){
+                        Sauce::Storage::FileSystem::FileSystem_F32_st TestFileSystem(0);
                     }
-                }
+                }//"test"
                 else if((*ArgBuffer[0]) == (char*)"shutdown"){
                     if(ArgBuffer.Size() < 2){
                         PutString(L"\n\rNo System Specified, Supported Systems (qemu,bochs,virtualbox)\n\r",false);
