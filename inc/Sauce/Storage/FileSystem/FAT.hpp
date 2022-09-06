@@ -6,7 +6,7 @@
 namespace Sauce{
     namespace Storage{
         namespace FileSystem{
-			struct BIOS_Parameter_Block_st{
+			struct FAT32_BootSector_st{
 	            uint8_t The_first_three_bytes[3];
 	            uint8_t OEM_identifier[8];
 	            uint8_t Number_of_Bytes_per_sector[2];
@@ -21,9 +21,7 @@ namespace Sauce{
 	            uint8_t Number_of_heads[2];
 	            uint8_t Number_of_hidden_sectors[4];
 	            uint8_t Large_sector_count[4];
-	        }__attribute__((packed));
-	        struct F32_Extended_Boot_Record_st{
-	            uint8_t Sectors_per_FAT[4]; // the size of the fat in sectors
+				uint8_t Sectors_per_FAT[4]; // the size of the fat in sectors
 	            uint8_t Flags[2];
 	            uint8_t FAT_version_number[2];
 	            uint8_t Cluster_number_of_the_root_directory[4];
@@ -47,22 +45,27 @@ namespace Sauce{
 	            uint8_t Reserved2[12];
 	            uint8_t Trail_signature[4];
 	        }__attribute__((packed));
-			struct FileSystem_F32_st{
-				BIOS_Parameter_Block_st* BIOS_Parameter_Block=nullptr;
-				F32_Extended_Boot_Record_st* F32_Extended_Boot_Record=nullptr;
-				FSInfo_st* FSInfo=nullptr;
-				struct Dist_st{
-					size_t total_sectors;
-					size_t fat_size;
-					size_t root_dir_sectors;
-					size_t first_data_sector;
-					size_t first_fat_sector;
-					size_t data_sectors;
-					size_t total_clusters;
-					size_t root_cluster;
-				}Dist;
-				FileSystem_F32_st(size_t portNumber);
-				~FileSystem_F32_st();
+			struct DirectoryEntry{
+				char name[8];
+				char ext[3];
+				uint8_t attrib;
+				uint8_t userattrib;
+				char undelete;
+				uint16_t createtime;
+				uint16_t createdate;
+				uint16_t accessdate;
+				uint16_t clusterhigh;
+				uint16_t modifiedtime;
+				uint16_t modifieddate;
+				uint16_t clusterlow;
+				uint32_t filesize;
+			}__attribute__((packed));
+
+			class FileSystem_F32_cl{
+				FAT32_BootSector_st* BootSector=nullptr;
+				public:
+				FileSystem_F32_cl(size_t portNumber);
+				~FileSystem_F32_cl();
 			};
 		};
 	};

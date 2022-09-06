@@ -8,71 +8,45 @@
 namespace Sauce{
 	namespace Storage{
 		namespace FileSystem{
-			FileSystem_F32_st::FileSystem_F32_st(size_t portNumber){
+			FileSystem_F32_cl::FileSystem_F32_cl(size_t portNumber){
 				//initialize the structures and buffer.
-				BIOS_Parameter_Block=new BIOS_Parameter_Block_st;
-				F32_Extended_Boot_Record=new F32_Extended_Boot_Record_st;
-				FSInfo=new FSInfo_st;
+				BootSector=new FAT32_BootSector_st;
 				
 				size_t FileSystemBufferAddress=0;
-				for(size_t i=0;i<3;i++){BIOS_Parameter_Block->The_first_three_bytes[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-				for(size_t i=0;i<8;i++){BIOS_Parameter_Block->OEM_identifier[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-				for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_Bytes_per_sector[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<1;i++){BIOS_Parameter_Block->Number_of_sectors_per_cluster[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_reserved_sectors[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<1;i++){BIOS_Parameter_Block->Number_of_File_Allocation_Tables[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_root_directory_entries[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Total_sectors[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<1;i++){BIOS_Parameter_Block->Media_descriptor_type[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_sectors_per_FAT[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_sectors_per_track[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_heads[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<4;i++){BIOS_Parameter_Block->Number_of_hidden_sectors[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<4;i++){BIOS_Parameter_Block->Large_sector_count[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+				for(size_t i=0;i<3;i++){BootSector->The_first_three_bytes[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+				for(size_t i=0;i<8;i++){BootSector->OEM_identifier[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+				for(size_t i=0;i<2;i++){BootSector->Number_of_Bytes_per_sector[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<1;i++){BootSector->Number_of_sectors_per_cluster[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Number_of_reserved_sectors[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<1;i++){BootSector->Number_of_File_Allocation_Tables[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Number_of_root_directory_entries[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Total_sectors[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<1;i++){BootSector->Media_descriptor_type[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Number_of_sectors_per_FAT[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Number_of_sectors_per_track[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Number_of_heads[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<4;i++){BootSector->Number_of_hidden_sectors[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<4;i++){BootSector->Large_sector_count[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+				for(size_t i=0;i<4;i++){BootSector->Sectors_per_FAT[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Flags[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->FAT_version_number[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<4;i++){BootSector->Cluster_number_of_the_root_directory[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Sector_number_of_the_FSinfo_structure[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Sector_number_of_the_backup_boot_sector[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<12;i++){BootSector->Reserved_FormattedZero[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<1;i++){BootSector->Drive_number[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<1;i++){BootSector->Flags_reserved[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<1;i++){BootSector->Signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<4;i++){BootSector->Volume_ID[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<11;i++){BootSector->Volume_label_string[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+    	        for(size_t i=0;i<8;i++){BootSector->System_identifier_string[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<420;i++){BootSector->Boot_code[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BootSector->Bootable_partition_signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 				
-				for(size_t i=0;i<4;i++){F32_Extended_Boot_Record->Sectors_per_FAT[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){F32_Extended_Boot_Record->Flags[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){F32_Extended_Boot_Record->FAT_version_number[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<4;i++){F32_Extended_Boot_Record->Cluster_number_of_the_root_directory[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){F32_Extended_Boot_Record->Sector_number_of_the_FSinfo_structure[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){F32_Extended_Boot_Record->Sector_number_of_the_backup_boot_sector[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<12;i++){F32_Extended_Boot_Record->Reserved_FormattedZero[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<1;i++){F32_Extended_Boot_Record->Drive_number[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<1;i++){F32_Extended_Boot_Record->Flags_reserved[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<1;i++){F32_Extended_Boot_Record->Signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<4;i++){F32_Extended_Boot_Record->Volume_ID[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<11;i++){F32_Extended_Boot_Record->Volume_label_string[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-    	        for(size_t i=0;i<8;i++){F32_Extended_Boot_Record->System_identifier_string[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<420;i++){F32_Extended_Boot_Record->Boot_code[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){F32_Extended_Boot_Record->Bootable_partition_signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 				
-				FileSystemBufferAddress=(((uint16_t)*F32_Extended_Boot_Record->Sector_number_of_the_FSinfo_structure)*512);
-
-				for(size_t i=0;i<4;i++){FSInfo->Lead_signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<480;i++){FSInfo->Reserved1[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<4;i++){FSInfo->last_known_free_cluster_count[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<4;i++){FSInfo->start_looking_for_available_clusters[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<12;i++){FSInfo->Reserved2[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<4;i++){FSInfo->Trail_signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-
-				//I have no idea but this is my best guess...
-					if(((uint16_t)*BIOS_Parameter_Block->Total_sectors) == 0){
-						Dist.total_sectors=((uint32_t)*BIOS_Parameter_Block->Large_sector_count);
-					}else{
-						Dist.total_sectors=((uint16_t)*BIOS_Parameter_Block->Total_sectors);
-					}
-					Dist.fat_size = ((uint32_t)*F32_Extended_Boot_Record->Sectors_per_FAT);
-					Dist.root_dir_sectors = 0;//<- fat32 = 0 according to the wiki.
-					Dist.first_data_sector = ((uint16_t)*BIOS_Parameter_Block->Number_of_reserved_sectors) + (((uint8_t)*BIOS_Parameter_Block->Number_of_File_Allocation_Tables) * Dist.fat_size) + Dist.root_dir_sectors;
-					Dist.first_fat_sector = ((uint16_t)*BIOS_Parameter_Block->Number_of_reserved_sectors);
-					Dist.data_sectors = ((uint16_t)*BIOS_Parameter_Block->Total_sectors) - (((uint16_t)*BIOS_Parameter_Block->Number_of_reserved_sectors) + (((uint8_t)*BIOS_Parameter_Block->Number_of_File_Allocation_Tables) * Dist.fat_size) + Dist.root_dir_sectors);
-					Dist.total_clusters = Dist.data_sectors / ((uint8_t)*BIOS_Parameter_Block->Number_of_sectors_per_cluster);
-					Dist.root_cluster = ((uint32_t)*F32_Extended_Boot_Record->Cluster_number_of_the_root_directory);
 			}
-			FileSystem_F32_st::~FileSystem_F32_st(){
-				delete[] BIOS_Parameter_Block;
-				delete[] F32_Extended_Boot_Record;
-				delete[] FSInfo;
+			FileSystem_F32_cl::~FileSystem_F32_cl(){
+				delete[] BootSector;
 			}
 
 		};

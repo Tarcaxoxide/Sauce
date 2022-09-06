@@ -197,7 +197,7 @@ namespace Sauce{
                         }
                     }//"ahci"
                     else if((*ArgBuffer[1]) == (char*)"filesystem"){
-                        Sauce::Storage::FileSystem::FileSystem_F32_st TestFileSystem(0);
+                        Sauce::Storage::FileSystem::FileSystem_F32_cl TestFileSystem(0);
                     }
                 }//"test"
                 else if((*ArgBuffer[0]) == (char*)"shutdown"){
