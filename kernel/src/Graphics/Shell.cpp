@@ -5,7 +5,6 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global/Global.hpp>
 #include<Sauce/Utility/NeuralNetwork.hpp>
-#include<Sauce/Storage/FileSystem/FAT.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -197,7 +196,7 @@ namespace Sauce{
                         }
                     }//"ahci"
                     else if((*ArgBuffer[1]) == (char*)"filesystem"){
-                        Sauce::Storage::FileSystem::FAT32Driver_cl TestFAT32(0);
+                        //
                     }//"filesystem"
                 }//"test"
                 else if((*ArgBuffer[0]) == (char*)"shutdown"){

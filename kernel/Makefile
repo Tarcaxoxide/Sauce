@@ -27,7 +27,7 @@ DIRS = $(wildcard $(SRCDIR)/*)
 
 $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=93750
-	mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
+	mkfs.vfat $(BUILDDIR)/$(OSNAME).img
 	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
 	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
