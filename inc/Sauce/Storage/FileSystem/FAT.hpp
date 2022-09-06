@@ -14,8 +14,8 @@ namespace Sauce{
 	            uint8_t Number_of_reserved_sectors[2];
 	            uint8_t Number_of_File_Allocation_Tables[1];
 	            uint8_t Number_of_root_directory_entries[2];
-	            uint8_t Total_sectors_in_the_logical_volume[2];
-	            uint8_t media_descriptor_type[1];
+	            uint8_t Total_sectors[2];
+	            uint8_t Media_descriptor_type[1];
 	            uint8_t Number_of_sectors_per_FAT[2];
 	            uint8_t Number_of_sectors_per_track[2];
 	            uint8_t Number_of_heads[2];
@@ -23,7 +23,7 @@ namespace Sauce{
 	            uint8_t Large_sector_count[4];
 	        }__attribute__((packed));
 	        struct F32_Extended_Boot_Record_st{
-	            uint8_t Sectors_per_FAT[4];
+	            uint8_t Sectors_per_FAT[4]; // the size of the fat in sectors
 	            uint8_t Flags[2];
 	            uint8_t FAT_version_number[2];
 	            uint8_t Cluster_number_of_the_root_directory[4];
@@ -51,6 +51,16 @@ namespace Sauce{
 				BIOS_Parameter_Block_st* BIOS_Parameter_Block=nullptr;
 				F32_Extended_Boot_Record_st* F32_Extended_Boot_Record=nullptr;
 				FSInfo_st* FSInfo=nullptr;
+				struct Dist_st{
+					size_t total_sectors;
+					size_t fat_size;
+					size_t root_dir_sectors;
+					size_t first_data_sector;
+					size_t first_fat_sector;
+					size_t data_sectors;
+					size_t total_clusters;
+					size_t root_cluster;
+				}Dist;
 				FileSystem_F32_st(size_t portNumber);
 				~FileSystem_F32_st();
 			};

@@ -22,8 +22,8 @@ namespace Sauce{
 	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_reserved_sectors[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<1;i++){BIOS_Parameter_Block->Number_of_File_Allocation_Tables[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_root_directory_entries[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Total_sectors_in_the_logical_volume[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
-	            for(size_t i=0;i<1;i++){BIOS_Parameter_Block->media_descriptor_type[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Total_sectors[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+	            for(size_t i=0;i<1;i++){BIOS_Parameter_Block->Media_descriptor_type[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_sectors_per_FAT[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_sectors_per_track[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<2;i++){BIOS_Parameter_Block->Number_of_heads[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
@@ -47,19 +47,34 @@ namespace Sauce{
 	            for(size_t i=0;i<2;i++){F32_Extended_Boot_Record->Bootable_partition_signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 				
 				FileSystemBufferAddress=(((uint16_t)*F32_Extended_Boot_Record->Sector_number_of_the_FSinfo_structure)*512);
-				
+
 				for(size_t i=0;i<4;i++){FSInfo->Lead_signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<480;i++){FSInfo->Reserved1[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<4;i++){FSInfo->last_known_free_cluster_count[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<4;i++){FSInfo->start_looking_for_available_clusters[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<12;i++){FSInfo->Reserved2[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
 	            for(size_t i=0;i<4;i++){FSInfo->Trail_signature[i]=Sauce::Global::AHCIDriver->Read(portNumber,FileSystemBufferAddress++);}
+
+				//I have no idea but this is my best guess...
+					if(((uint16_t)*BIOS_Parameter_Block->Total_sectors) == 0){
+						Dist.total_sectors=((uint32_t)*BIOS_Parameter_Block->Large_sector_count);
+					}else{
+						Dist.total_sectors=((uint16_t)*BIOS_Parameter_Block->Total_sectors);
+					}
+					Dist.fat_size = ((uint32_t)*F32_Extended_Boot_Record->Sectors_per_FAT);
+					Dist.root_dir_sectors = 0;//<- fat32 = 0 according to the wiki.
+					Dist.first_data_sector = ((uint16_t)*BIOS_Parameter_Block->Number_of_reserved_sectors) + (((uint8_t)*BIOS_Parameter_Block->Number_of_File_Allocation_Tables) * Dist.fat_size) + Dist.root_dir_sectors;
+					Dist.first_fat_sector = ((uint16_t)*BIOS_Parameter_Block->Number_of_reserved_sectors);
+					Dist.data_sectors = ((uint16_t)*BIOS_Parameter_Block->Total_sectors) - (((uint16_t)*BIOS_Parameter_Block->Number_of_reserved_sectors) + (((uint8_t)*BIOS_Parameter_Block->Number_of_File_Allocation_Tables) * Dist.fat_size) + Dist.root_dir_sectors);
+					Dist.total_clusters = Dist.data_sectors / ((uint8_t)*BIOS_Parameter_Block->Number_of_sectors_per_cluster);
+					Dist.root_cluster = ((uint32_t)*F32_Extended_Boot_Record->Cluster_number_of_the_root_directory);
 			}
 			FileSystem_F32_st::~FileSystem_F32_st(){
 				delete[] BIOS_Parameter_Block;
 				delete[] F32_Extended_Boot_Record;
 				delete[] FSInfo;
 			}
+
 		};
 	};
 };
