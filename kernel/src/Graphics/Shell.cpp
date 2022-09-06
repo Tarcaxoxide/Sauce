@@ -197,8 +197,8 @@ namespace Sauce{
                         }
                     }//"ahci"
                     else if((*ArgBuffer[1]) == (char*)"filesystem"){
-                        //test the file system.
-                    }
+                        Sauce::Storage::FileSystem::FAT32Driver_cl TestFAT32(0);
+                    }//"filesystem"
                 }//"test"
                 else if((*ArgBuffer[0]) == (char*)"shutdown"){
                     if(ArgBuffer.Size() < 2){

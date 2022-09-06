@@ -7,6 +7,6 @@
 namespace Sauce{
 	namespace Utility{
         size_t strlen(char* str);
-        void split(char* path, char delimiter,Sauce::Memory::List_cl<const char*> &result);
+        Sauce::Memory::List_cl<char*> split(char* path, char delimiter);
     };
 };

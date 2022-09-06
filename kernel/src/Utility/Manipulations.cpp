@@ -8,17 +8,20 @@ namespace Sauce{
             while(*(strPtr++) != '\0'){size++;}
             return size;
         }
-        void split(char* path, char delimiter,Sauce::Memory::List_cl<const char*> &result){
+        Sauce::Memory::List_cl<char*> split(char* path, char delimiter){
             Sauce::Memory::List_cl<char> tmpString;
+            Sauce::Memory::List_cl<char*> Result;
+
             size_t strlength=strlen(path);
             for(size_t i=0;i<strlength;i++){
                 if(path[i] != delimiter){
                     tmpString.AddLast(path[i]);
                 }else{
-                    result.AddLast((const char*)tmpString.Raw());
+                    Result.AddLast((char*)tmpString.Raw());
                     tmpString.Clear();
                 }
             }
+            return Result;
         }
     };
 };
