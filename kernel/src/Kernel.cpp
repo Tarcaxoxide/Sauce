@@ -73,7 +73,7 @@ namespace Sauce{
         Sauce::Global::Terminal->SetColor({0x11,0x11,0x11,0x00},{0x11,0x11,0x11,0x00});
         Sauce::Global::Terminal->setID("Terminator");
         Sauce::Global::Terminal->Clear();
-        Sauce::Global::Windows.AddLast(new Sauce::Graphics::Window_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0},{DFBL->FrameBuffer->PixelsPerScanLine/4,DFBL->FrameBuffer->Height/4,0}));
+        Sauce::Global::Windows.AddLast(new Sauce::Graphics::Window_cl({DFBL->FrameBuffer->PixelsPerScanLine-4,DFBL->FrameBuffer->Height-4,0},{2,2,0}));
         Sauce::Global::Windows.Last()->setID("Shell");
         Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::KERNEL);
     }
