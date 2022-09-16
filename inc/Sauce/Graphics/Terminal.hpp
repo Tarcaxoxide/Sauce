@@ -15,7 +15,7 @@ namespace Sauce{
 				Sauce::Point64_st MyOffset{0,0,0};
             public:
                 char ID[64]{'\0'};
-                Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset={0,0,0});
+                Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset={0,0,0},GOP_PixelStructure* PixelBuffer=nullptr);
                 bool SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor);
                 bool SetColor(GOP_PixelStructure ForegroundColor);
                 void ReverseColor();
@@ -29,6 +29,8 @@ namespace Sauce{
                 bool SetCursor(int64_t X,int64_t Y,int64_t Z=0);
                 bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Sauce::Point64_st Offset={0,0,0});
                 bool CopyFrom(Terminal_cl* OtherTerminal);
+                bool SwapTo(GOP_PixelStructure* OtherPixelBuffer);
+                bool SwapFrom(Terminal_cl* OtherTerminal);
 				Sauce::uPoint64_st Size();
                 bool Move(Sauce::Point64_st Offset);
                 void setID(const char* nID);

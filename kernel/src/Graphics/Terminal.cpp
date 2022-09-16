@@ -3,14 +3,17 @@
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global/Global.hpp>
+#include<Sauce/Utility/Manipulations.hpp>
 namespace Sauce{
     namespace Graphics{
         //GOP_PixelStructure Terminal_cl::ForegroundColor{0xFF,0xFF,0xFF,0xFF};
         //GOP_PixelStructure Terminal_cl::BackgroundColor{0x00,0x00,0x00,0xFF};
         
-        Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset){
+        Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset,GOP_PixelStructure* PixelBuffer){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::Terminal_cl",Sauce::IO::Debug::TERMINAL);
-            this->PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];
+            
+            if(PixelBuffer == nullptr){this->PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];}else{this->PixelBuffer=PixelBuffer;}
+            
             this->PixelBufferTotalSize=PixelBufferTotalSize;
             this->PixelsPerLine=PixelsPerLine;
             PixelsBufferHeight=(PixelBufferTotalSize/PixelsPerLine);
@@ -125,6 +128,18 @@ namespace Sauce{
         bool Terminal_cl::CopyFrom(Terminal_cl* OtherTerminal){
             Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::CopyFrom",Sauce::IO::Debug::TERMINAL);
             bool Ret = OtherTerminal->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,MyOffset);
+            Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
+            return Ret;
+        }
+        bool Terminal_cl::SwapTo(GOP_PixelStructure* OtherPixelBuffer){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::SwapTo",Sauce::IO::Debug::TERMINAL);
+            Sauce::Utility::swap_address((void**)&PixelBuffer,(void**)&OtherPixelBuffer);
+            Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL);
+            return true;
+        }
+        bool Terminal_cl::SwapFrom(Terminal_cl* OtherTerminal){
+            Sauce::IO::Debug::Print_Spammy_Call("Terminal_cl::SwapFrom",Sauce::IO::Debug::TERMINAL);
+            bool Ret = OtherTerminal->SwapTo(PixelBuffer);
             Ret? Sauce::IO::Debug::Print_Spammy_Return("<True>",Sauce::IO::Debug::TERMINAL) : Sauce::IO::Debug::Print_Spammy_Return("<False>",Sauce::IO::Debug::TERMINAL);
             return Ret;
         }

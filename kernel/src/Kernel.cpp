@@ -69,6 +69,7 @@ namespace Sauce{
     void Kernel_cl::Prep_Windows(){
         Sauce::IO::Debug::Print_Call("Kernel_cl::Prep_Windows",Sauce::IO::Debug::KERNEL);
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Global::Screen=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
         Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
         Sauce::Global::Terminal->SetColor({0x11,0x11,0x11,0x00},{0x11,0x11,0x11,0x00});
         Sauce::Global::Terminal->setID("Terminator");
@@ -248,7 +249,8 @@ namespace Sauce{
             Sauce::Global::Terminal->CopyFrom(Sauce::Global::Windows[i]);
         }
         Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
-        Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        //Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+        Sauce::Global::Screen->SwapFrom(Sauce::Global::Terminal);
         Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::AcceptingInterrupts(size_t TimeSpan){

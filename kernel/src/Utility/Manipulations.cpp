@@ -23,5 +23,10 @@ namespace Sauce{
             }
             return Result;
         }
+        void swap_address(void** AddressA,void** AddressB){
+            void* tmpPtr=(*AddressA);
+            (*AddressA)=(*AddressB);
+            (*AddressB)=tmpPtr;
+        }
     };
 };
