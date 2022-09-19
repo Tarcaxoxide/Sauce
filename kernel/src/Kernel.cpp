@@ -249,7 +249,6 @@ namespace Sauce{
             Sauce::Global::Terminal->CopyFrom(Sauce::Global::Windows[i]);
         }
         Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
-        //Sauce::Global::Terminal->CopyTo(DFBL->FrameBuffer->BaseAddress,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Screen->SwapFrom(Sauce::Global::Terminal);
         Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::KERNEL);
     }
