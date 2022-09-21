@@ -5,22 +5,31 @@
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Math/Functions.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
     namespace Interrupts{
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Print_Call("PageFault_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+            
+            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString( (uint64_t)(*((uint64_t*)frame)) ),Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+
             Sauce::IO::Panic("Page Fault Detected!");
             Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
         }
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Print_Call("DoubleFault_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+
+            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString( (uint64_t)(*((uint64_t*)frame)) ),Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+            
             Sauce::IO::Panic("Double Fault Detected!");
             Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
         }
         __attribute__((interrupt)) void GeneralProtectionFault_handler(interrupt_frame* frame){
-
             Sauce::IO::Debug::Print_Call("GeneralProtectionFault_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+            
+            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString( (uint64_t)(*((uint64_t*)frame)) ),Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+            
             Sauce::IO::Panic("General Protection Fault Detected!");
             Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
         }

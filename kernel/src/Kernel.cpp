@@ -62,6 +62,7 @@ namespace Sauce{
         oMouse.RightButton=false;
         oMouse.LeftButton=false;
         Prep_ACPI();
+
         MainLoop();
         Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::KERNEL);
     }
