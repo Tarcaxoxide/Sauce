@@ -8,25 +8,23 @@ namespace Sauce{
         template<typename TT,size_t StageSize=16>
         class List_cl{
             TT* Array=nullptr;
-            size_t Array_Size;
-            size_t Array_Capacity;
+            size_t Array_Size{0};
+            size_t Array_Capacity{0};
+            size_t Shift_Value{0};
             public:
             //*structors
             List_cl(){
                 Array = new TT[StageSize];
                 Array_Capacity=StageSize;
-                Array_Size=0;
             }
             List_cl(TT* nValue){
                 Array = new TT[StageSize];
                 Array_Capacity=StageSize;
-                Array_Size=0;
                 AddLast(nValue);
             }
             List_cl(TT nValue){
                 Array = new TT[StageSize];
                 Array_Capacity=StageSize;
-                Array_Size=0;
                 AddLast(nValue);
             }
             ~List_cl(){
@@ -128,18 +126,22 @@ namespace Sauce{
                 }
                 return true;
             }
+            TT& Get(size_t index){
+                size_t target=(Shift_Value+index)%(Array_Size+1);
+                return Array[target];
+            }
             TT& First(){
-                return Array[0];
+                return Get(0);
             }
             TT& Last(){
-                return Array[Array_Size-1];
+                return Get(Array_Size);
             }
             TT& operator[](size_t TargetIndex){
-                return Array[TargetIndex];
+                return Get(TargetIndex);
             }
             bool operator==(TT* OtherValue){
                 for(size_t i=0;i<Array_Size;i++){
-                    if(Array[i] != Array[i])return false;
+                    if(Get(i) != OtherValue[i])return false;
                 }
                 return true;
             }
@@ -160,7 +162,7 @@ namespace Sauce{
             }
             void ForEach(void (*CallBack)(TT &Item)){ //void Function(TT &item){/*Do something with item*/}
                 for(size_t i=0;i<Array_Size;i++){
-                    (*CallBack)(Array[i]);
+                    (*CallBack)(Get(i));
                 }
             }
         };

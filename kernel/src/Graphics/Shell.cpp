@@ -165,57 +165,12 @@ namespace Sauce{
                 }
             }
             ShellClear();
-            /*actually run the command*/
-                if((*ArgBuffer[0]) == (char*)"test"){
-                    if(ArgBuffer.Size() < 2){
-                        PutString(L"\n\rno test specified.\n\r",false);
-                        return;
-                    }
-                    if((*ArgBuffer[1]) == (char*)"text"){
-                        PutString(L"\n\roK!\n\r",false);
-                    }//"text"
-                    else if((*ArgBuffer[1]) == (char*)"graphics"){
-                        Sauce::Memory::List_cl<Sauce::Point64_st> test;
-                        size_t numberOfLines=Sauce::Math::random_get(30);
-                        size_t maxRandomNumber=Sauce::Math::minimum(PixelsPerLine,PixelsBufferHeight);
-                        for(size_t i=0;i<numberOfLines;i++){
-                            Sauce::Math::make_line({(int64_t)Sauce::Math::random_get(maxRandomNumber),(int64_t)Sauce::Math::random_get(maxRandomNumber),0},test);
-                        }
-                        for(size_t i=0;i<test.Size();i++){
-                            PutPixel(test[i],{0xA5,0x00,0xA5,0xFF});
-                        }
-                    }//"graphics"
-                    else if((*ArgBuffer[1]) == (char*)"neural"){
-                        Sauce::Utility::Neural::Network_st TestNetwork(5,20,5,5);
-                        TestNetwork.EntryNeurons.First()->Poke();
-                    }//"neural"
-                    else if((*ArgBuffer[1]) == (char*)"ahci"){
-                        for(size_t i=0;i<512;i++){
-                            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(Sauce::Global::AHCIDriver->Read(0,i)),Sauce::IO::Debug::SHELL);
-                            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString(i),Sauce::IO::Debug::SHELL);
-                        }
-                    }//"ahci"
-                    else if((*ArgBuffer[1]) == (char*)"filesystem"){
-                        //
-                    }//"filesystem"
-                }//"test"
-                else if((*ArgBuffer[0]) == (char*)"shutdown"){
-                    if(ArgBuffer.Size() < 2){
-                        PutString(L"\n\rNo System Specified, Supported Systems (qemu,bochs,virtualbox)\n\r",false);
-                        return;
-                    }
-                    if((*ArgBuffer[1]) == (char*)"qemu"){Sauce::IO::outw(0x604, 0x2000);}
-                    else if((*ArgBuffer[1]) == (char*)"bochs"){Sauce::IO::outw(0xB004, 0x2000);}
-                    else if((*ArgBuffer[1]) == (char*)"virtualbox"){Sauce::IO::outw(0x4004, 0x3400);}
-                    else{
-                        PutString(L"\n\rUnsupported System!, Supported Systems (qemu,bochs,virtualbox)\n\r",false);
-                    }
-                }
-                else{
-                    PutString(L"\n\rUnknown Command:'",false);
-                    PutString(ArgBuffer[0]->Raw(),false);
-                    PutString(L"'\n\r",false);
-                }
+            for(size_t ii=0;ii<ArgBuffer.Size();ii++){
+                PutString(Sauce::Utility::ToString(ii),false);
+                PutString(L":'",false);
+                PutString(ArgBuffer[ii]->Raw(),false);
+                PutString(L"'\n\r",false);
+            }
             Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::SHELL);
         }
         void Shell_cl::ShellClear(){
