@@ -1,7 +1,7 @@
 #pragma once
 
 #include<Sauce/Types.hpp>
-#include<Sauce/Common.h>
+#include<Sauce/Common.hpp>
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/Interrupts/IDT.hpp>

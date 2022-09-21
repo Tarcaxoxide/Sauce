@@ -1,7 +1,6 @@
 #include<Sauce/Kernel.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
-#include<Sauce/Memory/efiMemory.h>
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/Memory/Bitmap.hpp>
 #include<Sauce/Memory/PageFrameAllocator.hpp>
@@ -191,7 +190,6 @@ namespace Sauce{
             CurrentMouseCursorPosition = Sauce::Point64_st{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
             Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
         }
-        
         if(xMouse->CenterButton && xMouse->CenterButton != oMouse.CenterButton){
             //Press
             oMouse.CenterButton=xMouse->CenterButton;
