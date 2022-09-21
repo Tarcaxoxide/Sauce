@@ -193,48 +193,57 @@ namespace Sauce{
         }
         
         if(xMouse->CenterButton && xMouse->CenterButton != oMouse.CenterButton){
+            //Press
             oMouse.CenterButton=xMouse->CenterButton;
             *oMouse.Position=*xMouse->Position;
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
             }
         }else if(xMouse->CenterButton){
+            //Drag
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
             }
         }else if(xMouse->CenterButton != oMouse.CenterButton){
+            //Release
             oMouse.CenterButton=xMouse->CenterButton;
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
             }
         }
         if(xMouse->RightButton && xMouse->RightButton != oMouse.RightButton){
+            //Press
             oMouse.RightButton=xMouse->RightButton;
             *oMouse.Position=*xMouse->Position;
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
             }
         }else if(xMouse->RightButton){
+            //Drag
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
             }
         }else if(xMouse->RightButton != oMouse.RightButton){
+            //Release
             oMouse.RightButton=xMouse->RightButton;
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
             }
         }
         if(xMouse->LeftButton && xMouse->LeftButton != oMouse.LeftButton){
+            //Press
             oMouse.LeftButton=xMouse->LeftButton;
             *oMouse.Position=*xMouse->Position;
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
             }
         }else if(xMouse->LeftButton){
+            //Drag
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
             }
         }else if(xMouse->LeftButton != oMouse.LeftButton){
+            //Release
             oMouse.LeftButton=xMouse->LeftButton;
             for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
                 Sauce::Global::Windows[i]->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);

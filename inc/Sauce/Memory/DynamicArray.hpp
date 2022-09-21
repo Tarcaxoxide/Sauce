@@ -5,33 +5,43 @@
 
 namespace Sauce{
     namespace Memory{
-        template<typename T>
-        class DynamicArray_cl{
-            T* Array=nullptr;
+        template<typename TT,size_t StageSize=16>
+        class List_cl{
+            TT* Array=nullptr;
             size_t Array_Size;
             size_t Array_Capacity;
-            size_t StageSize;
             public:
-            bool AddLast(T nValue){
-                if(Array_Size+1 > Array_Capacity){
-                    Array_Capacity+=StageSize;
-                    T* nArray = new T[Array_Capacity];
-                    Array_Size=0;
-                    for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
-                        nArray[Array_Size]=Array[Array_Size];
-                    }
-                    nArray[Array_Size++]=nValue; 
-                    delete[] Array;
-                    Array = nArray;
-                }else{
-                    Array[Array_Size++]=nValue;
-                }
-                return true;
+            //*structors
+            List_cl(){
+                Array = new TT[StageSize];
+                Array_Capacity=StageSize;
+                Array_Size=0;
             }
-            bool AddFirst(T nValue){
+            List_cl(TT* nValue){
+                Array = new TT[StageSize];
+                Array_Capacity=StageSize;
+                Array_Size=0;
+                AddLast(nValue);
+            }
+            List_cl(TT nValue){
+                Array = new TT[StageSize];
+                Array_Capacity=StageSize;
+                Array_Size=0;
+                AddLast(nValue);
+            }
+            ~List_cl(){
+                Clear();
+                delete[] Array;
+            }
+            TT* operator=(TT* nValue){
+                Clear();
+                AddLast(nValue);
+                return nValue;
+            }
+            bool AddFirst(TT nValue){
                 if(Array_Size+1 > Array_Capacity){
                     Array_Capacity+=StageSize;
-                    T* nArray = new T[Array_Capacity];
+                    TT* nArray = new TT[Array_Capacity];
                     Array_Size=0;
                     nArray[Array_Size++]=nValue;
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
@@ -49,35 +59,35 @@ namespace Sauce{
                 }
                 return true;
             }
-            bool AddLast(T* nValue){
-                T* ValuePtr = nValue;
-                while(*ValuePtr){
-                    if(!AddLast(*ValuePtr))return false;
-                    ValuePtr++;
-                }
-                return true;
-            }
-            bool AddFirst(T* nValue){
-                T* ValuePtr = nValue;
+            bool AddFirst(TT* nValue){
+                TT* ValuePtr = nValue;
                 while(*ValuePtr){
                     if(!AddFirst(*ValuePtr))return false;
                     ValuePtr++;
                 }
                 return true;
             }
-            bool RemoveLast(){
-                if(Array_Size == 0)return false;
-                if(Array_Size-1 < Array_Capacity-StageSize){
-                    Array_Capacity-=StageSize;
-                    T* nArray = new T[Array_Capacity];
+            bool AddLast(TT nValue){
+                if(Array_Size+1 > Array_Capacity){
+                    Array_Capacity+=StageSize;
+                    TT* nArray = new TT[Array_Capacity];
                     Array_Size=0;
-                    for(;Array_Size<Array_Capacity;Array_Size++){
-                        nArray[Array_Size] = Array[Array_Size];
+                    for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
+                        nArray[Array_Size]=Array[Array_Size];
                     }
+                    nArray[Array_Size++]=nValue; 
                     delete[] Array;
                     Array = nArray;
                 }else{
-                    Array_Size--;
+                    Array[Array_Size++]=nValue;
+                }
+                return true;
+            }
+            bool AddLast(TT* nValue){
+                TT* ValuePtr = nValue;
+                while(*ValuePtr){
+                    if(!AddLast(*ValuePtr))return false;
+                    ValuePtr++;
                 }
                 return true;
             }
@@ -85,7 +95,7 @@ namespace Sauce{
                 if(Array_Size == 0)return false;
                 if(Array_Size-1 > Array_Capacity){
                     Array_Capacity-=StageSize;
-                    T* nArray = new T[Array_Capacity];
+                    TT* nArray = new TT[Array_Capacity];
                     Array_Size=1;
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
                         nArray[Array_Size-1]=Array[Array_Size];// we shuffle the array forward to make room for the new element.
@@ -102,104 +112,55 @@ namespace Sauce{
                 }
                 return true;
             }
-            T& Last(){
-                return Array[Array_Size-1];
-            }
-            T& First(){
-                return Array[0];
-            }
-            T& operator[](size_t TargetIndex){
-                return Array[TargetIndex];
-            }
-            T* operator*(){
-                if(Last() != (T)0)AddLast((T)0);
-                return Array;
-            }
-            size_t Size(){
-                return Array_Size;
-            }
-            bool operator=(T* nValue){
-                Clear();
-                T* ValuePtr = nValue;
-                while(*ValuePtr){
-                    AddLast(*ValuePtr);
-                    ValuePtr++;
+            bool RemoveLast(){
+                if(Array_Size == 0)return false;
+                if(Array_Size-1 < Array_Capacity-StageSize){
+                    Array_Capacity-=StageSize;
+                    TT* nArray = new TT[Array_Capacity];
+                    Array_Size=0;
+                    for(;Array_Size<Array_Capacity;Array_Size++){
+                        nArray[Array_Size] = Array[Array_Size];
+                    }
+                    delete[] Array;
+                    Array = nArray;
+                }else{
+                    Array_Size--;
                 }
                 return true;
-            }
-            
-            bool Clear(){
-                while(RemoveLast());// remove until we can't anymore
-                return true;
-            }
-            DynamicArray_cl<T>(size_t StageSize=16){
-                this->StageSize=StageSize; // stage value determines by how much we increase or decrease the actual arrays size in memory.
-                                           // you should probably set this to fit the application but we have a default of 8 just to be sure.
-                Array = new T[StageSize];
-                Array_Capacity=StageSize;
-                Array_Size=0;
-            }
-            DynamicArray_cl<T>(T nValue,size_t StageSize=16){
-                Array = new T[StageSize];
-                Array_Capacity=StageSize;
-                Array_Size=0;
-                AddLast(nValue);
-            }
-            ~DynamicArray_cl(){
-                Clear();
-                delete[] Array; // do the final delete;
-            }
-        };
-        template<typename TT>
-        class List_cl{
-            DynamicArray_cl<TT> Contents;
-            public:
-            List_cl(){}
-            List_cl(TT* nValue){(*this)=nValue;}
-            List_cl(const TT* nValue){(*this)=(TT*)nValue;}
-            TT* operator=(TT* nValue){
-                Contents=nValue;
-                return nValue;
-            }
-            bool AddFirst(TT nValue){
-                return Contents.AddFirst(nValue);
-            }
-            bool AddLast(TT nValue){
-                return Contents.AddLast(nValue);
-            }
-            bool RemoveFirst(){
-                return Contents.RemoveFirst();
-            }
-            bool RemoveLast(){
-                return Contents.RemoveLast();
             }
             TT& First(){
-                return Contents.First();
+                return Array[0];
             }
             TT& Last(){
-                return Contents.Last();
+                return Array[Array_Size-1];
             }
             TT& operator[](size_t TargetIndex){
-                return Contents[TargetIndex];
+                return Array[TargetIndex];
             }
             bool operator==(TT* OtherValue){
-                for(size_t i=0;i<Contents.Size();i++){
-                    if(Contents[i] != OtherValue[i])return false;
+                for(size_t i=0;i<Array_Size;i++){
+                    if(Array[i] != Array[i])return false;
                 }
                 return true;
             }
-            TT* Raw(){ //<- does basically the same thing as c_str() but for any type (hence why i don't call it c_str() because it's not a string)
-                return *Contents;
+            TT* Raw(){
+                return Array;
+            }
+            size_t Count(){
+                return Array_Size;
+            }
+            size_t Capacity(){
+                return Array_Capacity;
             }
             size_t Size(){
-                return Contents.Size();
+                return Count();
             }
             void Clear(){
-                Contents.Clear();
+                while(RemoveLast());
             }
             void ForEach(void (*CallBack)(TT &Item)){ //void Function(TT &item){/*Do something with item*/}
-                for(size_t i=0;i<Contents.Size();i++){
-                    (*CallBack)(Contents[i]);
+                for(size_t i=0;i<Array_Size;i++){
+                    (*CallBack)(Array[i]);
                 }
             }
         };
