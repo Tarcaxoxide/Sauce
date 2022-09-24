@@ -7,12 +7,12 @@
 namespace Sauce{
     namespace Utility{
         namespace Neural{
-            void Neuron_st::Poke(){
-                Sauce::IO::Debug::Print_Call("Neuron_st::Poke",Sauce::IO::Debug::NEUROL);
-                Sauce::IO::Debug::Print_Detail(Sauce::Utility::ToString(Value),Sauce::IO::Debug::NEUROL);
-                if(Connections.Size())Connections[Sauce::Math::random_get(Connections.Size())]->Poke();
+            void Neuron_st::Poke(Sauce::IO::Debug::Debugger_st* pDebugger){
+                Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Neuron_st::Poke");
+                if(Connections.Size())Connections[Sauce::Math::random_get(&Debugger,Connections.Size())]->Poke(&Debugger);
             }
-            Network_st::Network_st(size_t EntryNeuronCount,size_t MeshNeuronCount,size_t MeshDensity,size_t ExitNeuronCount){
+            Network_st::Network_st(Sauce::IO::Debug::Debugger_st* pDebugger,size_t EntryNeuronCount,size_t MeshNeuronCount,size_t MeshDensity,size_t ExitNeuronCount){
+                Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Network_st::Network_st");
                 //populate the layers.
                 size_t debugId=0;
                 for(size_t i=0;i<EntryNeuronCount;i++){
@@ -41,7 +41,7 @@ namespace Sauce{
                 //create the mesh inside the mesh layer.
                 for(size_t Ai=0;Ai<MeshNeuronCount;Ai++){
                     for(size_t Bi=0;Bi<MeshDensity;Bi++){
-                        MeshNeurons[Ai]->Connections.AddLast(MeshNeurons[Sauce::Math::random_get(MeshNeuronCount)]);
+                        MeshNeurons[Ai]->Connections.AddLast(MeshNeurons[Sauce::Math::random_get(&Debugger,MeshNeuronCount)]);
                     }
                 }
             }

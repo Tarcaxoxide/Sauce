@@ -4,20 +4,18 @@
 
 namespace Sauce{
     namespace Interrupts{
-        void IDTDescriptorEntry::SetOffset(uint64_t offset){
-            Sauce::IO::Debug::Print_Call("IDTDescriptorEntry::SetOffset",Sauce::IO::Debug::INTERRUPT_DESCRIPTOR_TABLE);
+        void IDTDescriptorEntry::SetOffset(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t offset){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"IDTDescriptorEntry::SetOffset");
             offset0 = (uint16_t)(offset & 0x000000000000ffff);
             offset1 = (uint16_t)((offset & 0x00000000ffff0000) >> 16);
             offset2 = (uint32_t)((offset & 0xffffffff00000000) >> 32);
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPT_DESCRIPTOR_TABLE);
         }
-        uint64_t IDTDescriptorEntry::GetOffset(){
-            Sauce::IO::Debug::Print_Call("IDTDescriptorEntry::GetOffset",Sauce::IO::Debug::INTERRUPT_DESCRIPTOR_TABLE);
+        uint64_t IDTDescriptorEntry::GetOffset(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"IDTDescriptorEntry::GetOffset");
             uint64_t offset=0;
             offset |= (uint64_t)offset0;
             offset |= (uint64_t)offset1 << 16;
             offset |= (uint64_t)offset2 << 32;
-            Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString(offset),Sauce::IO::Debug::INTERRUPT_DESCRIPTOR_TABLE);
             return offset;
         }
     };

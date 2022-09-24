@@ -2,6 +2,7 @@
 
 #include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 #define PS2LeftButton 0b00000001
 #define PS2RightButton 0b00000010
@@ -13,13 +14,13 @@
 
 namespace Sauce{
     namespace IO{
-        void MouseWait();
-        void MouseWaitInput();
-        void MouseWrite(uint8_t value);
-        uint8_t MouseRead();
-        void HandlePS2Mouse(uint8_t data);
-        Sauce::Mouse_st* ProcessMousePacket();
-        void PS2MouseInitialize(Sauce::Point64_st InitMousePosition);
+        void MouseWait(Sauce::IO::Debug::Debugger_st* pDebugger);
+        void MouseWaitInput(Sauce::IO::Debug::Debugger_st* pDebugger);
+        void MouseWrite(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t value);
+        uint8_t MouseRead(Sauce::IO::Debug::Debugger_st* pDebugger);
+        void HandlePS2Mouse(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t data);
+        Sauce::Mouse_st* ProcessMousePacket(Sauce::IO::Debug::Debugger_st* pDebugger);
+        void PS2MouseInitialize(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st InitMousePosition);
         extern Sauce::Point64_st MousePosition;
     };
 };

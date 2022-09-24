@@ -1,6 +1,7 @@
 #pragma once
 
 #include<Sauce/Types.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -40,7 +41,7 @@ namespace Sauce{
                 uint32_t Reserved;
             }__attribute__((packed));
 
-            void* FindTable(SDTHeader* sdtHeader,char* signature);
+            void* FindTable(Sauce::IO::Debug::Debugger_st* pDebugger,SDTHeader* sdtHeader,char* signature);
         };
     };
 };

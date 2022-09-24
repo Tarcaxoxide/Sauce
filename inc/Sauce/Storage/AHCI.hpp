@@ -3,6 +3,7 @@
 #include<Sauce/Types.hpp>
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace Storage{
@@ -139,24 +140,24 @@ namespace Sauce{
             uint32_t SataStatus;
             uint8_t InterfacePowerManagement;
             uint8_t DeviceDetection;
-            void Configure();
-            void StartCMD();
-            void StopCMD();
-            bool Read(uint64_t sector,uint16_t sectorCount,void* buffer);
+            void Configure(Sauce::IO::Debug::Debugger_st* pDebugger);
+            void StartCMD(Sauce::IO::Debug::Debugger_st* pDebugger);
+            void StopCMD(Sauce::IO::Debug::Debugger_st* pDebugger);
+            bool Read(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t sector,uint16_t sectorCount,void* buffer);
         };
 
-        ParsedHBAPort_st CheckPortType(HBAPort_st* port);
+        ParsedHBAPort_st CheckPortType(Sauce::IO::Debug::Debugger_st* pDebugger,HBAPort_st* port);
 
         class AHCIDriver_cl{
             Sauce::IO::PCIDeviceHeader_st* pciBaseAddress;
             HBAMemory_st* ABAR;
             Sauce::Memory::List_cl<ParsedHBAPort_st> HBAPorts;
             public:
-                AHCIDriver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress);
+                AHCIDriver_cl(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::IO::PCIDeviceHeader_st* pciBaseAddress);
                 ~AHCIDriver_cl();
-                void ProbePorts();
-                void Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr);
-                uint8_t Read(size_t portNumber,size_t ByteToRead);
+                void ProbePorts(Sauce::IO::Debug::Debugger_st* pDebugger);
+                void Read(Sauce::IO::Debug::Debugger_st* pDebugger,size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr);
+                uint8_t Read(Sauce::IO::Debug::Debugger_st* pDebugger,size_t portNumber,size_t ByteToRead);
         };
     };
 };

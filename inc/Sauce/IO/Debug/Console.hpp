@@ -29,17 +29,16 @@ namespace Sauce{
                 End
             };
 
-            void Print_Call(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
-            void Print_Detail(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
-            void Print_Return(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
-
-            inline void Print_Call(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Call((char*)msg,FunctionSpecific,Done,false);}
-            inline void Print_Detail(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Detail((char*)msg,FunctionSpecific,Done,false);}
-            inline void Print_Return(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Return((char*)msg,FunctionSpecific,Done,false);}
-            
-            inline void Print_Spammy_Call(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Call((char*)msg,FunctionSpecific,Done,true);}
-            inline void Print_Spammy_Detail(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Detail((char*)msg,FunctionSpecific,Done,true);}
-            inline void Print_Spammy_Return(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Return((char*)msg,FunctionSpecific,Done,true);}
+            //void Print_Call(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
+            //void Print_Detail(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
+            //void Print_Return(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
+            //inline void Print_Call(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Call((char*)msg,FunctionSpecific,Done,false);}
+            //inline void Print_Detail(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Detail((char*)msg,FunctionSpecific,Done,false);}
+            //inline void Print_Return(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Return((char*)msg,FunctionSpecific,Done,false);}
+            //
+            //inline void Print_Spammy_Call(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Call((char*)msg,FunctionSpecific,Done,true);}
+            //inline void Print_Spammy_Detail(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Detail((char*)msg,FunctionSpecific,Done,true);}
+            //inline void Print_Spammy_Return(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Return((char*)msg,FunctionSpecific,Done,true);}
         };
     };
 };

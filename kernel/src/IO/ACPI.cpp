@@ -6,8 +6,8 @@
 namespace Sauce{
     namespace IO{
         namespace ACPI{
-            void* FindTable(SDTHeader* sdtHeader,char* signature){
-                Sauce::IO::Debug::Print_Call("FindTable",true);
+            void* FindTable(Sauce::IO::Debug::Debugger_st* pDebugger,SDTHeader* sdtHeader,char* signature){
+                Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"FindTable");
                 int entries = (sdtHeader->Length - sizeof(Sauce::IO::ACPI::SDTHeader)) / 8;
                 for(int t=0;t<entries;t++){
                     Sauce::IO::ACPI::SDTHeader* nSDTHeader = (Sauce::IO::ACPI::SDTHeader*)*(uint64_t*)((uint64_t)sdtHeader + sizeof(Sauce::IO::ACPI::SDTHeader) + (t * 8));
@@ -16,12 +16,10 @@ namespace Sauce{
                             break;
                         }
                         if(i == 3){
-                            Sauce::IO::Debug::Print_Return(Sauce::Utility::HexToString((uint64_t)nSDTHeader),true);
                             return nSDTHeader;
                         }
                     }
                 }
-                Sauce::IO::Debug::Print_Return("<NULL>",true);
                 return NULL;
             }
         };

@@ -10,63 +10,49 @@
 namespace Sauce{
     namespace Interrupts{
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame){
-            Sauce::IO::Debug::Print_Call("PageFault_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
-            
-            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString( (uint64_t)(*((uint64_t*)frame)) ),Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
-
-            Sauce::IO::Panic("Page Fault Detected!");
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+            Sauce::IO::Debug::Debugger_st Debugger("PageFault_handler");
+            Debugger.Print(Sauce::Utility::HexToString(&Debugger,(uint64_t)(*((uint64_t*)frame))));
+            Sauce::IO::Panic(&Debugger,"Page Fault Detected!");
         }
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame){
-            Sauce::IO::Debug::Print_Call("DoubleFault_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
-
-            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString( (uint64_t)(*((uint64_t*)frame)) ),Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
-            
-            Sauce::IO::Panic("Double Fault Detected!");
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+            Sauce::IO::Debug::Debugger_st Debugger("DoubleFault_handler");
+            Debugger.Print(Sauce::Utility::HexToString(&Debugger,(uint64_t)(*((uint64_t*)frame))));
+            Sauce::IO::Panic(&Debugger,"Double Fault Detected!");
         }
         __attribute__((interrupt)) void GeneralProtectionFault_handler(interrupt_frame* frame){
-            Sauce::IO::Debug::Print_Call("GeneralProtectionFault_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
-            
-            Sauce::IO::Debug::Print_Detail(Sauce::Utility::HexToString( (uint64_t)(*((uint64_t*)frame)) ),Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
-            
-            Sauce::IO::Panic("General Protection Fault Detected!");
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_FAULTS);
+            Sauce::IO::Debug::Debugger_st Debugger("GeneralProtectionFault_handler");
+            Debugger.Print(Sauce::Utility::HexToString(&Debugger,(uint64_t)(*((uint64_t*)frame))));
+            Sauce::IO::Panic(&Debugger,"General Protection Fault Detected!");
         }
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame){
-            Sauce::IO::Debug::Print_Call("KeyboardInterrupt_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_KEYBOARD);
+            Sauce::IO::Debug::Debugger_st Debugger("KeyboardInterrupt_handler");
             uint8_t input = Sauce::IO::inb(0x60);
-            Kernel_cl::Notify({InterruptTypeCode::ITC__Keyboard,input});
-            PIC1_Done();
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_KEYBOARD);
+            Kernel_cl::Notify(&Debugger,{InterruptTypeCode::ITC__Keyboard,input});
+            PIC1_Done(&Debugger);
         }
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame){
-            Sauce::IO::Debug::Print_Call("MouseInterrupt_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_MOUSE);
+            Sauce::IO::Debug::Debugger_st Debugger("MouseInterrupt_handler");
             uint8_t mouseData = Sauce::IO::inb(0x60);
-            Kernel_cl::Notify({InterruptTypeCode::ITC__Mouse,mouseData});
-            PIC2_Done();
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_MOUSE);
+            Kernel_cl::Notify(&Debugger,{InterruptTypeCode::ITC__Mouse,mouseData});
+            PIC2_Done(&Debugger);
         }
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame){
-            Sauce::IO::Debug::Print_Spammy_Call("PITInterrupt_handler",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT);
-            Sauce::Interrupts::PIT::Tick();
-            Kernel_cl::Notify({InterruptTypeCode::ITC__Time,0xFF});
-            PIC1_Done();
-            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_PIT);
+            Sauce::IO::Debug::Debugger_st Debugger("PITInterrupt_handler");
+            Sauce::Interrupts::PIT::Tick(&Debugger);
+            Kernel_cl::Notify(&Debugger,{InterruptTypeCode::ITC__Time,0xFF});
+            PIC1_Done(&Debugger);
         }
-        void PIC1_Done(){
-            Sauce::IO::Debug::Print_Spammy_Call("PIC1_Done",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
+        void PIC1_Done(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PIC1_Done");
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);
-            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
         }
-        void PIC2_Done(){
-            Sauce::IO::Debug::Print_Spammy_Call("PIC2_Done",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
+        void PIC2_Done(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PIC2_Done");
             Sauce::IO::outb(PIC2_COMMAND,PIC_EOI);
             Sauce::IO::outb(PIC1_COMMAND,PIC_EOI);
-            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::INTERRUPTS && Sauce::IO::Debug::INTERRUPT_DONE);
         }
-        void RemapPic(){
-            Sauce::IO::Debug::Print_Call("RemapPic",true);
+        void RemapPic(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"RemapPic");
             uint8_t a1, a2;
             
             a1 = Sauce::IO::inb_w(PIC1_DATA);
@@ -86,7 +72,6 @@ namespace Sauce{
 
             Sauce::IO::outb_w(PIC1_DATA,a1);
             Sauce::IO::outb_w(PIC2_DATA,a2);
-            Sauce::IO::Debug::Print_Return("<void>",true);
         }
     };
 };

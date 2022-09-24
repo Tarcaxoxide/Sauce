@@ -4,16 +4,15 @@
 namespace Sauce{
     namespace Utility{
         static unsigned char haxString[512] = {0};// instead of having seperate char arrays for every function, i just define 1 global char array.
-        void Clear_haxString(){
-            Sauce::IO::Debug::Print_Spammy_Call("Clear_haxString",Sauce::IO::Debug::CONVERSIONS);
+        void Clear_haxString(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Clear_haxString");
             for(size_t a = 0;(a < 512);a++){
                 haxString[a] = 0;
             }
-            Sauce::IO::Debug::Print_Spammy_Return("<void>",Sauce::IO::Debug::CONVERSIONS);
         }
-        char* HexToString(uint8_t value,bool ClearBefore){
-            Sauce::IO::Debug::Print_Spammy_Call("HexToString (8)",Sauce::IO::Debug::CONVERSIONS);
-            if(ClearBefore)Clear_haxString();
+        char* HexToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t value,bool ClearBefore){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString");
+            if(ClearBefore)Clear_haxString(&Debugger);
             uint8_t* valPtr = &value;
             uint8_t* ptr;
             uint8_t temp;
@@ -26,12 +25,11 @@ namespace Sauce{
                 temp = ((*ptr & 0x0F));
                 haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
             }
-            Sauce::IO::Debug::Print_Spammy_Return((char*)haxString,Sauce::IO::Debug::CONVERSIONS);
             return (char*)haxString;
         }
-        char* HexToString(uint16_t value,bool ClearBefore){
-            Sauce::IO::Debug::Print_Spammy_Call("HexToString (16)",Sauce::IO::Debug::CONVERSIONS);
-            if(ClearBefore)Clear_haxString();
+        char* HexToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint16_t value,bool ClearBefore){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString");
+            if(ClearBefore)Clear_haxString(&Debugger);
             uint16_t* valPtr = &value;
             uint8_t* ptr;
             uint8_t temp;
@@ -44,12 +42,11 @@ namespace Sauce{
                 temp = ((*ptr & 0x0F));
                 haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
             }
-            Sauce::IO::Debug::Print_Spammy_Return((char*)haxString,Sauce::IO::Debug::CONVERSIONS);
             return (char*)haxString;
         }
-        char* HexToString(uint32_t value,bool ClearBefore){
-            Sauce::IO::Debug::Print_Spammy_Call("HexToString (32)",Sauce::IO::Debug::CONVERSIONS);
-            if(ClearBefore)Clear_haxString();
+        char* HexToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint32_t value,bool ClearBefore){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString");
+            if(ClearBefore)Clear_haxString(&Debugger);
             uint32_t* valPtr = &value;
             uint8_t* ptr;
             uint8_t temp;
@@ -62,12 +59,11 @@ namespace Sauce{
                 temp = ((*ptr & 0x0F));
                 haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
             }
-            Sauce::IO::Debug::Print_Spammy_Return((char*)haxString,Sauce::IO::Debug::CONVERSIONS);
             return (char*)haxString;
         }
-        char* HexToString(uint64_t value,bool ClearBefore){
-            Sauce::IO::Debug::Print_Spammy_Call("HexToString (64)",Sauce::IO::Debug::CONVERSIONS);
-            if(ClearBefore)Clear_haxString();
+        char* HexToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t value,bool ClearBefore){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString");
+            if(ClearBefore)Clear_haxString(&Debugger);
             uint64_t* valPtr = &value;
             uint8_t* ptr;
             uint8_t temp;
@@ -80,33 +76,32 @@ namespace Sauce{
                 temp = ((*ptr & 0x0F));
                 haxString[(size - (i * 2 + 0))]= (temp + (temp > 9 ? 55 : 48));
             }
-            Sauce::IO::Debug::Print_Spammy_Return((char*)haxString,Sauce::IO::Debug::CONVERSIONS);
             return (char*)haxString;
         }
-        char* ToString(uint8_t value,bool ClearBefore){
-            return ToString((int64_t)value,ClearBefore);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t value,bool ClearBefore){
+            return ToString(pDebugger,(int64_t)value,ClearBefore);
         }
-        char* ToString(uint16_t value,bool ClearBefore){
-            return ToString((int64_t)value,ClearBefore);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint16_t value,bool ClearBefore){
+            return ToString(pDebugger,(int64_t)value,ClearBefore);
         }
-        char* ToString(uint32_t value,bool ClearBefore){
-            return ToString((int64_t)value,ClearBefore);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint32_t value,bool ClearBefore){
+            return ToString(pDebugger,(int64_t)value,ClearBefore);
         }
-        char* ToString(int8_t value,bool ClearBefore){
-            return ToString((int64_t)value,ClearBefore);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,int8_t value,bool ClearBefore){
+            return ToString(pDebugger,(int64_t)value,ClearBefore);
         }
-        char* ToString(int16_t value,bool ClearBefore){
-            return ToString((int64_t)value,ClearBefore);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,int16_t value,bool ClearBefore){
+            return ToString(pDebugger,(int64_t)value,ClearBefore);
         }
-        char* ToString(int32_t value,bool ClearBefore){
-            return ToString((int64_t)value,ClearBefore);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,int32_t value,bool ClearBefore){
+            return ToString(pDebugger,(int64_t)value,ClearBefore);
         }
-        char* ToString(uint64_t value,bool ClearBefore){
-            return ToString((int64_t)value,ClearBefore);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t value,bool ClearBefore){
+            return ToString(pDebugger,(int64_t)value,ClearBefore);
         }
-		char* ToString(int64_t value,bool ClearBefore){
-            Sauce::IO::Debug::Print_Spammy_Call("ToString (int)",Sauce::IO::Debug::CONVERSIONS);
-            Clear_haxString();
+		char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,int64_t value,bool ClearBefore){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString");
+            Clear_haxString(&Debugger);
             uint8_t isNegative = 0;
             if(value < 0){
                 isNegative=1;
@@ -129,13 +124,12 @@ namespace Sauce{
             }
             uint8_t remainder = (newValue % 10);
             haxString[((isNegative + size) - index)] = (remainder + 48);
-            Sauce::IO::Debug::Print_Spammy_Return((char*)haxString,Sauce::IO::Debug::CONVERSIONS);
             return (char*)haxString;
         }
-        char* ToString(float value,uint16_t decimalPlaces){
-            Sauce::IO::Debug::Print_Spammy_Call("ToString (float)",Sauce::IO::Debug::CONVERSIONS);
-            Clear_haxString();
-            char* intPtr = (char*)ToString((int)value);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,float value,uint16_t decimalPlaces){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString");
+            Clear_haxString(&Debugger);
+            char* intPtr = (char*)ToString(&Debugger,(int)value);
             char* floatPtr = (char*)haxString;
             
             if(value < 0){
@@ -152,13 +146,12 @@ namespace Sauce{
                 newValue -= (int)newValue;
             }
             *floatPtr = 0;
-            Sauce::IO::Debug::Print_Spammy_Return((char*)haxString,Sauce::IO::Debug::CONVERSIONS);
             return (char*)haxString;
         }
-        char* ToString(double value,uint16_t decimalPlaces){
-            Sauce::IO::Debug::Print_Spammy_Call("ToString (double)",Sauce::IO::Debug::CONVERSIONS);
-            Clear_haxString();
-            char* intPtr = (char*)ToString((int)value);
+        char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,double value,uint16_t decimalPlaces){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString");
+            Clear_haxString(&Debugger);
+            char* intPtr = (char*)ToString(&Debugger,(int)value);
             char* floatPtr = (char*)haxString;
             
             if(value < 0){
@@ -175,7 +168,6 @@ namespace Sauce{
                 newValue -= (int)newValue;
             }
             *floatPtr = 0;
-            Sauce::IO::Debug::Print_Spammy_Return((char*)haxString,Sauce::IO::Debug::CONVERSIONS);
             return (char*)haxString;
         }
     };

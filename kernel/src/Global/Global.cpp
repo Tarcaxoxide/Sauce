@@ -9,7 +9,7 @@ namespace Sauce{
         Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
         Sauce::Memory::PageFrameAllocator_cl PageFrameAllocator;
         Sauce::Graphics::Mouse_cl* Mouse=nullptr;
-        Sauce::Memory::PageTableManager_cl PageTableManager=NULL;
+        Sauce::Memory::PageTableManager_cl PageTableManager={nullptr,NULL};
         Sauce::Storage::AHCIDriver_cl* AHCIDriver=nullptr;
     };
 };

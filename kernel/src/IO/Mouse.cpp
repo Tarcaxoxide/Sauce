@@ -7,45 +7,41 @@
 namespace Sauce{
     namespace IO{
 		Sauce::Point64_st MousePosition {0,0,0};
-        void MouseWait(){
-            Sauce::IO::Debug::Print_Call("MouseWait",Sauce::IO::Debug::MOUSE);
+        void MouseWait(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWait");
             uint64_t timeout=100000;
             while(timeout--){
                 if((inb(0x64) & 0b10) == 0){
                     return;
                 }
             }
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::MOUSE);
         }
-        void MouseWaitInput(){
-            Sauce::IO::Debug::Print_Call("MouseWaitInput",Sauce::IO::Debug::MOUSE);
+        void MouseWaitInput(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWaitInput");
             uint64_t timeout=100000;
             while(timeout--){
                 if(inb(0x64) & 0b1){
                     return;
                 }
             }
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::MOUSE);
         }
-        void MouseWrite(uint8_t value){
-            Sauce::IO::Debug::Print_Call("MouseWrite",Sauce::IO::Debug::MOUSE);
-            MouseWait();
+        void MouseWrite(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t value){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWrite");
+            MouseWait(&Debugger);
             outb(0x64,0xD4);
-            MouseWait();
+            MouseWait(&Debugger);
             outb(0x60,value);
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::MOUSE);
         }
-        uint8_t MouseRead(){
-            Sauce::IO::Debug::Print_Call("MouseRead",Sauce::IO::Debug::MOUSE);
-            MouseWaitInput();
+        uint8_t MouseRead(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseRead");
+            MouseWaitInput(&Debugger);
             return inb(0x60);
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::MOUSE);
         }
         uint8_t MouseCycle=0;
         uint8_t MousePacket[4];
         bool MousePacketReady=false;
-        void HandlePS2Mouse(uint8_t data){
-            Sauce::IO::Debug::Print_Call("HandlePS2Mouse",Sauce::IO::Debug::MOUSE);
+        void HandlePS2Mouse(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t data){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HandlePS2Mouse");
             switch(MouseCycle){
                 case 0:{
                     if(MousePacketReady)break;
@@ -65,21 +61,12 @@ namespace Sauce{
                     MouseCycle=0;
                 }break;
             }
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::MOUSE);
         }
         Sauce::Mouse_st nMouseData;
-        Sauce::Mouse_st* ProcessMousePacket(){
-            Sauce::IO::Debug::Print_Call("ProcessMousePacket",Sauce::IO::Debug::MOUSE);
+        Sauce::Mouse_st* ProcessMousePacket(Sauce::IO::Debug::Debugger_st* pDebugger){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ProcessMousePacket");
             nMouseData.Good=false;
             if(!MousePacketReady){
-                nMouseData.RightButton ? Sauce::IO::Debug::Print_Return("RightButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("RightButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start);
-                nMouseData.LeftButton ? Sauce::IO::Debug::Print_Return("LeftButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("LeftButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-                nMouseData.CenterButton ? Sauce::IO::Debug::Print_Return("CenterButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("CenterButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-                Sauce::IO::Debug::Print_Return("{X:",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-                Sauce::IO::Debug::Print_Return(Sauce::Utility::ToString(nMouseData.Position->X),Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-                Sauce::IO::Debug::Print_Return(",Y:",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-                Sauce::IO::Debug::Print_Return(Sauce::Utility::ToString(nMouseData.Position->Y),Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-                Sauce::IO::Debug::Print_Return("},Not Good",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::End);
                 return &nMouseData;
             }
             nMouseData.Good=true;
@@ -123,39 +110,30 @@ namespace Sauce{
             nMouseData.CenterButton=(MousePacket[0] & PS2MiddleButton);
             nMouseData.RightButton=(MousePacket[0] & PS2RightButton);
             
-            nMouseData.RightButton ? Sauce::IO::Debug::Print_Return("RightButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start) : Sauce::IO::Debug::Print_Return("RightButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Start);
-            nMouseData.LeftButton ? Sauce::IO::Debug::Print_Return("LeftButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("LeftButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-            nMouseData.CenterButton ? Sauce::IO::Debug::Print_Return("CenterButton:<True>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle) : Sauce::IO::Debug::Print_Return("CenterButton:<False>,",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-            Sauce::IO::Debug::Print_Return("{X:",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-            Sauce::IO::Debug::Print_Return(Sauce::Utility::ToString(nMouseData.Position->X),Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-            Sauce::IO::Debug::Print_Return(",Y:",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-            Sauce::IO::Debug::Print_Return(Sauce::Utility::ToString(nMouseData.Position->Y),Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::Middle);
-            Sauce::IO::Debug::Print_Return("},Good",Sauce::IO::Debug::MOUSE,Sauce::IO::Debug::StartOfPrint::End);
             return &nMouseData;
         }
-        void PS2MouseInitialize(Sauce::Point64_st InitMousePosition){
-            Sauce::IO::Debug::Print_Call("PS2MouseInitialize",Sauce::IO::Debug::MOUSE);
+        void PS2MouseInitialize(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st InitMousePosition){
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PS2MouseInitialize");
             MousePosition.X=InitMousePosition.X;
             MousePosition.Y=InitMousePosition.Y;
             MousePosition.Z=InitMousePosition.Z;
             nMouseData.Position=&MousePosition;
             outb(0x64,0xA8); // enable auxiliary device - mouse
-            MouseWait();
+            MouseWait(&Debugger);
             outb(0x64,0x20); // tell keyboard controller that we want to send a command to the mouse
-            MouseWaitInput();
+            MouseWaitInput(&Debugger);
             uint8_t status = inb(0x60);
             status |= 0b10;
-            MouseWait();
+            MouseWait(&Debugger);
             outb(0x64,0x60);
-            MouseWait();
+            MouseWait(&Debugger);
             outb(0x60,status); // setting the correct bit , the "compaq" status byte.
 
-            MouseWrite(0xF6);// 0xF6 , use default settings.
-            MouseRead();
+            MouseWrite(&Debugger,0xF6);// 0xF6 , use default settings.
+            MouseRead(&Debugger);
 
-            MouseWrite(0xF4); // enable mouse
-            MouseRead();
-            Sauce::IO::Debug::Print_Return("<void>",Sauce::IO::Debug::MOUSE);
+            MouseWrite(&Debugger,0xF4); // enable mouse
+            MouseRead(&Debugger);
         }
     };
 };

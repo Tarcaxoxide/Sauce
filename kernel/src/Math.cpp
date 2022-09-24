@@ -2,9 +2,9 @@
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 
-void drawCircle(int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle)
+void drawCircle(Sauce::IO::Debug::Debugger_st* pDebugger,int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle)
 {
-	Sauce::IO::Debug::Print_Call("drawCircle",Sauce::IO::Debug::MATH);
+	Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"drawCircle");
 	Circle.AddLast({xc+x,yc+y,0});
 	Circle.AddLast({xc-x,yc+y,0});
 	Circle.AddLast({xc+x,yc-y,0});
@@ -17,12 +17,12 @@ void drawCircle(int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Point
 
 namespace Sauce{
     namespace Math{
-    	size_t index(size_t X,size_t Y,size_t MaxX){
-			Sauce::IO::Debug::Print_Call("index",Sauce::IO::Debug::MATH);
+    	size_t index(Sauce::IO::Debug::Debugger_st* pDebugger,size_t X,size_t Y,size_t MaxX){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"index");
         	return (X + (Y * MaxX));
     	}
-		double round(double number,double medium){
-			Sauce::IO::Debug::Print_Call("round",Sauce::IO::Debug::MATH);
+		double round(Sauce::IO::Debug::Debugger_st* pDebugger,double number,double medium){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"round");
 			int A1=(int)number;
 			double A2=number-A1;
 			double A=0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
@@ -30,38 +30,38 @@ namespace Sauce{
 			if(A2 > medium)A+=1.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
 			return (double)A;
 		}
-		double maximum(double number1,double number2){
-			Sauce::IO::Debug::Print_Call("maximum",Sauce::IO::Debug::MATH);
+		double maximum(Sauce::IO::Debug::Debugger_st* pDebugger,double number1,double number2){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"maximum");
 			if(number1>number2)return number1;
 			if(number2>number1)return number2;
 			return number1;// their equal so it doesn't matter.
 		}
-		double minimum(double number1,double number2){
-			Sauce::IO::Debug::Print_Call("minimum",Sauce::IO::Debug::MATH);
+		double minimum(Sauce::IO::Debug::Debugger_st* pDebugger,double number1,double number2){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"minimum");
 			if(number1<number2)return number1;
 			if(number2<number1)return number2;
 			return number1;// their equal so it doesn't matter.
 		}
-		double average(double number1,double number2){
-			Sauce::IO::Debug::Print_Call("average",Sauce::IO::Debug::MATH);
+		double average(Sauce::IO::Debug::Debugger_st* pDebugger,double number1,double number2){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"average");
 			return (number1+number2)/2;
 		}
-		double difference(double number1,double number2){
-			Sauce::IO::Debug::Print_Call("difference",Sauce::IO::Debug::MATH);
-			return Sauce::Math::maximum(number1,number2)/Sauce::Math::minimum(number1,number2);
+		double difference(Sauce::IO::Debug::Debugger_st* pDebugger,double number1,double number2){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"difference");
+			return Sauce::Math::maximum(&Debugger,number1,number2)/Sauce::Math::minimum(&Debugger,number1,number2);
 		}
-		int make_positive(int number){
-			Sauce::IO::Debug::Print_Call("make_positive",Sauce::IO::Debug::MATH);
+		int make_positive(Sauce::IO::Debug::Debugger_st* pDebugger,int number){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"make_positive");
 			if(number < 0)return (number-number-number);
 			return number;
 		}
-		int make_negative(int number){
-			Sauce::IO::Debug::Print_Call("make_negative",Sauce::IO::Debug::MATH);
+		int make_negative(Sauce::IO::Debug::Debugger_st* pDebugger,int number){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"make_negative");
 			if(number > 0)return (number-number-number);
 			return number;
 		}
-		void make_line(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Line){
-			Sauce::IO::Debug::Print_Call("make_line",Sauce::IO::Debug::MATH);
+		void make_line(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Line){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"make_line");
 			/*
 				A......B
 			*/
@@ -76,8 +76,8 @@ namespace Sauce{
 				Line.AddLast(Current);
 			}
 		}
-		void make_line(Sauce::Point64_st point,Sauce::Memory::List_cl<Sauce::Point64_st> &Line,bool reset){
-			Sauce::IO::Debug::Print_Call("make_line",Sauce::IO::Debug::MATH);
+		void make_line(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st point,Sauce::Memory::List_cl<Sauce::Point64_st> &Line,bool reset){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"make_line");
 			/*
 				A......B
 			*/
@@ -95,41 +95,41 @@ namespace Sauce{
 				Line.AddLast(Current);
 			}
 		}
-		void make_triangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Point64_st pointC,Sauce::Memory::List_cl<Sauce::Point64_st> &Triangle){
-			Sauce::IO::Debug::Print_Call("make_triangle",Sauce::IO::Debug::MATH);
+		void make_triangle(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Point64_st pointC,Sauce::Memory::List_cl<Sauce::Point64_st> &Triangle){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"make_triangle");
 			/*
 					A
 				  .   .
 				 .     .
 				B.......C
 			*/
-			make_line(pointB,Triangle,true);
-			make_line(pointA,Triangle);
-			make_line(pointC,Triangle);
-			make_line(pointB,Triangle);
+			make_line(&Debugger,pointB,Triangle,true);
+			make_line(&Debugger,pointA,Triangle);
+			make_line(&Debugger,pointC,Triangle);
+			make_line(&Debugger,pointB,Triangle);
 		}
-		void make_rectangle(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Rectangle){
-			Sauce::IO::Debug::Print_Call("make_rectangle",Sauce::IO::Debug::MATH);
+		void make_rectangle(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Rectangle){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"make_rectangle");
 			/*
 				A...
 				.  .
 				...B
 			*/
-			make_line({pointA.X,pointA.Y,0},Rectangle,true);
-			make_line({pointB.X,pointA.Y,0},Rectangle);
-			make_line({pointB.X,pointB.Y,0},Rectangle);
-			make_line({pointA.X,pointB.Y,0},Rectangle);
-			make_line({pointA.X,pointA.Y,0},Rectangle);
+			make_line(&Debugger,{pointA.X,pointA.Y,0},Rectangle,true);
+			make_line(&Debugger,{pointB.X,pointA.Y,0},Rectangle);
+			make_line(&Debugger,{pointB.X,pointB.Y,0},Rectangle);
+			make_line(&Debugger,{pointA.X,pointB.Y,0},Rectangle);
+			make_line(&Debugger,{pointA.X,pointA.Y,0},Rectangle);
 		}
-		void make_circle(Sauce::Point64_st point,int radius,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle){
-			Sauce::IO::Debug::Print_Call("make_circle",Sauce::IO::Debug::MATH);
+		void make_circle(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st point,int radius,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"make_circle");
 			/*    
 				point = the center of the circle.
 				radius = the radius of the circle.
 			*/
 			int x = 0, y = radius;
     		int d = 3 - 2 * radius;
-    		drawCircle(point.X, point.Y, x, y,Circle);
+    		drawCircle(&Debugger,point.X, point.Y, x, y,Circle);
     		while (y >= x)
     		{
     		    // for each pixel we will
@@ -145,18 +145,18 @@ namespace Sauce{
     		    }
     		    else
     		        d = d + 4 * x + 6;
-    		    drawCircle(point.X, point.Y, x, y, Circle);
+    		    drawCircle(&Debugger,point.X, point.Y, x, y, Circle);
     		}
 		}
 		
 		size_t next = 1;
-		size_t random_get(size_t max){
-			Sauce::IO::Debug::Print_Call("random_get",Sauce::IO::Debug::MATH);
+		size_t random_get(Sauce::IO::Debug::Debugger_st* pDebugger,size_t max){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"random_get");
 		    next = next * 1103515245 + 12345;
 		    return (next/65536) % max;
 		}
-		void random_seed(size_t seed){
-			Sauce::IO::Debug::Print_Call("random_seed",Sauce::IO::Debug::MATH);
+		void random_seed(Sauce::IO::Debug::Debugger_st* pDebugger,size_t seed){
+			Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"random_seed");
 		    next = seed;
 		}
 	};

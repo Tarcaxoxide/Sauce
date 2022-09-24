@@ -3,6 +3,7 @@
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 #define PIC1_COMMAND 0X20
 #define PIC1_DATA 0x21
@@ -35,8 +36,8 @@ namespace Sauce{
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame);
-        void RemapPic();
-        void PIC1_Done();
-        void PIC2_Done();
+        void RemapPic(Sauce::IO::Debug::Debugger_st* pDebugger);
+        void PIC1_Done(Sauce::IO::Debug::Debugger_st* pDebugger);
+        void PIC2_Done(Sauce::IO::Debug::Debugger_st* pDebugger);
     };
 };

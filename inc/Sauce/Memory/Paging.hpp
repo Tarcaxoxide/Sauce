@@ -1,5 +1,6 @@
 #pragma once
 #include<Sauce/Types.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace Memory{
@@ -18,10 +19,10 @@ namespace Sauce{
         };
         struct PageDirectoryEntry{
             uint64_t Value;
-            void SetFlag(PT_Flag flag,bool enabled);
-            bool GetFlag(PT_Flag flag);
-            void SetAddress(uint64_t address);
-            uint64_t GetAddress();
+            void SetFlag(Sauce::IO::Debug::Debugger_st* pDebugger,PT_Flag flag,bool enabled);
+            bool GetFlag(Sauce::IO::Debug::Debugger_st* pDebugger,PT_Flag flag);
+            void SetAddress(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t address);
+            uint64_t GetAddress(Sauce::IO::Debug::Debugger_st* pDebugger);
         };
         struct PageTable{
             PageDirectoryEntry entries[512];

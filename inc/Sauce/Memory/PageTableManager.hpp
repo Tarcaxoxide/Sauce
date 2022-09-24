@@ -5,14 +5,15 @@
 #include<Sauce/Memory/Paging.hpp>
 #include<Sauce/Memory/PageMapIndexer.hpp>
 #include<Sauce/Memory/PageFrameAllocator.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace Memory{
         class PageTableManager_cl{
             public:
-            PageTableManager_cl(PageTable* PML4Address);
+            PageTableManager_cl(Sauce::IO::Debug::Debugger_st* pDebugger,PageTable* PML4Address);
             PageTable* PML4Address=nullptr;
-            void MapMemory(void* virtualMemory,void* physicalMemory);
+            void MapMemory(Sauce::IO::Debug::Debugger_st* pDebugger,void* virtualMemory,void* physicalMemory);
         };
         
     };

@@ -2,6 +2,7 @@
 
 #include<stddef.h>
 #include<stdint.h>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 #define IDT_TA_InterruptGate 0b10001110
 #define IDT_TA_CallGate 0b10001100
@@ -17,8 +18,8 @@ namespace Sauce{
             uint16_t offset1;
             uint32_t offset2;
             uint32_t ignore;
-            void SetOffset(uint64_t offset);
-            uint64_t GetOffset();
+            void SetOffset(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t offset);
+            uint64_t GetOffset(Sauce::IO::Debug::Debugger_st* pDebugger);
         };
         struct IDTR{
             uint16_t Limit;
