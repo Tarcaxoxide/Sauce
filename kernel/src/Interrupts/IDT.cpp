@@ -4,14 +4,14 @@
 
 namespace Sauce{
     namespace Interrupts{
-        void IDTDescriptorEntry::SetOffset(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t offset){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"IDTDescriptorEntry::SetOffset",_NAMESPACE_);
+        void IDTDescriptorEntry::SetOffset(uint64_t offset){
+            Sauce::IO::Debug::Debugger_st Debugger("IDTDescriptorEntry::SetOffset",_NAMESPACE_);
             offset0 = (uint16_t)(offset & 0x000000000000ffff);
             offset1 = (uint16_t)((offset & 0x00000000ffff0000) >> 16);
             offset2 = (uint32_t)((offset & 0xffffffff00000000) >> 32);
         }
-        uint64_t IDTDescriptorEntry::GetOffset(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"IDTDescriptorEntry::GetOffset",_NAMESPACE_);
+        uint64_t IDTDescriptorEntry::GetOffset(){
+            Sauce::IO::Debug::Debugger_st Debugger("IDTDescriptorEntry::GetOffset",_NAMESPACE_);
             uint64_t offset=0;
             offset |= (uint64_t)offset0;
             offset |= (uint64_t)offset1 << 16;

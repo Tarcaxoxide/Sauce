@@ -19,10 +19,10 @@ namespace Sauce{
         };
         struct PageDirectoryEntry{
             uint64_t Value;
-            void SetFlag(Sauce::IO::Debug::Debugger_st* pDebugger,PT_Flag flag,bool enabled);
-            bool GetFlag(Sauce::IO::Debug::Debugger_st* pDebugger,PT_Flag flag);
-            void SetAddress(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t address);
-            uint64_t GetAddress(Sauce::IO::Debug::Debugger_st* pDebugger);
+            void SetFlag(PT_Flag flag,bool enabled);
+            bool GetFlag(PT_Flag flag);
+            void SetAddress(uint64_t address);
+            uint64_t GetAddress();
         };
         struct PageTable{
             PageDirectoryEntry entries[512];

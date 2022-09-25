@@ -11,7 +11,7 @@ namespace Sauce{
     };
     namespace Interrupts{
         const static char* _NAMESPACE_="::Sauce::Interrupts";
-        const static bool _ALLOW_PRINT_=true;
+        const static bool _ALLOW_PRINT_=false;
         namespace PIT{
             const static char* _NAMESPACE_="::Sauce::Interrupts::PIT";
             const static bool _ALLOW_PRINT_=false;

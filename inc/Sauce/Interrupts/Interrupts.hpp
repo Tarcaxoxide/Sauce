@@ -36,8 +36,8 @@ namespace Sauce{
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame);
-        void RemapPic(Sauce::IO::Debug::Debugger_st* pDebugger);
-        void PIC1_Done(Sauce::IO::Debug::Debugger_st* pDebugger);
-        void PIC2_Done(Sauce::IO::Debug::Debugger_st* pDebugger);
+        void RemapPic();
+        void PIC1_Done();
+        void PIC2_Done();
     };
 };

@@ -4,8 +4,8 @@
 
 namespace Sauce{
     namespace IO{
-        uint16_t Translate_KeyCode(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t KeyCode,size_t KeySet){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Translate_KeyCode",_NAMESPACE_);
+        uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet){
+            Sauce::IO::Debug::Debugger_st Debugger("Translate_KeyCode",_NAMESPACE_);
             static bool isShift;
             static bool isCaps;
             uint8_t* KeyMapCodes = NULL;
@@ -36,8 +36,8 @@ namespace Sauce{
             }
             return KeyCodeDecoded;
         }
-        Sauce::Keyboard_st Code_To_Key(Sauce::IO::Debug::Debugger_st* pDebugger,uint16_t TranslatedKeyCode){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Code_To_Key",_NAMESPACE_);
+        Sauce::Keyboard_st Code_To_Key(uint16_t TranslatedKeyCode){
+            Sauce::IO::Debug::Debugger_st Debugger("Code_To_Key",_NAMESPACE_);
             uint8_t IPress = (((uint8_t)(TranslatedKeyCode >> 12)) << 4);
             uint8_t ICapital = (((uint8_t)(TranslatedKeyCode >> 8)) << 4);
             uint8_t IKey = ((uint8_t)TranslatedKeyCode);

@@ -3,8 +3,8 @@
 
 namespace Sauce{
     namespace IO{
-        void Panic(Sauce::IO::Debug::Debugger_st* pDebugger,const char* str){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Panic",_NAMESPACE_);
+        void Panic(const char* str){
+            Sauce::IO::Debug::Debugger_st Debugger("Panic",_NAMESPACE_);
             
             while(true){
                 asm volatile("cli;hlt");

@@ -18,8 +18,8 @@ namespace Sauce{
             uint16_t offset1;
             uint32_t offset2;
             uint32_t ignore;
-            void SetOffset(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t offset);
-            uint64_t GetOffset(Sauce::IO::Debug::Debugger_st* pDebugger);
+            void SetOffset(uint64_t offset);
+            uint64_t GetOffset();
         };
         struct IDTR{
             uint16_t Limit;

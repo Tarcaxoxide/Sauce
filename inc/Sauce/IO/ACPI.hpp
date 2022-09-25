@@ -41,7 +41,7 @@ namespace Sauce{
                 uint32_t Reserved;
             }__attribute__((packed));
 
-            void* FindTable(Sauce::IO::Debug::Debugger_st* pDebugger,SDTHeader* sdtHeader,char* signature);
+            void* FindTable(SDTHeader* sdtHeader,char* signature);
         };
     };
 };
