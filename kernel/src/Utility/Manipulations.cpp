@@ -8,6 +8,15 @@ namespace Sauce{
             while(*(strPtr++) != '\0'){size++;}
             return size;
         }
+        bool strcmp(const char* strA,const char* strB){
+            if(strlen((char*)strA) != strlen((char*)strB))return false;
+            size_t X=strlen((char*)strA);
+            while(X){
+                if(strA[X] != strB[X])return false;
+                X--;
+            }
+            return true;
+        }
         Sauce::Memory::List_cl<char*> split(char* path, char delimiter){
             Sauce::Memory::List_cl<char> tmpString;
             Sauce::Memory::List_cl<char*> Result;
