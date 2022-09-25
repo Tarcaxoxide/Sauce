@@ -2,6 +2,7 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/IO/Mouse.hpp>
 
+
 uint8_t Glyphs[][13*13]={
                 {
                     9,9,9,9,8,7,6,5,4,3,2,1,0,
@@ -24,7 +25,7 @@ uint8_t Glyphs[][13*13]={
 namespace Sauce{
     namespace Graphics{
         void Mouse_cl::PutChar(Sauce::IO::Debug::Debugger_st* pDebugger,size_t chr){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Mouse_cl::PutChar");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Mouse_cl::PutChar",_NAMESPACE_);
             for(size_t X=0;X<13;X++){
                 for(size_t Y=0;Y<13;Y++){
                     GOP_PixelStructure ThisColor{0,0,0,0xFF};
@@ -43,7 +44,7 @@ namespace Sauce{
         }
         Mouse_cl::Mouse_cl(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st InitialPosition)
         :Terminal_cl(pDebugger,(13*13),13,InitialPosition){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Mouse_cl::Mouse_cl");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Mouse_cl::Mouse_cl",_NAMESPACE_);
             Clear(&Debugger);
             PutChar(&Debugger,0);
             Sauce::IO::PS2MouseInitialize(&Debugger,InitialPosition);

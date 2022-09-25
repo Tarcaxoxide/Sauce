@@ -6,7 +6,7 @@
 namespace Sauce{
     namespace Storage{
         ParsedHBAPort_st CheckPortType(Sauce::IO::Debug::Debugger_st* pDebugger,HBAPort_st* port){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"CheckPortType");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"CheckPortType",_NAMESPACE_);
             ParsedHBAPort_st ParsedHBAPort;
             ParsedHBAPort.Address=port;
             ParsedHBAPort.SataStatus = port->sataStatus;
@@ -41,7 +41,7 @@ namespace Sauce{
             return ParsedHBAPort;
         }
         void ParsedHBAPort_st::Configure(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ParsedHBAPort_st::Configure");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ParsedHBAPort_st::Configure",_NAMESPACE_);
             StopCMD(&Debugger);
 
             void* commandBase = Sauce::Global::PageFrameAllocator.RequestPage(&Debugger);
@@ -67,19 +67,19 @@ namespace Sauce{
             StartCMD(&Debugger);
         }
         void ParsedHBAPort_st::StartCMD(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ParsedHBAPort_st::StartCMD");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ParsedHBAPort_st::StartCMD",_NAMESPACE_);
             while(Address->cmdSts & HBA_PxCMD_CR);
             Address->cmdSts |=  HBA_PxCMD_FRE;
             Address->cmdSts |=  HBA_PxCMD_ST;
         }
         void ParsedHBAPort_st::StopCMD(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ParsedHBAPort_st::StopCMD");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ParsedHBAPort_st::StopCMD",_NAMESPACE_);
             Address->cmdSts &= ~HBA_PxCMD_ST;
             Address->cmdSts &= ~HBA_PxCMD_FRE;
             while((Address->cmdSts & HBA_PxCMD_FR || Address->cmdSts & HBA_PxCMD_CR));
         }
         bool ParsedHBAPort_st::Read(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t sector,uint16_t sectorCount,void* buffer){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ParsedHBAPort_st::Read");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ParsedHBAPort_st::Read",_NAMESPACE_);
 
             size_t spin=0;
             while((Address->taskFileData & (ATA_DEV_BUSY | ATA_DEV_DRQ)) && spin < 1000000){spin++;}
@@ -125,7 +125,7 @@ namespace Sauce{
             return true;
         }
         void AHCIDriver_cl::Read(Sauce::IO::Debug::Debugger_st* pDebugger,size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"AHCIDriver_cl::Read");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"AHCIDriver_cl::Read",_NAMESPACE_);
             if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage(&Debugger);
 
             for(size_t SectorI=0;SectorI<sectorCount;SectorI++){
@@ -138,7 +138,7 @@ namespace Sauce{
             }
         }
         uint8_t AHCIDriver_cl::Read(Sauce::IO::Debug::Debugger_st* pDebugger,size_t portNumber,size_t ByteToRead){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"AHCIDriver_cl::Read");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"AHCIDriver_cl::Read",_NAMESPACE_);
             if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage(&Debugger);
             size_t SectorToRead=ByteToRead/512;
             size_t SectorOffset=ByteToRead%512;
@@ -147,14 +147,14 @@ namespace Sauce{
             return HBAPorts[portNumber].buffer[SectorOffset];
         }
         AHCIDriver_cl::AHCIDriver_cl(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::IO::PCIDeviceHeader_st* pciBaseAddress){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"AHCIDriver_cl::AHCIDriver_cl");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"AHCIDriver_cl::AHCIDriver_cl",_NAMESPACE_);
             this->pciBaseAddress=pciBaseAddress;
             ABAR = (HBAMemory_st*)((uint64_t)((Sauce::IO::PCIHeader0_st*)pciBaseAddress)->BAR5);
             Sauce::Global::PageTableManager.MapMemory(&Debugger,ABAR,ABAR);
             ProbePorts(&Debugger);
         }
         void AHCIDriver_cl::ProbePorts(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"AHCIDriver_cl::ProbePorts");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"AHCIDriver_cl::ProbePorts",_NAMESPACE_);
             uint32_t portsImplemented = ABAR->portsImplemented;
             if(!HBAPorts.Size()){
                 for(int i=0;i<32;i++){
@@ -183,7 +183,7 @@ namespace Sauce{
             }
         }
         AHCIDriver_cl::~AHCIDriver_cl(){
-            Sauce::IO::Debug::Debugger_st Debugger("AHCIDriver_cl::~AHCIDriver_cl");
+            Sauce::IO::Debug::Debugger_st Debugger("AHCIDriver_cl::~AHCIDriver_cl",_NAMESPACE_);
         }
     };
 };

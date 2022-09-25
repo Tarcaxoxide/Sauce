@@ -10,7 +10,7 @@ namespace Sauce{
         HeapSegmentHeader* LastSegmentHeader;
 
         void HeapSegmentHeader::CombinedForward(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HeapSegmentHeader::CombinedForward");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HeapSegmentHeader::CombinedForward",_NAMESPACE_);
             if(NextSegment == NULL)return;
             if(!NextSegment->free)return;
             if(NextSegment == LastSegmentHeader)LastSegmentHeader=this;
@@ -21,11 +21,11 @@ namespace Sauce{
             NextSegment = NextSegment->NextSegment;
         }
         void HeapSegmentHeader::CombinedBackward(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HeapSegmentHeader::CombinedBackward");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HeapSegmentHeader::CombinedBackward",_NAMESPACE_);
             if(LastSegment != NULL && LastSegment->free)LastSegment->CombinedForward(&Debugger);
         }
         HeapSegmentHeader* HeapSegmentHeader::Split(Sauce::IO::Debug::Debugger_st* pDebugger,size_t splitLength){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HeapSegmentHeader::Split");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HeapSegmentHeader::Split",_NAMESPACE_);
             if(splitLength > 0x10){return NULL;}
             int64_t  splitSegmentLength = Length - splitLength - (sizeof(HeapSegmentHeader));
             if(splitSegmentLength > 0x10){return NULL;}
@@ -42,7 +42,7 @@ namespace Sauce{
         }
         
         void InitalizeHeap(Sauce::IO::Debug::Debugger_st* pDebugger,void* heapAddress,size_t PageCount){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"InitalizeHeap");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"InitalizeHeap",_NAMESPACE_);
             void* pos = heapAddress;
 
             for(size_t i=0;i<PageCount;i++){
@@ -61,7 +61,7 @@ namespace Sauce{
             LastSegmentHeader = startSegment;
         }
         void* malloc(Sauce::IO::Debug::Debugger_st* pDebugger,size_t size){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"malloc");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"malloc",_NAMESPACE_);
             if(size%0x10 > 0){ // is not a multiple of 0x10
                 size-=(size%0x10);
                 size+=0x10;
@@ -91,14 +91,14 @@ namespace Sauce{
             return TheAddress;
         }
         void free(Sauce::IO::Debug::Debugger_st* pDebugger,void* address){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"free");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"free",_NAMESPACE_);
             HeapSegmentHeader* segment = (HeapSegmentHeader*)address - 1;
             segment->free=true;
             segment->CombinedForward(&Debugger);
             segment->CombinedBackward(&Debugger);
         }
         void ExpandHeap(Sauce::IO::Debug::Debugger_st* pDebugger,size_t length){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ExpandHeap");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ExpandHeap",_NAMESPACE_);
             if(length%0x1000){
                 length-=length%0x1000;
                 length+=0x1000;

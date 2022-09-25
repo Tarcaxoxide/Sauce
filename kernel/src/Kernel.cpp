@@ -32,7 +32,7 @@ namespace Sauce{
     Sauce::Point64_st oMousePosition;
 
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
-        Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::Kernel_cl");
+        Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::Kernel_cl",_NAMESPACE_);
         asm volatile("cli");
         this->DFBL=DFBL;
         if(Self == NULL)Self=this;
@@ -66,7 +66,7 @@ namespace Sauce{
         //Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::Prep_Windows(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_Windows");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_Windows",_NAMESPACE_);
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl(&Debugger,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Screen=new Sauce::Graphics::Terminal_cl(&Debugger,(size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
         Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl(&Debugger,{DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
@@ -77,14 +77,14 @@ namespace Sauce{
         Sauce::Global::Windows.Last()->setID(&Debugger,"Shell");
     }
     void Kernel_cl::MainLoop(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::MainLoop");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::MainLoop",_NAMESPACE_);
         while(true){
             AcceptingInterrupts(&Debugger,100);// are accepting interrupts for X miliseconds, X being the number passed to 'AcceptingInterrupts(X)'.
             DrawUI(&Debugger);// we do all the drawing operations by calling this function, it's effectively 'double buffering'.
         }
     }
     void Kernel_cl::Prep_GlobalAllocator(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_GlobalAllocator");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_GlobalAllocator",_NAMESPACE_);
         Sauce::Global::PageFrameAllocator = Sauce::Memory::PageFrameAllocator_cl();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
         Sauce::Global::PageFrameAllocator.ReadEfiMemoryMap(&Debugger,(Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
@@ -96,7 +96,7 @@ namespace Sauce{
         Sauce::Global::PageTableManager = Sauce::Memory::PageTableManager_cl(&Debugger,PML4);
     }
     void Kernel_cl::Prep_VirtualAddresses(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_VirtualAddresses");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_VirtualAddresses",_NAMESPACE_);
         for(uint64_t t=0;t<Sauce::Memory::GetMemorySize(&Debugger,(Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
             Sauce::Global::PageTableManager.MapMemory(&Debugger,(void*)t,(void*)t);
         }
@@ -109,20 +109,20 @@ namespace Sauce{
         asm volatile("mov %0, %%cr3" : : "r" (PML4));
     }
     void Kernel_cl::Prep_GDT(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_GDT");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_GDT",_NAMESPACE_);
         gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_st)-1;
         gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
         LoadGDT(&gdtDescriptor);
     }
     void Kernel_cl::Add_Interrupt(Sauce::IO::Debug::Debugger_st* pDebugger,void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Add_Interrupt");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Add_Interrupt",_NAMESPACE_);
         Sauce::Interrupts::IDTDescriptorEntry* Interrupt = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + Interrupt_Number * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
         Interrupt->SetOffset(&Debugger,(uint64_t)Interrupt_Handler);
         Interrupt->type_attr = type_attr;
         Interrupt->selector=selector;
     }
     void Kernel_cl::Prep_Interrupts(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_Interrupts");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_Interrupts",_NAMESPACE_);
         idtr.Limit = 0x0FFF;
         idtr.Offset= (uint64_t)Sauce::Global::PageFrameAllocator.RequestPage(&Debugger);
         Add_Interrupt(&Debugger,(void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
@@ -140,17 +140,17 @@ namespace Sauce{
         asm volatile("lidt %0" : : "m" (idtr));
     }
     void Kernel_cl::Prep_IO(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_IO");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_IO",_NAMESPACE_);
         Sauce::Interrupts::RemapPic(&Debugger);
     }
     void Kernel_cl::Prep_ACPI(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_ACPI");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Prep_ACPI",_NAMESPACE_);
         Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
         Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(&Debugger,xsdt,(char*)"MCFG");
         Sauce::IO::EnumeratePCI(&Debugger,mcfg);
     }
     void Kernel_cl::oNotify_Of_KeyPress(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Keyboard_st xKeyboard){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::oNotify_Of_KeyPress");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::oNotify_Of_KeyPress",_NAMESPACE_);
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
                 case 0xD6:{
@@ -171,7 +171,7 @@ namespace Sauce{
         }
     }
     void Kernel_cl::oNotify_Of_Mouse(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Mouse_st* xMouse){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::oNotify_Of_Mouse");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::oNotify_Of_Mouse",_NAMESPACE_);
         if(xMouse->Position->Y < 0){xMouse->Position->Y=0;}
         if(xMouse->Position->X < 0){xMouse->Position->X=0;}
         if((xMouse->Position->Y+Sauce::Global::Mouse->Size(&Debugger).Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Mouse->Size(&Debugger).Y;}
@@ -239,7 +239,7 @@ namespace Sauce{
         }
     }
     void Kernel_cl::DrawUI(Sauce::IO::Debug::Debugger_st* pDebugger){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::DrawUI");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::DrawUI",_NAMESPACE_);
         for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
             Sauce::Global::Terminal->CopyFrom(&Debugger,Sauce::Global::Windows[i]);
         }
@@ -247,13 +247,13 @@ namespace Sauce{
         Sauce::Global::Screen->SwapFrom(&Debugger,Sauce::Global::Terminal);
     }
     void Kernel_cl::AcceptingInterrupts(Sauce::IO::Debug::Debugger_st* pDebugger,size_t TimeSpan){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::AcceptingInterrupts");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::AcceptingInterrupts",_NAMESPACE_);
         asm volatile("sti");
         Sauce::Interrupts::PIT::Sleep(&Debugger,TimeSpan);
         asm volatile("cli");
     }
     void Kernel_cl::Notify(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Interrupts::InterruptDataStruct InterruptData){
-        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Notify");
+        Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Kernel_cl::Notify",_NAMESPACE_);
         asm volatile("cli");
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{

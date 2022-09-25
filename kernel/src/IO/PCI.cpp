@@ -8,7 +8,7 @@
 namespace Sauce{
     namespace IO{
         void EnemerateFunction(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t deviceAddress,uint64_t function){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"EnemerateFunction");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"EnemerateFunction",_NAMESPACE_);
             uint64_t offset = function << 12;
             uint64_t functionAddress = deviceAddress + offset;
             Sauce::Global::PageTableManager.MapMemory(&Debugger,(void*)functionAddress,(void*)functionAddress);
@@ -31,7 +31,7 @@ namespace Sauce{
             }
         }
         void EnumerateDevice(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t busAddress,uint64_t device){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"EnumerateDevice");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"EnumerateDevice",_NAMESPACE_);
             uint64_t offset = device << 15;
             uint64_t deviceAddress = busAddress + offset;
             Sauce::Global::PageTableManager.MapMemory(&Debugger,(void*)deviceAddress,(void*)deviceAddress);
@@ -43,7 +43,7 @@ namespace Sauce{
             }
         }
         void EnumerateBus(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t baseAddress,uint64_t bus){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"EnumerateBus");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"EnumerateBus",_NAMESPACE_);
             uint64_t offset = bus << 20;
             uint64_t busAddress = baseAddress + offset;
             Sauce::Global::PageTableManager.MapMemory(&Debugger,(void*)busAddress,(void*)busAddress);
@@ -55,7 +55,7 @@ namespace Sauce{
             }
         }
         void EnumeratePCI(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::IO::ACPI::MCFGHeader* mcfg){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"EnumeratePCI");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"EnumeratePCI",_NAMESPACE_);
             int entries = ((mcfg->Header.Length) - sizeof(Sauce::IO::ACPI::MCFGHeader)) / sizeof(Sauce::IO::ACPI::DeviceConfig);
             for(int t=0;t<entries;t++){
                 Sauce::IO::ACPI::DeviceConfig *nDeviceConfig = (Sauce::IO::ACPI::DeviceConfig*)((uint64_t)mcfg + sizeof(Sauce::IO::ACPI::MCFGHeader) + (sizeof(Sauce::IO::ACPI::DeviceConfig)*t));
@@ -87,7 +87,7 @@ namespace Sauce{
             "Non Essential Instrumentation"
         };
         const char* GetVenderName(Sauce::IO::Debug::Debugger_st* pDebugger,uint16_t VendorID){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"GetVenderName");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"GetVenderName",_NAMESPACE_);
             switch(VendorID){
                 case 0x8086:{return "Intel Corperation";}
                 case 0x1022:{return "AMD";}
@@ -96,7 +96,7 @@ namespace Sauce{
             }
         }
         const char* GetDeviceName(Sauce::IO::Debug::Debugger_st* pDebugger,uint16_t VendorID,uint16_t DeviceID){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"GetDeviceName");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"GetDeviceName",_NAMESPACE_);
             switch(VendorID){
                 case 0x8086:{
                     switch(DeviceID){
@@ -116,7 +116,7 @@ namespace Sauce{
             }
         }
         const char* GetSubClassName(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t ClassCode,uint8_t SubClassCode){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"GetSubClassName");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"GetSubClassName",_NAMESPACE_);
             switch(ClassCode){
                 case 0x01:{
                     switch(SubClassCode){
@@ -172,7 +172,7 @@ namespace Sauce{
             }
         }
         const char* GetProgIFName(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t ClassCode, uint8_t SubClassCode, uint8_t ProgIFCode){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"GetProgIFName");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"GetProgIFName",_NAMESPACE_);
             switch (ClassCode){
                 case 0x01:{
                     switch (SubClassCode){

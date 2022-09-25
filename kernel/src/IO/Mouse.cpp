@@ -8,7 +8,7 @@ namespace Sauce{
     namespace IO{
 		Sauce::Point64_st MousePosition {0,0,0};
         void MouseWait(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWait");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWait",_NAMESPACE_);
             uint64_t timeout=100000;
             while(timeout--){
                 if((inb(0x64) & 0b10) == 0){
@@ -17,7 +17,7 @@ namespace Sauce{
             }
         }
         void MouseWaitInput(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWaitInput");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWaitInput",_NAMESPACE_);
             uint64_t timeout=100000;
             while(timeout--){
                 if(inb(0x64) & 0b1){
@@ -26,14 +26,14 @@ namespace Sauce{
             }
         }
         void MouseWrite(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t value){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWrite");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseWrite",_NAMESPACE_);
             MouseWait(&Debugger);
             outb(0x64,0xD4);
             MouseWait(&Debugger);
             outb(0x60,value);
         }
         uint8_t MouseRead(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseRead");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"MouseRead",_NAMESPACE_);
             MouseWaitInput(&Debugger);
             return inb(0x60);
         }
@@ -41,7 +41,7 @@ namespace Sauce{
         uint8_t MousePacket[4];
         bool MousePacketReady=false;
         void HandlePS2Mouse(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t data){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HandlePS2Mouse");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HandlePS2Mouse",_NAMESPACE_);
             switch(MouseCycle){
                 case 0:{
                     if(MousePacketReady)break;
@@ -64,7 +64,7 @@ namespace Sauce{
         }
         Sauce::Mouse_st nMouseData;
         Sauce::Mouse_st* ProcessMousePacket(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ProcessMousePacket");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ProcessMousePacket",_NAMESPACE_);
             nMouseData.Good=false;
             if(!MousePacketReady){
                 return &nMouseData;
@@ -113,7 +113,7 @@ namespace Sauce{
             return &nMouseData;
         }
         void PS2MouseInitialize(Sauce::IO::Debug::Debugger_st* pDebugger,Sauce::Point64_st InitMousePosition){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PS2MouseInitialize");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PS2MouseInitialize",_NAMESPACE_);
             MousePosition.X=InitMousePosition.X;
             MousePosition.Y=InitMousePosition.Y;
             MousePosition.Z=InitMousePosition.Z;

@@ -4,7 +4,7 @@
 namespace Sauce{
     namespace Memory{
         PageMapIndexer::PageMapIndexer(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t virtualAddress){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageMapIndexer::PageMapIndexer");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageMapIndexer::PageMapIndexer",_NAMESPACE_);
             virtualAddress >>= 12;
             P_i = virtualAddress & 0x1ff;
             virtualAddress >>= 9;

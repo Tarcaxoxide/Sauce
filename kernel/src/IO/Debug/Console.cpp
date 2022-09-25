@@ -8,28 +8,28 @@ namespace Sauce{
                 ready=true;
                 switch(DebugComPort){
                     case COM1:{
-                        if(Sauce::IO::Debug::FUNCTION_CALLS)Write((char*)"[COM1_Console Initialized]\n\0");
+                        Write((char*)"[COM1_Console Initialized]\n\0");
                     }break;
                     case COM2:{
-                        if(Sauce::IO::Debug::FUNCTION_CALLS)COM1_Console.Write((char*)"[COM2_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM2_Console Initialized]\n\0");
                     }break;
                     case COM3:{
-                        if(Sauce::IO::Debug::FUNCTION_CALLS)COM1_Console.Write((char*)"[COM3_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM3_Console Initialized]\n\0");
                     }break;
                     case COM4:{
-                        if(Sauce::IO::Debug::FUNCTION_CALLS)COM1_Console.Write((char*)"[COM4_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM4_Console Initialized]\n\0");
                     }break;
                     case COM5:{
-                        if(Sauce::IO::Debug::FUNCTION_CALLS)COM1_Console.Write((char*)"[COM5_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM5_Console Initialized]\n\0");
                     }break;
                     case COM6:{
-                        if(Sauce::IO::Debug::FUNCTION_CALLS)COM1_Console.Write((char*)"[COM6_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM6_Console Initialized]\n\0");
                     }break;
                     case COM7:{
-                        if(Sauce::IO::Debug::FUNCTION_CALLS)COM1_Console.Write((char*)"[COM7_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM7_Console Initialized]\n\0");
                     }break;
                     case COM8:{
-                        if(Sauce::IO::Debug::FUNCTION_CALLS)COM1_Console.Write((char*)"[COM8_Console Initialized]\n\0");
+                        COM1_Console.Write((char*)"[COM8_Console Initialized]\n\0");
                     }break;
                 }
             }

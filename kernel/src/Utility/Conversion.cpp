@@ -5,13 +5,13 @@ namespace Sauce{
     namespace Utility{
         static unsigned char haxString[512] = {0};// instead of having seperate char arrays for every function, i just define 1 global char array.
         void Clear_haxString(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Clear_haxString");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"Clear_haxString",_NAMESPACE_);
             for(size_t a = 0;(a < 512);a++){
                 haxString[a] = 0;
             }
         }
         char* HexToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint8_t value,bool ClearBefore){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString",_NAMESPACE_);
             if(ClearBefore)Clear_haxString(&Debugger);
             uint8_t* valPtr = &value;
             uint8_t* ptr;
@@ -28,7 +28,7 @@ namespace Sauce{
             return (char*)haxString;
         }
         char* HexToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint16_t value,bool ClearBefore){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString",_NAMESPACE_);
             if(ClearBefore)Clear_haxString(&Debugger);
             uint16_t* valPtr = &value;
             uint8_t* ptr;
@@ -45,7 +45,7 @@ namespace Sauce{
             return (char*)haxString;
         }
         char* HexToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint32_t value,bool ClearBefore){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString",_NAMESPACE_);
             if(ClearBefore)Clear_haxString(&Debugger);
             uint32_t* valPtr = &value;
             uint8_t* ptr;
@@ -62,7 +62,7 @@ namespace Sauce{
             return (char*)haxString;
         }
         char* HexToString(Sauce::IO::Debug::Debugger_st* pDebugger,uint64_t value,bool ClearBefore){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"HexToString",_NAMESPACE_);
             if(ClearBefore)Clear_haxString(&Debugger);
             uint64_t* valPtr = &value;
             uint8_t* ptr;
@@ -100,7 +100,7 @@ namespace Sauce{
             return ToString(pDebugger,(int64_t)value,ClearBefore);
         }
 		char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,int64_t value,bool ClearBefore){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString",_NAMESPACE_);
             Clear_haxString(&Debugger);
             uint8_t isNegative = 0;
             if(value < 0){
@@ -127,7 +127,7 @@ namespace Sauce{
             return (char*)haxString;
         }
         char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,float value,uint16_t decimalPlaces){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString",_NAMESPACE_);
             Clear_haxString(&Debugger);
             char* intPtr = (char*)ToString(&Debugger,(int)value);
             char* floatPtr = (char*)haxString;
@@ -149,7 +149,7 @@ namespace Sauce{
             return (char*)haxString;
         }
         char* ToString(Sauce::IO::Debug::Debugger_st* pDebugger,double value,uint16_t decimalPlaces){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"ToString",_NAMESPACE_);
             Clear_haxString(&Debugger);
             char* intPtr = (char*)ToString(&Debugger,(int)value);
             char* floatPtr = (char*)haxString;

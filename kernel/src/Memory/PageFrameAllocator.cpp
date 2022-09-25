@@ -10,7 +10,7 @@ namespace Sauce{
         uint64_t usedMemory;
         bool Initialized=false;
         void PageFrameAllocator_cl::ReadEfiMemoryMap(Sauce::IO::Debug::Debugger_st* pDebugger,EFI_MEMORY_DESCRIPTOR* mMap,size_t mMapSize,size_t mDescriptorSize){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReadEfiMemoryMap");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReadEfiMemoryMap",_NAMESPACE_);
             if(Initialized){return;}
             Initialized=true;
             uint64_t mMapEntries = mMapSize/mDescriptorSize;
@@ -43,7 +43,7 @@ namespace Sauce{
             // reserve pages of unusable/reserved memory
         }
         void PageFrameAllocator_cl::InitializeBitmap(Sauce::IO::Debug::Debugger_st* pDebugger,size_t bitmapSize,void* bufferAddress){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::InitializeBitmap");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::InitializeBitmap",_NAMESPACE_);
             PageBitmap.Size=bitmapSize;
             PageBitmap.Buffer = (uint8_t*)bufferAddress;
             for(int i=0;i<bitmapSize;i++){
@@ -51,7 +51,7 @@ namespace Sauce{
             }
         }
         void PageFrameAllocator_cl::FreePage(Sauce::IO::Debug::Debugger_st* pDebugger,void* address){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::FreePage");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::FreePage",_NAMESPACE_);
             uint64_t index = (uint64_t)address / 4096;
             if(PageBitmap[index] == false)return;
             if(PageBitmap.Set(&Debugger,index,false)){
@@ -61,7 +61,7 @@ namespace Sauce{
             }
         }
         void PageFrameAllocator_cl::LockPage(Sauce::IO::Debug::Debugger_st* pDebugger,void* address){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::LockPage");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::LockPage",_NAMESPACE_);
             uint64_t index = (uint64_t)address / 4096;
             if(PageBitmap[index] == true)return;
             if(PageBitmap.Set(&Debugger,index,true)){
@@ -70,7 +70,7 @@ namespace Sauce{
             }
         }
         void PageFrameAllocator_cl::ReleasePage(Sauce::IO::Debug::Debugger_st* pDebugger,void* address){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReleasePage");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReleasePage",_NAMESPACE_);
             uint64_t index = (uint64_t)address / 4096;
             if(PageBitmap[index] == false)return;
             if(PageBitmap.Set(&Debugger,index,false)){
@@ -80,7 +80,7 @@ namespace Sauce{
             }
         }
         void PageFrameAllocator_cl::ReservePage(Sauce::IO::Debug::Debugger_st* pDebugger,void* address){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReservePage");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReservePage",_NAMESPACE_);
             uint64_t index = (uint64_t)address / 4096;
             if(PageBitmap[index] == true)return;
             if(PageBitmap.Set(&Debugger,index,true)){
@@ -89,48 +89,48 @@ namespace Sauce{
             }
         }
         void PageFrameAllocator_cl::FreePages(Sauce::IO::Debug::Debugger_st* pDebugger,void* address,uint64_t pageCount){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::FreePages");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::FreePages",_NAMESPACE_);
             for(size_t t=0;t<pageCount;t++){
                 FreePage(&Debugger,(void*)((uint64_t)address+(t*4096)));
             }
         }
         void PageFrameAllocator_cl::LockPages(Sauce::IO::Debug::Debugger_st* pDebugger,void* address,uint64_t pageCount){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::LockPages");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::LockPages",_NAMESPACE_);
             for(size_t t=0;t<pageCount;t++){
                 LockPage(&Debugger,(void*)((uint64_t)address+(t*4096)));
             }
         }
         void PageFrameAllocator_cl::ReservePages(Sauce::IO::Debug::Debugger_st* pDebugger,void* address,uint64_t pageCount){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReservePages");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReservePages",_NAMESPACE_);
             for(size_t t=0;t<pageCount;t++){
                 ReservePage(&Debugger,(void*)((uint64_t)address+(t*4096)));
             }
         }
         void PageFrameAllocator_cl::ReleasePages(Sauce::IO::Debug::Debugger_st* pDebugger,void* address,uint64_t pageCount){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReleasePages");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::ReleasePages",_NAMESPACE_);
             for(size_t t=0;t<pageCount;t++){
                 ReleasePage(&Debugger,(void*)((uint64_t)address+(t*4096)));
             }
         }
         uint64_t PageFrameAllocator_cl::GetFreeRAM(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::GetFreeRAM");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::GetFreeRAM",_NAMESPACE_);
             return freeMemory;
         }
         uint64_t PageFrameAllocator_cl::GetUsedRAM(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::GetUsedRAM");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::GetUsedRAM",_NAMESPACE_);
             return usedMemory;
         }
         uint64_t PageFrameAllocator_cl::GetReservedRAM(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::GetReservedRAM");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::GetReservedRAM",_NAMESPACE_);
             return reservedMemory;
         }
         uint64_t PageFrameAllocator_cl::GetTotalRAM(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::GetTotalRAM");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::GetTotalRAM",_NAMESPACE_);
             size_t Ret = GetFreeRAM(&Debugger)+GetUsedRAM(&Debugger)+GetReservedRAM(&Debugger);
             return Ret;
         }
         void* PageFrameAllocator_cl::RequestPage(Sauce::IO::Debug::Debugger_st* pDebugger){
-            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::RequestPage");
+            Sauce::IO::Debug::Debugger_st Debugger(pDebugger,"PageFrameAllocator_cl::RequestPage",_NAMESPACE_);
             for(;pageBitmapIndex<PageBitmap.Size*8;pageBitmapIndex++){
                 if(PageBitmap[pageBitmapIndex] == true)continue;
                 void* TheAddress = (void*)(pageBitmapIndex*4096);
