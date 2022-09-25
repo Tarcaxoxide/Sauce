@@ -1,5 +1,8 @@
 #pragma once
 
+
+#define LoggingDisabled 1
+
 const static char* _NAMESPACE_="::";
 const static bool _ALLOW_PRINT_=false;
 namespace Sauce{
