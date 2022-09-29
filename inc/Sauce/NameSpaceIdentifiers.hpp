@@ -36,6 +36,14 @@ namespace Sauce{
         const static char* _NAMESPACE_="::Sauce::Memory";
         const static bool _ALLOW_PRINT_=false;
     };
+    namespace Storage{
+        const static char* _NAMESPACE_="::Sauce::Storage";
+        const static bool _ALLOW_PRINT_=false;
+        namespace FileSystem{
+            const static char* _NAMESPACE_="::Sauce::Storage::Filesystem";
+            const static bool _ALLOW_PRINT_=false;
+        };
+    };
     namespace Utility{
         const static char* _NAMESPACE_="::Sauce::Utility";
         const static bool _ALLOW_PRINT_=false;

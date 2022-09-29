@@ -68,7 +68,7 @@ setup:
 	@mkdir -p $(OBJDIR)
 
 
-.PHONY: clean run run_iso
+.PHONY: clean run 
 clean:
 	rm -frv bin/* lib/*
 
