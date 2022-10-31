@@ -1,5 +1,5 @@
 #include<Sauce/Memory/PageTableManager.hpp>
-#include<Sauce/Global/Global.hpp>
+#include<Sauce/Global.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 

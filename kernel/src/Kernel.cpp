@@ -18,7 +18,7 @@
 #include<Sauce/Graphics/Window.hpp>
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
-#include<Sauce/Global/Global.hpp>
+#include<Sauce/Global.hpp>
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/Utility/NeuralNetwork.hpp>
 

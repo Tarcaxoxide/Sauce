@@ -3,7 +3,7 @@
 #include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/Utility/Conversion.hpp>
-#include<Sauce/Global/Global.hpp>
+#include<Sauce/Global.hpp>
 #include<Sauce/Utility/NeuralNetwork.hpp>
 
 namespace Sauce{
@@ -151,13 +151,28 @@ namespace Sauce{
                 }
             }
             ShellClear();
-            for(size_t ii=0;ii<ArgBuffer.Size();ii++){
-                PutString(Sauce::Utility::ToString(ii),false);
-                PutString(L":'",false);
-                PutString(ArgBuffer[ii]->Raw(),false);
-                PutString(L"'\n\r",false);
-            }
             
+            Sauce::Commands::Command_st* PreviousCommand=(Sauce::Commands::Command_st*)nullptr;
+            Sauce::Commands::Command_st* CurrentCommand=(Sauce::Commands::Command_st*)&Sauce::Global::BaseCommand;
+
+            Sauce::Memory::List_cl<Sauce::Memory::List_cl<wchar_t>> args = Sauce::Utility::split(CharBuffer,L' ');
+
+            for(size_t i=0;i<args.Size()+1;i++){
+                if(args.Size() == i){CurrentCommand=(*CurrentCommand)(i-1,&args);}else{CurrentCommand=(*CurrentCommand)(i,&args);}
+                if(CurrentCommand == nullptr || PreviousCommand == CurrentCommand){
+                    break;
+                }
+                PreviousCommand=CurrentCommand;
+            }
+            if(CurrentCommand == nullptr){
+                if(PreviousCommand == nullptr){
+                    PutString(L"Unknown command.",false);
+                }else{
+                    PutString(L"Unknown subcommand.",false);
+                }
+            }else{
+                PutString(CurrentCommand->ReturnString.Raw(),false);
+            }  
         }
         void Shell_cl::ShellClear(){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_);

@@ -8,6 +8,7 @@
 #include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<Sauce/Commands.hpp>
 
 namespace Sauce{
     namespace Graphics{

@@ -1,6 +1,6 @@
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Global/Global.hpp>
+#include<Sauce/Global.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{

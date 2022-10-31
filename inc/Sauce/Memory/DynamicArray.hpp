@@ -110,6 +110,36 @@ namespace Sauce{
                 }
                 return true;
             }
+            bool Remove(size_t Index){
+                if(Array_Size-1 == 0)return false;
+                if(Array_Size-1 == 0)return false;
+                // A B C {D} E F G
+                // F      I      B
+                size_t Array_Front_Size = Index;
+                size_t Array_Back_Size = (Array_Capacity-1)-Index;
+                size_t nArray_Capacity=Array_Capacity-1;
+                TT* FArray = new TT[Array_Front_Size];
+                TT* BArray = new TT[Array_Back_Size];
+                for(size_t i=0;i<Array_Back_Size;i++){
+                    FArray[i] = Array[i];
+                }
+                for(size_t i=0;i<Array_Back_Size;i++){
+                    BArray[i] = Array[i+Index];
+                }
+                delete[] Array;
+                Array = new TT[nArray_Capacity];
+                for(size_t i=0;i<Array_Back_Size;i++){
+                    Array[i] = FArray[i];
+                }
+                for(size_t i=0;i<Array_Back_Size;i++){
+                    Array[i+Index] = BArray[i];
+                }
+                delete[] BArray;
+                delete[] FArray;
+                Array_Size--;
+                Array_Capacity--;
+                return true;
+            }
             bool RemoveLast(){
                 if(Array_Size == 0)return false;
                 if(Array_Size-1 < Array_Capacity-StageSize){
@@ -144,6 +174,9 @@ namespace Sauce{
                     if(Get(i) != OtherValue[i])return false;
                 }
                 return true;
+            }
+            bool operator==(List_cl<TT> OtherValue){
+                return (*this)==OtherValue.Raw();
             }
             TT* Raw(){
                 return Array;

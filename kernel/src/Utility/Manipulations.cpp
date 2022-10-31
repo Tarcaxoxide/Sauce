@@ -20,13 +20,40 @@ namespace Sauce{
         Sauce::Memory::List_cl<char*> split(char* path, char delimiter){
             Sauce::Memory::List_cl<char> tmpString;
             Sauce::Memory::List_cl<char*> Result;
-
             size_t strlength=strlen(path);
             for(size_t i=0;i<strlength;i++){
                 if(path[i] != delimiter){
                     tmpString.AddLast(path[i]);
                 }else{
                     Result.AddLast((char*)tmpString.Raw());
+                    tmpString.Clear();
+                }
+            }
+            return Result;
+        }
+        Sauce::Memory::List_cl<Sauce::Memory::List_cl<char>> split(Sauce::Memory::List_cl<char> path, char delimiter){
+            Sauce::Memory::List_cl<char> tmpString;
+            Sauce::Memory::List_cl<Sauce::Memory::List_cl<char>> Result;
+
+            for(size_t i=0;i<path.Size();i++){
+                if(path[i] != delimiter){
+                    tmpString.AddLast(path[i]);
+                }else{
+                    Result.AddLast(tmpString);
+                    tmpString.Clear();
+                }
+            }
+            return Result;
+        }
+        Sauce::Memory::List_cl<Sauce::Memory::List_cl<wchar_t>> split(Sauce::Memory::List_cl<wchar_t> path, wchar_t delimiter){
+            Sauce::Memory::List_cl<wchar_t> tmpString;
+            Sauce::Memory::List_cl<Sauce::Memory::List_cl<wchar_t>> Result;
+
+            for(size_t i=0;i<path.Size();i++){
+                if(path[i] != delimiter){
+                    tmpString.AddLast(path[i]);
+                }else{
+                    Result.AddLast(tmpString);
                     tmpString.Clear();
                 }
             }

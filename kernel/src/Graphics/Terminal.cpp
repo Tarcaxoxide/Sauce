@@ -2,7 +2,7 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Global/Global.hpp>
+#include<Sauce/Global.hpp>
 #include<Sauce/Utility/Manipulations.hpp>
 namespace Sauce{
     namespace Graphics{
