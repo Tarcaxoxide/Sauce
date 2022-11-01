@@ -12,7 +12,6 @@ namespace Sauce{
         Sauce::Memory::PageTableManager_cl PageTableManager=NULL;
         Sauce::Storage::AHCIDriver_cl* AHCIDriver=nullptr;
         Sauce::Storage::FileSystem::VirtualFileSystem::FilesystemManager_cl FilesystemManager;
-        Sauce::Commands::Command_st BaseCommand((wchar_t*)"BaseCommand",(wchar_t*)"(?this shouldn't ever be activated?)");
     };
 };
 

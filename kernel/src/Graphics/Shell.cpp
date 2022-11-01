@@ -6,6 +6,19 @@
 #include<Sauce/Global.hpp>
 #include<Sauce/Utility/NeuralNetwork.hpp>
 
+
+
+
+namespace Test{
+    struct Command_st{
+        bool (*ExecutableBody)(Sauce::string Arguments);
+        Sauce::string Name;
+    };
+};
+
+
+
+
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
@@ -13,7 +26,7 @@ namespace Sauce{
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::Shell_cl",_NAMESPACE_);
             ShellClear();
         }
-        void Shell_cl::PutChar(wchar_t chr,bool AddToBuffer){
+        void Shell_cl::PutChar(char chr,bool AddToBuffer){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutChar",_NAMESPACE_);
             size_t chrindex = (size_t)chr;
             if(chrindex > 255)chrindex-=8236; //<- get out of here you stupid "wide characters",
@@ -66,20 +79,10 @@ namespace Sauce{
                 }break;
             }
         }
-        void Shell_cl::PutString(const wchar_t* str,bool AddToBuffer){
+        void Shell_cl::PutString(Sauce::string str,bool AddToBuffer){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutString",_NAMESPACE_);
-            while(true){
-                char ThisChar = (char)*str++;
-                if(ThisChar == '\0')break;
-                PutChar((wchar_t)ThisChar,AddToBuffer);
-            }
-        }
-        void Shell_cl::PutString(const char* str,bool AddToBuffer){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutString",_NAMESPACE_);
-            while(true){
-                char ThisChar = (char)*str++;
-                if(ThisChar == '\0')break;
-                PutChar((wchar_t)ThisChar,AddToBuffer);
+            for(size_t i=0;i<str.Size();i++){
+                PutChar(str[i]);
             }
         }
         bool Shell_cl::GoDown(size_t amount){
@@ -135,11 +138,11 @@ namespace Sauce{
         }
         void Shell_cl::RunCmd(){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::RunCmd",_NAMESPACE_);
-            Sauce::Memory::List_cl<Sauce::Memory::List_cl<char>*> ArgBuffer;
+            Sauce::Memory::List_cl<Sauce::string*> ArgBuffer;
             size_t CrawlerVal=0;
             for(size_t i=0;i<CharBuffer.Size();i++){
                 if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
-                    Sauce::Memory::List_cl<char>* str = new Sauce::Memory::List_cl<char>;
+                    Sauce::string* str = new Sauce::string;
                     for(size_t a=CrawlerVal;a<i;a++){
                         if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
                             str->AddLast((char)CharBuffer[a]);
@@ -152,27 +155,7 @@ namespace Sauce{
             }
             ShellClear();
             
-            Sauce::Commands::Command_st* PreviousCommand=(Sauce::Commands::Command_st*)nullptr;
-            Sauce::Commands::Command_st* CurrentCommand=(Sauce::Commands::Command_st*)&Sauce::Global::BaseCommand;
-
-            Sauce::Memory::List_cl<Sauce::Memory::List_cl<wchar_t>> args = Sauce::Utility::split(CharBuffer,L' ');
-
-            for(size_t i=0;i<args.Size()+1;i++){
-                if(args.Size() == i){CurrentCommand=(*CurrentCommand)(i-1,&args);}else{CurrentCommand=(*CurrentCommand)(i,&args);}
-                if(CurrentCommand == nullptr || PreviousCommand == CurrentCommand){
-                    break;
-                }
-                PreviousCommand=CurrentCommand;
-            }
-            if(CurrentCommand == nullptr){
-                if(PreviousCommand == nullptr){
-                    PutString(L"Unknown command.",false);
-                }else{
-                    PutString(L"Unknown subcommand.",false);
-                }
-            }else{
-                PutString(CurrentCommand->ReturnString.Raw(),false);
-            }  
+            
         }
         void Shell_cl::ShellClear(){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_);

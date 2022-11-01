@@ -8,7 +8,6 @@
 #include<Sauce/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-#include<Sauce/Commands.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -17,9 +16,8 @@ namespace Sauce{
             Sauce::Memory::List_cl<wchar_t> CharBuffer;
             public:
                 Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset={0,0,0});
-                void PutChar(wchar_t chr,bool AddToBuffer=true);
-                void PutString(const wchar_t* str,bool AddToBuffer=true);
-                void PutString(const char* str,bool AddToBuffer=true);
+                void PutChar(char chr,bool AddToBuffer=true);
+                void PutString(Sauce::string str,bool AddToBuffer);
                 bool GoDown(size_t amount=1);
                 bool GoUp(size_t amount=1);
                 bool GoRight(size_t amount=1);

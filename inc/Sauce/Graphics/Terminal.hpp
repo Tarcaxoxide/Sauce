@@ -15,7 +15,7 @@ namespace Sauce{
 				Sauce::Point64_st PixelPointer{0,0,0};
 				Sauce::Point64_st MyOffset{0,0,0};
             public:
-                char ID[64]{'\0'};
+                Sauce::string ID;
                 Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset={0,0,0},GOP_PixelStructure* PixelBuffer=nullptr);
                 bool SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor);
                 bool SetColor(GOP_PixelStructure ForegroundColor);
@@ -34,7 +34,7 @@ namespace Sauce{
                 bool SwapFrom(Terminal_cl* OtherTerminal);
 				Sauce::uPoint64_st Size();
                 bool Move(Sauce::Point64_st Offset);
-                void setID(const char* nID);
+                void setID(Sauce::string nID);
                 //Mouse related functions
                 bool Is_Mouse_Over(Sauce::Point64_st Location);
 				void Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location);

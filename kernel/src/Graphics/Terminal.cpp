@@ -134,12 +134,10 @@ namespace Sauce{
             MyOffset=Offset;
             return true;
         }
-        void Terminal_cl::setID(const char* nID){
+        void Terminal_cl::setID(Sauce::string nID){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::setID",_NAMESPACE_);
             size_t i=0;
-            while( nID[i++] != '\0' && i<63 ){
-                ID[i]=nID[i];
-            }
+            ID=nID;
         }
         bool Terminal_cl::Is_Mouse_Over(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Is_Mouse_Over",_NAMESPACE_);

@@ -200,4 +200,5 @@ namespace Sauce{
             }
         };
     };
+    typedef Sauce::Memory::List_cl<char> string;
 };
