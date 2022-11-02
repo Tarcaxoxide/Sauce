@@ -1,6 +1,7 @@
-kernel/bin/
-kernel/lib/
+kernel/bin/*
+kernel/lib/*
 Sauce.iso
-USBdir/
-ISOdir/
-OVMFbin/OVMF_VARS-pure-efi.fd
+USBdir/*
+ISOdir/*
+OVMFbin/*
+OVMFbin/*
