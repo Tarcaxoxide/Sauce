@@ -104,11 +104,14 @@ namespace Sauce{
             if(OtherPixelBufferTotalSize < PixelBufferTotalSize+(Offset.X*Offset.Y)){
                 return false;
             }
+            PixelPointer.X=0;
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
-                for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                    if(ID != (char*)"Mouse" && Sauce::Global::Mouse->Is_Mouse_Over(PixelPointer))continue;
-                    OtherPixelBuffer[Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
-                }
+                
+                Sauce::Memory::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),OtherPixelBuffer+Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine),(PixelsPerLine*sizeof(GOP_PixelStructure)));
+                //for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
+                //    if(ID != (char*)"Mouse" && Sauce::Global::Mouse->Is_Over(PixelPointer))continue;
+                //    OtherPixelBuffer[Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
+                //}
             }
             return true;
         }
@@ -141,62 +144,76 @@ namespace Sauce{
             size_t i=0;
             ID=nID;
         }
-        bool Terminal_cl::Is_Mouse_Over(Sauce::Point64_st Location){
+        bool Terminal_cl::Is_Over(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Is_Mouse_Over",_NAMESPACE_);
-            return (Location.Y > MyOffset.Y && Location.Y < MyOffset.Y+PixelsBufferHeight\
-                    && Location.X > MyOffset.X && Location.X < MyOffset.X+PixelsPerLine);
+
+            bool Vertical=(Location.Y > MyOffset.Y/*below of my top?*/) && (Location.Y < MyOffset.Y+PixelsBufferHeight/*above of my bottom?*/);
+            bool Horizontal=(Location.X > MyOffset.X/*right of my left*/) && (Location.X < MyOffset.X+PixelsPerLine/*left of my right*/);
+
+            /*
+                # = top left and bottom right corners of myself.
+                1/0 = is over/is not over.
+                000000000000
+                0#1111111110
+                011111111110
+                011111111110
+                011111111110
+                0111111111#0
+                000000000000
+            */
+            return Vertical && Horizontal;
         }
         void Terminal_cl::Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Left_Down",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Click Detected");
             }
         }
         void Terminal_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Right_Down",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Click Detected");
             }
         }
         void Terminal_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Center_Down",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Click Detected");
             }
         }
 		void Terminal_cl::Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Left_Up",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Release Detected");
             }
         }
 		void Terminal_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Right_Up",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Release Detected");
             }
         }
 		void Terminal_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Center_Up",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Release Detected");
             }
         }
         void Terminal_cl::Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Left_Drag",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Drag Detected");
             }
         }
 		void Terminal_cl::Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Right_Drag",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Drag Detected");
             }
         }
 		void Terminal_cl::Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Notify_Of_Mouse_Center_Drag",_NAMESPACE_);
-            if(Is_Mouse_Over(Location)){
+            if(Sauce::Global::Mouse->Is_Over(Location)){
                 Debugger.Print("Drag Detected");
             }
         }

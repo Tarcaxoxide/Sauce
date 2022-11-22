@@ -241,11 +241,11 @@ namespace Sauce{
     }
     void Kernel_cl::DrawUI(){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::DrawUI",_NAMESPACE_);
-        Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
         for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
             Sauce::Global::Terminal->CopyFrom(Sauce::Global::Windows[i]);
         }
-        Sauce::Global::Screen->SwapFrom(Sauce::Global::Terminal);
+        Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
+        Sauce::Global::Screen->CopyFrom(Sauce::Global::Terminal);
     }
     void Kernel_cl::AcceptingInterrupts(size_t TimeSpan){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::AcceptingInterrupts",_NAMESPACE_);

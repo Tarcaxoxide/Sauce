@@ -36,7 +36,7 @@ namespace Sauce{
                 bool Move(Sauce::Point64_st Offset);
                 void SetID(Sauce::string nID);
                 //Mouse related functions
-                bool Is_Mouse_Over(Sauce::Point64_st Location);
+                bool Is_Over(Sauce::Point64_st Location);
 				void Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location);
                 void Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location);
                 void Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location);
