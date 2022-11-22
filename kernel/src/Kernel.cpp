@@ -70,11 +70,12 @@ namespace Sauce{
         Sauce::Global::Terminal=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
         Sauce::Global::Screen=new Sauce::Graphics::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
         Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
+        Sauce::Global::Mouse->SetID((char*)"Mouse");
         Sauce::Global::Terminal->SetColor({0x11,0x11,0x11,0x00},{0x11,0x11,0x11,0x00});
-        Sauce::Global::Terminal->setID((char*)"Terminator");
+        //Sauce::Global::Terminal->SetID((char*)"Terminator");
         Sauce::Global::Terminal->Clear();
         Sauce::Global::Windows.AddLast(new Sauce::Graphics::Window_cl({DFBL->FrameBuffer->PixelsPerScanLine-4,DFBL->FrameBuffer->Height-4,0},{2,2,0}));
-        Sauce::Global::Windows.Last()->setID((char*)"Shell");
+        Sauce::Global::Windows.Last()->SetID((char*)"Shell");
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::MainLoop",_NAMESPACE_);
@@ -240,10 +241,10 @@ namespace Sauce{
     }
     void Kernel_cl::DrawUI(){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::DrawUI",_NAMESPACE_);
+        Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
         for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
             Sauce::Global::Terminal->CopyFrom(Sauce::Global::Windows[i]);
         }
-        Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
         Sauce::Global::Screen->SwapFrom(Sauce::Global::Terminal);
     }
     void Kernel_cl::AcceptingInterrupts(size_t TimeSpan){

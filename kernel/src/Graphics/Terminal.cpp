@@ -18,6 +18,7 @@ namespace Sauce{
             this->PixelsPerLine=PixelsPerLine;
             PixelsBufferHeight=(PixelBufferTotalSize/PixelsPerLine);
             MyOffset=Offset;
+            SetID((char*)"GenericTerminal");
         }
         bool Terminal_cl::SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::SetColor",_NAMESPACE_);
@@ -105,6 +106,7 @@ namespace Sauce{
             }
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
+                    if(ID != (char*)"Mouse" && Sauce::Global::Mouse->Is_Mouse_Over(PixelPointer))continue;
                     OtherPixelBuffer[Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
                 }
             }
@@ -134,7 +136,7 @@ namespace Sauce{
             MyOffset=Offset;
             return true;
         }
-        void Terminal_cl::setID(Sauce::string nID){
+        void Terminal_cl::SetID(Sauce::string nID){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::setID",_NAMESPACE_);
             size_t i=0;
             ID=nID;

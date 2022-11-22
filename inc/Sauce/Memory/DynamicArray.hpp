@@ -178,6 +178,12 @@ namespace Sauce{
             bool operator==(List_cl<TT> OtherValue){
                 return (*this)==OtherValue.Raw();
             }
+            bool operator!=(TT* OtherValue){
+                return !((*this)==OtherValue);
+            }
+            bool operator!=(List_cl<TT> OtherValue){
+                return (*this)!=OtherValue.Raw();
+            }
             TT* Raw(){
                 return Array;
             }

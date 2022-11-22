@@ -34,7 +34,7 @@ namespace Sauce{
                 bool SwapFrom(Terminal_cl* OtherTerminal);
 				Sauce::uPoint64_st Size();
                 bool Move(Sauce::Point64_st Offset);
-                void setID(Sauce::string nID);
+                void SetID(Sauce::string nID);
                 //Mouse related functions
                 bool Is_Mouse_Over(Sauce::Point64_st Location);
 				void Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location);
