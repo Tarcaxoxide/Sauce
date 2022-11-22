@@ -108,10 +108,7 @@ namespace Sauce{
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
                 
                 Sauce::Memory::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),OtherPixelBuffer+Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine),(PixelsPerLine*sizeof(GOP_PixelStructure)));
-                //for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                //    if(ID != (char*)"Mouse" && Sauce::Global::Mouse->Is_Over(PixelPointer))continue;
-                //    OtherPixelBuffer[Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine)]=PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)];
-                //}
+                // changed to memcpy, it's a wee bit janky around the edges but eh at least it's faster right :)
             }
             return true;
         }
