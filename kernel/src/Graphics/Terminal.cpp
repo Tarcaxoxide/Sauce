@@ -106,7 +106,6 @@ namespace Sauce{
             }
             PixelPointer.X=0;
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
-                
                 Sauce::Memory::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),OtherPixelBuffer+Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine),(PixelsPerLine*sizeof(GOP_PixelStructure)));
                 // changed to memcpy, it's a wee bit janky around the edges but eh at least it's faster right :)
             }
