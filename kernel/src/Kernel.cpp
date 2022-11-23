@@ -155,15 +155,15 @@ namespace Sauce{
         if(xKeyboard.Press){
             switch(xKeyboard.Key){
                 case 0xD6:{
-                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\n');
-                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\r');
+                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\n',true);
+                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\r',true);
                 }break;
                 case 0x1C:{
-                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\b');
+                    /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\b',true);
                 }break;
                 default:{   
                     if(xKeyboard.visible){
-                        /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar(xKeyboard.Display);
+                        /*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar(xKeyboard.Display,true);
                     }else{
                        Debugger.Print(Sauce::Utility::HexToString(xKeyboard.Key));
                     }

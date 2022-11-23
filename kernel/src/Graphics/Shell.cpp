@@ -9,22 +9,12 @@
 
 
 
-namespace Test{
-    struct Command_st{
-        bool (*ExecutableBody)(Sauce::string Arguments);
-        Sauce::string Name;
-    };
-};
-
-
-
-
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
         :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::Shell_cl",_NAMESPACE_);
-            ShellClear();
+            ShellClear(true);
         }
         void Shell_cl::PutChar(char chr,bool AddToBuffer){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutChar",_NAMESPACE_);
@@ -82,7 +72,7 @@ namespace Sauce{
         void Shell_cl::PutString(Sauce::string str,bool AddToBuffer){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutString",_NAMESPACE_);
             for(size_t i=0;i<str.Size();i++){
-                PutChar(str[i]);
+                PutChar(str[i],AddToBuffer);
             }
         }
         bool Shell_cl::GoDown(size_t amount){
@@ -153,17 +143,23 @@ namespace Sauce{
                     CrawlerVal=i;
                 }
             }
-            ShellClear();
+            ShellClear(false);
             
-            
+            //run command
+            for(size_t i=0;i<ArgBuffer.Size();i++){
+                PutString((char*)"\n\r",false);
+                PutString(*ArgBuffer[i],false);
+            }
         }
-        void Shell_cl::ShellClear(){
+        void Shell_cl::ShellClear(bool ClearScreen){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_);
             CharBuffer.Clear();
-            Cursor.X=0;
-            Cursor.Y=0;
-            Cursor.Z=0;
-            Clear();
+            if(ClearScreen){
+                Cursor.X=0;
+                Cursor.Y=0;
+                Cursor.Z=0;
+                Clear();
+            }
         }
     };
 };

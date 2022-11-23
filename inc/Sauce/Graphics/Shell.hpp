@@ -16,7 +16,7 @@ namespace Sauce{
             Sauce::Memory::List_cl<wchar_t> CharBuffer;
             public:
                 Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset={0,0,0});
-                void PutChar(char chr,bool AddToBuffer=true);
+                void PutChar(char chr,bool AddToBuffer);
                 void PutString(Sauce::string str,bool AddToBuffer);
                 bool GoDown(size_t amount=1);
                 bool GoUp(size_t amount=1);
@@ -27,7 +27,7 @@ namespace Sauce{
                 void GoFarRight();
                 void GoFarLeft();
                 void RunCmd();
-                void ShellClear();
+                void ShellClear(bool ClearScreen);
         };
     };
 };
