@@ -10,7 +10,7 @@
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
-#include<Sauce/Storage/FileSystem/VirtualFileSystem.hpp>
+
 
 
 namespace Sauce{
@@ -23,6 +23,6 @@ namespace Sauce{
         extern Sauce::Graphics::Mouse_cl* Mouse;
         extern Sauce::Memory::PageTableManager_cl PageTableManager;
         extern Sauce::Storage::AHCIDriver_cl* AHCIDriver;
-        extern Sauce::Storage::FileSystem::VirtualFileSystem::FilesystemManager_cl FilesystemManager;
+        
     };
 };

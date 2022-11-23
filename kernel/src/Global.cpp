@@ -11,7 +11,6 @@ namespace Sauce{
         Sauce::Graphics::Mouse_cl* Mouse=nullptr;
         Sauce::Memory::PageTableManager_cl PageTableManager=NULL;
         Sauce::Storage::AHCIDriver_cl* AHCIDriver=nullptr;
-        Sauce::Storage::FileSystem::VirtualFileSystem::FilesystemManager_cl FilesystemManager;
     };
 };
 

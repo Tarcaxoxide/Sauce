@@ -11,12 +11,9 @@ namespace Sauce{
     namespace Commands{
         Sauce::string Exec(Sauce::Memory::List_cl<Sauce::string*>& Args){
             Sauce::string Result;
-            if((*Args.First()) == Sauce::string((char*)"test")){
-                Result=(char*)"OK!";
-                return Result;
-            }
+            
             Result=(char*)"Unknown Command: ";
-            Result.AddLast(Args.First()->Raw());
+            Result.AddLast(Args[0]->Raw());
             return Result;
         }
     };
