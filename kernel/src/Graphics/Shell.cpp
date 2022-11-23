@@ -7,7 +7,20 @@
 #include<Sauce/Utility/NeuralNetwork.hpp>
 
 
-
+namespace Sauce{
+    namespace Commands{
+        Sauce::string Exec(Sauce::Memory::List_cl<Sauce::string*>& Args){
+            Sauce::string Result;
+            if((*Args.First()) == Sauce::string((char*)"test")){
+                Result=(char*)"OK!";
+                return Result;
+            }
+            Result=(char*)"Unknown Command: ";
+            Result.AddLast(Args.First()->Raw());
+            return Result;
+        }
+    };
+};
 
 namespace Sauce{
     namespace Graphics{
@@ -144,12 +157,8 @@ namespace Sauce{
                 }
             }
             ShellClear(false);
-            
-            //run command
-            for(size_t i=0;i<ArgBuffer.Size();i++){
-                PutString((char*)"\n\r",false);
-                PutString(*ArgBuffer[i],false);
-            }
+            PutString((char*)"\n\r",false);
+            PutString(Sauce::Commands::Exec(ArgBuffer),false);
         }
         void Shell_cl::ShellClear(bool ClearScreen){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_);
