@@ -132,7 +132,7 @@ namespace Sauce{
                 Sauce::Memory::memset(HBAPorts[portNumber].buffer,0,1024);
                 HBAPorts[portNumber].Read(startingSector+SectorI,1,HBAPorts[portNumber].buffer);
                 
-                for(int t=0;t<512;t++){
+                for(int t=0;t<sector_size;t++){
                     Bufferr.AddLast((uint8_t)HBAPorts[portNumber].buffer[t]);
                 }
             }
@@ -140,8 +140,8 @@ namespace Sauce{
         uint8_t AHCIDriver_cl::Read(size_t portNumber,size_t ByteToRead){
             Sauce::IO::Debug::Debugger_st Debugger("AHCIDriver_cl::Read",_NAMESPACE_);
             if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage();
-            size_t SectorToRead=ByteToRead/512;
-            size_t SectorOffset=ByteToRead%512;
+            size_t SectorToRead=ByteToRead/sector_size;
+            size_t SectorOffset=ByteToRead%sector_size;
 
             HBAPorts[portNumber].Read(SectorToRead,1,HBAPorts[portNumber].buffer);
             return HBAPorts[portNumber].buffer[SectorOffset];
@@ -181,6 +181,33 @@ namespace Sauce{
                     }break;
                 }
             }
+        }
+        Sauce::string AHCIDriver_cl::ListPorts(){
+            Sauce::string Result;
+            for(int i=0;i<HBAPorts.Size();i++){
+                Result.AddLast((char*)"[");
+                Result.AddLast(Sauce::Utility::ToString(i));
+                Result.AddLast((char*)",");
+                switch(HBAPorts[i].Type){
+                    case HBAPortType::NONE:{
+                        Result.AddLast((char*)"NONE");
+                    }break;
+                    case HBAPortType::SATA:{
+                        Result.AddLast((char*)"SATA");
+                    }break;
+                    case HBAPortType::SEMB:{
+                        Result.AddLast((char*)"SEMB");
+                    }break;
+                    case HBAPortType::PM:{
+                        Result.AddLast((char*)"PM");
+                    }break;
+                    case HBAPortType::SATAPI:{
+                        Result.AddLast((char*)"SATAPI");
+                    }break;
+                }
+                Result.AddLast((char*)"]\n\r");
+            }
+            return Result;
         }
         AHCIDriver_cl::~AHCIDriver_cl(){
             Sauce::IO::Debug::Debugger_st Debugger("AHCIDriver_cl::~AHCIDriver_cl",_NAMESPACE_);

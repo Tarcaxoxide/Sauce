@@ -153,9 +153,12 @@ namespace Sauce{
             HBAMemory_st* ABAR;
             Sauce::Memory::List_cl<ParsedHBAPort_st> HBAPorts;
             public:
+                size_t sector_size{512};
+            public:
                 AHCIDriver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress);
                 ~AHCIDriver_cl();
                 void ProbePorts();
+                Sauce::string ListPorts();
                 void Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr);
                 uint8_t Read(size_t portNumber,size_t ByteToRead);
         };

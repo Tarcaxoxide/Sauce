@@ -6,12 +6,26 @@
 #include<Sauce/Global.hpp>
 #include<Sauce/Utility/NeuralNetwork.hpp>
 
+/*experimentation*/#include <Sauce/Storage/FileSystem/FAT.hpp>
 
 namespace Sauce{
     namespace Commands{
         Sauce::string Exec(Sauce::Memory::List_cl<Sauce::string*>& Args){
             Sauce::string Result;
-            
+            if((*Args[0]) == Sauce::string((char*)"AHCI")){
+                if((*Args[1]) == Sauce::string((char*)"List")){
+                    Result=Sauce::Global::AHCIDriver->ListPorts();
+                    return Result;
+                }
+            }
+            if((*Args[0]) == Sauce::string((char*)"TEST")){
+                Sauce::Storage::FileSystem::FAT::Extended_Boot_Record_FAT32_st FAT32Record = Sauce::Storage::FileSystem::FAT::READ_FAT32(0);
+                for(size_t i=0;i<11;i++){
+                    Result.AddLast((char)FAT32Record.VOLUME_LABEL[i]);
+                }
+                Result.AddLast((char*)"\n\r");
+                return Result;
+            }
             Result=(char*)"Unknown Command: ";
             Result.AddLast(Args[0]->Raw());
             return Result;

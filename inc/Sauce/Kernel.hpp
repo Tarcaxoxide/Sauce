@@ -24,7 +24,6 @@ namespace Sauce{
             uint64_t kernelPages;
             Sauce::GDT::GDTDescriptor_st gdtDescriptor; //global descriptor table
             Sauce::Interrupts::IDTR idtr; // interrupt descriptor table.
-            static Kernel_cl* Self; // Pointer to the kernel itself , used in static functions. it kind of acts like python's self.
         private: //private functions
             void Prep_GlobalAllocator();
             void Prep_VirtualAddresses();

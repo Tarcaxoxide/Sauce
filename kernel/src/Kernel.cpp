@@ -23,8 +23,6 @@
 #include<Sauce/Utility/NeuralNetwork.hpp>
 
 namespace Sauce{
-    Kernel_cl* Kernel_cl::Self=NULL; // pointer to the active kernel to be used by the kernel 
-                            //when being updated by the hardware (Example: interrupts)
     int testcount=0;
 	Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
 
@@ -35,7 +33,7 @@ namespace Sauce{
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::Kernel_cl",_NAMESPACE_);
         asm volatile("cli");
         this->DFBL=DFBL;
-        if(Self == NULL)Self=this;
+        Sauce::Global::Kernel=this;
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
@@ -63,7 +61,6 @@ namespace Sauce{
         Prep_ACPI();
 
         MainLoop();
-        //Sauce::IO::Debug::Print_Return("<this>",Sauce::IO::Debug::KERNEL);
     }
     void Kernel_cl::Prep_Windows(){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::Prep_Windows",_NAMESPACE_);
@@ -260,11 +257,11 @@ namespace Sauce{
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
                 Debugger.Print("ITC__Mouse");
                 Sauce::IO::HandlePS2Mouse(InterruptData.RawInterruptData);
-                Self->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
+                Sauce::Global::Kernel->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
                 Debugger.Print("ITC__Keyboard");
-                Self->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
+                Sauce::Global::Kernel->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
                 Debugger.Print("ITC__NULL");
