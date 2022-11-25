@@ -19,11 +19,8 @@ namespace Sauce{
                 }
             }
             if((*Args[0]) == Sauce::string((char*)"TEST")){
-                Sauce::Storage::FileSystem::FAT::Extended_Boot_Record_FAT32_st FAT32Record = Sauce::Storage::FileSystem::FAT::READ_FAT32(0);
-                for(size_t i=0;i<11;i++){
-                    Result.AddLast((char)FAT32Record.VOLUME_LABEL[i]);
-                }
-                Result.AddLast((char*)"\n\r");
+                Sauce::Storage::FileSystem::FAT::FAT32Driver_st test(0);
+                Result=test.info_str();
                 return Result;
             }
             Result=(char*)"Unknown Command: ";

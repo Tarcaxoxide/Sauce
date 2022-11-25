@@ -18,8 +18,8 @@ namespace Sauce{
                     uint8_t TOTAL_SECTORS_IN_LOGICAL_VOLUME[2];//if 0 then > 65535 sectors, check LARGE_SECTOR_COUNT
                     uint8_t MEDIA_DESCRIPTOR_TYPE[1];
                     union{
-                        uint8_t NUMBER_OF_SECTORS_PER_FAT_FAT12[2];
-                        uint8_t NUMBER_OF_SECTORS_PER_FAT_FAT16[2];
+                        uint8_t NUMBER_OF_SECTORS_PER_FAT_12[2];
+                        uint8_t NUMBER_OF_SECTORS_PER_FAT_16[2];
                     };
                     uint8_t NUMBER_OF_SECTORS_PER_TRACK[2];
                     union{
@@ -78,19 +78,36 @@ namespace Sauce{
                 struct DirectoryEntry_st{
                 	uint8_t name[8];
                 	uint8_t ext[3];
-                	uint8_t attrib;
-                	uint8_t userattrib;
-                	uint8_t undelete;
-                	uint16_t createtime;
-                	uint16_t createdate;
-                	uint16_t accessdate;
-                	uint16_t clusterhigh;
-                	uint16_t modifiedtime;
-                	uint16_t modifieddate;
-                	uint16_t clusterlow;
-                	uint32_t filesize;
+                	uint8_t attrib[1];
+                	uint8_t userattrib[1];
+                	uint8_t undelete[1];
+                	//uint16_t createtime;
+                    uint8_t createtime[2];
+                	//uint16_t createdate;
+                    uint8_t createdate[2];
+                	//uint16_t accessdate;
+                    uint8_t accessdate[2];
+                	//uint16_t clusterhigh;
+                    uint8_t clusterhigh[2];
+                	//uint16_t modifiedtime;
+                    uint8_t modifiedtime[2];
+                	//uint16_t modifieddate;
+                    uint8_t modifieddate[2];
+                	//uint16_t clusterlow;
+                    uint8_t clusterlow[2];
+                	//uint32_t filesize;
+                    uint8_t filesize[4];
                 }__attribute__((packed));
-                Extended_Boot_Record_FAT32_st READ_FAT32(size_t port);
+
+                struct FAT32Driver_st{
+                    Extended_Boot_Record_FAT32_st Boot_Record;
+                    FSINFO_Structure_st FSINFO_Structure;
+                    size_t Port;
+                    FAT32Driver_st(size_t Port);
+                    Sauce::string info_str();
+                        
+                };
+                
             };
         };
     };
