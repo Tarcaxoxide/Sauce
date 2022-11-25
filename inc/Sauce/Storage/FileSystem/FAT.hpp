@@ -81,27 +81,20 @@ namespace Sauce{
                 	uint8_t attrib[1];
                 	uint8_t userattrib[1];
                 	uint8_t undelete[1];
-                	//uint16_t createtime;
                     uint8_t createtime[2];
-                	//uint16_t createdate;
                     uint8_t createdate[2];
-                	//uint16_t accessdate;
                     uint8_t accessdate[2];
-                	//uint16_t clusterhigh;
                     uint8_t clusterhigh[2];
-                	//uint16_t modifiedtime;
                     uint8_t modifiedtime[2];
-                	//uint16_t modifieddate;
                     uint8_t modifieddate[2];
-                	//uint16_t clusterlow;
                     uint8_t clusterlow[2];
-                	//uint32_t filesize;
                     uint8_t filesize[4];
                 }__attribute__((packed));
 
                 struct FAT32Driver_st{
                     Extended_Boot_Record_FAT32_st Boot_Record;
                     FSINFO_Structure_st FSINFO_Structure;
+                    DirectoryEntry_st Root_DirectoryEntry;
                     size_t Port;
                     FAT32Driver_st(size_t Port);
                     Sauce::string info_str();
