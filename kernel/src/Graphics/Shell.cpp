@@ -18,7 +18,11 @@ namespace Sauce{
                     return Result;
                 }
             }
-            if((*Args[0]) == Sauce::string((char*)"TEST")){
+            if((*Args[0]) == Sauce::string((char*)"AHCI_ListPorts")){
+                Result=Sauce::Global::AHCIDriver->ListPorts();
+                return Result;
+            }
+            if((*Args[0]) == Sauce::string((char*)"FAT32_Test")){
                 Sauce::Storage::FileSystem::FAT::FAT32Driver_st test(0);
                 Result=test.info_str();
                 return Result;

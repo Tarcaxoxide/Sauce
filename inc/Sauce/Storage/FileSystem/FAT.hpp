@@ -96,9 +96,9 @@ namespace Sauce{
                     FSINFO_Structure_st FSINFO_Structure;
                     DirectoryEntry_st Root_DirectoryEntry;
                     size_t Port;
+                    
                     FAT32Driver_st(size_t Port);
                     Sauce::string info_str();
-                        
                 };
                 
             };
