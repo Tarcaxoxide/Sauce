@@ -12,20 +12,38 @@ namespace Sauce{
     namespace Commands{
         Sauce::string Exec(Sauce::Memory::List_cl<Sauce::string*>& Args){
             Sauce::string Result;
-            if((*Args[0]) == Sauce::string((char*)"AHCI")){
-                if((*Args[1]) == Sauce::string((char*)"List")){
+            if((*Args[0]) == Sauce::string((char*)"Test")){Args.RemoveFirst();
+                if((*Args.First()) == Sauce::string((char*)"AHCI")){
+                    if((*Args[1]) == Sauce::string((char*)"List")){
+                        Result=Sauce::Global::AHCIDriver->ListPorts();
+                        return Result;
+                    }
+                }
+                if((*Args.First()) == Sauce::string((char*)"AHCI")){
                     Result=Sauce::Global::AHCIDriver->ListPorts();
                     return Result;
                 }
-            }
-            if((*Args[0]) == Sauce::string((char*)"AHCI_ListPorts")){
-                Result=Sauce::Global::AHCIDriver->ListPorts();
-                return Result;
-            }
-            if((*Args[0]) == Sauce::string((char*)"FAT32_Test")){
-                Sauce::Storage::FileSystem::FAT::FAT32Driver_st test(0);
-                Result=test.info_str();
-                return Result;
+                if((*Args.First()) == Sauce::string((char*)"FAT32")){
+                    Sauce::Storage::FileSystem::FAT::FAT32Driver_st test(0);
+                    Result=test.info_str();
+                    return Result;
+                }
+                if((*Args.First()) == Sauce::string((char*)"DynamicArray")){
+                    Sauce::Memory::List_cl<char> TestString;
+                    TestString << 0x00;
+                    TestString << 'a';
+                    TestString << 'A';
+                    TestString << 'b';
+                    TestString << 'B';
+                    TestString << 'c';
+                    TestString << 'C';
+                    char TestChar=0;
+                    while(TestString >> TestChar){
+                        Result+=TestChar;
+                        Result+=(char*)"\n\r";
+                    }
+                    return Result;
+                }
             }
             Result=(char*)"Unknown Command: ";
             Result.AddLast(Args[0]->Raw());
@@ -50,17 +68,23 @@ namespace Sauce{
             switch(chrindex){
                 case '\n':{
                     if(AddToBuffer){
+                        if(!CharBuffer.Size())break;
                         CharBuffer.AddLast(chr);
                         RunCmd();
                     }
                     GoDown();
                 }break;
                 case '\b':{
-                    if(AddToBuffer)CharBuffer.RemoveLast();
+                    if(AddToBuffer){
+                        if(!CharBuffer.RemoveLast())break;
+                    }
                     if(!GoLeft()){
                         if(GoUp()){
                             GoFarRight();
                         }
+                    }else{
+                        PutChar(' ',false);
+                        GoLeft();
                     }
                 }break;
                 case '\r':{

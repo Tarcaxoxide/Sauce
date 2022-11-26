@@ -31,11 +31,6 @@ namespace Sauce{
                 Clear();
                 delete[] Array;
             }
-            TT* operator=(TT* nValue){
-                Clear();
-                AddLast(nValue);
-                return nValue;
-            }
             bool AddFirst(TT nValue){
                 if(Array_Size+1 > Array_Capacity){
                     Array_Capacity+=StageSize;
@@ -166,24 +161,6 @@ namespace Sauce{
             TT& Last(){
                 return Get(Array_Size);
             }
-            TT& operator[](size_t TargetIndex){
-                return Get(TargetIndex);
-            }
-            bool operator==(TT* OtherValue){
-                for(size_t i=0;i<Array_Size;i++){
-                    if(Get(i) != OtherValue[i])return false;
-                }
-                return true;
-            }
-            bool operator==(List_cl<TT> OtherValue){
-                return (*this)==OtherValue.Raw();
-            }
-            bool operator!=(TT* OtherValue){
-                return !((*this)==OtherValue);
-            }
-            bool operator!=(List_cl<TT> OtherValue){
-                return (*this)!=OtherValue.Raw();
-            }
             TT* Raw(){
                 return Array;
             }
@@ -199,10 +176,60 @@ namespace Sauce{
             void Clear(){
                 while(RemoveLast());
             }
+            bool Compare(List_cl<TT> OtherValue){
+                for(size_t i=0;i<Array_Size;i++){
+                    if(Get(i) != OtherValue[i])return false;
+                }
+                return true;
+            }
             void ForEach(void (*CallBack)(TT &Item)){ //void Function(TT &item){/*Do something with item*/}
                 for(size_t i=0;i<Array_Size;i++){
                     (*CallBack)(Get(i));
                 }
+            }
+            TT* operator=(TT* nValue){
+                Clear();
+                AddLast(nValue);
+                return Raw();
+            }
+            TT* operator+=(TT* nValue){
+                AddLast(nValue);
+                return Raw();
+            }
+            TT* operator=(TT nValue){
+                Clear();
+                AddLast(nValue);
+                return Raw();
+            }
+            TT* operator+=(TT nValue){
+                AddLast(nValue);
+                return Raw();
+            }
+            TT& operator[](size_t TargetIndex){
+                return Get(TargetIndex);
+            }
+            bool operator==(TT* OtherValue){
+                List_cl<TT> OtherTmp(OtherValue);
+                return Compare(OtherTmp);
+            }
+            bool operator==(List_cl<TT> OtherValue){
+                return Compare(OtherValue);
+            }
+            bool operator!=(TT* OtherValue){
+                List_cl<TT> OtherTmp(OtherValue);
+                return !Compare(OtherTmp);
+            }
+            bool operator!=(List_cl<TT> OtherValue){
+                return !Compare(OtherValue);
+            }
+            bool operator>>(TT& OtherValue){
+                OtherValue = Last();
+                return RemoveLast();
+                
+            }
+            bool operator<<(TT OtherValue){
+                AddLast(OtherValue);
+                return true;
             }
         };
     };
