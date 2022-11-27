@@ -231,72 +231,114 @@ namespace Sauce{
                     Debugger.Print(debugString.Raw());
 
 
-                    {
-                        dist.total_sectors=(*(uint16_t*)Boot_Record.TOTAL_SECTORS_IN_LOGICAL_VOLUME)+(*(uint32_t*)Boot_Record.LARGE_SECTOR_COUNT);
-                        debugString="dist.total_sectors: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.total_sectors);
-                        Debugger.Print(debugString.Raw());
+                    dist.total_sectors=(*(uint16_t*)Boot_Record.TOTAL_SECTORS_IN_LOGICAL_VOLUME)+(*(uint32_t*)Boot_Record.LARGE_SECTOR_COUNT);
+                    debugString="dist.total_sectors: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.total_sectors);
+                    Debugger.Print(debugString.Raw());
+                    dist.fat_size=(*(uint16_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_12)+(*(uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32);
+                    debugString="dist.fat_size: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.fat_size);
+                    Debugger.Print(debugString.Raw());
+                    dist.first_fat_sector=(*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS);
+                    debugString="dist.first_fat_sector: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.first_fat_sector);
+                    Debugger.Print(debugString.Raw());
+                    dist.BytesPerSector=(*(uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR);
+                    debugString="dist.BytesPerSector: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.BytesPerSector);
+                    Debugger.Print(debugString.Raw());
+                    dist.NumberOfSectors=((*(uint16_t*)Boot_Record.NUMBER_OF_ROOT_DIRECTORY_ENTRIES) *32)+(dist.BytesPerSector-1)/(*(uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR);
+                    debugString="dist.NumberOfSectors: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.NumberOfSectors);
+                    Debugger.Print(debugString.Raw());
+                    dist.data_sectors=dist.total_sectors-((*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS)+((*(uint8_t*)Boot_Record.NUMBER_OF_FATS)*dist.fat_size))+dist.NumberOfSectors;
+                    debugString="dist.data_sectors: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.data_sectors);
+                    Debugger.Print(debugString.Raw());
+                    dist.total_clusters=dist.data_sectors/(*(uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER);
+                    debugString="dist.total_clusters: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.total_clusters);
+                    Debugger.Print(debugString.Raw());
+                    dist.RootDirectory.NumberOfSectors=dist.NumberOfSectors;
+                    debugString="dist.RootDirectory.NumberOfSectors: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.NumberOfSectors);
+                    Debugger.Print(debugString.Raw());
+                    dist.RootDirectory.FirstDataSector=(*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS)+((*(uint8_t*)Boot_Record.NUMBER_OF_FATS)*dist.fat_size)+dist.RootDirectory.NumberOfSectors;
+                    debugString="dist.RootDirectory.FirstDataSector: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.FirstDataSector);
+                    Debugger.Print(debugString.Raw());
+                    dist.RootDirectory.ClusterNumber=(*(uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY);
+                    debugString="dist.RootDirectory.ClusterNumber: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.ClusterNumber);
+                    Debugger.Print(debugString.Raw());              
+                    dist.RootDirectory.FirstSector = ((dist.RootDirectory.ClusterNumber - 2) * (*(uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER)) + dist.RootDirectory.FirstDataSector;
+                    debugString="dist.RootDirectory.FirstSector: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.FirstSector);
+                    Debugger.Print(debugString.Raw());
+                    dist.RootDirectory.NumberOfEntries=(*(uint16_t*)Boot_Record.NUMBER_OF_ROOT_DIRECTORY_ENTRIES);
+                    debugString="dist.RootDirectory.NumberOfEntries: ";
+                    debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.NumberOfEntries);
+                    Debugger.Print(debugString.Raw());
+                    
+                    // there is 0 entries... Attempting to read cluster anyways?
+                    CurrentByte=dist.RootDirectory.FirstSector*dist.BytesPerSector;
+                    DirectoryEntry_st _RootDirectory;
+                    
+                    debugString="dist.RootDirectory: ";
+                    for(size_t i=0;i<8;i++){
+                        _RootDirectory.name[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.name[i]);
                     }
-                    {
-                        dist.fat_size=(*(uint16_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_12)+(*(uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32);
-                        debugString="dist.fat_size: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.fat_size);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<3;i++){
+                        _RootDirectory.ext[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.ext[i]);
                     }
-                    {
-                        dist.first_fat_sector=(*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS);
-                        debugString="dist.first_fat_sector: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.first_fat_sector);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<1;i++){
+                        _RootDirectory.attrib[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.attrib[i]);
                     }
-                    {
-                        dist.NumberOfSectors=((*(uint16_t*)Boot_Record.NUMBER_OF_ROOT_DIRECTORY_ENTRIES) *32)+((*(uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR)-1)/(*(uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR);
-                        debugString="dist.NumberOfSectors: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.NumberOfSectors);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<1;i++){
+                        _RootDirectory.userattrib[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.userattrib[i]);
                     }
-                    {                    
-                        dist.data_sectors=dist.total_sectors-((*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS)+((*(uint8_t*)Boot_Record.NUMBER_OF_FATS)*dist.fat_size))+dist.NumberOfSectors;
-                        debugString="dist.data_sectors: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.data_sectors);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<1;i++){
+                        _RootDirectory.undelete[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.undelete[i]);
                     }
-                    {                    
-                        dist.total_clusters=dist.data_sectors/(*(uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER);
-                        debugString="dist.total_clusters: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.total_clusters);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<2;i++){
+                        _RootDirectory.createtime[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.createtime[i]);
                     }
-                    {                    
-                        dist.RootDirectory.NumberOfSectors=dist.NumberOfSectors;
-                        debugString="dist.RootDirectory.NumberOfSectors: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.NumberOfSectors);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<2;i++){
+                        _RootDirectory.createdate[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.createdate[i]);
                     }
-                    {                    
-                        dist.RootDirectory.FirstDataSector=(*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS)+((*(uint8_t*)Boot_Record.NUMBER_OF_FATS)*dist.fat_size)+dist.RootDirectory.NumberOfSectors;
-                        debugString="dist.RootDirectory.FirstDataSector: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.FirstDataSector);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<2;i++){
+                        _RootDirectory.accessdate[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.accessdate[i]);
                     }
-                    {                    
-                        dist.RootDirectory.ClusterNumber=(*(uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY);
-                        debugString="dist.RootDirectory.ClusterNumber: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.ClusterNumber);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<2;i++){
+                        _RootDirectory.clusterhigh[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.clusterhigh[i]);
                     }
-                    {                    
-                        dist.RootDirectory.FirstSector = ((dist.RootDirectory.ClusterNumber - 2) * (*(uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER)) + dist.RootDirectory.FirstDataSector;
-                        debugString="dist.RootDirectory.FirstSector: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.FirstSector);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<2;i++){
+                        _RootDirectory.modifiedtime[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.modifiedtime[i]);
                     }
-                    {
-                        dist.RootDirectory.NumberOfEntries=(*(uint16_t*)Boot_Record.NUMBER_OF_ROOT_DIRECTORY_ENTRIES);
-                        debugString="dist.RootDirectory.NumberOfEntries: ";
-                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.NumberOfEntries);
-                        Debugger.Print(debugString.Raw());
+                    for(size_t i=0;i<2;i++){
+                        _RootDirectory.modifieddate[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.modifieddate[i]);
                     }
+                    for(size_t i=0;i<2;i++){
+                        _RootDirectory.clusterlow[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.clusterlow[i]);
+                    }
+                    for(size_t i=0;i<4;i++){
+                        _RootDirectory.filesize[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(_RootDirectory.filesize[i]);
+                    }
+                    dist.RootDirectory.DirectoryEntry.AddLast(_RootDirectory);
+                    Debugger.Print(debugString.Raw());
                 }
             };
         };

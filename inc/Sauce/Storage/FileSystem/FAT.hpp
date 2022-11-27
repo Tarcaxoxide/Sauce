@@ -91,6 +91,8 @@ namespace Sauce{
                     uint8_t filesize[4];        //32
                 }__attribute__((packed));
 
+                struct File_Entry_st{};
+
                 struct DirectoryEntry_Meta_st{
                     size_t ClusterNumber;
                     size_t FirstSector;
@@ -103,7 +105,6 @@ namespace Sauce{
                 struct FAT32Driver_st{
                     Extended_Boot_Record_FAT32_st Boot_Record;
                     FSINFO_Structure_st FSINFO_Structure;
-                    DirectoryEntry_st Root_DirectoryEntry;
                     size_t Port;
                     struct dist_st{
                         size_t total_sectors;
@@ -111,6 +112,7 @@ namespace Sauce{
                         size_t first_fat_sector;
                         size_t data_sectors;
                         size_t total_clusters;
+                        size_t BytesPerSector;
                         size_t NumberOfSectors;
                         DirectoryEntry_Meta_st RootDirectory;
                     }dist;
