@@ -6,12 +6,12 @@
 namespace Sauce{
     namespace Memory{
         PageTableManager_cl::PageTableManager_cl(PageTable* PML4Address){
-            Sauce::IO::Debug::Debugger_st Debugger("PageTableManager_cl::PageTableManager_cl",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("PageTableManager_cl::PageTableManager_cl",_NAMESPACE_,_ALLOW_PRINT_);
             if(this->PML4Address != NULL)return;
             this->PML4Address=PML4Address;
         }
         void PageTableManager_cl::MapMemory(void* virtualMemory,void* physicalMemory){
-            Sauce::IO::Debug::Debugger_st Debugger("PageTableManager_cl::MapMemory",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("PageTableManager_cl::MapMemory",_NAMESPACE_,_ALLOW_PRINT_);
             PageMapIndexer indexer = PageMapIndexer((uint64_t)virtualMemory);
             PageDirectoryEntry PDE;
             PDE = PML4Address->entries[indexer.PDP_i];

@@ -12,23 +12,23 @@ namespace Sauce{
     namespace Commands{
         Sauce::string Exec(Sauce::Memory::List_cl<Sauce::string*>& Args){
             Sauce::string Result;
-            if((*Args[0]) == Sauce::string((char*)"Test")){Args.RemoveFirst();
-                if((*Args.First()) == Sauce::string((char*)"AHCI")){
-                    if((*Args[1]) == Sauce::string((char*)"List")){
+            if((*Args[0]) == Sauce::string("Test")){Args.RemoveFirst();
+                if((*Args.First()) == Sauce::string("AHCI")){
+                    if((*Args[1]) == Sauce::string("List")){
                         Result=Sauce::Global::AHCIDriver->ListPorts();
                         return Result;
                     }
                 }
-                if((*Args.First()) == Sauce::string((char*)"AHCI")){
+                if((*Args.First()) == Sauce::string("AHCI")){
                     Result=Sauce::Global::AHCIDriver->ListPorts();
                     return Result;
                 }
-                if((*Args.First()) == Sauce::string((char*)"FAT32")){
+                if((*Args.First()) == Sauce::string("FAT32")){
                     Sauce::Storage::FileSystem::FAT::FAT32Driver_st test(0);
                     Result=test.info_str();
                     return Result;
                 }
-                if((*Args.First()) == Sauce::string((char*)"DynamicArray")){
+                if((*Args.First()) == Sauce::string("DynamicArray")){
                     Sauce::Memory::List_cl<char> TestString;
                     TestString << 0x00;
                     TestString << 'a';
@@ -40,12 +40,12 @@ namespace Sauce{
                     char TestChar=0;
                     while(TestString >> TestChar){
                         Result+=TestChar;
-                        Result+=(char*)"\n\r";
+                        Result+="\n\r";
                     }
                     return Result;
                 }
             }
-            Result=(char*)"Unknown Command: ";
+            Result="Unknown Command: ";
             Result.AddLast(Args[0]->Raw());
             return Result;
         }
@@ -56,14 +56,12 @@ namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
         :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::Shell_cl",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::Shell_cl",_NAMESPACE_,_ALLOW_PRINT_);
             ShellClear(true);
         }
         void Shell_cl::PutChar(char chr,bool AddToBuffer){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutChar",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
             size_t chrindex = (size_t)chr;
-            if(chrindex > 255)chrindex-=8236; //<- get out of here you stupid "wide characters",
-                                              // i'll deal with you later but for now i'm not insane enough.
 
             switch(chrindex){
                 case '\n':{
@@ -119,13 +117,13 @@ namespace Sauce{
             }
         }
         void Shell_cl::PutString(Sauce::string str,bool AddToBuffer){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutString",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutString",_NAMESPACE_,_ALLOW_PRINT_);
             for(size_t i=0;i<str.Size();i++){
                 PutChar(str[i],AddToBuffer);
             }
         }
         bool Shell_cl::GoDown(size_t amount){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoDown",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoDown",_NAMESPACE_,_ALLOW_PRINT_);
             if((Cursor.Y+(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) > (PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) ){
                 return false;
             }
@@ -133,7 +131,7 @@ namespace Sauce{
             return true;
         }
         bool Shell_cl::GoUp(size_t amount){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoUp",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoUp",_NAMESPACE_,_ALLOW_PRINT_);
             if((Cursor.Y-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) < 0){
                 return false;
             }
@@ -141,7 +139,7 @@ namespace Sauce{
             return true;
         }
         bool Shell_cl::GoRight(size_t amount){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoRight",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoRight",_NAMESPACE_,_ALLOW_PRINT_);
             if((Cursor.X+(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) > (PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) ){
                 return false;
             }
@@ -149,7 +147,7 @@ namespace Sauce{
             return true;
         }
         bool Shell_cl::GoLeft(size_t amount){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoLeft",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoLeft",_NAMESPACE_,_ALLOW_PRINT_);
             if((Cursor.X-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) < 0){
                 return false;
             }
@@ -157,26 +155,26 @@ namespace Sauce{
             return true;
         }
         void Shell_cl::GoFarDown(){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoFarDown",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoFarDown",_NAMESPACE_,_ALLOW_PRINT_);
             Cursor.Y=PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2);
         }
         void Shell_cl::GoFarUp(){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoFarUp",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoFarUp",_NAMESPACE_,_ALLOW_PRINT_);
             Cursor.Y=0;
             
         }
         void Shell_cl::GoFarRight(){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoFarRight",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoFarRight",_NAMESPACE_,_ALLOW_PRINT_);
             Cursor.X=PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2);
             
         }
         void Shell_cl::GoFarLeft(){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoFarLeft",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::GoFarLeft",_NAMESPACE_,_ALLOW_PRINT_);
             Cursor.X=0;
             
         }
         void Shell_cl::RunCmd(){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::RunCmd",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::RunCmd",_NAMESPACE_,_ALLOW_PRINT_);
             Sauce::Memory::List_cl<Sauce::string*> ArgBuffer;
             size_t CrawlerVal=0;
             for(size_t i=0;i<CharBuffer.Size();i++){
@@ -193,11 +191,11 @@ namespace Sauce{
                 }
             }
             ShellClear(false);
-            PutString((char*)"\n\r",false);
+            PutString("\n\r",false);
             PutString(Sauce::Commands::Exec(ArgBuffer),false);
         }
         void Shell_cl::ShellClear(bool ClearScreen){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_,_ALLOW_PRINT_);
             CharBuffer.Clear();
             if(ClearScreen){
                 Cursor.X=0;

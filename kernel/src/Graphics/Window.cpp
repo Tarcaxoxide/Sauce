@@ -6,7 +6,7 @@ namespace Sauce{
     namespace Graphics{
         Window_cl::Window_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
         :Shell_cl(Size,Offset){
-            Sauce::IO::Debug::Debugger_st Debugger("Window_cl::Window_cl",_NAMESPACE_);
+            Sauce::IO::Debug::Debugger_st Debugger("Window_cl::Window_cl",_NAMESPACE_,_ALLOW_PRINT_);
         }
 	};
 };

@@ -8,11 +8,11 @@ namespace Sauce{
     namespace Utility{
         namespace Neural{
             void Neuron_st::Poke(){
-                Sauce::IO::Debug::Debugger_st Debugger("Neuron_st::Poke",_NAMESPACE_);
+                Sauce::IO::Debug::Debugger_st Debugger("Neuron_st::Poke",_NAMESPACE_,_ALLOW_PRINT_);
                 if(Connections.Size())Connections[Sauce::Math::random_get(Connections.Size())]->Poke();
             }
             Network_st::Network_st(size_t EntryNeuronCount,size_t MeshNeuronCount,size_t MeshDensity,size_t ExitNeuronCount){
-                Sauce::IO::Debug::Debugger_st Debugger("Network_st::Network_st",_NAMESPACE_);
+                Sauce::IO::Debug::Debugger_st Debugger("Network_st::Network_st",_NAMESPACE_,_ALLOW_PRINT_);
                 //populate the layers.
                 size_t debugId=0;
                 for(size_t i=0;i<EntryNeuronCount;i++){

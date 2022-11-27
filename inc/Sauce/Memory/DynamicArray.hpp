@@ -17,12 +17,12 @@ namespace Sauce{
                 Array = new TT[StageSize];
                 Array_Capacity=StageSize;
             }
-            List_cl(TT* nValue){
+            List_cl(const TT * nValue){
                 Array = new TT[StageSize];
                 Array_Capacity=StageSize;
                 AddLast(nValue);
             }
-            List_cl(TT nValue){
+            List_cl(const TT nValue){
                 Array = new TT[StageSize];
                 Array_Capacity=StageSize;
                 AddLast(nValue);
@@ -31,7 +31,7 @@ namespace Sauce{
                 Clear();
                 delete[] Array;
             }
-            bool AddFirst(TT nValue){
+            bool AddFirst(const TT nValue){
                 if(Array_Size+1 > Array_Capacity){
                     Array_Capacity+=StageSize;
                     TT* nArray = new TT[Array_Capacity];
@@ -52,7 +52,7 @@ namespace Sauce{
                 }
                 return true;
             }
-            bool AddFirst(TT* nValue){
+            bool AddFirst(const TT* nValue){
                 TT* ValuePtr = nValue;
                 while(*ValuePtr){
                     if(!AddFirst(*ValuePtr))return false;
@@ -60,7 +60,7 @@ namespace Sauce{
                 }
                 return true;
             }
-            bool AddLast(TT nValue){
+            bool AddLast(const TT nValue){
                 if(Array_Size+1 > Array_Capacity){
                     Array_Capacity+=StageSize;
                     TT* nArray = new TT[Array_Capacity];
@@ -76,11 +76,11 @@ namespace Sauce{
                 }
                 return true;
             }
-            bool AddLast(TT* nValue){
-                TT* ValuePtr = nValue;
-                while(*ValuePtr){
-                    if(!AddLast(*ValuePtr))return false;
-                    ValuePtr++;
+            bool AddLast(const TT* nValue){
+                //TT* ValuePtr = nValue;
+                while(*nValue){
+                    if(!AddLast(*nValue))return false;
+                    nValue++;
                 }
                 return true;
             }
@@ -187,35 +187,35 @@ namespace Sauce{
                     (*CallBack)(Get(i));
                 }
             }
-            TT* operator=(TT* nValue){
+            TT* operator=(const TT* nValue){
                 Clear();
                 AddLast(nValue);
                 return Raw();
             }
-            TT* operator+=(TT* nValue){
+            TT* operator+=(const TT* nValue){
                 AddLast(nValue);
                 return Raw();
             }
-            TT* operator=(TT nValue){
+            TT* operator=(const TT nValue){
                 Clear();
                 AddLast(nValue);
                 return Raw();
             }
-            TT* operator+=(TT nValue){
+            TT* operator+=(const TT nValue){
                 AddLast(nValue);
                 return Raw();
             }
             TT& operator[](size_t TargetIndex){
                 return Get(TargetIndex);
             }
-            bool operator==(TT* OtherValue){
+            bool operator==(const TT* OtherValue){
                 List_cl<TT> OtherTmp(OtherValue);
                 return Compare(OtherTmp);
             }
             bool operator==(List_cl<TT> OtherValue){
                 return Compare(OtherValue);
             }
-            bool operator!=(TT* OtherValue){
+            bool operator!=(const TT* OtherValue){
                 List_cl<TT> OtherTmp(OtherValue);
                 return !Compare(OtherTmp);
             }

@@ -35,31 +35,23 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::
 
-
-
 $(BUILDDIR)/$(OSNAME).iso: $(BUILDDIR)/$(OSNAME).img
 	mkisofs -d -D -J -l -r -U -relaxed-filenames -o $@ $<
-	
-
 
 $(OBJDIR)/Interrupts/Interrupts_cpp.o:$(SRCDIR)/Interrupts/Interrupts.cpp
-	@echo ##$^ -> $@
-	@mkdir -p $(@D)
+	mkdir -p $(@D)
 	$(CC) -I$(INCDIR) -mno-red-zone -mgeneral-regs-only -ffreestanding -c $^ -o $@
 
 $(OBJDIR)/%_cpp.o:$(SRCDIR)/%.cpp
-	@echo ##$^ -> $@
-	@mkdir -p $(@D)
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 $(OBJDIR)/%_asm.o:$(SRCDIR)/%.asm
-	@echo ##$^ -> $@
-	@mkdir -p $(@D)
+	mkdir -p $(@D)
 	$(ASMC) $(ASMFLAGS) $^ -f elf64 -o $@
 
 $(BUILDDIR)/kernel.elf: $(OBJS)
-	@echo ##$^ -> $@
-	@mkdir -p $(@D)
+	mkdir -p $(@D)
 	ld $(LDFLAGS) -o $(BUILDDIR)/kernel.elf $^
 
 setup:
@@ -67,10 +59,12 @@ setup:
 	@mkdir -p $(SRCDIR)
 	@mkdir -p $(OBJDIR)
 
-
 .PHONY: clean run 
 clean:
-	rm -frv bin/* lib/*
+	make setup
+	@rm -frv bin/* lib/*
 
 run: $(BUILDDIR)/$(OSNAME).img
-	qemu-system-x86_64 -display gtk,zoom-to-fit=on -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
+	@qemu-system-x86_64 -display gtk,zoom-to-fit=on -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
+	@read -p "press enter to continue..."
+	@reset

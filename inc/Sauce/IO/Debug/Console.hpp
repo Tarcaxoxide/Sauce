@@ -9,7 +9,7 @@ namespace Sauce{
                 bool ready=false;
                 public:
                 void Initialize(uint16_t DebugComPort);
-                void Write(char* str);
+                void Write(const char* str);
             };
 
             extern Console_cl COM1_Console;
@@ -27,17 +27,6 @@ namespace Sauce{
                 Middle,
                 End
             };
-
-            //void Print_Call(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
-            //void Print_Detail(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
-            //void Print_Return(char* msg,bool FunctionSpecific,StartOfPrint Done,bool Spam);
-            //inline void Print_Call(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Call((char*)msg,FunctionSpecific,Done,false);}
-            //inline void Print_Detail(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Detail((char*)msg,FunctionSpecific,Done,false);}
-            //inline void Print_Return(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Return((char*)msg,FunctionSpecific,Done,false);}
-            //
-            //inline void Print_Spammy_Call(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Call((char*)msg,FunctionSpecific,Done,true);}
-            //inline void Print_Spammy_Detail(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Detail((char*)msg,FunctionSpecific,Done,true);}
-            //inline void Print_Spammy_Return(const char* msg,bool FunctionSpecific,StartOfPrint Done=StartOfPrint::Single){Print_Return((char*)msg,FunctionSpecific,Done,true);}
         };
     };
 };
