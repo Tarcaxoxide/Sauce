@@ -7,29 +7,25 @@ namespace Sauce{
     namespace Memory{
         template<typename TT,size_t StageSize=16>
         class List_cl{
-            TT* Array=nullptr;
+            TT* Array{nullptr};
             size_t Array_Size{0};
             size_t Array_Capacity{0};
             size_t Shift_Value{0};
             public:
             //*structors
             List_cl(){
-                Array = new TT[StageSize];
-                Array_Capacity=StageSize;
+                Clear();
             }
             List_cl(const TT * nValue){
-                Array = new TT[StageSize];
-                Array_Capacity=StageSize;
+                Clear();
                 AddLast(nValue);
             }
             List_cl(const TT nValue){
-                Array = new TT[StageSize];
-                Array_Capacity=StageSize;
+                Clear();
                 AddLast(nValue);
             }
             ~List_cl(){
-                Clear();
-                delete[] Array;
+                Clear(false);
             }
             bool AddFirst(const TT nValue){
                 if(Array_Size+1 > Array_Capacity){
@@ -173,8 +169,14 @@ namespace Sauce{
             size_t Size(){
                 return Count();
             }
-            void Clear(){
-                while(RemoveLast());
+            void Clear(bool CreateNew=true){
+                Sauce::Memory::memset(Array,0,Array_Capacity);
+                if(Array != nullptr)delete[] Array;
+                if(!CreateNew)return;
+                Array = new TT[StageSize];
+                Array_Capacity=StageSize;
+                Array_Size=0;
+                Shift_Value=0;
             }
             bool Compare(List_cl<TT> OtherValue){
                 for(size_t i=0;i<Array_Size;i++){
@@ -204,6 +206,16 @@ namespace Sauce{
             TT* operator+=(const TT nValue){
                 AddLast(nValue);
                 return Raw();
+            }
+            TT* operator+(const TT* nValue){
+                List_cl<TT> tmp(Raw());
+                tmp+=nValue;
+                return tmp.Raw();
+            }
+            TT* operator+(const TT nValue){
+                List_cl<TT> tmp(Raw());
+                tmp+=nValue;
+                return tmp.Raw();
             }
             TT& operator[](size_t TargetIndex){
                 return Get(TargetIndex);

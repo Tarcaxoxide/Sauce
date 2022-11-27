@@ -11,7 +11,9 @@
 namespace Sauce{
     namespace Commands{
         Sauce::string Exec(Sauce::Memory::List_cl<Sauce::string*>& Args){
+            Sauce::IO::Debug::Debugger_st Debugger("Exec",_NAMESPACE_,_ALLOW_PRINT_);
             Sauce::string Result;
+            for(size_t i=0;i<Args.Size();i++)Debugger.Print((*Args[i]).Raw());
             if((*Args[0]) == Sauce::string("Test")){Args.RemoveFirst();
                 if((*Args.First()) == Sauce::string("AHCI")){
                     if((*Args[1]) == Sauce::string("List")){
@@ -25,7 +27,6 @@ namespace Sauce{
                 }
                 if((*Args.First()) == Sauce::string("FAT32")){
                     Sauce::Storage::FileSystem::FAT::FAT32Driver_st test(0);
-                    Result=test.info_str();
                     return Result;
                 }
                 if((*Args.First()) == Sauce::string("DynamicArray")){

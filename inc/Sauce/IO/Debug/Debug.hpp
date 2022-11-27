@@ -28,8 +28,7 @@ namespace Sauce{
                         Sauce::IO::Debug::COM1_Console.Write(this->FunctionName);
                         Sauce::IO::Debug::COM1_Console.Write((char*)"]\n");
                     }
-                    void Print(const char* text){Print((char*)text);}
-                    void Print(char* text){
+                    void Print(const char* text){
                         if(AllowPrint)Sauce::IO::Debug::COM1_Console.Write((char*)"[");
                         if(AllowPrint)Sauce::IO::Debug::COM1_Console.Write(this->thisNameSpace);
                         if(AllowPrint)Sauce::IO::Debug::COM1_Console.Write((char*)"::");

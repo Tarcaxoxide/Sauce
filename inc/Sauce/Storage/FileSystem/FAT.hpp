@@ -115,7 +115,6 @@ namespace Sauce{
                         DirectoryEntry_Meta_st RootDirectory;
                     }dist;
                     FAT32Driver_st(size_t Port);
-                    Sauce::string info_str();
                 };
                 
             };
