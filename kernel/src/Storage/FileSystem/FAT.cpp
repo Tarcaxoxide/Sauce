@@ -229,19 +229,74 @@ namespace Sauce{
                         debugString+=Sauce::Utility::Conversion::HexToString(FSINFO_Structure.TRAIL_SIGNATURE[i]);
                     }
                     Debugger.Print(debugString.Raw());
-                    
-                    dist.total_sectors=(*(uint16_t*)Boot_Record.TOTAL_SECTORS_IN_LOGICAL_VOLUME)+(*(uint32_t*)Boot_Record.LARGE_SECTOR_COUNT);
-                    dist.fat_size=(*(uint16_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_12)+(*(uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32);
-                    dist.first_fat_sector=(*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS);
-                    dist.NumberOfSectors=((*(uint16_t*)Boot_Record.NUMBER_OF_ROOT_DIRECTORY_ENTRIES) *32)+((*(uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR)-1)/(*(uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR);
-                    dist.data_sectors=dist.total_sectors-((*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS)+((*(uint8_t*)Boot_Record.NUMBER_OF_FATS)*dist.fat_size))+dist.NumberOfSectors;
-                    dist.total_clusters=dist.data_sectors/(*(uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER);
 
-                    dist.RootDirectory.NumberOfSectors=dist.NumberOfSectors;
-                    dist.RootDirectory.FirstDataSector=(*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS)+((*(uint8_t*)Boot_Record.NUMBER_OF_FATS)*dist.fat_size)+dist.RootDirectory.NumberOfSectors;
-                    dist.RootDirectory.ClusterNumber=(*(uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY);
-                    dist.RootDirectory.FirstSector = ((dist.RootDirectory.ClusterNumber - 2) * (*(uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER)) + dist.RootDirectory.FirstDataSector;
-                    dist.RootDirectory.NumberOfEntries=(*(uint16_t*)Boot_Record.NUMBER_OF_ROOT_DIRECTORY_ENTRIES);
+
+                    {
+                        dist.total_sectors=(*(uint16_t*)Boot_Record.TOTAL_SECTORS_IN_LOGICAL_VOLUME)+(*(uint32_t*)Boot_Record.LARGE_SECTOR_COUNT);
+                        debugString="dist.total_sectors: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.total_sectors);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {
+                        dist.fat_size=(*(uint16_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_12)+(*(uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32);
+                        debugString="dist.fat_size: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.fat_size);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {
+                        dist.first_fat_sector=(*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS);
+                        debugString="dist.first_fat_sector: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.first_fat_sector);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {
+                        dist.NumberOfSectors=((*(uint16_t*)Boot_Record.NUMBER_OF_ROOT_DIRECTORY_ENTRIES) *32)+((*(uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR)-1)/(*(uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR);
+                        debugString="dist.NumberOfSectors: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.NumberOfSectors);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {                    
+                        dist.data_sectors=dist.total_sectors-((*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS)+((*(uint8_t*)Boot_Record.NUMBER_OF_FATS)*dist.fat_size))+dist.NumberOfSectors;
+                        debugString="dist.data_sectors: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.data_sectors);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {                    
+                        dist.total_clusters=dist.data_sectors/(*(uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER);
+                        debugString="dist.total_clusters: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.total_clusters);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {                    
+                        dist.RootDirectory.NumberOfSectors=dist.NumberOfSectors;
+                        debugString="dist.RootDirectory.NumberOfSectors: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.NumberOfSectors);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {                    
+                        dist.RootDirectory.FirstDataSector=(*(uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS)+((*(uint8_t*)Boot_Record.NUMBER_OF_FATS)*dist.fat_size)+dist.RootDirectory.NumberOfSectors;
+                        debugString="dist.RootDirectory.FirstDataSector: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.FirstDataSector);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {                    
+                        dist.RootDirectory.ClusterNumber=(*(uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY);
+                        debugString="dist.RootDirectory.ClusterNumber: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.ClusterNumber);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {                    
+                        dist.RootDirectory.FirstSector = ((dist.RootDirectory.ClusterNumber - 2) * (*(uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER)) + dist.RootDirectory.FirstDataSector;
+                        debugString="dist.RootDirectory.FirstSector: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.FirstSector);
+                        Debugger.Print(debugString.Raw());
+                    }
+                    {
+                        dist.RootDirectory.NumberOfEntries=(*(uint16_t*)Boot_Record.NUMBER_OF_ROOT_DIRECTORY_ENTRIES);
+                        debugString="dist.RootDirectory.NumberOfEntries: ";
+                        debugString+=Sauce::Utility::Conversion::ToString(dist.RootDirectory.NumberOfEntries);
+                        Debugger.Print(debugString.Raw());
+                    }
                 }
             };
         };
