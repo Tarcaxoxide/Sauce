@@ -75,47 +75,11 @@ namespace Sauce{
                     uint8_t RESERVED1[12];
                     uint8_t TRAIL_SIGNATURE[4];//(0xAA550000)
                 }__attribute__((packed));
-                struct DirectoryEntry_st{
-                	uint8_t name[8];            //8
-                	uint8_t ext[3];             //11
-                	uint8_t attrib[1];          //12
-                	uint8_t userattrib[1];      //13
-                	uint8_t undelete[1];        //14
-                    uint8_t createtime[2];      //16
-                    uint8_t createdate[2];      //18
-                    uint8_t accessdate[2];      //20
-                    uint8_t clusterhigh[2];     //22
-                    uint8_t modifiedtime[2];    //24
-                    uint8_t modifieddate[2];    //26
-                    uint8_t clusterlow[2];      //28
-                    uint8_t filesize[4];        //32
-                }__attribute__((packed));
-
-                struct File_Entry_st{};
-
-                struct DirectoryEntry_Meta_st{
-                    size_t ClusterNumber;
-                    size_t FirstSector;
-                    size_t FirstDataSector;
-                    size_t NumberOfEntries;
-                    size_t NumberOfSectors;
-                    Sauce::Memory::List_cl<DirectoryEntry_st> DirectoryEntry;
-                };
 
                 struct FAT32Driver_st{
                     Extended_Boot_Record_FAT32_st Boot_Record;
                     FSINFO_Structure_st FSINFO_Structure;
                     size_t Port;
-                    struct dist_st{
-                        size_t total_sectors;
-                        size_t fat_size;
-                        size_t first_fat_sector;
-                        size_t data_sectors;
-                        size_t total_clusters;
-                        size_t BytesPerSector;
-                        size_t NumberOfSectors;
-                        DirectoryEntry_Meta_st RootDirectory;
-                    }dist;
                     FAT32Driver_st(size_t Port);
                 };
                 
