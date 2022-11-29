@@ -24,14 +24,15 @@ namespace Sauce{
                 bool ColumnFill(size_t ColumnIndex,GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
                 bool Fill(GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
                 bool PutPixel(Sauce::Point64_st Location,GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
+                GOP_PixelStructure Blend(GOP_PixelStructure Front,GOP_PixelStructure Back,uint8_t opacity=0xFF);
                 bool RowClear(size_t RowIndex);
                 bool ColumnClear(size_t ColumnIndex);
                 bool Clear();
                 bool SetCursor(int64_t X,int64_t Y,int64_t Z=0);
                 bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Sauce::Point64_st Offset={0,0,0});
                 bool CopyFrom(Terminal_cl* OtherTerminal);
-                bool SwapTo(GOP_PixelStructure* OtherPixelBuffer);
-                bool SwapFrom(Terminal_cl* OtherTerminal);
+                //bool SwapTo(GOP_PixelStructure* OtherPixelBuffer);
+                //bool SwapFrom(Terminal_cl* OtherTerminal);
 				Sauce::uPoint64_st Size();
                 bool Move(Sauce::Point64_st Offset);
                 void SetID(Sauce::string nID);

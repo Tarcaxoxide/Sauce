@@ -53,6 +53,18 @@ namespace Sauce{
             PixelBuffer[Sauce::Math::index(Location.X,Location.Y,PixelsPerLine)]=TheColor;
             return true;
         }
+        GOP_PixelStructure Terminal_cl::Blend(GOP_PixelStructure Front,GOP_PixelStructure Back,uint8_t opacity){
+        	double Alpha;
+            if(opacity > 9){
+                Alpha=Front.Alpha/2.55;
+            }else{
+                Alpha=opacity*11.1111111111111111;
+            }
+        	uint8_t Rnew = (Front.Red * Alpha) + (Back.Red * (1.0 - Alpha));
+        	uint8_t Gnew = (Front.Green * Alpha) + (Back.Green * (1.0 - Alpha));
+        	uint8_t Bnew = (Front.Blue * Alpha) + (Back.Blue * (1.0 - Alpha));
+        	return {Bnew,Gnew,Rnew,0xFF};
+        }
         bool Terminal_cl::ColumnFill(size_t ColumnIndex,GOP_PixelStructure TheColor){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::ColumnFill",_NAMESPACE_,_ALLOW_PRINT_);
             if(ColumnIndex > PixelsPerLine){
@@ -116,16 +128,16 @@ namespace Sauce{
             bool Ret = OtherTerminal->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,MyOffset);
             return Ret;
         }
-        bool Terminal_cl::SwapTo(GOP_PixelStructure* OtherPixelBuffer){
-            Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::SwapTo",_NAMESPACE_,_ALLOW_PRINT_);
-            Sauce::Utility::swap_address((void**)&PixelBuffer,(void**)&OtherPixelBuffer);
-            return true;
-        }
-        bool Terminal_cl::SwapFrom(Terminal_cl* OtherTerminal){
-            Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::SwapFrom",_NAMESPACE_,_ALLOW_PRINT_);
-            bool Ret = OtherTerminal->SwapTo(PixelBuffer);
-            return Ret;
-        }
+        //bool Terminal_cl::SwapTo(GOP_PixelStructure* OtherPixelBuffer){
+        //    Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::SwapTo",_NAMESPACE_,_ALLOW_PRINT_);
+        //    Sauce::Utility::swap_address((void**)&PixelBuffer,(void**)&OtherPixelBuffer);
+        //    return true;
+        //}
+        //bool Terminal_cl::SwapFrom(Terminal_cl* OtherTerminal){
+        //    Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::SwapFrom",_NAMESPACE_,_ALLOW_PRINT_);
+        //    bool Ret = OtherTerminal->SwapTo(PixelBuffer);
+        //    return Ret;
+        //}
 		Sauce::uPoint64_st Terminal_cl::Size(){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Size",_NAMESPACE_,_ALLOW_PRINT_);
             return {PixelsPerLine,PixelsBufferHeight,0};

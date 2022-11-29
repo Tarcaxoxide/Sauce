@@ -28,22 +28,12 @@ DIRS = $(wildcard $(SRCDIR)/*)
 $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=93750
 	mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
-	mkdir  $(BUILDDIR)/iso_dir
-	sudo mount $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/iso_dir
-	sudo mkdir -p $(BUILDDIR)/iso_dir/EFI/BOOT
-	sudo cp $(BOOTEFI) $(BUILDDIR)/iso_dir/EFI/BOOT
-	sudo cp startup.nsh $(BUILDDIR)/iso_dir/
-	sudo cp $(BUILDDIR)/kernel.elf $(BUILDDIR)/iso_dir/
-	sudo cp $(INCDIR)/Sauce/Fonts/zap-light16.psf $(BUILDDIR)/iso_dir/
-	sudo umount $(BUILDDIR)/iso_dir/
-
-	#mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
-	#mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
-	#mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
-	#mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
-	#mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::/
-	#mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::/
-	#mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::/
+	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
+	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
+	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
+	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::/
+	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::/
+	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::/
 
 $(BUILDDIR)/$(OSNAME).iso: $(BUILDDIR)/$(OSNAME).img
 	mkisofs -d -D -J -l -r -U -relaxed-filenames -o $@ $<
@@ -78,3 +68,4 @@ run: $(BUILDDIR)/$(OSNAME).img
 	@qemu-system-x86_64 -display gtk,zoom-to-fit=on -smp 2 -serial stdio -machine q35 -s -drive format=raw,file=$(BUILDDIR)/$(OSNAME).img -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
 	@read -p "press enter to continue..."
 	@reset
+

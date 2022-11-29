@@ -8,50 +8,6 @@
 
 /*experimentation*/#include <Sauce/Storage/FileSystem/FAT.hpp>
 
-namespace Sauce{
-    namespace Commands{
-        Sauce::string Exec(Sauce::Memory::List_cl<Sauce::string*>& Args){
-            Sauce::IO::Debug::Debugger_st Debugger("Exec",_NAMESPACE_,_ALLOW_PRINT_);
-            Sauce::string Result;
-            for(size_t i=0;i<Args.Size();i++)Debugger.Print((*Args[i]).Raw());
-            if((*Args[0]) == Sauce::string("Test")){Args.RemoveFirst();
-                if((*Args.First()) == Sauce::string("AHCI")){
-                    if((*Args[1]) == Sauce::string("List")){
-                        Result=Sauce::Global::AHCIDriver->ListPorts();
-                        return Result;
-                    }
-                }
-                if((*Args.First()) == Sauce::string("AHCI")){
-                    Result=Sauce::Global::AHCIDriver->ListPorts();
-                    return Result;
-                }
-                if((*Args.First()) == Sauce::string("FAT32")){
-                    Sauce::Storage::FileSystem::FAT::FAT32Driver_st test(0);
-                    return Result;
-                }
-                if((*Args.First()) == Sauce::string("DynamicArray")){
-                    Sauce::Memory::List_cl<char> TestString;
-                    TestString << 0x00;
-                    TestString << 'a';
-                    TestString << 'A';
-                    TestString << 'b';
-                    TestString << 'B';
-                    TestString << 'c';
-                    TestString << 'C';
-                    char TestChar=0;
-                    while(TestString >> TestChar){
-                        Result+=TestChar;
-                        Result+="\n\r";
-                    }
-                    return Result;
-                }
-            }
-            Result="Unknown Command: ";
-            Result.AddLast(Args[0]->Raw());
-            return Result;
-        }
-    };
-};
 
 namespace Sauce{
     namespace Graphics{
@@ -94,19 +50,7 @@ namespace Sauce{
                     if(AddToBuffer)CharBuffer.AddLast(chr);
                     for(size_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
                         for(size_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
-                            GOP_PixelStructure ThisColor{0,0,0,0xFF};
-                            ThisColor.Red=ForegroundColor.Red/9;
-                            ThisColor.Green=ForegroundColor.Green/9;
-                            ThisColor.Blue=ForegroundColor.Blue/9;
-                            ThisColor.Red*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-                            ThisColor.Green*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-                            ThisColor.Blue*=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-                            ThisColor.Alpha=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-                            if(ThisColor.Red == 0x00 && ThisColor.Blue == 0x00 && ThisColor.Green == 0x00 && ThisColor.Alpha == 0x00){
-                                PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=BackgroundColor;
-                            }else{
-                                PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=ThisColor;
-                            }
+                            PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=Blend(ForegroundColor,BackgroundColor,Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)]);
                         }
                     }
                     if(!GoRight()){
@@ -193,7 +137,12 @@ namespace Sauce{
             }
             ShellClear(false);
             PutString("\n\r",false);
-            PutString(Sauce::Commands::Exec(ArgBuffer),false);
+
+            if(*(ArgBuffer[0]) == Sauce::string("Test")){
+                if(*(ArgBuffer[1]) == Sauce::string("color")){
+                    ReverseColor();
+                }
+            }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_,_ALLOW_PRINT_);
