@@ -142,6 +142,12 @@ namespace Sauce{
                 if(*(ArgBuffer[1]) == Sauce::string("color")){
                     ReverseColor();
                 }
+                if(*(ArgBuffer[1]) == Sauce::string("math")){
+                    uint64_t testValue=Sauce::Utility::Conversion::ToUint64("1024");
+                    PutString("1024\n\r",false);
+                    PutString(Sauce::Utility::Conversion::ToString(testValue),false);
+                    PutString("\n\r",false);
+                }
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){

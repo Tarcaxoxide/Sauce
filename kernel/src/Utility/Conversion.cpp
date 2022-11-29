@@ -171,6 +171,18 @@ namespace Sauce{
                 *floatPtr = 0;
                 return (char*)haxString;
             }
+            uint64_t ToUint64(const char* value){
+                Sauce::IO::Debug::Debugger_st Debugger("ToUint64",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::string avalue(value);
+                uint64_t Result=0;
+                for(size_t i=0;(i<30&&i<avalue.Size());i++){
+                    size_t Mag=1;
+                    for(size_t ii=0;ii<i;ii++){Mag*=10;}
+                    char _char=avalue[avalue.Size()-(i+1)];
+                    Result+=(_char-0x30)*Mag;
+                }
+                return Result;
+            }
         };
     };
 };

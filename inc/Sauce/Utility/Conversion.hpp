@@ -24,6 +24,8 @@ namespace Sauce{
 			//Decimal 0.0
 			char* ToString(float value,uint16_t decimalPlaces=4);
 			char* ToString(double value,uint16_t decimalPlaces=4);
+			//to Numberic
+			uint64_t ToUint64(const char* value);
 		}
 	};
 };
