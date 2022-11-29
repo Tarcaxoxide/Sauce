@@ -1,7 +1,7 @@
 #pragma once
 
 #include<Sauce/Common.hpp>
-#include<Sauce/Types.hpp>
+#include<Sauce/Math/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 

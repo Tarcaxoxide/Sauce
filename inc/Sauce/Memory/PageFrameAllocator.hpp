@@ -1,6 +1,6 @@
 #pragma once
 
-#include<Sauce/Types.hpp>
+#include<Sauce/Math/Types.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Memory/Bitmap.hpp>
 #include<Sauce/Memory/Memory.hpp>

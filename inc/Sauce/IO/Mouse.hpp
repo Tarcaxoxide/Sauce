@@ -1,6 +1,7 @@
 #pragma once
 
-#include<Sauce/Types.hpp>
+#include<Sauce/InputTypes.hpp>
+
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
@@ -19,7 +20,7 @@ namespace Sauce{
         void MouseWrite(uint8_t value);
         uint8_t MouseRead();
         void HandlePS2Mouse(uint8_t data);
-        Sauce::Mouse_st* ProcessMousePacket();
+        Sauce::InputTypes::Mouse_st* ProcessMousePacket();
         void PS2MouseInitialize(Sauce::Point64_st InitMousePosition);
         extern Sauce::Point64_st MousePosition;
     };

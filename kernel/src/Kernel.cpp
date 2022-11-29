@@ -26,7 +26,7 @@ namespace Sauce{
     int testcount=0;
 	Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
 
-    Sauce::Mouse_st oMouse;
+    Sauce::InputTypes::Mouse_st oMouse;
     Sauce::Point64_st oMousePosition;
 
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
@@ -168,7 +168,7 @@ namespace Sauce{
             }
         }
     }
-    void Kernel_cl::oNotify_Of_Mouse(Sauce::Mouse_st* xMouse){
+    void Kernel_cl::oNotify_Of_Mouse(Sauce::InputTypes::Mouse_st* xMouse){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::oNotify_Of_Mouse",_NAMESPACE_,_ALLOW_PRINT_);
         if(xMouse->Position->Y < 0){xMouse->Position->Y=0;}
         if(xMouse->Position->X < 0){xMouse->Position->X=0;}

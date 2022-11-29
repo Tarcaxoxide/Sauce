@@ -1,6 +1,6 @@
 #pragma once
 
-#include<Sauce/Types.hpp>
+#include<Sauce/Math/Types.hpp>
 #include<Sauce/IO/IO.hpp>
 
 namespace Sauce{

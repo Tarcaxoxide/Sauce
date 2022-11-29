@@ -1,6 +1,6 @@
 #pragma once
 
-#include<Sauce/Types.hpp>
+#include<Sauce/Math/Types.hpp>
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/Memory/Paging.hpp>
 #include<Sauce/Memory/PageMapIndexer.hpp>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include<Sauce/Types.hpp>
+#include<Sauce/Math/Types.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 

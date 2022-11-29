@@ -6,7 +6,7 @@
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
-#include<Sauce/Types.hpp>
+#include<Sauce/Math/Types.hpp>
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 

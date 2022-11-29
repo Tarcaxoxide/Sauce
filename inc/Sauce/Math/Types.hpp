@@ -58,11 +58,5 @@ namespace Sauce{
 		    uint8_t Key;
 		    wchar_t Display;
         };
-        struct Mouse_st{
-            bool RightButton;
-            bool LeftButton;
-            bool CenterButton;
-			Point64_st* Position;
-            bool Good;
-        };
+        
 };
