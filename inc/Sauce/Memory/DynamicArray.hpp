@@ -224,8 +224,13 @@ namespace Sauce{
                 List_cl<TT> OtherTmp(OtherValue);
                 return Compare(OtherTmp);
             }
-            
             bool operator==(const TT** OtherValues){
+                //Example Usage of this operator:
+                //Equation == new const char*[]{"1","2","3",nullptr}
+                //new is required because otherwise it complains about taking a pointer to a temporary array.
+                //nullptr is to always be the last element because we look for it in the loop...
+                //we can't use the usual null termination because one exist for each of the elements.
+
                 for(size_t i=0;OtherValues[i] != nullptr;i++){
                     List_cl<TT> OtherTmp(OtherValues[i]);
                     if(Compare(OtherTmp)){delete[] OtherValues;return true;}
@@ -233,8 +238,6 @@ namespace Sauce{
                 delete[] OtherValues;
                 return false;
             }
-
-
             bool operator==(List_cl<TT> OtherValue){
                 return Compare(OtherValue);
             }
