@@ -10,8 +10,8 @@
 #include<Sauce/Interrupts/Interrupts.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
-extern uint64_t _KernelStartRef;
-extern uint64_t _KernelEndRef;
+extern uint64_t* _KernelStartRef;
+extern uint64_t* _KernelEndRef;
 
 
 namespace Sauce{

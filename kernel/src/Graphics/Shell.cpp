@@ -142,10 +142,9 @@ namespace Sauce{
                 if(*(ArgBuffer[1]) == Sauce::string("color")){
                     ReverseColor();
                 }
-                if(*(ArgBuffer[1]) == Sauce::string("math")){
-                    uint64_t testValue=Sauce::Utility::Conversion::ToUint64("1024");
-                    PutString("1024\n\r",false);
-                    PutString(Sauce::Utility::Conversion::ToString(testValue),false);
+                if(*(ArgBuffer[1]) == Sauce::string("Math")){
+                    Sauce::string Result=Sauce::Math::simple_equation(*(ArgBuffer[2]),*(ArgBuffer[3]),*(ArgBuffer[4]));
+                    PutString(Result,false);
                     PutString("\n\r",false);
                 }
             }

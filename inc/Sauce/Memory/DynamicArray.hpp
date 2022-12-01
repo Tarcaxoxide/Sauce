@@ -224,6 +224,17 @@ namespace Sauce{
                 List_cl<TT> OtherTmp(OtherValue);
                 return Compare(OtherTmp);
             }
+            
+            bool operator==(const TT** OtherValues){
+                for(size_t i=0;OtherValues[i] != nullptr;i++){
+                    List_cl<TT> OtherTmp(OtherValues[i]);
+                    if(Compare(OtherTmp)){delete[] OtherValues;return true;}
+                }
+                delete[] OtherValues;
+                return false;
+            }
+
+
             bool operator==(List_cl<TT> OtherValue){
                 return Compare(OtherValue);
             }

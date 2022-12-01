@@ -23,5 +23,6 @@ namespace Sauce{
 		size_t random_get(size_t max);
 		void random_seed(size_t seed);
 		inline int abs(int number){return make_positive(number);}
+		Sauce::string simple_equation(Sauce::string A,Sauce::string Equation,Sauce::string B);
 	};
 };

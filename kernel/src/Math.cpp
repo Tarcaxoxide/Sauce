@@ -1,6 +1,7 @@
 
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
+#include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
     namespace Math{
@@ -156,6 +157,26 @@ namespace Sauce{
 		void random_seed(size_t seed){
 			Sauce::IO::Debug::Debugger_st Debugger("random_seed",_NAMESPACE_,_ALLOW_PRINT_);
 		    next = seed;
+		}
+		Sauce::string simple_equation(Sauce::string A,Sauce::string Equation,Sauce::string B){
+			Sauce::IO::Debug::Debugger_st Debugger("simple_equation",_NAMESPACE_,_ALLOW_PRINT_);
+			Sauce::string Result;
+			uint64_t testValueA=Sauce::Utility::Conversion::ToUint64(A.Raw());
+        	uint64_t testValueB=Sauce::Utility::Conversion::ToUint64(B.Raw());
+        	uint64_t testValueC=0;
+			if(Equation == new const char*[]{"add","addition","+",nullptr}){
+				testValueC=testValueA+testValueB;
+			}
+			if(Equation == new const char*[]{"sub","subtract","-",nullptr}){
+				testValueC=testValueA-testValueB;
+			}
+			if(Equation == new const char*[]{"mul","multiply","times","*",nullptr}){
+				testValueC=testValueA*testValueB;
+			}
+			if(Equation == new const char*[]{"div","divide","/",nullptr}){
+				testValueC=testValueA/testValueB;
+			}
+			return Sauce::Utility::Conversion::ToString(testValueC);
 		}
 	};
 };

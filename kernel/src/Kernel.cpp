@@ -40,7 +40,11 @@ namespace Sauce{
         //setting up divisor for timer interrupt and initializing the heap, should happen after virtual address
         //but before setting up the interrupts.
         Sauce::Interrupts::PIT::SetDivisor(65535/6);
-        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10); 
+        //Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
+        Debugger.Print("Kernel ?here?");
+        Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelEndRef));
+        Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelStartRef));
+        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
         Prep_Interrupts();
         asm volatile("sti");
         Prep_IO();
