@@ -94,16 +94,27 @@ namespace Sauce{
                 }__attribute__((packed));
 
 
+                struct DistilledInformation_st{
+                    size_t FatStart;
+                    size_t FatSize;
+                    size_t PartitionOffset;
+                    size_t DataStart;
+                    size_t SectorOfRootDirectoryEntry;
+                    size_t SectorsPerCluster;
+                    size_t BytesPerSector;
+                    size_t Port;
+                };
+
                 struct FAT32_FileSystemFileObject_st{
                     DirectoryEntry_st DirectoryEntries[16];
-                    FAT32_FileSystemFileObject_st* FAT32_FileSystemFileObjects[16]{nullptr};
-                    FAT32_FileSystemFileObject_st(Sauce::Memory::List_cl<uint8_t> sector);
+                    DistilledInformation_st* Dist;
+                    FAT32_FileSystemFileObject_st(Sauce::Memory::List_cl<uint8_t> sector,DistilledInformation_st* Dist);
                 };
 
                 struct FAT32Driver_st{
                     Extended_Boot_Record_FAT32_st Boot_Record;
                     FSINFO_Structure_st FSINFO_Structure;
-                    size_t Port;
+                    DistilledInformation_st Dist;
                     FAT32Driver_st(size_t Port,uint32_t PartitionOffset=0);
                 };
                 

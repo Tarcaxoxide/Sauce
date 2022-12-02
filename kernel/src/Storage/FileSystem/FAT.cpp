@@ -5,8 +5,9 @@ namespace Sauce{
     namespace Storage{
         namespace FileSystem{
             namespace FAT{
-                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st (Sauce::Memory::List_cl<uint8_t> sector){
+                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st (Sauce::Memory::List_cl<uint8_t> sector,DistilledInformation_st* Dist){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st",_NAMESPACE_,_ALLOW_PRINT_);
+                    this->Dist=Dist;
                     size_t offset=0;
                     if(sector.Size() != 512){
                         Sauce::string str("Incorrect sized data, expecting 512 bytes but received ");
@@ -48,13 +49,20 @@ namespace Sauce{
                     for(size_t i=0;i<16;i++){
                         if(DirectoryEntries[i].NAME[0] == 0x00)break;
                         if((DirectoryEntries[i].ATTRIB[0] & 0x0F) == 0x0F)continue;
+                        Debugger.Print(Sauce::Utility::Conversion::ToString(i));
                         Debugger.Print((char*)DirectoryEntries[i].NAME);
+                        if((DirectoryEntries[i].ATTRIB[0] & 0x10) == 0x10){Debugger.Print("Directory");}else{Debugger.Print("File");}
+
+                        uint32_t Cluster = (((uint32_t)(*((uint16_t*)DirectoryEntries[i].CLUSTER_HIGH))) << 16) | (*((uint16_t*)DirectoryEntries[i].CLUSTER_LOW));
+                        uint32_t Sector = Dist->DataStart + Dist->SectorsPerCluster * (Cluster - 2); 
+                        Debugger.Print(Sauce::Utility::Conversion::HexToString(Sector));
                     }
                 }
 
                 FAT32Driver_st::FAT32Driver_st(size_t Port,uint32_t PartitionOffset){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32Driver_st::FAT32Driver_st",_NAMESPACE_,_ALLOW_PRINT_);
-                    this->Port=Port;
+                    Dist.Port=Port;
+                    Dist.PartitionOffset=PartitionOffset;
                     size_t CurrentByte=0;
                     Sauce::string debugString;
                     debugString="Boot_Record.NOP: ";
@@ -75,12 +83,14 @@ namespace Sauce{
                         Boot_Record.NUMBER_OF_BYTES_PER_SECTOR[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
                         debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NUMBER_OF_BYTES_PER_SECTOR[i]);
                     }
+                    Dist.BytesPerSector=*((uint16_t*)Boot_Record.NUMBER_OF_BYTES_PER_SECTOR);
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER: ";
                     for(size_t i=0;i<1;i++){
                         Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
                         debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER[i]);
                     }
+                    Dist.SectorsPerCluster=*((uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER);
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.NUMBER_OF_RESERVED_SECTORS: ";
                     for(size_t i=0;i<2;i++){
@@ -280,17 +290,15 @@ namespace Sauce{
                     //void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr)
                     Sauce::Memory::List_cl<uint8_t> Bufferr;
 
-                    uint32_t fatStart=PartitionOffset+(*((uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS));
-                    uint32_t fatSize=(*((uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32));
-                    uint32_t dataStart=fatStart+fatSize*(*((uint8_t*)Boot_Record.NUMBER_OF_FATS));
+                    Dist.FatStart=Dist.PartitionOffset+(*((uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS));
+                    Dist.FatSize=(*((uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32));
+                    Dist.DataStart=Dist.FatStart+Dist.FatSize*(*((uint8_t*)Boot_Record.NUMBER_OF_FATS));
 
-                    uint32_t SectorOfRootDirectoryEntry=dataStart+((*((uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER))*((*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY))-2));
+                    Dist.SectorOfRootDirectoryEntry=Dist.DataStart+((*((uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER))*((*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY))-2));
 
+                    Sauce::Global::AHCIDriver->Read(Dist.Port,Dist.SectorOfRootDirectoryEntry,1,Bufferr);
 
-                    Sauce::Global::AHCIDriver->Read(Port,SectorOfRootDirectoryEntry,1,Bufferr);
-
-                    FAT32_FileSystemFileObject_st RootDirectoryEntry(Bufferr);
-                    
+                    FAT32_FileSystemFileObject_st RootDirectoryEntry(Bufferr,&Dist);
                 }
             };
         };
