@@ -18,8 +18,6 @@ namespace Sauce{
                         DirectoryEntry_st DirectoryEntry; 
                         //  uint8_t NAME[8];
                         for(size_t i=0;i<8;i++){DirectoryEntry.NAME[i]=sector[i+offset];}offset+=8;
-                        if(DirectoryEntry.NAME[0] == 0x00)break;
-                        Debugger.Print((char*)DirectoryEntry.NAME);
                         //  uint8_t EXT[3];
                         for(size_t i=0;i<3;i++){DirectoryEntry.EXT[i]=sector[i+offset];}offset+=3;
                         //  uint8_t ATTRIB[1];
@@ -45,6 +43,11 @@ namespace Sauce{
                         //  uint8_t FILE_SIZE[4];
                         for(size_t i=0;i<4;i++){DirectoryEntry.FILE_SIZE[i]=sector[i+offset];}offset+=4;
                         DirectoryEntries[i]=DirectoryEntry;
+                    }
+                    //log
+                    for(size_t i=0;i<16;i++){
+                        if(DirectoryEntries[i].NAME[0] == 0x00)break;
+                        Debugger.Print((char*)DirectoryEntries[i].NAME);
                     }
                 }
 
