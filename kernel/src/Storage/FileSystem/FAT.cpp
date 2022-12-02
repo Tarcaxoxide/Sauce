@@ -15,9 +15,11 @@ namespace Sauce{
                         return;
                     }
                     for(size_t i=0;i<16;i++){
-                        DirectoryEntry_st DirectoryEntry;
+                        DirectoryEntry_st DirectoryEntry; 
                         //  uint8_t NAME[8];
                         for(size_t i=0;i<8;i++){DirectoryEntry.NAME[i]=sector[i+offset];}offset+=8;
+                        if(DirectoryEntry.NAME[0] == 0x00)break;
+                        Debugger.Print((char*)DirectoryEntry.NAME);
                         //  uint8_t EXT[3];
                         for(size_t i=0;i<3;i++){DirectoryEntry.EXT[i]=sector[i+offset];}offset+=3;
                         //  uint8_t ATTRIB[1];
@@ -272,13 +274,18 @@ namespace Sauce{
                     Debugger.Print(debugString.Raw());
 
                     //void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr)
-//                    Sauce::Memory::List_cl<uint8_t> Bufferr;
-//
-//                    uint32_t fatStart=PartitionOffset+(*((uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS));
-//                    
-//
-//                    Sauce::Global::AHCIDriver->Read(Port,SectorOfRootDirectoryEntry,1,Bufferr);
-//                    FAT32_FileSystemFileObject_st RootDirectoryEntry(Bufferr);
+                    Sauce::Memory::List_cl<uint8_t> Bufferr;
+
+                    uint32_t fatStart=PartitionOffset+(*((uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS));
+                    uint32_t fatSize=(*((uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32));
+                    uint32_t dataStart=fatStart+fatSize*(*((uint8_t*)Boot_Record.NUMBER_OF_FATS));
+
+                    uint32_t SectorOfRootDirectoryEntry=dataStart+((*((uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER))*((*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY))-2));
+
+
+                    Sauce::Global::AHCIDriver->Read(Port,SectorOfRootDirectoryEntry,1,Bufferr);
+
+                    FAT32_FileSystemFileObject_st RootDirectoryEntry(Bufferr);
                     
                 }
             };

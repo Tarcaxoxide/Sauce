@@ -174,7 +174,6 @@ namespace Sauce{
                         B X
                         C Z
                     */
-
                     const uint8_t X=1,A=1,Rock=1;
                     const uint8_t Y=2,B=2,Paper=2;
                     const uint8_t Z=2,C=2,Scissors=3;
@@ -193,7 +192,6 @@ namespace Sauce{
                         uint8_t Added=3+((It.In-It.Out)*3);
                         Score+=It.Out+Added;
                     }
-
                     PutString(Sauce::Utility::Conversion::ToString(Score),false);
                     PutString("\n\r",false);
                     return;
