@@ -58,5 +58,4 @@ namespace Sauce{
 		    uint8_t Key;
 		    wchar_t Display;
         };
-        
 };

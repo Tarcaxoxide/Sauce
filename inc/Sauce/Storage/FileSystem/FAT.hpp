@@ -2,6 +2,7 @@
 
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/Global.hpp>
+#include<Sauce/Math/Types.hpp>
 
 namespace Sauce{
     namespace Storage{
@@ -76,11 +77,34 @@ namespace Sauce{
                     uint8_t TRAIL_SIGNATURE[4];//(0xAA550000)
                 }__attribute__((packed));
 
+                struct DirectoryEntry_st{
+                	uint8_t NAME[8];
+                	uint8_t EXT[3];
+                	uint8_t ATTRIB[1];
+                	uint8_t USER_ATTRIB[1];
+                	uint8_t UNDELETE[1];
+                    uint8_t CREATE_TIME[2];
+                    uint8_t CREATE_DATE[2];
+                    uint8_t ACCESS_DATE[2];
+                    uint8_t CLUSTER_HIGH[2];
+                    uint8_t MODIFIED_TIME[2];
+                    uint8_t MODIFIED_DATE[2];
+                    uint8_t CLUSTER_LOW[2];
+                    uint8_t FILE_SIZE[4];
+                }__attribute__((packed));
+
+
+                struct FAT32_FileSystemFileObject_st{
+                    DirectoryEntry_st DirectoryEntries[16];
+                    FAT32_FileSystemFileObject_st* FAT32_FileSystemFileObjects[16]{nullptr};
+                    FAT32_FileSystemFileObject_st(Sauce::Memory::List_cl<uint8_t> sector);
+                };
+
                 struct FAT32Driver_st{
                     Extended_Boot_Record_FAT32_st Boot_Record;
                     FSINFO_Structure_st FSINFO_Structure;
                     size_t Port;
-                    FAT32Driver_st(size_t Port);
+                    FAT32Driver_st(size_t Port,uint32_t PartitionOffset=0);
                 };
                 
             };

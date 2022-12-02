@@ -5,7 +5,48 @@ namespace Sauce{
     namespace Storage{
         namespace FileSystem{
             namespace FAT{
-                FAT32Driver_st::FAT32Driver_st(size_t Port){
+                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st (Sauce::Memory::List_cl<uint8_t> sector){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st",_NAMESPACE_,_ALLOW_PRINT_);
+                    size_t offset=0;
+                    if(sector.Size() != 512){
+                        Sauce::string str("Incorrect sized data, expecting 512 bytes but received ");
+                        str+=Sauce::Utility::Conversion::ToString(sector.Size());
+                        Debugger.Print(str.Raw());
+                        return;
+                    }
+                    for(size_t i=0;i<16;i++){
+                        DirectoryEntry_st DirectoryEntry;
+                        //  uint8_t NAME[8];
+                        for(size_t i=0;i<8;i++){DirectoryEntry.NAME[i]=sector[i+offset];}offset+=8;
+                        //  uint8_t EXT[3];
+                        for(size_t i=0;i<3;i++){DirectoryEntry.EXT[i]=sector[i+offset];}offset+=3;
+                        //  uint8_t ATTRIB[1];
+                        for(size_t i=0;i<1;i++){DirectoryEntry.ATTRIB[i]=sector[i+offset];}offset+=1;
+                        //  uint8_t USER_ATTRIB[1];
+                        for(size_t i=0;i<1;i++){DirectoryEntry.USER_ATTRIB[i]=sector[i+offset];}offset+=1;
+                        //  uint8_t UNDELETE[1];
+                        for(size_t i=0;i<1;i++){DirectoryEntry.UNDELETE[i]=sector[i+offset];}offset+=1;
+                        //  uint8_t CREATE_TIME[2];
+                        for(size_t i=0;i<2;i++){DirectoryEntry.CREATE_TIME[i]=sector[i+offset];}offset+=2;
+                        //  uint8_t CREATE_DATE[2];
+                        for(size_t i=0;i<2;i++){DirectoryEntry.CREATE_DATE[i]=sector[i+offset];}offset+=2;
+                        //  uint8_t ACCESS_DATE[2];
+                        for(size_t i=0;i<2;i++){DirectoryEntry.ACCESS_DATE[i]=sector[i+offset];}offset+=2;
+                        //  uint8_t CLUSTER_HIGH[2];
+                        for(size_t i=0;i<2;i++){DirectoryEntry.CLUSTER_HIGH[i]=sector[i+offset];}offset+=2;
+                        //  uint8_t MODIFIED_TIME[2];
+                        for(size_t i=0;i<2;i++){DirectoryEntry.MODIFIED_TIME[i]=sector[i+offset];}offset+=2;
+                        //  uint8_t MODIFIED_DATE[2];
+                        for(size_t i=0;i<2;i++){DirectoryEntry.MODIFIED_DATE[i]=sector[i+offset];}offset+=2;
+                        //  uint8_t CLUSTER_LOW[2];
+                        for(size_t i=0;i<2;i++){DirectoryEntry.CLUSTER_LOW[i]=sector[i+offset];}offset+=2;
+                        //  uint8_t FILE_SIZE[4];
+                        for(size_t i=0;i<4;i++){DirectoryEntry.FILE_SIZE[i]=sector[i+offset];}offset+=4;
+                        DirectoryEntries[i]=DirectoryEntry;
+                    }
+                }
+
+                FAT32Driver_st::FAT32Driver_st(size_t Port,uint32_t PartitionOffset){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32Driver_st::FAT32Driver_st",_NAMESPACE_,_ALLOW_PRINT_);
                     this->Port=Port;
                     size_t CurrentByte=0;
@@ -230,7 +271,14 @@ namespace Sauce{
                     }
                     Debugger.Print(debugString.Raw());
 
-
+                    //void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr)
+//                    Sauce::Memory::List_cl<uint8_t> Bufferr;
+//
+//                    uint32_t fatStart=PartitionOffset+(*((uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS));
+//                    
+//
+//                    Sauce::Global::AHCIDriver->Read(Port,SectorOfRootDirectoryEntry,1,Bufferr);
+//                    FAT32_FileSystemFileObject_st RootDirectoryEntry(Bufferr);
                     
                 }
             };

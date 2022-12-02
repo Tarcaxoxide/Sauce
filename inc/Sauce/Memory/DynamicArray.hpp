@@ -235,7 +235,7 @@ namespace Sauce{
                     List_cl<TT> OtherTmp(OtherValues[i]);
                     if(Compare(OtherTmp)){delete[] OtherValues;return true;}
                 }
-                delete[] OtherValues;
+                delete[] OtherValues;//we obviously delete this pointer so the end user doesn't have to deal with that.
                 return false;
             }
             bool operator==(List_cl<TT> OtherValue){
