@@ -47,6 +47,7 @@ namespace Sauce{
                     //log
                     for(size_t i=0;i<16;i++){
                         if(DirectoryEntries[i].NAME[0] == 0x00)break;
+                        if((DirectoryEntries[i].ATTRIB[0] & 0x0F) == 0x0F)continue;
                         Debugger.Print((char*)DirectoryEntries[i].NAME);
                     }
                 }
