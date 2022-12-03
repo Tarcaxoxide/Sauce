@@ -5,57 +5,64 @@ namespace Sauce{
     namespace Storage{
         namespace FileSystem{
             namespace FAT{
-                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st (Sauce::Memory::List_cl<uint8_t> sector,DistilledInformation_st* Dist){
+                uint32_t FAT32_FileSystemFileObject_st::ClusterNumberOfEntry(size_t EntryIndex){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::ClusterNumberOfEntry",_NAMESPACE_,_ALLOW_PRINT_);
+                    return (((uint32_t)(*((uint16_t*)DirectoryEntries[EntryIndex].CLUSTER_HIGH))) << 16) | (*((uint16_t*)DirectoryEntries[EntryIndex].CLUSTER_LOW));
+                }
+                uint32_t FAT32_FileSystemFileObject_st::SectorNumberOfEntry(size_t EntryIndex){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::SectorNumberOfEntry",_NAMESPACE_,_ALLOW_PRINT_);
+                    return Dist->DataStart + Dist->SectorsPerCluster * (ClusterNumberOfEntry(EntryIndex) - 2);
+                }
+                uint32_t FAT32_FileSystemFileObject_st::OffsetOfEntry(size_t EntryIndex){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::OffsetOfEntry",_NAMESPACE_,_ALLOW_PRINT_);
+                    return (ClusterNumberOfEntry(EntryIndex) * 4) % 512;
+                }
+                uint32_t FAT32_FileSystemFileObject_st::NextClusterOfEntry(size_t EntryIndex){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::OffsetOfEntry",_NAMESPACE_,_ALLOW_PRINT_);
+                    uint32_t FatSector=SectorNumberOfEntry(EntryIndex);
+                    uint32_t FatOffset=OffsetOfEntry(EntryIndex);
+                    Sauce::Memory::List_cl<uint8_t> buf;
+                    Sauce::Global::AHCIDriver->Read(Dist->Port,FatSector,1,buf);
+                    return *((uint32_t*)&buf.Raw()[FatOffset]) & 0x0FFFFFFF;
+                }
+                Sauce::string FAT32_FileSystemFileObject_st::NameOfEntr(size_t EntryIndex){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::NameOfEntr",_NAMESPACE_,_ALLOW_PRINT_);
+                    char _name[9]{0x00};
+                    for(size_t i=0;i<8;i++){_name[i]=DirectoryEntries[EntryIndex].NAME[i];}
+                    return Sauce::string(_name);
+                }
+                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st",_NAMESPACE_,_ALLOW_PRINT_);
                     this->Dist=Dist;
                     size_t offset=0;
-                    if(sector.Size() != 512){
-                        Sauce::string str("Incorrect sized data, expecting 512 bytes but received ");
-                        str+=Sauce::Utility::Conversion::ToString(sector.Size());
-                        Debugger.Print(str.Raw());
-                        return;
-                    }
-                    for(size_t i=0;i<16;i++){
-                        DirectoryEntry_st DirectoryEntry; 
-                        //  uint8_t NAME[8];
-                        for(size_t i=0;i<8;i++){DirectoryEntry.NAME[i]=sector[i+offset];}offset+=8;
-                        //  uint8_t EXT[3];
-                        for(size_t i=0;i<3;i++){DirectoryEntry.EXT[i]=sector[i+offset];}offset+=3;
-                        //  uint8_t ATTRIB[1];
-                        for(size_t i=0;i<1;i++){DirectoryEntry.ATTRIB[i]=sector[i+offset];}offset+=1;
-                        //  uint8_t USER_ATTRIB[1];
-                        for(size_t i=0;i<1;i++){DirectoryEntry.USER_ATTRIB[i]=sector[i+offset];}offset+=1;
-                        //  uint8_t UNDELETE[1];
-                        for(size_t i=0;i<1;i++){DirectoryEntry.UNDELETE[i]=sector[i+offset];}offset+=1;
-                        //  uint8_t CREATE_TIME[2];
-                        for(size_t i=0;i<2;i++){DirectoryEntry.CREATE_TIME[i]=sector[i+offset];}offset+=2;
-                        //  uint8_t CREATE_DATE[2];
-                        for(size_t i=0;i<2;i++){DirectoryEntry.CREATE_DATE[i]=sector[i+offset];}offset+=2;
-                        //  uint8_t ACCESS_DATE[2];
-                        for(size_t i=0;i<2;i++){DirectoryEntry.ACCESS_DATE[i]=sector[i+offset];}offset+=2;
-                        //  uint8_t CLUSTER_HIGH[2];
-                        for(size_t i=0;i<2;i++){DirectoryEntry.CLUSTER_HIGH[i]=sector[i+offset];}offset+=2;
-                        //  uint8_t MODIFIED_TIME[2];
-                        for(size_t i=0;i<2;i++){DirectoryEntry.MODIFIED_TIME[i]=sector[i+offset];}offset+=2;
-                        //  uint8_t MODIFIED_DATE[2];
-                        for(size_t i=0;i<2;i++){DirectoryEntry.MODIFIED_DATE[i]=sector[i+offset];}offset+=2;
-                        //  uint8_t CLUSTER_LOW[2];
-                        for(size_t i=0;i<2;i++){DirectoryEntry.CLUSTER_LOW[i]=sector[i+offset];}offset+=2;
-                        //  uint8_t FILE_SIZE[4];
-                        for(size_t i=0;i<4;i++){DirectoryEntry.FILE_SIZE[i]=sector[i+offset];}offset+=4;
-                        DirectoryEntries[i]=DirectoryEntry;
-                    }
-                    //log
-                    for(size_t i=0;i<16;i++){
-                        if(DirectoryEntries[i].NAME[0] == 0x00)break;
-                        if((DirectoryEntries[i].ATTRIB[0] & 0x0F) == 0x0F)continue;
-                        Debugger.Print(Sauce::Utility::Conversion::ToString(i));
-                        Debugger.Print((char*)DirectoryEntries[i].NAME);
-                        if((DirectoryEntries[i].ATTRIB[0] & 0x10) == 0x10){Debugger.Print("Directory");}else{Debugger.Print("File");}
 
-                        uint32_t Cluster = (((uint32_t)(*((uint16_t*)DirectoryEntries[i].CLUSTER_HIGH))) << 16) | (*((uint16_t*)DirectoryEntries[i].CLUSTER_LOW));
-                        uint32_t Sector = Dist->DataStart + Dist->SectorsPerCluster * (Cluster - 2); 
-                        Debugger.Print(Sauce::Utility::Conversion::HexToString(Sector));
+                    // Read the first sector of the cluster
+                    uint32_t SectorToRead=Dist->DataStart+(Dist->SectorsPerCluster*(ClusterNumber-2));
+                    Sauce::Global::AHCIDriver->Read(Dist->Port,SectorToRead,1,Data);
+
+                    //fill out the entries in this clusters entry array
+                    for(size_t i=0;i<16;i++){
+                        Sauce::string EntryString("[");
+                        EntryString+=Sauce::Utility::Conversion::ToString(i);
+                        EntryString+="]";
+                        DirectoryEntry_st DirectoryEntry;
+                        char _name[9]{0x00};
+                        for(size_t i=0;i<8;i++){DirectoryEntry.NAME[i]=Data[i+offset];_name[i]=Data[i+offset];}offset+=8;
+                        EntryString+=_name;
+                        Debugger.Print(EntryString.Raw());
+                        for(size_t i=0;i<3;i++){DirectoryEntry.EXT[i]=Data[i+offset];}offset+=3;
+                        for(size_t i=0;i<1;i++){DirectoryEntry.ATTRIB[i]=Data[i+offset];}offset+=1;
+                        for(size_t i=0;i<1;i++){DirectoryEntry.USER_ATTRIB[i]=Data[i+offset];}offset+=1;
+                        for(size_t i=0;i<1;i++){DirectoryEntry.UNDELETE[i]=Data[i+offset];}offset+=1;
+                        for(size_t i=0;i<2;i++){DirectoryEntry.CREATE_TIME[i]=Data[i+offset];}offset+=2;
+                        for(size_t i=0;i<2;i++){DirectoryEntry.CREATE_DATE[i]=Data[i+offset];}offset+=2;
+                        for(size_t i=0;i<2;i++){DirectoryEntry.ACCESS_DATE[i]=Data[i+offset];}offset+=2;
+                        for(size_t i=0;i<2;i++){DirectoryEntry.CLUSTER_HIGH[i]=Data[i+offset];}offset+=2;
+                        for(size_t i=0;i<2;i++){DirectoryEntry.MODIFIED_TIME[i]=Data[i+offset];}offset+=2;
+                        for(size_t i=0;i<2;i++){DirectoryEntry.MODIFIED_DATE[i]=Data[i+offset];}offset+=2;
+                        for(size_t i=0;i<2;i++){DirectoryEntry.CLUSTER_LOW[i]=Data[i+offset];}offset+=2;
+                        for(size_t i=0;i<4;i++){DirectoryEntry.FILE_SIZE[i]=Data[i+offset];}offset+=4;
+                        DirectoryEntries[i]=DirectoryEntry;
                     }
                 }
 
@@ -288,17 +295,13 @@ namespace Sauce{
                     Debugger.Print(debugString.Raw());
 
                     //void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr)
-                    Sauce::Memory::List_cl<uint8_t> Bufferr;
 
                     Dist.FatStart=Dist.PartitionOffset+(*((uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS));
                     Dist.FatSize=(*((uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32));
                     Dist.DataStart=Dist.FatStart+Dist.FatSize*(*((uint8_t*)Boot_Record.NUMBER_OF_FATS));
-
                     Dist.SectorOfRootDirectoryEntry=Dist.DataStart+((*((uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER))*((*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY))-2));
-
-                    Sauce::Global::AHCIDriver->Read(Dist.Port,Dist.SectorOfRootDirectoryEntry,1,Bufferr);
-
-                    FAT32_FileSystemFileObject_st RootDirectoryEntry(Bufferr,&Dist);
+                    
+                    FAT32_FileSystemFileObject_st RootDirectoryEntry(*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY),&Dist);
                 }
             };
         };

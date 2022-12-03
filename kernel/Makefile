@@ -34,6 +34,7 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::/
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::/
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::/
+	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/TESTFILE.txt ::/
 
 $(BUILDDIR)/$(OSNAME).iso: $(BUILDDIR)/$(OSNAME).img
 	mkisofs -d -D -J -l -r -U -relaxed-filenames -o $@ $<

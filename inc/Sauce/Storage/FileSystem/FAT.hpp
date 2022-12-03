@@ -93,7 +93,6 @@ namespace Sauce{
                     uint8_t FILE_SIZE[4]{0x00};
                 }__attribute__((packed));
 
-
                 struct DistilledInformation_st{
                     size_t FatStart;
                     size_t FatSize;
@@ -108,7 +107,13 @@ namespace Sauce{
                 struct FAT32_FileSystemFileObject_st{
                     DirectoryEntry_st DirectoryEntries[16];
                     DistilledInformation_st* Dist;
-                    FAT32_FileSystemFileObject_st(Sauce::Memory::List_cl<uint8_t> sector,DistilledInformation_st* Dist);
+                    Sauce::Memory::List_cl<uint8_t> Data;
+                    uint32_t ClusterNumberOfEntry(size_t EntryIndex);
+                    uint32_t SectorNumberOfEntry(size_t EntryIndex);
+                    uint32_t OffsetOfEntry(size_t EntryIndex);
+                    uint32_t NextClusterOfEntry(size_t EntryIndex);
+                    Sauce::string NameOfEntr(size_t EntryIndex);
+                    FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist);
                 };
 
                 struct FAT32Driver_st{
