@@ -106,6 +106,8 @@ namespace Sauce{
 
                 struct FAT32_FileSystemFileObject_st{
                     DirectoryEntry_st DirectoryEntries[16];
+                    FAT32_FileSystemFileObject_st* Directories[16];
+                    size_t LastEntryIndex;
                     DistilledInformation_st* Dist;
                     Sauce::Memory::List_cl<uint8_t> Data;
                     uint32_t ClusterNumberOfEntry(size_t EntryIndex);
@@ -114,6 +116,7 @@ namespace Sauce{
                     uint32_t NextClusterOfEntry(size_t EntryIndex);
                     Sauce::string NameOfEntr(size_t EntryIndex);
                     FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist);
+                    ~FAT32_FileSystemFileObject_st();
                 };
 
                 struct FAT32Driver_st{

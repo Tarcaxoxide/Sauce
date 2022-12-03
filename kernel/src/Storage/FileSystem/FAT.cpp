@@ -47,24 +47,34 @@ namespace Sauce{
                         EntryString+="]";
                         DirectoryEntry_st DirectoryEntry;
                         char _name[9]{0x00};
-                        for(size_t i=0;i<8;i++){DirectoryEntry.NAME[i]=Data[i+offset];_name[i]=Data[i+offset];}offset+=8;
+                        for(size_t z=0;z<8;z++){DirectoryEntry.NAME[z]=Data[z+offset];_name[z]=Data[z+offset];}offset+=8;
                         EntryString+=_name;
-                        Debugger.Print(EntryString.Raw());
-                        for(size_t i=0;i<3;i++){DirectoryEntry.EXT[i]=Data[i+offset];}offset+=3;
-                        for(size_t i=0;i<1;i++){DirectoryEntry.ATTRIB[i]=Data[i+offset];}offset+=1;
-                        for(size_t i=0;i<1;i++){DirectoryEntry.USER_ATTRIB[i]=Data[i+offset];}offset+=1;
-                        for(size_t i=0;i<1;i++){DirectoryEntry.UNDELETE[i]=Data[i+offset];}offset+=1;
-                        for(size_t i=0;i<2;i++){DirectoryEntry.CREATE_TIME[i]=Data[i+offset];}offset+=2;
-                        for(size_t i=0;i<2;i++){DirectoryEntry.CREATE_DATE[i]=Data[i+offset];}offset+=2;
-                        for(size_t i=0;i<2;i++){DirectoryEntry.ACCESS_DATE[i]=Data[i+offset];}offset+=2;
-                        for(size_t i=0;i<2;i++){DirectoryEntry.CLUSTER_HIGH[i]=Data[i+offset];}offset+=2;
-                        for(size_t i=0;i<2;i++){DirectoryEntry.MODIFIED_TIME[i]=Data[i+offset];}offset+=2;
-                        for(size_t i=0;i<2;i++){DirectoryEntry.MODIFIED_DATE[i]=Data[i+offset];}offset+=2;
-                        for(size_t i=0;i<2;i++){DirectoryEntry.CLUSTER_LOW[i]=Data[i+offset];}offset+=2;
-                        for(size_t i=0;i<4;i++){DirectoryEntry.FILE_SIZE[i]=Data[i+offset];}offset+=4;
+                        
+                        if(_name[0] == 0x00){EntryString+="[ABSENT]";Debugger.Print(EntryString.Raw());continue;}
+                        LastEntryIndex=i;
+                        EntryString+=",[";
+                        for(size_t z=0;z<3;z++){DirectoryEntry.EXT[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=3;
+                        EntryString+=",";
+                        for(size_t z=0;z<1;z++){DirectoryEntry.ATTRIB[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=1;
+                        EntryString+=",";
+                        for(size_t z=0;z<1;z++){DirectoryEntry.USER_ATTRIB[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=1;
+                        EntryString+=",";
+                        for(size_t z=0;z<1;z++){DirectoryEntry.UNDELETE[z]=Data[z+offset];}offset+=1;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.CREATE_TIME[z]=Data[z+offset];}offset+=2;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.CREATE_DATE[z]=Data[z+offset];}offset+=2;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.ACCESS_DATE[z]=Data[z+offset];}offset+=2;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.CLUSTER_HIGH[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=2;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.MODIFIED_TIME[z]=Data[z+offset];}offset+=2;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.MODIFIED_DATE[z]=Data[z+offset];}offset+=2;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.CLUSTER_LOW[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=2;
+                        for(size_t z=0;z<4;z++){DirectoryEntry.FILE_SIZE[z]=Data[z+offset];}offset+=4;
+                        EntryString+="]";
                         DirectoryEntries[i]=DirectoryEntry;
+                        Debugger.Print(EntryString.Raw());
                     }
+                    
                 }
+                FAT32_FileSystemFileObject_st::~FAT32_FileSystemFileObject_st(){}
 
                 FAT32Driver_st::FAT32Driver_st(size_t Port,uint32_t PartitionOffset){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32Driver_st::FAT32Driver_st",_NAMESPACE_,_ALLOW_PRINT_);
