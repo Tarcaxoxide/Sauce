@@ -155,7 +155,8 @@ namespace Sauce{
                     uint64_t Pn=Sauce::Utility::Conversion::ToUint64((ArgBuffer[2])->Raw());
                     Sauce::Storage::FileSystem::FAT::FAT32Driver_st testFatDriver(Pn);
                     testFatDriver.RootDirectory->ReadEntries();
-                    PutString(testFatDriver.RootDirectory->ListEntries(""),false);
+                    Sauce::string R=testFatDriver.RootDirectory->ListEntries();
+                    PutString(R,false);
                 }
                 if(*(ArgBuffer[1]) == Sauce::string("math")){
                     Sauce::string Result=Sauce::Math::simple_equation(*(ArgBuffer[2]),*(ArgBuffer[3]),*(ArgBuffer[4]));

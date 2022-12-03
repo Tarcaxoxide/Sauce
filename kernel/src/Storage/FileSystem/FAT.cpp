@@ -29,29 +29,23 @@ namespace Sauce{
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::NameOfEntry",_NAMESPACE_,_ALLOW_PRINT_);
                     char _name[9]{0x00};
                     for(size_t i=0;i<8;i++){_name[i]=DirectoryEntries[EntryIndex].NAME[i];}
+                    Debugger.Print(_name);
                     return Sauce::string(_name);
                 }
-                Sauce::string FAT32_FileSystemFileObject_st::ListEntries(Sauce::string prefix){
-                    Sauce::string result;
+                Sauce::string FAT32_FileSystemFileObject_st::ListEntries(){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::ListEntries",_NAMESPACE_,_ALLOW_PRINT_);
                     ReadEntries();
+                    Sauce::string Result;
                     for(size_t i=0;i<DirectoryEntries.Size();i++){
-                        result+=prefix.Raw();
-                        result+=Name.Raw();
-                        result+=".";
-                        result+=NameOfEntry(i).Raw();
-                        result+="\n\r";
+                        Result+=NameOfEntry(i).Raw();
+                        Result+="\n\r";
                     }
-                    return result;
+                    return Result;
                 }
                 void FAT32_FileSystemFileObject_st::ReadEntries(){
-                    for(size_t i=0;i<16;i++){
-                        if(Directories[i] != nullptr){
-                            delete[] Directories[i];
-                            Directories[i]=nullptr;
-                        }
-                    }
+                    if(DirectoryEntries.Size())return;//Already read
                     for(size_t i=0;i<DirectoryEntries.Size();i++){
-                        Directories[i] = new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,NameOfEntry(i));
+                        Directories.AddLast(new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,NameOfEntry(i)));
                     }
                 }
                 FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,Sauce::string Name){
