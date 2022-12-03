@@ -143,7 +143,7 @@ namespace Sauce{
                     ReverseColor();
                     return;
                 }
-                if(*(ArgBuffer[1]) == Sauce::string("AHCI")){
+                if(*(ArgBuffer[1]) == Sauce::string("ahci")){
                     if(*(ArgBuffer[2]) == Sauce::string("list_ports")){
                         PutString(Sauce::Global::AHCIDriver->ListPorts(),false);
                         PutString("\n\r",false);
@@ -151,9 +151,11 @@ namespace Sauce{
                     }
                     return;
                 }
-                if(*(ArgBuffer[1]) == Sauce::string("FAT32")){
-                    uint64_t Pn=Sauce::Utility::Conversion::ToUint64((ArgBuffer[1])->Raw());
+                if(*(ArgBuffer[1]) == Sauce::string("fat32")){
+                    uint64_t Pn=Sauce::Utility::Conversion::ToUint64((ArgBuffer[2])->Raw());
                     Sauce::Storage::FileSystem::FAT::FAT32Driver_st testFatDriver(Pn);
+                    testFatDriver.RootDirectory->ReadEntries();
+                    PutString(testFatDriver.RootDirectory->ListEntries(""),false);
                 }
                 if(*(ArgBuffer[1]) == Sauce::string("math")){
                     Sauce::string Result=Sauce::Math::simple_equation(*(ArgBuffer[2]),*(ArgBuffer[3]),*(ArgBuffer[4]));

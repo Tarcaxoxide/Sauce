@@ -25,15 +25,39 @@ namespace Sauce{
                     Sauce::Global::AHCIDriver->Read(Dist->Port,FatSector,1,buf);
                     return *((uint32_t*)&buf.Raw()[FatOffset]) & 0x0FFFFFFF;
                 }
-                Sauce::string FAT32_FileSystemFileObject_st::NameOfEntr(size_t EntryIndex){
-                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::NameOfEntr",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::string FAT32_FileSystemFileObject_st::NameOfEntry(size_t EntryIndex){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::NameOfEntry",_NAMESPACE_,_ALLOW_PRINT_);
                     char _name[9]{0x00};
                     for(size_t i=0;i<8;i++){_name[i]=DirectoryEntries[EntryIndex].NAME[i];}
                     return Sauce::string(_name);
                 }
-                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist){
+                Sauce::string FAT32_FileSystemFileObject_st::ListEntries(Sauce::string prefix){
+                    Sauce::string result;
+                    ReadEntries();
+                    for(size_t i=0;i<DirectoryEntries.Size();i++){
+                        result+=prefix.Raw();
+                        result+=Name.Raw();
+                        result+=".";
+                        result+=NameOfEntry(i).Raw();
+                        result+="\n\r";
+                    }
+                    return result;
+                }
+                void FAT32_FileSystemFileObject_st::ReadEntries(){
+                    for(size_t i=0;i<16;i++){
+                        if(Directories[i] != nullptr){
+                            delete[] Directories[i];
+                            Directories[i]=nullptr;
+                        }
+                    }
+                    for(size_t i=0;i<DirectoryEntries.Size();i++){
+                        Directories[i] = new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,NameOfEntry(i));
+                    }
+                }
+                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,Sauce::string Name){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st",_NAMESPACE_,_ALLOW_PRINT_);
                     this->Dist=Dist;
+                    this->Name=Name;
                     size_t offset=0;
 
                     // Read the first sector of the cluster
@@ -69,7 +93,7 @@ namespace Sauce{
                         for(size_t z=0;z<2;z++){DirectoryEntry.CLUSTER_LOW[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=2;
                         for(size_t z=0;z<4;z++){DirectoryEntry.FILE_SIZE[z]=Data[z+offset];}offset+=4;
                         EntryString+="]";
-                        DirectoryEntries[i]=DirectoryEntry;
+                        DirectoryEntries+=DirectoryEntry;
                         Debugger.Print(EntryString.Raw());
                     }
                     
@@ -311,7 +335,7 @@ namespace Sauce{
                     Dist.DataStart=Dist.FatStart+Dist.FatSize*(*((uint8_t*)Boot_Record.NUMBER_OF_FATS));
                     Dist.SectorOfRootDirectoryEntry=Dist.DataStart+((*((uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER))*((*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY))-2));
                     
-                    FAT32_FileSystemFileObject_st RootDirectoryEntry(*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY),&Dist);
+                    RootDirectory = new FAT32_FileSystemFileObject_st(*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY),&Dist,"ROOT");
                 }
             };
         };
