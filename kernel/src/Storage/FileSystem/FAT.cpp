@@ -59,8 +59,10 @@ namespace Sauce{
                     Sauce::Global::AHCIDriver->Read(Dist->Port,SectorToRead,1,Data);
 
                     //fill out the entries in this clusters entry array
+                    Sauce::string EntryString("123456789ABCDEF");
+                    EntryString.Clear();
                     for(size_t i=0;i<16;i++){
-                        Sauce::string EntryString("[");
+                        EntryString="[";
                         EntryString+=Sauce::Utility::Conversion::ToString(i);
                         EntryString+="]";
                         DirectoryEntry_st DirectoryEntry;
@@ -71,21 +73,35 @@ namespace Sauce{
                         if(_name[0] == 0x00){EntryString+="[ABSENT]";Debugger.Print(EntryString.Raw());continue;}
                         LastEntryIndex=i;
                         EntryString+=",[";
-                        for(size_t z=0;z<3;z++){DirectoryEntry.EXT[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=3;
+                        uint8_t AAAext[4]{0x00};
+                        for(size_t z=0;z<3;z++){DirectoryEntry.EXT[z]=Data[z+offset];/*increasing moves numbers left?*/AAAext[z+1]=Data[z+offset];}offset+=3;
+                        EntryString+=Sauce::Utility::Conversion::HexToString(*((uint32_t*)AAAext));
                         EntryString+=",";
-                        for(size_t z=0;z<1;z++){DirectoryEntry.ATTRIB[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=1;
+                        for(size_t z=0;z<1;z++){DirectoryEntry.ATTRIB[z]=Data[z+offset];}offset+=1;
+                        EntryString+=Sauce::Utility::Conversion::HexToString(*((uint8_t*)DirectoryEntry.ATTRIB));
+                        if(*((uint8_t*)DirectoryEntry.ATTRIB) == ENTRY_TYPE_READ_ONLY)EntryString+="(READ_ONLY)";
+                        if(*((uint8_t*)DirectoryEntry.ATTRIB) == ENTRY_TYPE_HIDDEN)EntryString+="(HIDDEN)";
+                        if(*((uint8_t*)DirectoryEntry.ATTRIB) == ENTRY_TYPE_SYSTEM)EntryString+="(SYSTEM)";
+                        if(*((uint8_t*)DirectoryEntry.ATTRIB) == ENTRY_TYPE_VOLUME_ID)EntryString+="(VOLUME_ID)";
+                        if(*((uint8_t*)DirectoryEntry.ATTRIB) == ENTRY_TYPE_DIRECTORY)EntryString+="(DIRECTORY)";
+                        if(*((uint8_t*)DirectoryEntry.ATTRIB) == ENTRY_TYPE_ARCHIVE)EntryString+="(ARCHIVE)";
+                        if(*((uint8_t*)DirectoryEntry.ATTRIB) == ENTRY_TYPE_LFN)EntryString+="(LFN)";
                         EntryString+=",";
-                        for(size_t z=0;z<1;z++){DirectoryEntry.USER_ATTRIB[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=1;
+                        for(size_t z=0;z<1;z++){DirectoryEntry.USER_ATTRIB[z]=Data[z+offset];}offset+=1;
+                        EntryString+=Sauce::Utility::Conversion::HexToString(*((uint8_t*)DirectoryEntry.USER_ATTRIB));
                         EntryString+=",";
                         for(size_t z=0;z<1;z++){DirectoryEntry.UNDELETE[z]=Data[z+offset];}offset+=1;
                         for(size_t z=0;z<2;z++){DirectoryEntry.CREATE_TIME[z]=Data[z+offset];}offset+=2;
                         for(size_t z=0;z<2;z++){DirectoryEntry.CREATE_DATE[z]=Data[z+offset];}offset+=2;
                         for(size_t z=0;z<2;z++){DirectoryEntry.ACCESS_DATE[z]=Data[z+offset];}offset+=2;
-                        for(size_t z=0;z<2;z++){DirectoryEntry.CLUSTER_HIGH[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=2;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.CLUSTER_HIGH[z]=Data[z+offset];}offset+=2;
                         for(size_t z=0;z<2;z++){DirectoryEntry.MODIFIED_TIME[z]=Data[z+offset];}offset+=2;
                         for(size_t z=0;z<2;z++){DirectoryEntry.MODIFIED_DATE[z]=Data[z+offset];}offset+=2;
-                        for(size_t z=0;z<2;z++){DirectoryEntry.CLUSTER_LOW[z]=Data[z+offset];EntryString+=Sauce::Utility::Conversion::HexToString(Data[z+offset]);}offset+=2;
+                        for(size_t z=0;z<2;z++){DirectoryEntry.CLUSTER_LOW[z]=Data[z+offset];}offset+=2;
+                        EntryString+=Sauce::Utility::Conversion::HexToString((((uint32_t)(*((uint16_t*)DirectoryEntry.CLUSTER_HIGH))) << 16) | (*((uint16_t*)DirectoryEntry.CLUSTER_LOW)));
+                        EntryString+=",";
                         for(size_t z=0;z<4;z++){DirectoryEntry.FILE_SIZE[z]=Data[z+offset];}offset+=4;
+                        EntryString+=Sauce::Utility::Conversion::HexToString(*((uint32_t*)DirectoryEntry.FILE_SIZE));
                         EntryString+="]";
                         DirectoryEntries+=DirectoryEntry;
                         Debugger.Print(EntryString.Raw());

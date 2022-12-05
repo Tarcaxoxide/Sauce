@@ -8,6 +8,15 @@ namespace Sauce{
     namespace Storage{
         namespace FileSystem{
             namespace FAT{
+                //READ_ONLY=0x01 HIDDEN=0x02 SYSTEM=0x04 VOLUME_ID=0x08 DIRECTORY=0x10 ARCHIVE=0x20 LFN=READ_ONLY|HIDDEN|SYSTEM|VOLUME_ID
+                const static uint8_t ENTRY_TYPE_READ_ONLY=0x01;
+                const static uint8_t ENTRY_TYPE_HIDDEN=0x02;
+                const static uint8_t ENTRY_TYPE_SYSTEM=0x04;
+                const static uint8_t ENTRY_TYPE_VOLUME_ID=0x08;
+                const static uint8_t ENTRY_TYPE_DIRECTORY=0x10;
+                const static uint8_t ENTRY_TYPE_ARCHIVE=0x20;
+                const static uint8_t ENTRY_TYPE_LFN=ENTRY_TYPE_READ_ONLY|ENTRY_TYPE_HIDDEN|ENTRY_TYPE_SYSTEM|ENTRY_TYPE_VOLUME_ID;
+
                 struct Boot_Record_st{
                     uint8_t NOP[3]{0x00};
                     uint8_t OEM_IDENTIFIER[8]{0x00};
@@ -90,7 +99,7 @@ namespace Sauce{
                     uint8_t MODIFIED_TIME[2]{0x00};
                     uint8_t MODIFIED_DATE[2]{0x00};
                     uint8_t CLUSTER_LOW[2]{0x00};
-                    uint8_t FILE_SIZE[4]{0x00};
+                    uint8_t FILE_SIZE[4]{0x00}; // this file size is in bytes (i think) test with a text file but (doesn't count termination? but seems to count newline)
                 }__attribute__((packed));
 
                 struct DistilledInformation_st{
@@ -128,8 +137,7 @@ namespace Sauce{
                     DistilledInformation_st Dist;
                     FAT32_FileSystemFileObject_st* RootDirectory;
                     FAT32Driver_st(size_t Port,uint32_t PartitionOffset=0);
-                };
-                
+                };  
             };
         };
     };

@@ -31,6 +31,7 @@ namespace Sauce{
                 if(Array_Size+1 > Array_Capacity){
                     Array_Capacity+=StageSize;
                     TT* nArray = new TT[Array_Capacity];
+                    Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
                     Array_Size=0;
                     nArray[Array_Size++]=nValue;
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
@@ -60,6 +61,7 @@ namespace Sauce{
                 if(Array_Size+1 > Array_Capacity){
                     Array_Capacity+=StageSize;
                     TT* nArray = new TT[Array_Capacity];
+                    Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
                     Array_Size=0;
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
                         nArray[Array_Size]=Array[Array_Size];
@@ -85,6 +87,7 @@ namespace Sauce{
                 if(Array_Size-1 > Array_Capacity){
                     Array_Capacity-=StageSize;
                     TT* nArray = new TT[Array_Capacity];
+                    Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
                     Array_Size=1;
                     for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
                         nArray[Array_Size-1]=Array[Array_Size];// we shuffle the array forward to make room for the new element.
@@ -136,6 +139,7 @@ namespace Sauce{
                 if(Array_Size-1 < Array_Capacity-StageSize){
                     Array_Capacity-=StageSize;
                     TT* nArray = new TT[Array_Capacity];
+                    Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
                     Array_Size=0;
                     for(;Array_Size<Array_Capacity;Array_Size++){
                         nArray[Array_Size] = Array[Array_Size];
