@@ -34,7 +34,6 @@ namespace Sauce{
                 }
                 Sauce::string FAT32_FileSystemFileObject_st::ListEntries(){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::ListEntries",_NAMESPACE_,_ALLOW_PRINT_);
-                    ReadEntries();
                     Sauce::string Result;
                     for(size_t i=0;i<DirectoryEntries.Size();i++){
                         Result+=NameOfEntry(i).Raw();
@@ -43,9 +42,24 @@ namespace Sauce{
                     return Result;
                 }
                 void FAT32_FileSystemFileObject_st::ReadEntries(){
-                    if(DirectoryEntries.Size())return;//Already read
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::ReadEntries",_NAMESPACE_,_ALLOW_PRINT_);
+                    if(Directories.Size()){Debugger.Print("Entries Already read.");return;}//Already read
+                    
                     for(size_t i=0;i<DirectoryEntries.Size();i++){
-                        Directories.AddLast(new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,NameOfEntry(i)));
+                        if(NameOfEntry(i) == new const char*[]{".       ","..      ",nullptr}){
+                            Debugger.Print("Skipping infinitely recursive directories.");
+                            continue;
+                        }
+                        if(*((uint8_t*)DirectoryEntries[i].ATTRIB) == ENTRY_TYPE_DIRECTORY){
+                            Debugger.Print("Reading Entry.");
+                            Directories+=new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,NameOfEntry(i));
+                        }
+                        //else if(*((uint8_t*)DirectoryEntry.ATTRIB) == ENTRY_TYPE_ARCHIVE){
+                        //   //read file into file structure (does exist yet)
+                        //}
+                        else{
+                            Directories+=(FAT32_FileSystemFileObject_st*)nullptr;
+                        }
                     }
                 }
                 FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,Sauce::string Name){
@@ -106,9 +120,17 @@ namespace Sauce{
                         DirectoryEntries+=DirectoryEntry;
                         Debugger.Print(EntryString.Raw());
                     }
-                    
+                    ReadEntries();
                 }
-                FAT32_FileSystemFileObject_st::~FAT32_FileSystemFileObject_st(){}
+                FAT32_FileSystemFileObject_st::~FAT32_FileSystemFileObject_st(){
+                    for(size_t i=0;i<Directories.Size();i++){
+                        if(Directories[i] != (FAT32_FileSystemFileObject_st*)nullptr){
+                            delete Directories[i];
+                        }
+                    }
+                    Directories.Clear();
+                    DirectoryEntries.Clear();
+                }
 
                 FAT32Driver_st::FAT32Driver_st(size_t Port,uint32_t PartitionOffset){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32Driver_st::FAT32Driver_st",_NAMESPACE_,_ALLOW_PRINT_);
