@@ -138,67 +138,49 @@ namespace Sauce{
             ShellClear(false);
             PutString("\n\r",false);
 
-            if(*(ArgBuffer[0]) == Sauce::string("Test")){
-                if(*(ArgBuffer[1]) == Sauce::string("color")){
-                    ReverseColor();
-                    return;
-                }
-                if(*(ArgBuffer[1]) == Sauce::string("ahci")){
-                    if(*(ArgBuffer[2]) == Sauce::string("list_ports")){
-                        PutString(Sauce::Global::AHCIDriver->ListPorts(),false);
-                        PutString("\n\r",false);
-                        return;
-                    }
-                    return;
-                }
-                if(*(ArgBuffer[1]) == Sauce::string("fat32")){
-                    uint64_t Pn=Sauce::Utility::Conversion::ToUint64((ArgBuffer[2])->Raw());
-                    Sauce::Storage::FileSystem::FAT::FAT32Driver_st testFatDriver(Pn);
-                    testFatDriver.RootDirectory->ReadEntries();
-                    Sauce::string R=testFatDriver.RootDirectory->ListEntries();
-                    PutString(R,false);
-                }
-                if(*(ArgBuffer[1]) == Sauce::string("math")){
-                    Sauce::string Result=Sauce::Math::simple_equation(*(ArgBuffer[2]),*(ArgBuffer[3]),*(ArgBuffer[4]));
-                    PutString(Result,false);
+            if(*(ArgBuffer.First()) == Sauce::string("color")){ArgBuffer.RemoveFirst();
+                ReverseColor();
+                return;
+            }
+            if(*(ArgBuffer.First()) == Sauce::string("ahci")){ArgBuffer.RemoveFirst();
+                if(*(ArgBuffer.First()) == Sauce::string("list_ports")){
+                    PutString(Sauce::Global::AHCIDriver->ListPorts(),false);
                     PutString("\n\r",false);
                     return;
                 }
-                if(*(ArgBuffer[1]) == Sauce::string("ElfTentProblem")){
-                    //A == Rock == 1 (== X)
-                    //B == Paper == 2 (== Y)
-                    //C == Scissors == 3 (== z)
-                    //lose == 0
-                    //draw == 3
-                    //win == 6
-
-                    /*
-                        A Y
-                        B X
-                        C Z
-                    */
-                    const uint8_t X=1,A=1,Rock=1;
-                    const uint8_t Y=2,B=2,Paper=2;
-                    const uint8_t Z=2,C=2,Scissors=3;
-
-
-                    struct It_st{uint8_t In;uint8_t Out;};
-                    Sauce::Memory::List_cl<It_st> Strategy;
-
-                    Strategy << It_st{A,Y};
-                    Strategy << It_st{B,X};
-                    Strategy << It_st{C,Z};
-
-                    size_t Score=0;
-                    It_st It;
-                    while(Strategy >> It){
-                        uint8_t Added=3+((It.In-It.Out)*3);
-                        Score+=It.Out+Added;
-                    }
-                    PutString(Sauce::Utility::Conversion::ToString(Score),false);
-                    PutString("\n\r",false);
-                    return;
+                return;
+            }
+            if(*(ArgBuffer.First()) == Sauce::string("fat32")){ArgBuffer.RemoveFirst();
+                uint64_t Pn=Sauce::Utility::Conversion::ToUint64((ArgBuffer[0])->Raw());
+                Sauce::Storage::FileSystem::FAT::FAT32Driver_st testFatDriver(Pn);
+                testFatDriver.RootDirectory->ReadEntries();
+                Sauce::string R=testFatDriver.RootDirectory->ListEntries();
+                PutString(R,false);
+            }
+            if(*(ArgBuffer.First()) == Sauce::string("math")){ArgBuffer.RemoveFirst();
+                Sauce::string Result=Sauce::Math::simple_equation(*(ArgBuffer[0]),*(ArgBuffer[1]),*(ArgBuffer[2]));
+                PutString(Result,false);
+                PutString("\n\r",false);
+                return;
+            }
+            if(*(ArgBuffer.First()) == Sauce::string("ElfTentProblem")){ArgBuffer.RemoveFirst();
+                const uint8_t X=1,A=1,Rock=1;
+                const uint8_t Y=2,B=2,Paper=2;
+                const uint8_t Z=2,C=2,Scissors=3;
+                struct It_st{uint8_t In;uint8_t Out;};
+                Sauce::Memory::List_cl<It_st> Strategy;
+                Strategy << It_st{A,Y};
+                Strategy << It_st{B,X};
+                Strategy << It_st{C,Z};
+                size_t Score=0;
+                It_st It;
+                while(Strategy >> It){
+                    uint8_t Added=3+((It.In-It.Out)*3);
+                    Score+=It.Out+Added;
                 }
+                PutString(Sauce::Utility::Conversion::ToString(Score),false);
+                PutString("\n\r",false);
+                return;
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
