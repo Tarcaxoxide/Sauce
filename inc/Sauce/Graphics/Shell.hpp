@@ -26,7 +26,8 @@ namespace Sauce{
                 void GoFarUp();
                 void GoFarRight();
                 void GoFarLeft();
-                void RunCmd();
+                void RunCommand(Sauce::Memory::List_cl<Sauce::string*>& Arg);
+                void ParseAndRunCommand();
                 void ShellClear(bool ClearScreen);
         };
     };

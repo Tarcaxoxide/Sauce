@@ -25,7 +25,7 @@ namespace Sauce{
                     if(AddToBuffer){
                         if(!CharBuffer.Size())break;
                         CharBuffer.AddLast(chr);
-                        RunCmd();
+                        ParseAndRunCommand();
                     }
                     GoDown();
                 }break;
@@ -118,52 +118,34 @@ namespace Sauce{
             Cursor.X=0;
             
         }
-        void Shell_cl::RunCmd(){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::RunCmd",_NAMESPACE_,_ALLOW_PRINT_);
-            Sauce::Memory::List_cl<Sauce::string*> ArgBuffer;
-            size_t CrawlerVal=0;
-            for(size_t i=0;i<CharBuffer.Size();i++){
-                if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
-                    Sauce::string* str = new Sauce::string;
-                    for(size_t a=CrawlerVal;a<i;a++){
-                        if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
-                            str->AddLast((char)CharBuffer[a]);
-                        }
-                    }
-                    ArgBuffer.AddLast(str);
-                    delete[] str;
-                    CrawlerVal=i;
-                }
-            }
-            ShellClear(false);
-            PutString("\n\r",false);
-
-            if(*(ArgBuffer.First()) == Sauce::string("color")){ArgBuffer.RemoveFirst();
+        void Shell_cl::RunCommand(Sauce::Memory::List_cl<Sauce::string*>& Arg){
+            if(*(Arg.First()) == Sauce::string("color")){Arg.RemoveFirst();
                 ReverseColor();
                 return;
             }
-            if(*(ArgBuffer.First()) == Sauce::string("ahci")){ArgBuffer.RemoveFirst();
-                if(*(ArgBuffer.First()) == Sauce::string("list_ports")){
+            if(*(Arg.First()) == Sauce::string("ahci")){Arg.RemoveFirst();
+                if(*(Arg.First()) == Sauce::string("list_ports")){
                     PutString(Sauce::Global::AHCIDriver->ListPorts(),false);
                     PutString("\n\r",false);
                     return;
                 }
                 return;
             }
-            if(*(ArgBuffer.First()) == Sauce::string("fat32")){ArgBuffer.RemoveFirst();
-                uint64_t Pn=Sauce::Utility::Conversion::ToUint64((ArgBuffer[0])->Raw());
+            if(*(Arg.First()) == Sauce::string("fat32")){Arg.RemoveFirst();
+                uint64_t Pn=Sauce::Utility::Conversion::ToUint64(Arg[0]->Raw());
                 Sauce::Storage::FileSystem::FAT::FAT32Driver_st testFatDriver(Pn);
                 testFatDriver.RootDirectory->ReadEntries();
                 Sauce::string R=testFatDriver.RootDirectory->ListEntries();
                 PutString(R,false);
+                return;
             }
-            if(*(ArgBuffer.First()) == Sauce::string("math")){ArgBuffer.RemoveFirst();
-                Sauce::string Result=Sauce::Math::simple_equation(*(ArgBuffer[0]),*(ArgBuffer[1]),*(ArgBuffer[2]));
+            if(*(Arg.First()) == Sauce::string("math")){Arg.RemoveFirst();
+                Sauce::string Result=Sauce::Math::simple_equation(*(Arg[0]),*(Arg[1]),*(Arg[2]));
                 PutString(Result,false);
                 PutString("\n\r",false);
                 return;
             }
-            if(*(ArgBuffer.First()) == Sauce::string("ElfTentProblem")){ArgBuffer.RemoveFirst();
+            if(*(Arg.First()) == Sauce::string("ElfTentProblem")){Arg.RemoveFirst();
                 const uint8_t X=1,A=1,Rock=1;
                 const uint8_t Y=2,B=2,Paper=2;
                 const uint8_t Z=2,C=2,Scissors=3;
@@ -182,6 +164,27 @@ namespace Sauce{
                 PutString("\n\r",false);
                 return;
             }
+        }
+        void Shell_cl::ParseAndRunCommand(){
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
+            Sauce::Memory::List_cl<Sauce::string*> ArgBuffer;
+            size_t CrawlerVal=0;
+            for(size_t i=0;i<CharBuffer.Size();i++){
+                if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
+                    Sauce::string* str = new Sauce::string;
+                    for(size_t a=CrawlerVal;a<i;a++){
+                        if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
+                            str->AddLast((char)CharBuffer[a]);
+                        }
+                    }
+                    ArgBuffer.AddLast(str);
+                    delete[] str;
+                    CrawlerVal=i;
+                }
+            }
+            ShellClear(false);
+            PutString("\n\r",false);
+            RunCommand(ArgBuffer);            
         }
         void Shell_cl::ShellClear(bool ClearScreen){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_,_ALLOW_PRINT_);
