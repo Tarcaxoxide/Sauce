@@ -16,7 +16,6 @@ namespace Sauce{
                 const static uint8_t ENTRY_TYPE_DIRECTORY=0x10;
                 const static uint8_t ENTRY_TYPE_ARCHIVE=0x20;
                 const static uint8_t ENTRY_TYPE_LFN=ENTRY_TYPE_READ_ONLY|ENTRY_TYPE_HIDDEN|ENTRY_TYPE_SYSTEM|ENTRY_TYPE_VOLUME_ID;
-
                 struct Boot_Record_st{
                     uint8_t NOP[3]{0x00};
                     uint8_t OEM_IDENTIFIER[8]{0x00};
@@ -85,7 +84,6 @@ namespace Sauce{
                     uint8_t RESERVED1[12]{0x00};
                     uint8_t TRAIL_SIGNATURE[4]{0x00};//(0xAA550000)
                 }__attribute__((packed));
-
                 struct DirectoryEntry_st{
                 	uint8_t NAME[8]{0x00};
                 	uint8_t EXT[3]{0x00};
@@ -101,7 +99,6 @@ namespace Sauce{
                     uint8_t CLUSTER_LOW[2]{0x00};
                     uint8_t FILE_SIZE[4]{0x00}; // this file size is in bytes (i think) test with a text file but (doesn't count termination? but seems to count newline)
                 }__attribute__((packed));
-
                 struct DistilledInformation_st{
                     size_t FatStart;
                     size_t FatSize;
@@ -112,7 +109,6 @@ namespace Sauce{
                     size_t BytesPerSector;
                     size_t Port;
                 };
-
                 struct FAT32_FileSystemFileObject_st{
                     Sauce::Memory::List_cl<DirectoryEntry_st> DirectoryEntries;
                     Sauce::Memory::List_cl<FAT32_FileSystemFileObject_st*> Directories;
@@ -130,7 +126,6 @@ namespace Sauce{
                     FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,Sauce::string Name);
                     ~FAT32_FileSystemFileObject_st();
                 };
-
                 struct FAT32Driver_st{
                     Extended_Boot_Record_FAT32_st Boot_Record;
                     FSINFO_Structure_st FSINFO_Structure;

@@ -164,6 +164,18 @@ namespace Sauce{
                 PutString("\n\r",false);
                 return;
             }
+            if(*(Arg.First()) == Sauce::string("DynamicArray")){Arg.RemoveFirst();
+                Sauce::Memory::List_cl<uint8_t> test;
+                test << 'a';
+                test << '0';
+                test << '1';
+                test << '2';
+                uint8_t az;
+                while(test >> az){
+                    PutString(Sauce::Utility::Conversion::HexToString(az),false);
+                    PutString("\n\r",false);
+                }
+            }
         }
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);

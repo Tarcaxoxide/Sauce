@@ -139,10 +139,13 @@ namespace Sauce{
                     size_t CurrentByte=0;
                     Sauce::string debugString;
                     debugString="Boot_Record.NOP: ";
+                    Sauce::Memory::List_cl<uint8_t> tmpArray;
                     for(size_t i=0;i<3;i++){
                         Boot_Record.NOP[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
-                        debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NOP[i]);
+                        tmpArray << Boot_Record.NOP[i];
                     }
+                    tmpArray.Flip();
+                    
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.OEM_IDENTIFIER: ";
                     for(size_t i=0;i<8;i++){
@@ -151,7 +154,6 @@ namespace Sauce{
                     }
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.NUMBER_OF_BYTES_PER_SECTOR: ";
-                    Debugger.Print(debugString.Raw());
                     for(size_t i=0;i<2;i++){
                         Boot_Record.NUMBER_OF_BYTES_PER_SECTOR[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
                         debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NUMBER_OF_BYTES_PER_SECTOR[i]);
@@ -168,8 +170,8 @@ namespace Sauce{
                     debugString="Boot_Record.NUMBER_OF_RESERVED_SECTORS: ";
                     for(size_t i=0;i<2;i++){
                         Boot_Record.NUMBER_OF_RESERVED_SECTORS[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
-                        debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NUMBER_OF_RESERVED_SECTORS[i]);
                     }
+                    debugString+=Sauce::Utility::Conversion::HexToString(*((uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS));
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.NUMBER_OF_FATS: ";
                     for(size_t i=0;i<1;i++){

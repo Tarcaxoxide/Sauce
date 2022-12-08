@@ -106,7 +106,6 @@ namespace Sauce{
             }
             bool Remove(size_t Index){
                 if(Array_Size-1 == 0)return false;
-                if(Array_Size-1 == 0)return false;
                 // A B C {D} E F G
                 // F      I      B
                 size_t Array_Front_Size = Index;
@@ -152,17 +151,20 @@ namespace Sauce{
                 return true;
             }
             TT& Get(size_t index){
-                size_t target=(Shift_Value+index)%(Array_Size+1);
+                size_t target=(Shift_Value+index)%(Array_Size+1); // no more out of range errors :) doesn't mean your program will run well though. (Last+1 == First)
                 return Array[target];
             }
             TT& First(){
-                return Get(0);
+                return Get(0); // the first element, it's always the 0th element *shrug* unless shift_value is specified but that's taken care of.
             }
             TT& Last(){
                 return Get(Array_Size);
             }
             TT* Raw(){
                 return Array;
+            }
+            TT* c_str(){
+                return Raw(); // c_str calls raw because they are functionally the same but raw is less "string" specific.
             }
             size_t Count(){
                 return Array_Size;
@@ -171,10 +173,10 @@ namespace Sauce{
                 return Array_Capacity;
             }
             size_t Size(){
-                return Count();
+                return Count(); // Size calls count because it's the count of how many elements there are.
             }
             void Clear(bool CreateNew=true){
-                Sauce::Memory::memset(Array,0,Array_Capacity);
+                Sauce::Memory::memset(Array,0,Array_Capacity);// we'll be a good neighbor and clean up our mess.
                 if(Array != nullptr)delete[] Array;
                 if(!CreateNew)return;
                 Array = new TT[StageSize];
@@ -188,6 +190,21 @@ namespace Sauce{
                 }
                 return true;
             }
+            void Flip(bool All=false){
+                TT* nArray = new TT[Array_Size];
+                Sauce::Memory::memset((void*)nArray,0,Array_Size);
+                for(size_t i=0;i<Array_Size;i++){
+                    //first we copy the data to a new array while also reversing it's order.
+                    nArray[(Array_Size-1)-i]=Array[i];
+                }
+                Sauce::Memory::memset((void*)Array,0,Array_Capacity);
+                for(size_t i=0;i<Array_Size;i++){
+                    //then we put the reversed data back into the original array.
+                    Array[i]=nArray[i];
+                }
+                delete[] nArray;
+            }
+            
             void ForEach(void (*CallBack)(TT &Item)){ //void Function(TT &item){/*Do something with item*/}
                 for(size_t i=0;i<Array_Size;i++){
                     (*CallBack)(Get(i));
@@ -255,7 +272,6 @@ namespace Sauce{
             bool operator>>(TT& OtherValue){
                 OtherValue = Last();
                 return RemoveLast();
-                
             }
             bool operator<<(TT OtherValue){
                 AddLast(OtherValue);
