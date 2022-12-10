@@ -113,17 +113,20 @@ namespace Sauce{
                     Sauce::Memory::List_cl<DirectoryEntry_st> DirectoryEntries;
                     Sauce::Memory::List_cl<FAT32_FileSystemFileObject_st*> Directories;
                     size_t LastEntryIndex;
+                    DirectoryEntry_st* ThisEntry;
                     DistilledInformation_st* Dist;
+                    size_t ClusterNumber;
                     Sauce::Memory::List_cl<uint8_t> Data;
-                    Sauce::string Name;
                     uint32_t ClusterNumberOfEntry(size_t EntryIndex);
                     uint32_t SectorNumberOfEntry(size_t EntryIndex);
                     uint32_t OffsetOfEntry(size_t EntryIndex);
                     uint32_t NextClusterOfEntry(size_t EntryIndex);
                     void ReadEntries();
+                    void ReadDirectory();
+                    void ReadFile();
                     Sauce::string NameOfEntry(size_t EntryIndex);
                     Sauce::string ListEntries();
-                    FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,Sauce::string Name);
+                    FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,DirectoryEntry_st* ThisEntry=nullptr);
                     ~FAT32_FileSystemFileObject_st();
                 };
                 struct FAT32Driver_st{

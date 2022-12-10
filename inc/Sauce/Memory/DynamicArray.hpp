@@ -28,25 +28,15 @@ namespace Sauce{
                 Clear(false);
             }
             bool AddFirst(const TT nValue){
-                if(Array_Size+1 > Array_Capacity){
+                if(++Array_Size > Array_Capacity){
                     Array_Capacity+=StageSize;
-                    TT* nArray = new TT[Array_Capacity];
-                    Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
-                    Array_Size=0;
-                    nArray[Array_Size++]=nValue;
-                    for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
-                        nArray[Array_Size]=Array[Array_Size-1];// we shuffle the array forward to make room for the new element.
-                    }
-                    delete[] Array;
-                    Array = nArray;
-                }else{
-                    size_t oldArray_Size=Array_Size;
-                    Array_Size=1;
-                    for(;Array_Size<(oldArray_Size+1);Array_Size++){
-                        Array[Array_Size]=Array[Array_Size-1]; // we shuffle the array forward to make room for the new element.
-                    }
-                    Array[0]=nValue;
                 }
+                TT* nArray = new TT[Array_Capacity];
+                Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
+                Sauce::Memory::memcpy(Array,nArray+1,Array_Capacity);
+                nArray[0]=nValue;
+                delete[] Array;
+                Array = nArray;
                 return true;
             }
             bool AddFirst(const TT* nValue){
@@ -58,19 +48,16 @@ namespace Sauce{
                 return true;
             }
             bool AddLast(const TT nValue){
-                if(Array_Size+1 > Array_Capacity){
+                if(++Array_Size > Array_Capacity){
                     Array_Capacity+=StageSize;
                     TT* nArray = new TT[Array_Capacity];
                     Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
-                    Array_Size=0;
-                    for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
-                        nArray[Array_Size]=Array[Array_Size];
-                    }
-                    nArray[Array_Size++]=nValue; 
+                    Sauce::Memory::memcpy(Array,nArray,Array_Size-1);
+                    nArray[Array_Size-1]=nValue;
                     delete[] Array;
                     Array = nArray;
                 }else{
-                    Array[Array_Size++]=nValue;
+                    Array[Array_Size-1]=nValue;
                 }
                 return true;
             }
@@ -84,70 +71,26 @@ namespace Sauce{
             }
             bool RemoveFirst(){
                 if(Array_Size == 0)return false;
-                if(Array_Size-1 > Array_Capacity){
+                if(--Array_Size > Array_Capacity){
                     Array_Capacity-=StageSize;
-                    TT* nArray = new TT[Array_Capacity];
-                    Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
-                    Array_Size=1;
-                    for(;Array_Size<(Array_Capacity-StageSize);Array_Size++){
-                        nArray[Array_Size-1]=Array[Array_Size];// we shuffle the array forward to make room for the new element.
-                    }
-                    delete[] Array;
-                    Array = nArray;
-                }else{
-                    size_t oldArray_Size=Array_Size;
-                    Array_Size=1;
-                    for(;Array_Size<(oldArray_Size+1);Array_Size++){
-                        Array[Array_Size-1]=Array[Array_Size]; // we shuffle the array forward to make room for the new element.
-                    }
-                    Array_Size--;
                 }
-                return true;
-            }
-            bool Remove(size_t Index){
-                if(Array_Size-1 == 0)return false;
-                // A B C {D} E F G
-                // F      I      B
-                size_t Array_Front_Size = Index;
-                size_t Array_Back_Size = (Array_Capacity-1)-Index;
-                size_t nArray_Capacity=Array_Capacity-1;
-                TT* FArray = new TT[Array_Front_Size];
-                TT* BArray = new TT[Array_Back_Size];
-                for(size_t i=0;i<Array_Back_Size;i++){
-                    FArray[i] = Array[i];
-                }
-                for(size_t i=0;i<Array_Back_Size;i++){
-                    BArray[i] = Array[i+Index];
-                }
+                TT* nArray = new TT[Array_Capacity];
+                Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
+                Sauce::Memory::memcpy(Array+1,nArray,Array_Capacity);
                 delete[] Array;
-                Array = new TT[nArray_Capacity];
-                for(size_t i=0;i<Array_Back_Size;i++){
-                    Array[i] = FArray[i];
-                }
-                for(size_t i=0;i<Array_Back_Size;i++){
-                    Array[i+Index] = BArray[i];
-                }
-                delete[] BArray;
-                delete[] FArray;
-                Array_Size--;
-                Array_Capacity--;
+                Array = nArray;
                 return true;
             }
             bool RemoveLast(){
                 if(Array_Size == 0)return false;
-                if(Array_Size-1 < Array_Capacity-StageSize){
+                if(--Array_Size > Array_Capacity){
                     Array_Capacity-=StageSize;
-                    TT* nArray = new TT[Array_Capacity];
-                    Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
-                    Array_Size=0;
-                    for(;Array_Size<Array_Capacity;Array_Size++){
-                        nArray[Array_Size] = Array[Array_Size];
-                    }
-                    delete[] Array;
-                    Array = nArray;
-                }else{
-                    Array_Size--;
                 }
+                TT* nArray = new TT[Array_Capacity];
+                Sauce::Memory::memset((void*)nArray,0,Array_Capacity);
+                Sauce::Memory::memcpy(Array,nArray,Array_Capacity);
+                delete[] Array;
+                Array = nArray;
                 return true;
             }
             TT& Get(size_t index){
@@ -162,9 +105,6 @@ namespace Sauce{
             }
             TT* Raw(){
                 return Array;
-            }
-            TT* c_str(){
-                return Raw(); // c_str calls raw because they are functionally the same but raw is less "string" specific.
             }
             size_t Count(){
                 return Array_Size;
@@ -190,7 +130,7 @@ namespace Sauce{
                 }
                 return true;
             }
-            void Flip(bool All=false){
+            void Flip(){
                 TT* nArray = new TT[Array_Size];
                 Sauce::Memory::memset((void*)nArray,0,Array_Size);
                 for(size_t i=0;i<Array_Size;i++){
@@ -204,7 +144,6 @@ namespace Sauce{
                 }
                 delete[] nArray;
             }
-            
             void ForEach(void (*CallBack)(TT &Item)){ //void Function(TT &item){/*Do something with item*/}
                 for(size_t i=0;i<Array_Size;i++){
                     (*CallBack)(Get(i));

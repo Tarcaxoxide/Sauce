@@ -8,7 +8,6 @@
 
 /*experimentation*/#include <Sauce/Storage/FileSystem/FAT.hpp>
 
-
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
@@ -132,11 +131,14 @@ namespace Sauce{
                 return;
             }
             if(*(Arg.First()) == Sauce::string("fat32")){Arg.RemoveFirst();
-                uint64_t Pn=Sauce::Utility::Conversion::ToUint64(Arg[0]->Raw());
+                uint64_t Pn=Sauce::Utility::Conversion::ToUint64(Arg.First()->Raw());Arg.RemoveFirst();
                 Sauce::Storage::FileSystem::FAT::FAT32Driver_st testFatDriver(Pn);
                 testFatDriver.RootDirectory->ReadEntries();
                 Sauce::string R=testFatDriver.RootDirectory->ListEntries();
                 PutString(R,false);
+                PutString("\n\r.",false);
+                PutString(Sauce::Utility::Conversion::ToString(Arg.Size()),false);
+                PutString("\n\r.",false);
                 return;
             }
             if(*(Arg.First()) == Sauce::string("math")){Arg.RemoveFirst();
