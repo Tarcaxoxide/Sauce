@@ -269,12 +269,37 @@ namespace Sauce{
             bool operator!=(List_cl<TT> OtherValue){
                 return !Compare(OtherValue);
             }
-            bool operator>>(TT& OtherValue){
-                OtherValue = Last();
-                return RemoveLast();
+            template<typename TV>
+            bool operator>>(TV& OtherValue){
+                if(!Size())return false;
+                uint64_t sizeOfExternal=sizeof(TV);
+                uint64_t sizeOfInternal=sizeof(TT);
+                TV Etmp;
+                uint8_t* EtmpPtr=(uint8_t*)&Etmp;
+                TT Itmp;
+                uint8_t* ItmpPtr = (uint8_t*)&Itmp;
+                Itmp=Last();
+                for(size_t i=0;(i<sizeOfInternal && i<sizeOfExternal);i++){
+                    EtmpPtr[i] = ItmpPtr[i];
+                }
+                OtherValue=Etmp;
+                RemoveLast();
+                return true;
             }
-            bool operator<<(TT OtherValue){
-                AddLast(OtherValue);
+            template<typename TV>
+            bool operator<<(TV OtherValue){
+                if(Size() >= 0xFFFFFFFFFFFFFFF0)return false;
+                uint64_t sizeOfExternal=sizeof(TV);
+                uint64_t sizeOfInternal=sizeof(TT);
+                TV Etmp;
+                uint8_t* EtmpPtr=(uint8_t*)&Etmp;
+                TT Itmp;
+                uint8_t* ItmpPtr = (uint8_t*)&Itmp;
+                Etmp=OtherValue;
+                for(size_t i=0;(i<sizeOfInternal && i<sizeOfExternal);i++){
+                    ItmpPtr[i] = EtmpPtr[i];
+                }
+                AddLast(Itmp);
                 return true;
             }
         };
