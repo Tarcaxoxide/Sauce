@@ -3,6 +3,7 @@
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Math/Types.hpp>
+#include<Sauce/Utility/Manipulations.hpp>
 
 namespace Sauce{
     namespace Storage{
@@ -112,10 +113,13 @@ namespace Sauce{
                 struct FAT32_FileSystemFileObject_st{
                     Sauce::Memory::List_cl<DirectoryEntry_st> DirectoryEntries;
                     Sauce::Memory::List_cl<FAT32_FileSystemFileObject_st*> Directories;
+                    Sauce::Memory::List_cl<FAT32_FileSystemFileObject_st*> Files;
                     size_t LastEntryIndex;
                     DirectoryEntry_st* ThisEntry;
+                    FAT32_FileSystemFileObject_st* Previous;
                     DistilledInformation_st* Dist;
                     size_t ClusterNumber;
+                    size_t EntryNumber;
                     Sauce::Memory::List_cl<uint8_t> Data;
                     uint32_t ClusterNumberOfEntry(size_t EntryIndex);
                     uint32_t SectorNumberOfEntry(size_t EntryIndex);
@@ -126,7 +130,7 @@ namespace Sauce{
                     void ReadFile();
                     Sauce::string NameOfEntry(size_t EntryIndex);
                     Sauce::string ListEntries();
-                    FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,DirectoryEntry_st* ThisEntry=nullptr);
+                    FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,FAT32_FileSystemFileObject_st* Previous=nullptr,DirectoryEntry_st* ThisEntry=nullptr,size_t EntryNumber=0);
                     ~FAT32_FileSystemFileObject_st();
                 };
                 struct FAT32Driver_st{
@@ -135,6 +139,7 @@ namespace Sauce{
                     DistilledInformation_st Dist;
                     FAT32_FileSystemFileObject_st* RootDirectory;
                     FAT32Driver_st(size_t Port,uint32_t PartitionOffset=0);
+                    FAT32_FileSystemFileObject_st* Find(Sauce::string Path);
                 };  
             };
         };

@@ -134,11 +134,12 @@ namespace Sauce{
                 uint64_t Pn=Sauce::Utility::Conversion::ToUint64(Arg.First()->Raw());Arg.RemoveFirst();
                 Sauce::Storage::FileSystem::FAT::FAT32Driver_st testFatDriver(Pn);
                 testFatDriver.RootDirectory->ReadEntries();
-                Sauce::string R=testFatDriver.RootDirectory->ListEntries();
-                PutString(R,false);
-                PutString("\n\r.",false);
-                PutString(Sauce::Utility::Conversion::ToString(Arg.Size()),false);
-                PutString("\n\r.",false);
+                if(!Arg.Size()){
+                    Sauce::string R=testFatDriver.RootDirectory->ListEntries();
+                    PutString(R,false);
+                }else{
+                    
+                }
                 return;
             }
             if(*(Arg.First()) == Sauce::string("math")){Arg.RemoveFirst();

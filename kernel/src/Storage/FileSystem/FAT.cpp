@@ -52,10 +52,10 @@ namespace Sauce{
                         }
                         if(*((uint8_t*)DirectoryEntries[i].ATTRIB) == ENTRY_TYPE_DIRECTORY){
                             Debugger.Print("Reading Entry.");
-                            Directories+=new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,&DirectoryEntries[i]);
+                            Directories+=new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,this,&DirectoryEntries[i]);
                         }
                         else if(*((uint8_t*)DirectoryEntries[i].ATTRIB) == ENTRY_TYPE_ARCHIVE){
-                           Directories+=new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,&DirectoryEntries[i]);
+                           Files+=new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(i),Dist,this,&DirectoryEntries[i]);
                         }
                         else{
                             Directories+=(FAT32_FileSystemFileObject_st*)nullptr;
@@ -118,22 +118,28 @@ namespace Sauce{
                     ReadEntries();
                 }
                 void FAT32_FileSystemFileObject_st::ReadFile(){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::ReadFile",_NAMESPACE_,_ALLOW_PRINT_);
                     uint32_t SectorToRead=Dist->DataStart+(Dist->SectorsPerCluster*(ClusterNumber-2));
                     Sauce::Global::AHCIDriver->Read(Dist->Port,SectorToRead,Dist->SectorsPerCluster,Data);
-                    if(*((uint32_t*)ThisEntry->FILE_SIZE) > (Dist->SectorsPerCluster*Dist->BytesPerSector)){
-                        FAT32_FileSystemFileObject_st* tmpDirectoryEntry=new FAT32_FileSystemFileObject_st(ClusterNumberOfEntry(ClusterNumber+1),Dist,ThisEntry);
-                        for(size_t i=0;i<tmpDirectoryEntry->Data.Size();i++){
-                            Data+=tmpDirectoryEntry->Data[i];
-                        }
-                        delete tmpDirectoryEntry;
+                    size_t tmpClusterNumber=ClusterNumber;
+                    Sauce::string Name((char*)ThisEntry->NAME);
+
+                    while(Data.Size() < *((uint32_t*)ThisEntry->FILE_SIZE)){
+                        tmpClusterNumber=Previous->NextClusterOfEntry(tmpClusterNumber);
+                        uint32_t SectorToRead=Dist->DataStart+(Dist->SectorsPerCluster*(tmpClusterNumber));
+                        Debugger.Print(Sauce::Utility::Conversion::ToString(Data.Size()));
+                        Debugger.Print(Sauce::Utility::Conversion::ToString(*((uint32_t*)ThisEntry->FILE_SIZE)));
+                        Debugger.Print(Name.Raw());
+                        Sauce::Global::AHCIDriver->Read(Dist->Port,SectorToRead,Dist->SectorsPerCluster,Data);
                     }
-                    
                 }
-                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,DirectoryEntry_st* ThisEntry){
+                FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,FAT32_FileSystemFileObject_st* Previous,DirectoryEntry_st* ThisEntry,size_t EntryNumber){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::FAT32_FileSystemFileObject_st",_NAMESPACE_,_ALLOW_PRINT_);
                     this->Dist=Dist;
                     this->ThisEntry=ThisEntry;
                     this->ClusterNumber=ClusterNumber;
+                    this->Previous=Previous;
+                    this->EntryNumber=EntryNumber;
                     if(ThisEntry == nullptr){
                         ReadDirectory();
                     }else{
@@ -146,7 +152,7 @@ namespace Sauce{
                         else if(*((uint8_t*)ThisEntry->ATTRIB) == ENTRY_TYPE_ARCHIVE){
                            Debugger.Print("File Initializing");
                            Debugger.Print(Name.Raw());
-
+                           ReadFile();
                         }
                     }
                 }
@@ -388,15 +394,33 @@ namespace Sauce{
                         debugString+=Sauce::Utility::Conversion::HexToString(FSINFO_Structure.TRAIL_SIGNATURE[i]);
                     }
                     Debugger.Print(debugString.Raw());
-
-                    //void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr)
-
                     Dist.FatStart=Dist.PartitionOffset+(*((uint16_t*)Boot_Record.NUMBER_OF_RESERVED_SECTORS));
                     Dist.FatSize=(*((uint32_t*)Boot_Record.NUMBER_OF_SECTORS_PER_FAT_32));
                     Dist.DataStart=Dist.FatStart+Dist.FatSize*(*((uint8_t*)Boot_Record.NUMBER_OF_FATS));
                     Dist.SectorOfRootDirectoryEntry=Dist.DataStart+((*((uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER))*((*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY))-2));
-                    
                     RootDirectory = new FAT32_FileSystemFileObject_st(*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY),&Dist);
+                }
+                FAT32_FileSystemFileObject_st* FAT32Driver_st::Find(Sauce::string Path){
+                    Sauce::IO::Debug::Debugger_st Debugger("FAT32Driver_st::Find",_NAMESPACE_,_ALLOW_PRINT_);
+                    FAT32_FileSystemFileObject_st* Result=nullptr;
+                    //FAT32_FileSystemFileObject_st* PreviousPtr=nullptr;
+                    FAT32_FileSystemFileObject_st* CurrentPtr=RootDirectory;
+                    Sauce::Memory::List_cl<Sauce::string> TokenizedPath=Sauce::Utility::Manipulate::split(Path, '/');
+
+                    while(TokenizedPath.Size()){
+                        Sauce::string TargetName=TokenizedPath.First();
+                        TokenizedPath.RemoveFirst();
+                        char ActiveName[9]{0x00};
+                        for(size_t i=0;i<CurrentPtr->DirectoryEntries.Size();i++){
+                            for(size_t z=0;z<8;z++){
+                                ActiveName[z]=CurrentPtr->DirectoryEntries[i].NAME[z];
+                            }
+                            if(TargetName == Sauce::string(ActiveName)){
+                                //(target found) Set current,check type and if correct type then set result, break out of for loop.
+                            }
+                        }
+                    }
+                    return Result;
                 }
             };
         };
