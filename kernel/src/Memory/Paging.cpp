@@ -13,7 +13,7 @@ namespace Sauce{
         bool PageDirectoryEntry::GetFlag(PT_Flag flag){
             Sauce::IO::Debug::Debugger_st Debugger("PageDirectoryEntry::GetFlag",_NAMESPACE_,_ALLOW_PRINT_);
             uint64_t bitSelector = (uint64_t)1<< flag;
-            bool Ret = Value & bitSelector > 0 ? true : false;
+            bool Ret = (Value & bitSelector) > 0 ? true : false;
             return Ret;
         }
         void PageDirectoryEntry::SetAddress(uint64_t address){

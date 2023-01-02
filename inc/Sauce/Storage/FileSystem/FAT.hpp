@@ -4,6 +4,7 @@
 #include<Sauce/Global.hpp>
 #include<Sauce/Math/Types.hpp>
 #include<Sauce/Utility/Manipulations.hpp>
+#include<Sauce/Memory/Memory.hpp>
 
 namespace Sauce{
     namespace Storage{
@@ -27,15 +28,9 @@ namespace Sauce{
                     uint8_t NUMBER_OF_ROOT_DIRECTORY_ENTRIES[2]{0x00};
                     uint8_t TOTAL_SECTORS_IN_LOGICAL_VOLUME[2]{0x00};//if 0 then > 65535 sectors, check LARGE_SECTOR_COUNT
                     uint8_t MEDIA_DESCRIPTOR_TYPE[1]{0x00};
-                    union{
-                        uint8_t NUMBER_OF_SECTORS_PER_FAT_12[2]{0x00};
-                        uint8_t NUMBER_OF_SECTORS_PER_FAT_16[2];
-                    };
+                    uint8_t NUMBER_OF_SECTORS_PER_FAT_12or16[2]{0x00};
                     uint8_t NUMBER_OF_SECTORS_PER_TRACK[2]{0x00};
-                    union{
-                        uint8_t NUMBER_OF_HEADS[2]{0x00};
-                        uint8_t NUMBER_OF_SIDES[2];
-                    };
+                    uint8_t NUMBER_OF_HEADSorSIDES[2]{0x00};
                     uint8_t NUMBER_OF_HIDDEN_SECTORS[4]{0x00};
                     uint8_t LARGE_SECTOR_COUNT[4]{0x00};
                 }__attribute__((packed));

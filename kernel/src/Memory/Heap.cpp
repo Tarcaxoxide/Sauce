@@ -119,3 +119,11 @@ namespace Sauce{
         }
     };
 };
+
+void* operator new(size_t size){return Sauce::Memory::malloc(size);}
+void* operator new[](size_t size){return Sauce::Memory::malloc(size);}
+void operator delete(void* ptr){Sauce::Memory::free(ptr);}
+void operator delete[](void* ptr){Sauce::Memory::free(ptr);}
+
+void operator delete(void* ptr,size_t Sz){Sauce::Memory::free(ptr);}
+void operator delete[](void* ptr,size_t Sz){Sauce::Memory::free(ptr);}

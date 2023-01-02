@@ -232,8 +232,8 @@ namespace Sauce{
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.NUMBER_OF_SECTORS_PER_FAT_(12/16): ";
                     for(size_t i=0;i<2;i++){
-                        Boot_Record.NUMBER_OF_SECTORS_PER_FAT_12[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
-                        debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NUMBER_OF_SECTORS_PER_FAT_12[i]);
+                        Boot_Record.NUMBER_OF_SECTORS_PER_FAT_12or16[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NUMBER_OF_SECTORS_PER_FAT_12or16[i]);
                     }
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.NUMBER_OF_SECTORS_PER_TRACK: ";
@@ -244,8 +244,8 @@ namespace Sauce{
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.NUMBER_OF_(HEAD/SIDES): ";
                     for(size_t i=0;i<2;i++){
-                        Boot_Record.NUMBER_OF_HEADS[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
-                        debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NUMBER_OF_HEADS[i]);
+                        Boot_Record.NUMBER_OF_HEADSorSIDES[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
+                        debugString+=Sauce::Utility::Conversion::HexToString(Boot_Record.NUMBER_OF_HEADSorSIDES[i]);
                     }
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.NUMBER_OF_HIDDEN_SECTORS: ";
