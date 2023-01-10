@@ -133,9 +133,8 @@ namespace Sauce{
             }
             ShellClear(false);
             PutString("\n\r",false);
-            for(size_t i=0;i<ArgBuffer.Size();i++){
-                PutString(*(ArgBuffer[i]),false);
-                PutString("\n\r",false);
+            if(*(ArgBuffer[0]) == "test"){
+                PutString("worked!",false);
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){

@@ -25,10 +25,8 @@
 namespace Sauce{
     int testcount=0;
 	Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
-
     Sauce::InputTypes::Mouse_st oMouse;
     Sauce::Point64_st oMousePosition;
-
     Kernel_cl::Kernel_cl(DataStructure* DFBL){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::Kernel_cl",_NAMESPACE_,_ALLOW_PRINT_);
         asm volatile("cli");
@@ -40,7 +38,6 @@ namespace Sauce{
         //setting up divisor for timer interrupt and initializing the heap, should happen after virtual address
         //but before setting up the interrupts.
         Sauce::Interrupts::PIT::SetDivisor(65535/6);
-        //Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x10);
         Debugger.Print("Kernel ?here?");
         Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelEndRef));
         Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelStartRef));
@@ -50,12 +47,9 @@ namespace Sauce{
         Prep_IO();
         asm volatile("cli");//be default we have interrupts disabled and we enable them when we want to recieve them,
                             //this happens in the main loop when we call 'AcceptingIntterupts'
-        
         Prep_Windows();
-
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
-
         Sauce::Math::random_seed(8649245912657);
         // these are for the click detection
         oMouse.Position=&oMousePosition;
@@ -63,7 +57,6 @@ namespace Sauce{
         oMouse.RightButton=false;
         oMouse.LeftButton=false;
         Prep_ACPI();
-
         MainLoop();
     }
     void Kernel_cl::Prep_Windows(){
