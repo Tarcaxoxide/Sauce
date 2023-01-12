@@ -13,7 +13,7 @@ namespace Sauce{
     namespace Graphics{
         class Shell_cl : public Terminal_cl {
 			Sauce::Point64_st Cursor{0,0,0};
-            Sauce::Memory::List_cl<wchar_t> CharBuffer;
+            Sauce::string CharBuffer;
             public:
                 Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset={0,0,0});
                 void PutChar(char chr,bool AddToBuffer);
