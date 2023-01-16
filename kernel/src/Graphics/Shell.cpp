@@ -6,14 +6,16 @@
 #include<Sauce/Global.hpp>
 #include<Sauce/Utility/NeuralNetwork.hpp>
 
-/*experimentation*/#include <Sauce/Storage/FileSystem/FAT.hpp>
+
+/*experimentation*/
+#include<Sauce/Storage/FileSystem/FAT.hpp>
+
 
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
         :Terminal_cl((Size.X*Size.Y),Size.X,Offset){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::Shell_cl",_NAMESPACE_,_ALLOW_PRINT_);
-
             ShellClear(true);
         }
         void Shell_cl::PutChar(char chr,bool AddToBuffer){
@@ -116,26 +118,32 @@ namespace Sauce{
             Cursor.X=0;
         }
         void Shell_cl::ParseAndRunCommand(){
-            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ParseAndRunCommand",_NAMESPACE_,true);
+            Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
             Sauce::Memory::List_cl<Sauce::string*> ArgBuffer;
-            size_t CrawlerVal=0;
-            for(size_t i=0;i<CharBuffer.Size();i++){
-                if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
-                    Sauce::string* str = new Sauce::string;
-                    for(size_t a=CrawlerVal;a<i;a++){
-                        if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
-                            str->AddLast((char)CharBuffer[a]);
+            {/*Parse command string*/
+                size_t CrawlerVal=0;
+                for(size_t i=0;i<CharBuffer.Size();i++){
+                    if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
+                        Sauce::string* str = new Sauce::string;
+                        for(size_t a=CrawlerVal;a<i;a++){
+                            if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
+                                str->AddLast((char)CharBuffer[a]);
+                            }
                         }
+                        ArgBuffer.AddLast(new Sauce::string((*str).Raw()));
+                        delete str;
+                        CrawlerVal=i;
                     }
-                    ArgBuffer.AddLast(new Sauce::string((*str).Raw()));
-                    delete str;
-                    CrawlerVal=i;
                 }
             }
-            ShellClear(false);
-            for(size_t i=0;i<ArgBuffer.Size();i++){
+            {/*next line*/
+                ShellClear(false);
                 PutString("\n\r",false);
-                PutString((*(ArgBuffer[i])),false);
+            }
+            {/*Executable command string*/
+                if(ArgBuffer[0]->Compare(new const char*[]{"Test","test","TEST",nullptr})){
+                    PutString("Test worked!",false);
+                }
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
