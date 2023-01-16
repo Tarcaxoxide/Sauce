@@ -30,6 +30,8 @@ namespace Sauce{
                         tmpString.Clear();
                     }
                 }
+                Result.AddLast(tmpString);
+                tmpString.Clear();
                 return Result;
             }
             void swap_address(void** AddressA,void** AddressB){
