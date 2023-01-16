@@ -402,21 +402,24 @@ namespace Sauce{
                 }
                 FAT32_FileSystemFileObject_st* FAT32Driver_st::Find(Sauce::string Path){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32Driver_st::Find",_NAMESPACE_,_ALLOW_PRINT_);
-                    FAT32_FileSystemFileObject_st* Result=nullptr;
                     //FAT32_FileSystemFileObject_st* PreviousPtr=nullptr;
                     FAT32_FileSystemFileObject_st* CurrentPtr=RootDirectory;
+                    FAT32_FileSystemFileObject_st* Result=nullptr;
                     Sauce::Memory::List_cl<Sauce::string> TokenizedPath=Sauce::Utility::Manipulate::split(Path, '/');
 
                     while(TokenizedPath.Size()){
                         Sauce::string TargetName=TokenizedPath.First();
                         TokenizedPath.RemoveFirst();
+                        if(TargetName.Size() < 2)break;
                         char ActiveName[9]{0x00};
                         for(size_t i=0;i<CurrentPtr->DirectoryEntries.Size();i++){
                             for(size_t z=0;z<8;z++){
                                 ActiveName[z]=CurrentPtr->DirectoryEntries[i].NAME[z];
+                                CurrentPtr->Directories[i]->Name[z]=ActiveName[z];
                             }
                             if(TargetName == Sauce::string(ActiveName)){
-                                //(target found) Set current,check type and if correct type then set result, break out of for loop.
+                                CurrentPtr=CurrentPtr->Directories[i];
+                                Result=CurrentPtr;
                             }
                         }
                     }

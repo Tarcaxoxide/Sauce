@@ -109,6 +109,7 @@ namespace Sauce{
                     Sauce::Memory::List_cl<DirectoryEntry_st> DirectoryEntries;
                     Sauce::Memory::List_cl<FAT32_FileSystemFileObject_st*> Directories;
                     Sauce::Memory::List_cl<FAT32_FileSystemFileObject_st*> Files;
+                    char Name[9]{0x00};
                     size_t LastEntryIndex;
                     DirectoryEntry_st* ThisEntry;
                     FAT32_FileSystemFileObject_st* Previous;

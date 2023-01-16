@@ -144,6 +144,23 @@ namespace Sauce{
                 if(ArgBuffer[0]->Compare(new const char*[]{"Test","test","TEST",nullptr})){
                     PutString("Test worked!",false);
                 }
+                if(ArgBuffer[0]->Compare(new const char*[]{"AHCI","Ahci","ahci",nullptr})){
+                    if(ArgBuffer.Size() < 2)return;
+                    if(ArgBuffer[1]->Compare(new const char*[]{"List","list",nullptr})){
+                        PutString(Sauce::Global::AHCIDriver->ListPorts(),false);
+                    }
+                }
+		        if(ArgBuffer[0]->Compare(new const char* []{"FAT32","fat32","Fat32",nullptr})){
+		        	if(ArgBuffer.Size() < 2)return;
+		        	Sauce::Storage::FileSystem::FAT::FAT32Driver_st FAT32Driver(Sauce::Utility::Conversion::ToUint64((*(ArgBuffer[1])).Raw()));
+		        	if(ArgBuffer.Size() < 3)return;
+		        	Sauce::Storage::FileSystem::FAT::FAT32_FileSystemFileObject_st* cFile = FAT32Driver.Find((*(ArgBuffer[2])));
+                    if(cFile == nullptr){
+                        PutString("Not Found!",false);
+                    }else{
+                        PutString("Found!",false);
+                    }
+		        }
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
