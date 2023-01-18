@@ -20,9 +20,19 @@ namespace Sauce{
                 Clear();
                 AddLast(nValue);
             }
+            List_cl(const TT * nValueA,const TT * nValueB){
+                Clear();
+                AddLast(nValueA);
+                AddLast(nValueB);
+            }
             List_cl(const TT nValue){
                 Clear();
                 AddLast(nValue);
+            }
+            List_cl(const TT nValueA,const TT nValueB){
+                Clear();
+                AddLast(nValueA);
+                AddLast(nValueB);
             }
             ~List_cl(){
                 Clear(false);
@@ -211,7 +221,7 @@ namespace Sauce{
                 return !Compare(OtherValue);
             }
             template<typename TV>
-            bool operator>>(TV& OtherValue){
+            bool Pop(TV& OtherValue){
                 if(!Size())return false;
                 uint64_t sizeOfExternal=sizeof(TV);
                 uint64_t sizeOfInternal=sizeof(TT);
@@ -228,7 +238,7 @@ namespace Sauce{
                 return true;
             }
             template<typename TV>
-            bool operator<<(TV OtherValue){
+            bool Push(TV OtherValue){
                 if(Size() >= 0xFFFFFFFFFFFFFFF0)return false;
                 uint64_t sizeOfExternal=sizeof(TV);
                 uint64_t sizeOfInternal=sizeof(TT);
@@ -242,6 +252,14 @@ namespace Sauce{
                 }
                 AddLast(Itmp);
                 return true;
+            }
+            List_cl<TT> operator<<(List_cl<TT>& OtherValue){
+                AddLast(OtherValue.Raw());
+                return *this;
+            }
+            List_cl<TT> operator<<(const TT* OtherValue){
+                AddLast(OtherValue);
+                return *this;
             }
         };
     };

@@ -175,7 +175,7 @@ namespace Sauce{
                     Sauce::Memory::List_cl<uint8_t> tmpArray;
                     for(size_t i=0;i<3;i++){
                         Boot_Record.NOP[i]=Sauce::Global::AHCIDriver->Read(Port,CurrentByte++);
-                        tmpArray << Boot_Record.NOP[i];
+                        tmpArray.Push(Boot_Record.NOP[i]);
                     }
                     tmpArray.Flip();
                     
@@ -408,7 +408,7 @@ namespace Sauce{
                     Sauce::Memory::List_cl<std::string> TokenizedPath=Sauce::Utility::Manipulate::split(Path, '/');
                     std::string TargetName;
 
-                    while(TokenizedPath >> TargetName){
+                    while(TokenizedPath.Pop(TargetName)){
                         if(TargetName.Size() < 2)break;
                         char ActiveName[14]{0x00};
                         for(size_t i=0;i<CurrentPtr->DirectoryEntries.Size();i++){
