@@ -158,9 +158,9 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger("random_seed",_NAMESPACE_,_ALLOW_PRINT_);
 		    next = seed;
 		}
-		Sauce::string simple_equation(Sauce::string A,Sauce::string Equation,Sauce::string B){
+		std::string simple_equation(std::string A,std::string Equation,std::string B){
 			Sauce::IO::Debug::Debugger_st Debugger("simple_equation",_NAMESPACE_,_ALLOW_PRINT_);
-			Sauce::string Result;
+			std::string Result;
 			uint64_t testValueA=Sauce::Utility::Conversion::ToUint64(A.Raw());
         	uint64_t testValueB=Sauce::Utility::Conversion::ToUint64(B.Raw());
         	uint64_t testValueC=0;

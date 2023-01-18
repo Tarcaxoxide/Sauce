@@ -2,6 +2,7 @@
 #include<Sauce/Math/Types.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<std/string.hpp>
 
 namespace Sauce{
 	namespace Math{
@@ -23,6 +24,6 @@ namespace Sauce{
 		size_t random_get(size_t max);
 		void random_seed(size_t seed);
 		inline int abs(int number){return make_positive(number);}
-		Sauce::string simple_equation(Sauce::string A,Sauce::string Equation,Sauce::string B);
+		std::string simple_equation(std::string A,std::string Equation,std::string B);
 	};
 };

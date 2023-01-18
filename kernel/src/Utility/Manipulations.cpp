@@ -18,9 +18,9 @@ namespace Sauce{
                 }
                 return true;
             }
-            Sauce::Memory::List_cl<Sauce::string> split(Sauce::string path, char delimiter){
-                Sauce::string tmpString;
-                Sauce::Memory::List_cl<Sauce::string> Result;
+            Sauce::Memory::List_cl<std::string> split(std::string path, char delimiter){
+                std::string tmpString;
+                Sauce::Memory::List_cl<std::string> Result;
 
                 for(size_t i=0;i<path.Size();i++){
                     if(path[i] != delimiter){

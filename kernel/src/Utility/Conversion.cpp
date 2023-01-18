@@ -173,7 +173,7 @@ namespace Sauce{
             }
             uint64_t ToUint64(const char* value){
                 Sauce::IO::Debug::Debugger_st Debugger("ToUint64",_NAMESPACE_,_ALLOW_PRINT_);
-                Sauce::string avalue(value);
+                std::string avalue(value);
                 uint64_t Result=0;
                 for(size_t i=0;(i<30&&i<avalue.Size());i++){
                     size_t Mag=1;

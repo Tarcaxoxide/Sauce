@@ -182,8 +182,8 @@ namespace Sauce{
                 }
             }
         }
-        Sauce::string AHCIDriver_cl::ListPorts(){
-            Sauce::string Result;
+        std::string AHCIDriver_cl::ListPorts(){
+            std::string Result;
             for(int i=0;i<HBAPorts.Size();i++){
                 Result.AddLast((char*)"[");
                 Result.AddLast(Sauce::Utility::Conversion::ToString(i));

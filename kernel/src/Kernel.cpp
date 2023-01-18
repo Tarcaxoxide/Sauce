@@ -20,7 +20,6 @@
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Math/Functions.hpp>
-#include<Sauce/Utility/NeuralNetwork.hpp>
 
 namespace Sauce{
     int testcount=0;
@@ -68,8 +67,10 @@ namespace Sauce{
         Sauce::Global::Terminal->SetColor({0x11,0x11,0x11,0x00},{0x11,0x11,0x11,0x00});
         //Sauce::Global::Terminal->SetID((char*)"Terminator");
         Sauce::Global::Terminal->Clear();
-        Sauce::Global::Windows.AddLast(new Sauce::Graphics::Window_cl({DFBL->FrameBuffer->PixelsPerScanLine-4,DFBL->FrameBuffer->Height-4,0},{2,2,0}));
-        Sauce::Global::Windows.Last()->SetID((char*)"Shell");
+
+        Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine-4,DFBL->FrameBuffer->Height-4,0},{2,2,0});
+        Sauce::Global::Shell->SetID((char*)"Shell");
+        Sauce::Global::Windows.AddLast((Sauce::Graphics::Window_cl*)Sauce::Global::Shell);
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::MainLoop",_NAMESPACE_,_ALLOW_PRINT_);

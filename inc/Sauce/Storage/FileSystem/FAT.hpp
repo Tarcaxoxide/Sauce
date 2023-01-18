@@ -5,6 +5,7 @@
 #include<Sauce/Math/Types.hpp>
 #include<Sauce/Utility/Manipulations.hpp>
 #include<Sauce/Memory/Memory.hpp>
+#include<std/string.hpp>
 
 namespace Sauce{
     namespace Storage{
@@ -124,8 +125,8 @@ namespace Sauce{
                     void ReadEntries();
                     void ReadDirectory();
                     void ReadFile();
-                    Sauce::string NameOfEntry(size_t EntryIndex);
-                    Sauce::string ListEntries();
+                    std::string NameOfEntry(size_t EntryIndex);
+                    std::string ListEntries();
                     FAT32_FileSystemFileObject_st(size_t ClusterNumber,DistilledInformation_st* Dist,FAT32_FileSystemFileObject_st* Previous=nullptr,DirectoryEntry_st* ThisEntry=nullptr,size_t EntryNumber=0);
                     ~FAT32_FileSystemFileObject_st();
                 };
@@ -135,7 +136,7 @@ namespace Sauce{
                     DistilledInformation_st Dist;
                     FAT32_FileSystemFileObject_st* RootDirectory;
                     FAT32Driver_st(size_t Port,uint32_t PartitionOffset=0);
-                    FAT32_FileSystemFileObject_st* Find(Sauce::string Path);
+                    FAT32_FileSystemFileObject_st* Find(std::string Path);
                 };  
             };
         };

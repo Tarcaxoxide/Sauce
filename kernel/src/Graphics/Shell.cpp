@@ -4,10 +4,6 @@
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
-#include<Sauce/Utility/NeuralNetwork.hpp>
-
-
-/*experimentation*/
 #include<Sauce/Storage/FileSystem/FAT.hpp>
 
 
@@ -63,7 +59,7 @@ namespace Sauce{
                 }break;
             }
         }
-        void Shell_cl::PutString(Sauce::string str,bool AddToBuffer){
+        void Shell_cl::PutString(std::string str,bool AddToBuffer){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutString",_NAMESPACE_,_ALLOW_PRINT_);
             for(size_t i=0;i<str.Size();i++){
                 PutChar(str[i],AddToBuffer);
@@ -119,18 +115,18 @@ namespace Sauce{
         }
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
-            Sauce::Memory::List_cl<Sauce::string*> ArgBuffer;
+            Sauce::Memory::List_cl<std::string*> ArgBuffer;
             {/*Parse command string*/
                 size_t CrawlerVal=0;
                 for(size_t i=0;i<CharBuffer.Size();i++){
                     if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
-                        Sauce::string* str = new Sauce::string;
+                        std::string* str = new std::string;
                         for(size_t a=CrawlerVal;a<i;a++){
                             if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
                                 str->AddLast((char)CharBuffer[a]);
                             }
                         }
-                        ArgBuffer.AddLast(new Sauce::string((*str).Raw()));
+                        ArgBuffer.AddLast(new std::string((*str).Raw()));
                         delete str;
                         CrawlerVal=i;
                     }
