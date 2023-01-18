@@ -6,7 +6,7 @@ namespace std _GLIBCXX_VISIBILITY(default){
         Sauce::Global::Shell->PutString(str,false);
         return str;
     }
-    const char* endl("AAAA");
+    const char* endl("\n\r");
     cout_st cout;
 };
 
