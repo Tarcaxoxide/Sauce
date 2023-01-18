@@ -138,8 +138,7 @@ namespace Sauce{
             }
             {/*Executable command string*/
                 if(ArgBuffer[0]->Compare(new const char*[]{"Test","test","TEST",nullptr})){
-                    std::cout << "It!" << "Worked?" << std::endl;
-                    std::cout << "yes?" << std::endl;
+                    std::cout << "A" << "B";
                 }
                 if(ArgBuffer[0]->Compare(new const char*[]{"AHCI","Ahci","ahci",nullptr})){
                     if(ArgBuffer.Size() < 2)return;

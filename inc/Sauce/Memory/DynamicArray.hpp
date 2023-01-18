@@ -253,11 +253,11 @@ namespace Sauce{
                 AddLast(Itmp);
                 return true;
             }
-            List_cl<TT> operator<<(List_cl<TT>& OtherValue){
+            inline List_cl<TT>& operator<<(List_cl<TT>& OtherValue){
                 AddLast(OtherValue.Raw());
                 return *this;
             }
-            List_cl<TT> operator<<(const TT* OtherValue){
+            inline List_cl<TT>& operator<<(const TT* OtherValue){
                 AddLast(OtherValue);
                 return *this;
             }
