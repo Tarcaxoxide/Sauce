@@ -138,7 +138,7 @@ namespace Sauce{
             }
             {/*Executable command string*/
                 if(ArgBuffer[0]->Compare(new const char*[]{"Test","test","TEST",nullptr})){
-                    std::cout << "A" << "B"; //Results in 'A' only?
+                    std::cout << "A" << "B";
                     std::cout << std::endl;
                     std::cout << (char)85;
                 }
