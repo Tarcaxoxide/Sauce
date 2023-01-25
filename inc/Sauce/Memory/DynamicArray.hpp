@@ -136,6 +136,7 @@ namespace Sauce{
                     Shift_Value=0;
                 }
                 bool Compare(List_cl<TT> OtherValue){
+                    if(OtherValue.Size() != Array_Size)return false;
                     for(size_t i=0;i<Array_Size;i++){
                         if(Get(i) != OtherValue[i])return false;
                     }
