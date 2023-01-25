@@ -148,8 +148,7 @@ namespace Sauce{
                     //nullptr is to always be the last element because we look for it in the loop...
                     //we can't use the usual null termination because one exist for each of the elements.
                     for(size_t i=0;OtherValues[i] != nullptr;i++){
-                        List_cl<TT> OtherTmp(OtherValues[i]);
-                        if(Compare(OtherTmp)){delete[] OtherValues;return true;}
+                        if(Compare(List_cl<TT>(OtherValues[i]))){delete[] OtherValues;return true;}
                     }
                     delete[] OtherValues;//we obviously delete this pointer so the end user doesn't have to deal with that.
                     return false;
@@ -241,9 +240,6 @@ namespace Sauce{
                 bool operator==(const TT* OtherValue){
                     List_cl<TT> OtherTmp(OtherValue);
                     return Compare(OtherTmp);
-                }
-                bool operator==(const TT** OtherValues){
-                    return Compare(OtherValues);
                 }
                 bool operator==(List_cl<TT> OtherValue){
                     return Compare(OtherValue);

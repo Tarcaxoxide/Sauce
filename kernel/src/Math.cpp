@@ -165,16 +165,16 @@ namespace Sauce{
 			uint64_t ValueA=Sauce::Utility::Conversion::ToUint64(A.Raw());
         	uint64_t ValueB=Sauce::Utility::Conversion::ToUint64(B.Raw());
         	uint64_t ValueC=0;
-			if(Operator == new const char*[]{"add","addition","+",nullptr}){
+			if(Operator.Compare(new const char*[]{"add","addition","+",nullptr})){
 				ValueC=ValueA+ValueB;
 			}
-			if(Operator == new const char*[]{"sub","subtract","-",nullptr}){
+			if(Operator.Compare(new const char*[]{"sub","subtract","-",nullptr})){
 				ValueC=ValueA-ValueB;
 			}
-			if(Operator == new const char*[]{"mul","multiply","times","*",nullptr}){
+			if(Operator.Compare(new const char*[]{"mul","multiply","times","*",nullptr})){
 				ValueC=ValueA*ValueB;
 			}
-			if(Operator == new const char*[]{"div","divide","/",nullptr}){
+			if(Operator.Compare(new const char*[]{"div","divide","/",nullptr})){
 				ValueC=ValueA/ValueB;
 			}
 			return Sauce::Utility::Conversion::ToString(ValueC);

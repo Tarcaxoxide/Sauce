@@ -44,9 +44,8 @@ namespace Sauce{
                 void FAT32_FileSystemFileObject_st::ReadEntries(){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::ReadEntries",_NAMESPACE_,_ALLOW_PRINT_);
                     if(Directories.Size()){Debugger.Print("Entries Already read.");return;}//Already read
-                    
                     for(size_t i=0;i<DirectoryEntries.Size();i++){
-                        if(NameOfEntry(i) == new const char*[]{".       ","..      ",nullptr}){
+                        if(NameOfEntry(i).Compare(new const char*[]{".       ","..      ",nullptr})){
                             Debugger.Print("Skipping infinitely recursive directories.");
                             continue;
                         }
@@ -123,7 +122,6 @@ namespace Sauce{
                     Sauce::Global::AHCIDriver->Read(Dist->Port,SectorToRead,Dist->SectorsPerCluster,Data);
                     size_t tmpClusterNumber=ClusterNumber;
                     std::string Name((char*)ThisEntry->NAME);
-
                     while(Data.Size() < *((uint32_t*)ThisEntry->FILE_SIZE)){
                         tmpClusterNumber=Previous->NextClusterOfEntry(tmpClusterNumber);
                         uint32_t SectorToRead=Dist->DataStart+(Dist->SectorsPerCluster*(tmpClusterNumber));
@@ -178,7 +176,6 @@ namespace Sauce{
                         tmpArray.Push(Boot_Record.NOP[i]);
                     }
                     tmpArray.Flip();
-                    
                     Debugger.Print(debugString.Raw());
                     debugString="Boot_Record.OEM_IDENTIFIER: ";
                     for(size_t i=0;i<8;i++){
@@ -407,7 +404,6 @@ namespace Sauce{
                     FAT32_FileSystemFileObject_st* Result=nullptr;
                     Sauce::Memory::List_cl<std::string> TokenizedPath=Sauce::Utility::Manipulate::split(Path, '/');
                     std::string TargetName;
-
                     while(TokenizedPath.Pop(TargetName)){
                         if(TargetName.Size() < 2)break;
                         char ActiveName[14]{0x00};

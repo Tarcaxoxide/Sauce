@@ -158,6 +158,9 @@ namespace Sauce{
                         std::cout << "File found." << std::endl;
                     }
 		        }
+                if(ArgBuffer[0]->Compare(new const char*[]{"Clear","clear","CLEAR","cls","Cls","CLS",nullptr})){
+                    ShellClear(true);
+                }
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
