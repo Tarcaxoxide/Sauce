@@ -105,14 +105,14 @@ namespace Sauce{
                     return true;
                 }
                 TT& Get(size_t index){
-                    size_t target=(Shift_Value+index)%(Array_Size+1); // no more out of range errors :) doesn't mean your program will run well though. (Last+1 == First)
+                    size_t target=(Shift_Value+index)%(Array_Size); // no more out of range errors :) doesn't mean your program will run well though. (Last+1 == First)
                     return Array[target];
                 }
                 TT& First(){
                     return Get(0); // the first element, it's always the 0th element *shrug* unless shift_value is specified but that's taken care of.
                 }
                 TT& Last(){
-                    return Get(Array_Size);
+                    return Get(Array_Size-1);
                 }
                 TT* Raw(){
                     return Array;

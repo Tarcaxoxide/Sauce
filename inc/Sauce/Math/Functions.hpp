@@ -2,6 +2,7 @@
 #include<Sauce/Math/Types.hpp>
 #include<Sauce/Memory/DynamicArray.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+
 #include<std/string.hpp>
 
 namespace Sauce{

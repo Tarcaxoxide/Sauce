@@ -5,7 +5,7 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Storage/FileSystem/FAT.hpp>
-
+#include<std/deque.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -132,15 +132,14 @@ namespace Sauce{
                     }
                 }
             }
-            {/*next line*/
-                ShellClear(false);
-                PutString("\n\r",false);
-            }
+            ShellClear(false);
+            std::cout<<std::endl;
             {/*Executable command string*/
                 if(ArgBuffer[0]->Compare(new const char*[]{"Test","test","TEST",nullptr})){
-                    std::cout << "A" << "B";
-                    std::cout << std::endl;
-                    std::cout << (char)85;
+                    std::cout<<"A"<<"B"<<std::endl;
+                    std::deque<int> Test;
+                    Test.AddLast(91);
+                    std::cout << std::to_string(Test.Last()) << std::endl;
                 }
                 if(ArgBuffer[0]->Compare(new const char*[]{"AHCI","Ahci","ahci",nullptr})){
                     if(ArgBuffer.Size() < 2)return;
@@ -148,15 +147,15 @@ namespace Sauce{
                         PutString(Sauce::Global::AHCIDriver->ListPorts(),false);
                     }
                 }
-		        if(ArgBuffer[0]->Compare(new const char* []{"FAT32","fat32","Fat32",nullptr})){
+		        if(ArgBuffer[0]->Compare(new const char*[]{"FAT32","fat32","Fat32",nullptr})){
 		        	if(ArgBuffer.Size() < 2)return;
 		        	Sauce::Storage::FileSystem::FAT::FAT32Driver_st FAT32Driver(Sauce::Utility::Conversion::ToUint64((*(ArgBuffer[1])).Raw()));
 		        	if(ArgBuffer.Size() < 3)return;
 		        	Sauce::Storage::FileSystem::FAT::FAT32_FileSystemFileObject_st* cFile = FAT32Driver.Find((*(ArgBuffer[2])));
                     if(cFile == nullptr){
-                        PutString("Not Found!",false);
+                        std::cout << "File not file." << std::endl;
                     }else{
-                        PutString("Found!",false);
+                        std::cout << "File found." << std::endl;
                     }
 		        }
             }

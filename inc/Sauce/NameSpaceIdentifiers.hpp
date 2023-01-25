@@ -45,7 +45,7 @@ namespace Sauce{
             const static bool _ALLOW_PRINT_=false;
             namespace FAT{
                 const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::FAT";
-                const static bool _ALLOW_PRINT_=true;
+                const static bool _ALLOW_PRINT_=false;
             };
             namespace VirtualFileSystem{
                 const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::VirtualFileSystem";
