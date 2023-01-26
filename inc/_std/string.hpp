@@ -3,7 +3,7 @@
 #include<Sauce/Utility/Conversion.hpp>
 #ifndef std_string
 #define std_string
-    namespace std{
+    namespace _std{
         typedef Sauce::Memory::List_cl<char> string;
         inline string to_string(uint64_t V){return Sauce::Utility::Conversion::ToString(V);}
         inline string to_string(uint32_t V){return Sauce::Utility::Conversion::ToString(V);}

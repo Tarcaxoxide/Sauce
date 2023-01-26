@@ -5,7 +5,8 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Storage/FileSystem/FAT.hpp>
-#include<std/deque.hpp>
+#include<_std/deque.hpp>
+#include<_std/functional.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -59,7 +60,7 @@ namespace Sauce{
                 }break;
             }
         }
-        void Shell_cl::PutString(std::string str,bool AddToBuffer){
+        void Shell_cl::PutString(_std::string str,bool AddToBuffer){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::PutString",_NAMESPACE_,_ALLOW_PRINT_);
             for(size_t i=0;i<str.Size();i++){
                 PutChar(str[i],AddToBuffer);
@@ -115,31 +116,33 @@ namespace Sauce{
         }
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
-            Sauce::Memory::List_cl<std::string*> ArgBuffer;
+            Sauce::Memory::List_cl<_std::string*> ArgBuffer;
             {/*Parse command string*/
                 size_t CrawlerVal=0;
                 for(size_t i=0;i<CharBuffer.Size();i++){
                     if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
-                        std::string* str = new std::string;
+                        _std::string* str = new _std::string;
                         for(size_t a=CrawlerVal;a<i;a++){
                             if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
                                 str->AddLast((char)CharBuffer[a]);
                             }
                         }
-                        ArgBuffer.AddLast(new std::string((*str).Raw()));
+                        ArgBuffer.AddLast(new _std::string((*str).Raw()));
                         delete str;
                         CrawlerVal=i;
                     }
                 }
             }
             ShellClear(false);
-            std::cout<<std::endl;
+            _std::cout<<_std::endl;
             {/*Executable command string*/
                 if(ArgBuffer[0]->Compare(new const char*[]{"Test","test","TEST",nullptr})){
-                    std::cout<<"A"<<"B"<<std::endl;
-                    std::deque<int> Test;
+                    _std::cout<<"A"<<"B"<<_std::endl;
+                    _std::deque<int> Test;
                     Test.AddLast(91);
-                    std::cout << std::to_string(Test.Last()) << std::endl;
+                    _std::cout << _std::to_string(Test.Last()) << _std::endl;
+                    _std::function<int(int& V)> Testf = [](int& V){return V+1;};
+                    _std::cout << _std::to_string(Testf(Test.Last())) << _std::endl;
                 }
                 if(ArgBuffer[0]->Compare(new const char*[]{"AHCI","Ahci","ahci",nullptr})){
                     if(ArgBuffer.Size() < 2)return;
@@ -153,9 +156,9 @@ namespace Sauce{
 		        	if(ArgBuffer.Size() < 3)return;
 		        	Sauce::Storage::FileSystem::FAT::FAT32_FileSystemFileObject_st* cFile = FAT32Driver.Find((*(ArgBuffer[2])));
                     if(cFile == nullptr){
-                        std::cout << "File not file." << std::endl;
+                        _std::cout << "File not file." << _std::endl;
                     }else{
-                        std::cout << "File found." << std::endl;
+                        _std::cout << "File found." << _std::endl;
                     }
 		        }
                 if(ArgBuffer[0]->Compare(new const char*[]{"Clear","clear","CLEAR","cls","Cls","CLS",nullptr})){

@@ -147,7 +147,7 @@ namespace Sauce{
             MyOffset=Offset;
             return true;
         }
-        void Terminal_cl::SetID(std::string nID){
+        void Terminal_cl::SetID(_std::string nID){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::setID",_NAMESPACE_,_ALLOW_PRINT_);
             size_t i=0;
             ID=nID;

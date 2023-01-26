@@ -25,16 +25,16 @@ namespace Sauce{
                     Sauce::Global::AHCIDriver->Read(Dist->Port,FatSector,1,buf);
                     return *((uint32_t*)&buf.Raw()[FatOffset]) & 0x0FFFFFFF;
                 }
-                std::string FAT32_FileSystemFileObject_st::NameOfEntry(size_t EntryIndex){
+                _std::string FAT32_FileSystemFileObject_st::NameOfEntry(size_t EntryIndex){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::NameOfEntry",_NAMESPACE_,_ALLOW_PRINT_);
                     char _name[9]{0x00};
                     for(size_t i=0;i<8;i++){_name[i]=DirectoryEntries[EntryIndex].NAME[i];}
                     Debugger.Print(_name);
-                    return std::string(_name);
+                    return _std::string(_name);
                 }
-                std::string FAT32_FileSystemFileObject_st::ListEntries(){
+                _std::string FAT32_FileSystemFileObject_st::ListEntries(){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32_FileSystemFileObject_st::ListEntries",_NAMESPACE_,_ALLOW_PRINT_);
-                    std::string Result;
+                    _std::string Result;
                     for(size_t i=0;i<DirectoryEntries.Size();i++){
                         Result+=NameOfEntry(i).Raw();
                         Result+="\n\r";
@@ -68,7 +68,7 @@ namespace Sauce{
                     uint32_t SectorToRead=Dist->DataStart+(Dist->SectorsPerCluster*(ClusterNumber-2));
                     Sauce::Global::AHCIDriver->Read(Dist->Port,SectorToRead,Dist->SectorsPerCluster,Data);
                     //fill out the entries in this clusters entry array
-                    std::string EntryString("123456789ABCDEF");
+                    _std::string EntryString("123456789ABCDEF");
                     EntryString.Clear();
                     for(size_t i=0;i<16;i++){
                         EntryString="[";
@@ -121,7 +121,7 @@ namespace Sauce{
                     uint32_t SectorToRead=Dist->DataStart+(Dist->SectorsPerCluster*(ClusterNumber-2));
                     Sauce::Global::AHCIDriver->Read(Dist->Port,SectorToRead,Dist->SectorsPerCluster,Data);
                     size_t tmpClusterNumber=ClusterNumber;
-                    std::string Name((char*)ThisEntry->NAME);
+                    _std::string Name((char*)ThisEntry->NAME);
                     while(Data.Size() < *((uint32_t*)ThisEntry->FILE_SIZE)){
                         tmpClusterNumber=Previous->NextClusterOfEntry(tmpClusterNumber);
                         uint32_t SectorToRead=Dist->DataStart+(Dist->SectorsPerCluster*(tmpClusterNumber));
@@ -141,7 +141,7 @@ namespace Sauce{
                     if(ThisEntry == nullptr){
                         ReadDirectory();
                     }else{
-                        std::string Name((char*)ThisEntry->NAME);
+                        _std::string Name((char*)ThisEntry->NAME);
                         if(*((uint8_t*)ThisEntry->ATTRIB) == ENTRY_TYPE_DIRECTORY){
                             Debugger.Print("Directory Initializing");
                             Debugger.Print(Name.Raw());
@@ -168,7 +168,7 @@ namespace Sauce{
                     Dist.Port=Port;
                     Dist.PartitionOffset=PartitionOffset;
                     size_t CurrentByte=0;
-                    std::string debugString;
+                    _std::string debugString;
                     debugString="Boot_Record.NOP: ";
                     Sauce::Memory::List_cl<uint8_t> tmpArray;
                     for(size_t i=0;i<3;i++){
@@ -397,13 +397,13 @@ namespace Sauce{
                     Dist.SectorOfRootDirectoryEntry=Dist.DataStart+((*((uint8_t*)Boot_Record.NUMBER_OF_SECTORS_PER_CLUSTER))*((*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY))-2));
                     RootDirectory = new FAT32_FileSystemFileObject_st(*((uint32_t*)Boot_Record.CLUSTER_NUMBER_OF_ROOT_DIRECTORY),&Dist);
                 }
-                FAT32_FileSystemFileObject_st* FAT32Driver_st::Find(std::string Path){
+                FAT32_FileSystemFileObject_st* FAT32Driver_st::Find(_std::string Path){
                     Sauce::IO::Debug::Debugger_st Debugger("FAT32Driver_st::Find",_NAMESPACE_,_ALLOW_PRINT_);
                     Debugger.Print(Path.Raw());
                     FAT32_FileSystemFileObject_st* CurrentPtr=RootDirectory;
                     FAT32_FileSystemFileObject_st* Result=nullptr;
-                    Sauce::Memory::List_cl<std::string> TokenizedPath=Sauce::Utility::Manipulate::split(Path, '/');
-                    std::string TargetName;
+                    Sauce::Memory::List_cl<_std::string> TokenizedPath=Sauce::Utility::Manipulate::split(Path, '/');
+                    _std::string TargetName;
                     while(TokenizedPath.Pop(TargetName)){
                         if(TargetName.Size() < 2)break;
                         char ActiveName[14]{0x00};
@@ -414,7 +414,7 @@ namespace Sauce{
                             }
                             Debugger.Print(ActiveName);
                             Debugger.Print(TargetName.Raw());
-                            if(TargetName == std::string(ActiveName)){
+                            if(TargetName == _std::string(ActiveName)){
                                 CurrentPtr=CurrentPtr->Directories[i];
                                 Result=CurrentPtr;
                             }

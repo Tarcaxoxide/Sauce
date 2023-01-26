@@ -2,7 +2,7 @@
 #include<Sauce/Math/Functions.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Utility/Conversion.hpp>
-#include<std/iostream.hpp>
+#include<_std/iostream.hpp>
 
 namespace Sauce{
     namespace Math{
@@ -159,9 +159,9 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger("random_seed",_NAMESPACE_,_ALLOW_PRINT_);
 		    next = seed;
 		}
-		std::string simple_equation(std::string A,std::string Operator,std::string B){
+		_std::string simple_equation(_std::string A,_std::string Operator,_std::string B){
 			Sauce::IO::Debug::Debugger_st Debugger("simple_equation",_NAMESPACE_,_ALLOW_PRINT_);
-			std::string Result;
+			_std::string Result;
 			uint64_t ValueA=Sauce::Utility::Conversion::ToUint64(A.Raw());
         	uint64_t ValueB=Sauce::Utility::Conversion::ToUint64(B.Raw());
         	uint64_t ValueC=0;
