@@ -138,11 +138,11 @@ namespace Sauce{
             {/*Executable command string*/
                 if(ArgBuffer[0]->Compare(new const char*[]{"Test","test","TEST",nullptr})){
                     _std::cout<<"A"<<"B"<<_std::endl;
-                    _std::deque<int> Test;
-                    Test.AddLast(91);
-                    _std::cout << _std::to_string(Test.Last()) << _std::endl;
+                    _std::deque<int> Vtest;
+                    Vtest.AddLast(91);
+                    _std::cout << _std::to_string(Vtest.Last()) << _std::endl;
                     _std::function<int(int& V)> Testf = [](int& V){return V+1;};
-                    _std::cout << _std::to_string(Testf(Test.Last())) << _std::endl;
+                    _std::cout << _std::to_string(Testf(Vtest.Last())) << _std::endl;
                 }
                 if(ArgBuffer[0]->Compare(new const char*[]{"AHCI","Ahci","ahci",nullptr})){
                     if(ArgBuffer.Size() < 2)return;

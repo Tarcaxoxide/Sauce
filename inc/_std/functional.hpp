@@ -15,10 +15,10 @@ namespace _std{
           : functionPtr  (f)
       {}
       function() = default;
-      Result operator() (Arguments&&... args) const
-      {
-          return functionPtr (forward<Arguments> (args)...);
+      Result operator() (Arguments&&... args) const{
+            return functionPtr (forward<Arguments> (args)...);
       }
+      
       Result(*functionPtr)(Arguments...) = nullptr;
   };
 
