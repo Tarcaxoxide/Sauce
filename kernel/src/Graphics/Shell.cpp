@@ -141,13 +141,10 @@ namespace Sauce{
             _std::deque<CmdStr_st> Commandz={
                 #include<Sauce/Commands/Test.hpp>
             };
-            _std::cout<<_std::endl;
-            //{/*Executable command string*/
-                //_std::cout<<"?"<<(*(ArgBuffer[0]))<<"."<<_std::endl;
-                for(size_t iCommand=0;iCommand<Commandz.Size();iCommand++){
-                    if((ArgBuffer[0]) == Commandz[iCommand].CommandString){Commandz[iCommand].Fun(ArgBuffer);break;}
-                }
-            //}
+            _std::cout<<_std::endl;   
+            for(size_t iCommand=0;iCommand<Commandz.Size();iCommand++){
+                if((ArgBuffer[0]) == Commandz[iCommand].CommandString){Commandz[iCommand].Fun(ArgBuffer);break;}
+            }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_,_ALLOW_PRINT_);
