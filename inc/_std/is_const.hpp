@@ -1,7 +1,5 @@
-#pragma once
-
 #include<_std/exception.hpp>
-
+#pragma once
 namespace _std{
     template<typename T>
     struct is_const{
@@ -10,7 +8,7 @@ namespace _std{
             try{
                 T xx;
                 xx = (T)0x00;
-            }catch(const exception& e){
+            }catch(const exception& e){ // ?Does this even work?
                 value=true;
             }
         }

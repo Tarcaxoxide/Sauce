@@ -1,5 +1,3 @@
-#pragma once
-
 #include<_std/remove_reference.hpp>
 #include<_std/conditional.hpp>
 #include<_std/is_array.hpp>
@@ -7,9 +5,9 @@
 #include<_std/remove_extent.hpp>
 #include<_std/is_function.hpp>
 #include<_std/remove_cv.hpp>
-
+#pragma once
 namespace _std{
-    template< typename T >
+    template<typename T>
     struct decay {
     private:
         typedef typename remove_reference<T>::type U;

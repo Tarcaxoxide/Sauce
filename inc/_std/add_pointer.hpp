@@ -1,7 +1,5 @@
-#pragma once
-
 #include<_std/remove_reference.hpp>
-
+#pragma once
 namespace _std{
     namespace detail {
     template <typename T>
@@ -11,6 +9,6 @@ namespace _std{
     template <typename T>
     auto try_add_pointer(...) -> type_identity<T>;
     }
-    template <class T>
+    template <typename T>
     struct add_pointer : decltype(detail::try_add_pointer<T>(0)) {};
 };

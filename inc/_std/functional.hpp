@@ -1,7 +1,5 @@
-#pragma once
-
 #include<_std/forward.hpp>
-
+#pragma once
 namespace _std{
   template <typename>
   class function;
@@ -11,9 +9,7 @@ namespace _std{
   {
   public:
       template <typename Functor>
-      function (Functor f)
-          : functionPtr  (f)
-      {}
+      function (Functor f):functionPtr(f){}
       function() = default;
       Result operator() (Arguments&&... args) const{
             return functionPtr (forward<Arguments> (args)...);
@@ -21,5 +17,4 @@ namespace _std{
       
       Result(*functionPtr)(Arguments...) = nullptr;
   };
-
 };

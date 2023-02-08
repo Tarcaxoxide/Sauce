@@ -4,11 +4,10 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Utility/Manipulations.hpp>
+#include<_std/swap.hpp>
+#include<_std/memcpy.hpp>
 namespace Sauce{
     namespace Graphics{
-        //GOP_PixelStructure Terminal_cl::ForegroundColor{0xFF,0xFF,0xFF,0xFF};
-        //GOP_PixelStructure Terminal_cl::BackgroundColor{0x00,0x00,0x00,0xFF};
-        
         Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset,GOP_PixelStructure* PixelBuffer){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Terminal_cl",_NAMESPACE_,_ALLOW_PRINT_);
             
@@ -118,26 +117,20 @@ namespace Sauce{
             }
             PixelPointer.X=0;
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
-                Sauce::Memory::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),OtherPixelBuffer+Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine),(PixelsPerLine*sizeof(GOP_PixelStructure)));
+                _std::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),OtherPixelBuffer+Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine),PixelsPerLine);
                 // changed to memcpy, it's a wee bit janky around the edges but eh at least it's faster right :)
             }
             return true;
         }
         bool Terminal_cl::CopyFrom(Terminal_cl* OtherTerminal){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::CopyFrom",_NAMESPACE_,_ALLOW_PRINT_);
-            bool Ret = OtherTerminal->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,MyOffset);
-            return Ret;
+            return OtherTerminal->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,MyOffset);
         }
-        //bool Terminal_cl::SwapTo(GOP_PixelStructure* OtherPixelBuffer){
-        //    Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::SwapTo",_NAMESPACE_,_ALLOW_PRINT_);
-        //    Sauce::Utility::swap_address((void**)&PixelBuffer,(void**)&OtherPixelBuffer);
-        //    return true;
-        //}
-        //bool Terminal_cl::SwapFrom(Terminal_cl* OtherTerminal){
-        //    Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::SwapFrom",_NAMESPACE_,_ALLOW_PRINT_);
-        //    bool Ret = OtherTerminal->SwapTo(PixelBuffer);
-        //    return Ret;
-        //}
+        bool Terminal_cl::Swap(Terminal_cl* Other){
+            if(Other->MyOffset != MyOffset)return false;
+            _std::swap(Other->PixelBuffer,PixelBuffer);
+            return true;
+        }
 		Sauce::uPoint64_st Terminal_cl::Size(){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Size",_NAMESPACE_,_ALLOW_PRINT_);
             return {PixelsPerLine,PixelsBufferHeight,0};

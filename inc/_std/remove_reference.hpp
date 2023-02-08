@@ -1,5 +1,4 @@
 #pragma once
-
 namespace _std{
     template <typename T>
     struct remove_reference { typedef T type; };

@@ -1,7 +1,5 @@
-#pragma once
-
 #include<_std/forward.hpp>
-
+#pragma once
 namespace _std{
     template<typename T>
     class unique_ptr{

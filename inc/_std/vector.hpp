@@ -1,6 +1,6 @@
-#pragma once
 #include<Sauce/Memory/DynamicArray.hpp>
+#pragma once
 namespace _std{
-    template<typename TY>
-    struct vector: public Sauce::Memory::List_cl<TY>{};
+    template<typename T>
+    struct vector: public Sauce::Memory::List_cl<T>{};
 };
