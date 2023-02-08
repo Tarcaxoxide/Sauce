@@ -7,6 +7,7 @@
 #include<Sauce/Storage/FileSystem/FAT.hpp>
 #include<_std/deque.hpp>
 #include<_std/functional.hpp>
+#include<_std/iostream.hpp>
 
 
 namespace Sauce{
@@ -136,14 +137,18 @@ namespace Sauce{
             ShellClear(false);
             struct CmdStr_st{
                 _std::string CommandString;
-                _std::function<void(_std::deque<_std::string>& Args)> Fun;
+                _std::function<void(_std::deque<_std::string>& Args,Shell_cl& Shell)> Fun;
             };
-            _std::deque<CmdStr_st> Commandz={
+            _std::deque<CmdStr_st> Commandz;
+            Commandz.AddLast(
                 #include<Sauce/Commands/Test.hpp>
-            };
+            );
+            Commandz.AddLast(
+                #include<Sauce/Commands/Clear.hpp>
+            );
             _std::cout<<_std::endl;   
             for(size_t iCommand=0;iCommand<Commandz.Size();iCommand++){
-                if((ArgBuffer[0]) == Commandz[iCommand].CommandString){Commandz[iCommand].Fun(ArgBuffer);break;}
+                if((ArgBuffer[0]) == Commandz[iCommand].CommandString){Commandz[iCommand].Fun(ArgBuffer,*this);break;}
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
