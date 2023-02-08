@@ -117,19 +117,18 @@ namespace Sauce{
         }
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
-            _std::deque<_std::string*> ArgBuffer;
+            _std::deque<_std::string> ArgBuffer;
             {/*Parse command string*/
                 size_t CrawlerVal=0;
                 for(size_t i=0;i<CharBuffer.Size();i++){
                     if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
-                        _std::string* str = new _std::string;
+                        _std::string str;
                         for(size_t a=CrawlerVal;a<i;a++){
                             if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
-                                str->AddLast((char)CharBuffer[a]);
+                                str.AddLast((char)CharBuffer[a]);
                             }
                         }
-                        ArgBuffer.AddLast(new _std::string((*str).Raw()));
-                        delete str;
+                        ArgBuffer.AddLast(str.Raw());
                         CrawlerVal=i;
                     }
                 }
@@ -137,17 +136,18 @@ namespace Sauce{
             ShellClear(false);
             struct CmdStr_st{
                 _std::string CommandString;
-                _std::function<void(_std::deque<_std::string*>& Args)> Fun;
+                _std::function<void(_std::deque<_std::string>& Args)> Fun;
             };
             _std::deque<CmdStr_st> Commandz={
-                CmdStr_st{"Test",[](_std::deque<_std::string*>& Args){_std::cout<<"Hello World!"<<_std::endl;}}
+                #include<Sauce/Commands/Test.hpp>
             };
             _std::cout<<_std::endl;
-            {/*Executable command string*/
+            //{/*Executable command string*/
+                //_std::cout<<"?"<<(*(ArgBuffer[0]))<<"."<<_std::endl;
                 for(size_t iCommand=0;iCommand<Commandz.Size();iCommand++){
-                    if(*(ArgBuffer[0]) == Commandz[iCommand].CommandString){Commandz[iCommand].Fun(ArgBuffer);break;}
+                    if((ArgBuffer[0]) == Commandz[iCommand].CommandString){Commandz[iCommand].Fun(ArgBuffer);break;}
                 }
-            }
+            //}
         }
         void Shell_cl::ShellClear(bool ClearScreen){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ShellClear",_NAMESPACE_,_ALLOW_PRINT_);
