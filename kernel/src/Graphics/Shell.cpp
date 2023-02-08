@@ -135,12 +135,18 @@ namespace Sauce{
                 }
             }
             ShellClear(false);
-            _std::deque<_std::function<void(_std::deque<_std::string*>& Args)>> Commandz={
-                #include<Sauce/Commands/HelloWorld.hpp>
+            struct CmdStr_st{
+                _std::string CommandString;
+                _std::function<void(_std::deque<_std::string*>& Args)> Fun;
+            };
+            _std::deque<CmdStr_st> Commandz={
+                CmdStr_st{"Test",[](_std::deque<_std::string*>& Args){_std::cout<<"Hello World!"<<_std::endl;}}
             };
             _std::cout<<_std::endl;
             {/*Executable command string*/
-                for(size_t iCommand=0;iCommand<Commandz.Size();iCommand++)Commandz[iCommand](ArgBuffer);
+                for(size_t iCommand=0;iCommand<Commandz.Size();iCommand++){
+                    if(*(ArgBuffer[0]) == Commandz[iCommand].CommandString){Commandz[iCommand].Fun(ArgBuffer);break;}
+                }
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
