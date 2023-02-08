@@ -8,6 +8,7 @@
 #include<_std/deque.hpp>
 #include<_std/functional.hpp>
 
+
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
@@ -116,7 +117,7 @@ namespace Sauce{
         }
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger("Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
-            Sauce::Memory::List_cl<_std::string*> ArgBuffer;
+            _std::deque<_std::string*> ArgBuffer;
             {/*Parse command string*/
                 size_t CrawlerVal=0;
                 for(size_t i=0;i<CharBuffer.Size();i++){
@@ -134,36 +135,12 @@ namespace Sauce{
                 }
             }
             ShellClear(false);
+            _std::deque<_std::function<void(_std::deque<_std::string*>& Args)>> Commandz={
+                #include<Sauce/Commands/HelloWorld.hpp>
+            };
             _std::cout<<_std::endl;
             {/*Executable command string*/
-                if(ArgBuffer[0]->Compare(new const char*[]{"Test","test","TEST",nullptr})){
-                    _std::cout<<"A"<<"B"<<_std::endl;
-                    _std::deque<int> Vtest;
-                    Vtest.AddLast(91);
-                    _std::cout << _std::to_string(Vtest.Last()) << _std::endl;
-                    _std::function<int(int& V)> Testf = [](int& V){return V+1;};
-                    _std::cout << _std::to_string(Testf(Vtest.Last())) << _std::endl;
-                }
-                if(ArgBuffer[0]->Compare(new const char*[]{"AHCI","Ahci","ahci",nullptr})){
-                    if(ArgBuffer.Size() < 2)return;
-                    if(ArgBuffer[1]->Compare(new const char*[]{"List","list",nullptr})){
-                        PutString(Sauce::Global::AHCIDriver->ListPorts(),false);
-                    }
-                }
-		        if(ArgBuffer[0]->Compare(new const char*[]{"FAT32","fat32","Fat32",nullptr})){
-		        	if(ArgBuffer.Size() < 2)return;
-		        	Sauce::Storage::FileSystem::FAT::FAT32Driver_st FAT32Driver(Sauce::Utility::Conversion::ToUint64((*(ArgBuffer[1])).Raw()));
-		        	if(ArgBuffer.Size() < 3)return;
-		        	Sauce::Storage::FileSystem::FAT::FAT32_FileSystemFileObject_st* cFile = FAT32Driver.Find((*(ArgBuffer[2])));
-                    if(cFile == nullptr){
-                        _std::cout << "File not file." << _std::endl;
-                    }else{
-                        _std::cout << "File found." << _std::endl;
-                    }
-		        }
-                if(ArgBuffer[0]->Compare(new const char*[]{"Clear","clear","CLEAR","cls","Cls","CLS",nullptr})){
-                    ShellClear(true);
-                }
+                for(size_t iCommand=0;iCommand<Commandz.Size();iCommand++)Commandz[iCommand](ArgBuffer);
             }
         }
         void Shell_cl::ShellClear(bool ClearScreen){
