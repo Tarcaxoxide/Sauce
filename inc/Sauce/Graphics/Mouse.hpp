@@ -1,9 +1,10 @@
 #include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Memory/Memory.hpp>
-#include<Sauce/Memory/DynamicArray.hpp>
-#include<Sauce/Math/Types.hpp>
-#include<Sauce/Math/Functions.hpp>
+#include<Sauce/Memory/List.hpp>
+#include<Sauce/Types.hpp>
+#include<Sauce/Math.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#pragma once
 
 namespace Sauce{
     namespace Graphics{

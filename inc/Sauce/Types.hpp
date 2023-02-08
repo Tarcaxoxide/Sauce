@@ -1,4 +1,3 @@
-#pragma once
 #include<stddef.h>
 #include<stdint.h>
 #include<cstring>
@@ -9,6 +8,7 @@
 #include<iso646.h>
 #include<limits.h>
 #include<stdarg.h>
+#pragma once
 
 namespace Sauce{
     	struct uPoint8_st{
@@ -73,5 +73,12 @@ namespace Sauce{
 		    bool visible=true;
 		    uint8_t Key;
 		    wchar_t Display;
+        };
+        struct Mouse_st{
+            bool RightButton;
+            bool LeftButton;
+            bool CenterButton;
+        	Point64_st* Position;
+            bool Good;
         };
 };

@@ -1,7 +1,5 @@
-#pragma once
 #include<stddef.h>
 #include<stdint.h>
-
 #include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/Graphics/Window.hpp>
@@ -9,10 +7,9 @@
 #include<Sauce/Graphics/Mouse.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Storage/AHCI.hpp>
-#include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/Memory/List.hpp>
 #include<Sauce/Kernel.hpp>
-
-
+#pragma once
 namespace Sauce{
     namespace Global{
         extern Sauce::Kernel_cl* Kernel;

@@ -1,10 +1,8 @@
-#pragma once
-
-#include<Sauce/Math/Types.hpp>
-#include<Sauce/Math/Functions.hpp>
-#include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/Types.hpp>
+#include<Sauce/Math.hpp>
+#include<Sauce/Memory/List.hpp>
 #include<_std/string.hpp>
-
+#pragma once
 namespace Sauce{
 	namespace Utility{
         namespace Manipulate{

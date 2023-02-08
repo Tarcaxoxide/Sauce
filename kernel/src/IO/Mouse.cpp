@@ -62,8 +62,8 @@ namespace Sauce{
                 }break;
             }
         }
-        Sauce::InputTypes::Mouse_st nMouseData;
-        Sauce::InputTypes::Mouse_st* ProcessMousePacket(){
+        Sauce::Mouse_st nMouseData;
+        Sauce::Mouse_st* ProcessMousePacket(){
             Sauce::IO::Debug::Debugger_st Debugger("ProcessMousePacket",_NAMESPACE_,_ALLOW_PRINT_);
             nMouseData.Good=false;
             if(!MousePacketReady){

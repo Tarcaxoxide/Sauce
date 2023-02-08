@@ -1,8 +1,6 @@
-#pragma once
-
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
-
+#pragma once
 namespace Sauce{
     namespace IO{
         namespace Debug{

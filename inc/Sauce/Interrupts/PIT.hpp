@@ -1,9 +1,7 @@
-#pragma once
-
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/IO/Debug/Debug.hpp>
-
+#pragma once
 namespace Sauce{
     namespace Interrupts{
         namespace PIT{

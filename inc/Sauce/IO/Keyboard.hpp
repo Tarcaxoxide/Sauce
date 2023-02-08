@@ -1,8 +1,6 @@
-#pragma
-
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-
+#pragma once
 namespace Sauce{
     namespace IO{
         uint16_t Translate_KeyCode(uint8_t KeyCode,size_t KeySet=1);

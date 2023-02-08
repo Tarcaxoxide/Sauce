@@ -1,10 +1,7 @@
-#pragma once
-
-#include<Sauce/InputTypes.hpp>
-
-#include<Sauce/Math/Functions.hpp>
+#include<Sauce/Types.hpp>
+#include<Sauce/Math.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-
+#pragma once
 #define PS2LeftButton 0b00000001
 #define PS2RightButton 0b00000010
 #define PS2MiddleButton 0b00000100
@@ -20,7 +17,7 @@ namespace Sauce{
         void MouseWrite(uint8_t value);
         uint8_t MouseRead();
         void HandlePS2Mouse(uint8_t data);
-        Sauce::InputTypes::Mouse_st* ProcessMousePacket();
+        Sauce::Mouse_st* ProcessMousePacket();
         void PS2MouseInitialize(Sauce::Point64_st InitMousePosition);
         extern Sauce::Point64_st MousePosition;
     };

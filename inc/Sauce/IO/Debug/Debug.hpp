@@ -1,14 +1,11 @@
-#pragma once
-
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/NameSpaceIdentifiers.hpp>
-
+#pragma once
 namespace Sauce{
 	namespace Utility{
         bool strcmp(const char* strA,const char* strB);
     };
 };
-
 namespace Sauce{
     namespace IO{
         namespace Debug{

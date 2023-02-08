@@ -1,8 +1,7 @@
+#include<Sauce/Types.hpp>
+#include<Sauce/Math.hpp>
+#include<Sauce/Memory/List.hpp>
 #pragma once
-#include<Sauce/Math/Types.hpp>
-#include<Sauce/Math/Functions.hpp>
-#include<Sauce/Memory/DynamicArray.hpp>
-
 namespace Sauce{
     namespace Graphics{
         namespace SauceFont{

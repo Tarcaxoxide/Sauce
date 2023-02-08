@@ -1,10 +1,8 @@
-#pragma once
-
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Memory/PageFrameAllocator.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-
+#pragma once
 namespace Sauce{
     namespace Memory{
         struct HeapSegmentHeader{

@@ -1,7 +1,5 @@
+#include<Sauce/Types.hpp>
 #pragma once
-
-#include<Sauce/Math/Types.hpp>
-
 namespace Sauce{
     namespace Memory{
         struct EFI_MEMORY_DESCRIPTOR{

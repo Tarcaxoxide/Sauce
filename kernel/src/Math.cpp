@@ -1,5 +1,5 @@
 
-#include<Sauce/Math/Functions.hpp>
+#include<Sauce/Math.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<_std/iostream.hpp>

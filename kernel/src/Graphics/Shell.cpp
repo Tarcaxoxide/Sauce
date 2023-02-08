@@ -1,7 +1,7 @@
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Math/Types.hpp>
-#include<Sauce/Math/Functions.hpp>
+#include<Sauce/Types.hpp>
+#include<Sauce/Math.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Storage/FileSystem/FAT.hpp>

@@ -1,12 +1,10 @@
-#pragma once
-
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/Global.hpp>
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/Utility/Manipulations.hpp>
 #include<Sauce/Memory/Memory.hpp>
 #include<_std/string.hpp>
-
+#pragma once
 namespace Sauce{
     namespace Storage{
         namespace FileSystem{

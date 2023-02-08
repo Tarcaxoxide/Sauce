@@ -1,7 +1,6 @@
-#pragma once
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-
+#pragma once
 namespace Sauce{
     namespace Memory{
         enum PT_Flag{

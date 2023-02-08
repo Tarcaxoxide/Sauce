@@ -1,8 +1,6 @@
-#pragma once
-
-#include<Sauce/Math/Types.hpp>
+#include<Sauce/Types.hpp>
 #include<Sauce/Memory/Heap.hpp>
-
+#pragma once
 namespace Sauce{
     namespace Memory{
         template<typename TT,size_t StageSize=16>

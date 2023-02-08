@@ -1,11 +1,9 @@
-#pragma once
-
 #include<Sauce/Common.hpp>
-#include<Sauce/Math/Types.hpp>
-#include<Sauce/Math/Functions.hpp>
+#include<Sauce/Types.hpp>
+#include<Sauce/Math.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<_std/string.hpp>
-
+#pragma once
 namespace Sauce{
     namespace Graphics{
         class Terminal_cl{
@@ -51,12 +49,3 @@ namespace Sauce{
         };
     };
 };
-
-
-
-/*
-(just ignore this XD , i keep forgetting this.)
-    Rows are horizontal.
-    Columns are vertical.
-*/
-

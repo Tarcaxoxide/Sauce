@@ -1,15 +1,12 @@
-#pragma once
-
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/Memory/List.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-
+#pragma once
 #define PIC1_COMMAND 0X20
 #define PIC1_DATA 0x21
 #define PIC2_COMMAND 0XA0
 #define PIC2_DATA 0xA1
-
 #define ICW1_INIT 0X10
 #define ICW1_ICW4 0X01
 #define ICW4_8086 0X01

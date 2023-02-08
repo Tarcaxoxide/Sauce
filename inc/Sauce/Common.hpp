@@ -1,5 +1,3 @@
-#pragma once
-
 #include<stdbool.h>
 #include<stddef.h>
 #include<stdint.h>
@@ -7,18 +5,15 @@
 #include<iso646.h>
 #include<limits.h>
 #include<stdarg.h>
-
-
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/IO/ACPI.hpp>
-
+#pragma once
 typedef struct {
     uint8_t Blue;
     uint8_t Green;
     uint8_t Red;
     uint8_t Alpha;
 }GOP_PixelStructure;
-
 typedef struct{
     GOP_PixelStructure* BaseAddress;
     size_t BufferSize;

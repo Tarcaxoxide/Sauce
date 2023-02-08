@@ -1,10 +1,8 @@
-#pragma once
-#include<Sauce/Math/Types.hpp>
-#include<Sauce/Memory/DynamicArray.hpp>
+#include<Sauce/Types.hpp>
+#include<Sauce/Memory/List.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-
 #include<_std/string.hpp>
-
+#pragma once
 namespace Sauce{
 	namespace Math{
 		size_t index(size_t X,size_t Y,size_t MaxX);

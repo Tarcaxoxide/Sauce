@@ -1,8 +1,6 @@
-#pragma once
-
 #include<stddef.h>
 #include<stdint.h>
-
+#pragma once
 namespace Sauce{
     namespace GDT{
         struct GDTDescriptor_st{

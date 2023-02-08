@@ -1,6 +1,5 @@
-#pragma once
 #include<Sauce/IO/Debug/Serial.hpp>
-
+#pragma once
 namespace Sauce{
     namespace IO{
         namespace Debug{
@@ -11,7 +10,6 @@ namespace Sauce{
                 void Initialize(uint16_t DebugComPort);
                 void Write(const char* str);
             };
-
             extern Console_cl COM1_Console;
             extern Console_cl COM2_Console;
             extern Console_cl COM3_Console;
@@ -30,12 +28,3 @@ namespace Sauce{
         };
     };
 };
-
-
-
-
-//Sauce::IO::Debug::Print_("",Sauce::IO::Debug::KERNEL,true);
-
-
-
-//Sauce::IO::Debug::StartOfPrint::

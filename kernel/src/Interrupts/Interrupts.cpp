@@ -4,7 +4,7 @@
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Math/Functions.hpp>
+#include<Sauce/Math.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 
 namespace Sauce{
