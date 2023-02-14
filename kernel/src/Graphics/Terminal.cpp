@@ -143,11 +143,6 @@ namespace Sauce{
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::CopyFrom",_NAMESPACE_,_ALLOW_PRINT_);
                 return OtherTerminal->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,MyOffset);
             }
-            bool Terminal_cl::Swap(Terminal_cl* Other){
-                if(Other->MyOffset != MyOffset)return false;
-                _std::swap(Other->PixelBuffer,PixelBuffer);
-                return true;
-            }
 		    Sauce::uPoint64_st Terminal_cl::Size(){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Size",_NAMESPACE_,_ALLOW_PRINT_);
                 return {PixelsPerLine,PixelsBufferHeight,0};
