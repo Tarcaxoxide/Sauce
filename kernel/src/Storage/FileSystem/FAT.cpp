@@ -1,5 +1,8 @@
 #include<Sauce/Storage/FileSystem/FAT.hpp>
 #include<Sauce/Utility/Conversion.hpp>
+#include<Sauce/Global.hpp>
+#include<Sauce/Utility/Manipulations.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace Storage{

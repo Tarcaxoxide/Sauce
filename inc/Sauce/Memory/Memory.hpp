@@ -1,4 +1,3 @@
-#include<Sauce/Types.hpp>
 #include<Sauce/Memory/efiMemory.hpp>
 #pragma once
 namespace Sauce{

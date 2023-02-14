@@ -2,6 +2,10 @@
 
 const static char* _NAMESPACE_="::";
 const static bool _ALLOW_PRINT_=false;
+namespace _std{
+    const static char* _NAMESPACE_="::_std";
+    const static bool _ALLOW_PRINT_=false;
+};
 namespace Sauce{
     const static char* _NAMESPACE_="::Sauce";
     const static bool _ALLOW_PRINT_=false;
@@ -32,6 +36,10 @@ namespace Sauce{
     namespace Memory{
         const static char* _NAMESPACE_="::Sauce::Memory";
         const static bool _ALLOW_PRINT_=false;
+        namespace Management{
+            const static char* _NAMESPACE_="::Sauce::Management";
+            const static bool _ALLOW_PRINT_=false;
+        };
     };
     namespace Commands{
         const static char* _NAMESPACE_="::Sauce::Commands";

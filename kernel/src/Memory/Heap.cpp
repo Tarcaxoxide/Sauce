@@ -2,6 +2,7 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace Memory{
@@ -40,7 +41,6 @@ namespace Sauce{
             if(LastSegmentHeader == this)LastSegmentHeader=nSplitHeader;
             return nSplitHeader;
         }
-        
         void InitalizeHeap(void* heapAddress,size_t PageCount){
             Sauce::IO::Debug::Debugger_st Debugger("InitalizeHeap",_NAMESPACE_,_ALLOW_PRINT_);
             void* pos = heapAddress;

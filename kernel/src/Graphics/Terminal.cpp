@@ -6,13 +6,13 @@
 #include<Sauce/Utility/Manipulations.hpp>
 #include<_std/swap.hpp>
 #include<_std/memcpy.hpp>
+#include<Sauce/Math.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 namespace Sauce{
     namespace Graphics{
         Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset,GOP_PixelStructure* PixelBuffer){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Terminal_cl",_NAMESPACE_,_ALLOW_PRINT_);
-            
             if(PixelBuffer == nullptr){this->PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];}else{this->PixelBuffer=PixelBuffer;}
-            
             this->PixelBufferTotalSize=PixelBufferTotalSize;
             this->PixelsPerLine=PixelsPerLine;
             PixelsBufferHeight=(PixelBufferTotalSize/PixelsPerLine);
@@ -53,6 +53,7 @@ namespace Sauce{
             return true;
         }
         GOP_PixelStructure Terminal_cl::Blend(GOP_PixelStructure Front,GOP_PixelStructure Back,uint8_t opacity){
+            Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Blend",_NAMESPACE_,_ALLOW_PRINT_);
         	double Alpha;
             if(opacity > 9){
                 Alpha=Front.Alpha/2.55;
@@ -78,8 +79,13 @@ namespace Sauce{
         bool Terminal_cl::Fill(GOP_PixelStructure TheColor){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Fill",_NAMESPACE_,_ALLOW_PRINT_);
             for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
-                for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
-                    PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
+                if(PixelPointer.Y == 0){
+                    for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
+                        PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
+                    }
+                }else{
+                    PixelPointer.X=0;
+                    _std::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y-1,PixelsPerLine),PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),PixelsPerLine);
                 }
             }
             return true;
@@ -147,10 +153,8 @@ namespace Sauce{
         }
         bool Terminal_cl::Is_Over(Sauce::Point64_st Location){
             Sauce::IO::Debug::Debugger_st Debugger("Terminal_cl::Is_Mouse_Over",_NAMESPACE_,_ALLOW_PRINT_);
-
             bool Vertical=(Location.Y > MyOffset.Y/*below of my top?*/) && (Location.Y < MyOffset.Y+PixelsBufferHeight/*above of my bottom?*/);
             bool Horizontal=(Location.X > MyOffset.X/*right of my left*/) && (Location.X < MyOffset.X+PixelsPerLine/*left of my right*/);
-
             /*
                 # = top left and bottom right corners of myself.
                 1/0 = is over/is not over.

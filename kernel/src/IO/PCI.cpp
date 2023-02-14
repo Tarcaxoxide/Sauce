@@ -4,6 +4,7 @@
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace IO{
@@ -86,16 +87,16 @@ namespace Sauce{
             "Processing Accelerator",
             "Non Essential Instrumentation"
         };
-        const char* GetVenderName(uint16_t VendorID){
+        const _std::string GetVenderName(uint16_t VendorID){
             Sauce::IO::Debug::Debugger_st Debugger("GetVenderName",_NAMESPACE_,_ALLOW_PRINT_);
             switch(VendorID){
                 case 0x8086:{return "Intel Corperation";}
                 case 0x1022:{return "AMD";}
                 case 0x10DE:{return "NVIDIA Corperation";}
-                default: {return (const char*)Sauce::Utility::Conversion::HexToString(VendorID);}
+                default: {return Sauce::Utility::Conversion::HexToString(VendorID);}
             }
         }
-        const char* GetDeviceName(uint16_t VendorID,uint16_t DeviceID){
+        const _std::string GetDeviceName(uint16_t VendorID,uint16_t DeviceID){
             Sauce::IO::Debug::Debugger_st Debugger("GetDeviceName",_NAMESPACE_,_ALLOW_PRINT_);
             switch(VendorID){
                 case 0x8086:{
@@ -112,10 +113,10 @@ namespace Sauce{
                 case 0x10DE:{
                     switch(DeviceID){}
                 }
-                default: {return (const char*)Sauce::Utility::Conversion::HexToString(DeviceID);}
+                default: {return Sauce::Utility::Conversion::HexToString(DeviceID);}
             }
         }
-        const char* GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode){
+        const _std::string GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode){
             Sauce::IO::Debug::Debugger_st Debugger("GetSubClassName",_NAMESPACE_,_ALLOW_PRINT_);
             switch(ClassCode){
                 case 0x01:{
@@ -168,10 +169,10 @@ namespace Sauce{
                         case 0x80:{return "SerialBusController - Other";}
                     }
                 }
-                default:{return (const char*)Sauce::Utility::Conversion::HexToString(SubClassCode);}
+                default:{return Sauce::Utility::Conversion::HexToString(SubClassCode);}
             }
         }
-        const char* GetProgIFName(uint8_t ClassCode, uint8_t SubClassCode, uint8_t ProgIFCode){
+        const _std::string GetProgIFName(uint8_t ClassCode, uint8_t SubClassCode, uint8_t ProgIFCode){
             Sauce::IO::Debug::Debugger_st Debugger("GetProgIFName",_NAMESPACE_,_ALLOW_PRINT_);
             switch (ClassCode){
                 case 0x01:{
@@ -209,7 +210,7 @@ namespace Sauce{
                         }
                     }
                 }
-                default:{return (const char*)Sauce::Utility::Conversion::HexToString(SubClassCode);}
+                default:{return Sauce::Utility::Conversion::HexToString(SubClassCode);}
             }
         }
     };

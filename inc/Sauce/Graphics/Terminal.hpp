@@ -1,7 +1,4 @@
 #include<Sauce/Common.hpp>
-#include<Sauce/Types.hpp>
-#include<Sauce/Math.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #include<_std/string.hpp>
 #pragma once
 namespace Sauce{

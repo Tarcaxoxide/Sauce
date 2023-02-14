@@ -20,7 +20,9 @@
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Math.hpp>
-
+#include<Sauce/IO/Mouse.hpp>
+#include<Sauce/IO/Keyboard.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 namespace Sauce{
     int testcount=0;
 	Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
@@ -34,13 +36,16 @@ namespace Sauce{
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
+        //setup memory
+        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
+
         //setting up divisor for timer interrupt and initializing the heap, should happen after virtual address
         //but before setting up the interrupts.
         Sauce::Interrupts::PIT::SetDivisor(65535/6);
-        Debugger.Print("Kernel ?here?");
+        Debugger.Print("The kernel says hi!");
         Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelEndRef));
         Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelStartRef));
-        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
+        
         Prep_Interrupts();
         asm volatile("sti");
         Prep_IO();
@@ -81,15 +86,15 @@ namespace Sauce{
     }
     void Kernel_cl::Prep_GlobalAllocator(){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::Prep_GlobalAllocator",_NAMESPACE_,_ALLOW_PRINT_);
-        Sauce::Global::PageFrameAllocator = Sauce::Memory::PageFrameAllocator_cl();
+        Sauce::Global::PageFrameAllocator = Sauce::Memory::Management::PageFrameAllocator_cl();
         mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
         Sauce::Global::PageFrameAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
         kernelSize = ((uint64_t)&_KernelEndRef)-((uint64_t)&_KernelStartRef);
         kernelPages = (uint64_t)kernelSize/4096 +1;
         Sauce::Global::PageFrameAllocator.LockPages(&_KernelStartRef,kernelPages);
-        PML4 = (Sauce::Memory::PageTable*)Sauce::Global::PageFrameAllocator.RequestPage();
+        PML4 = (Sauce::Memory::Management::PageTable*)Sauce::Global::PageFrameAllocator.RequestPage();
         Sauce::Memory::memset(PML4,0,0x1000);
-        Sauce::Global::PageTableManager = Sauce::Memory::PageTableManager_cl(PML4);
+        Sauce::Global::PageTableManager = Sauce::Memory::Management::PageTableManager_cl(PML4);
     }
     void Kernel_cl::Prep_VirtualAddresses(){
         Sauce::IO::Debug::Debugger_st Debugger("Kernel_cl::Prep_VirtualAddresses",_NAMESPACE_,_ALLOW_PRINT_);

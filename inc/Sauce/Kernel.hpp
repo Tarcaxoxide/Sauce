@@ -1,12 +1,8 @@
-#include<Sauce/Types.hpp>
 #include<Sauce/Common.hpp>
-#include<Sauce/IO/Keyboard.hpp>
-#include<Sauce/IO/Mouse.hpp>
 #include<Sauce/Interrupts/IDT.hpp>
 #include<Sauce/GDT/GDT.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Interrupts/Interrupts.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #pragma once
 extern uint64_t* _KernelStartRef;
 extern uint64_t* _KernelEndRef;
@@ -14,7 +10,7 @@ namespace Sauce{
     class Kernel_cl{
         private: //private variables
             DataStructure* DFBL;
-            Sauce::Memory::PageTable* PML4=nullptr;
+            Sauce::Memory::Management::PageTable* PML4=nullptr;
             uint64_t mMapEntries;
             uint64_t kernelSize;
             uint64_t kernelPages;

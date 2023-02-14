@@ -1,6 +1,6 @@
 #include<Sauce/Graphics/Window.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
-
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace Graphics{

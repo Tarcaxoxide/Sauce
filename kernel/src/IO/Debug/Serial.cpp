@@ -1,7 +1,4 @@
 #include<Sauce/IO/Debug/Serial.hpp>
-
-
-
 namespace Sauce{
     namespace IO{
         namespace Debug{

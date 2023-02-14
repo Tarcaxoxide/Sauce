@@ -1,9 +1,7 @@
-#include<Sauce/Storage/AHCI.hpp>
-#include<Sauce/Global.hpp>
-#include<Sauce/Types.hpp>
-#include<Sauce/Utility/Manipulations.hpp>
-#include<Sauce/Memory/Memory.hpp>
 #include<_std/string.hpp>
+#include<stddef.h>
+#include<stdint.h>
+#include<Sauce/Memory/List.hpp>
 #pragma once
 namespace Sauce{
     namespace Storage{

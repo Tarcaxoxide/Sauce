@@ -1,6 +1,7 @@
 #include<Sauce/Memory/Memory.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Utility/Conversion.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 #define THRESHOLD sizeof(long)
 

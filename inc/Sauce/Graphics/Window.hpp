@@ -1,11 +1,5 @@
-#include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Graphics/Shell.hpp>
-#include<Sauce/Memory/Memory.hpp>
-#include<Sauce/Memory/List.hpp>
 #include<Sauce/Graphics/Font.hpp>
-#include<Sauce/Types.hpp>
-#include<Sauce/Math.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #pragma once
 namespace Sauce{
     namespace Graphics{

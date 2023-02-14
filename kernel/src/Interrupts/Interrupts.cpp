@@ -6,6 +6,7 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Math.hpp>
 #include<Sauce/Utility/Conversion.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
     namespace Interrupts{

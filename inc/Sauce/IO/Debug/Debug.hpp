@@ -1,5 +1,6 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/NameSpaceIdentifiers.hpp>
+#include<_std/string.hpp>
 #pragma once
 namespace Sauce{
 	namespace Utility{
@@ -35,6 +36,7 @@ namespace Sauce{
                         if(AllowPrint)Sauce::IO::Debug::COM1_Console.Write((char*)text);
                         if(AllowPrint)Sauce::IO::Debug::COM1_Console.Write((char*)"}\n");
                     }
+                    inline void Print(_std::string text){Print(text.Raw());}
                     ~Debugger_st(){
                         if(!AllowPrint)return;
                         Sauce::IO::Debug::COM1_Console.Write((char*)"<[");

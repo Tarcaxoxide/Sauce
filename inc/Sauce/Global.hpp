@@ -1,3 +1,4 @@
+#pragma once
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/Graphics/Terminal.hpp>
@@ -9,7 +10,6 @@
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/Memory/List.hpp>
 #include<Sauce/Kernel.hpp>
-#pragma once
 namespace Sauce{
     namespace Global{
         extern Sauce::Kernel_cl* Kernel;
@@ -17,9 +17,9 @@ namespace Sauce{
         extern Sauce::Graphics::Terminal_cl* Screen; //<- the actual screen(hopefully).
         extern Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
         extern Sauce::Graphics::Shell_cl* Shell;
-        extern Sauce::Memory::PageFrameAllocator_cl PageFrameAllocator;
+        extern Sauce::Memory::Management::PageFrameAllocator_cl PageFrameAllocator;
         extern Sauce::Graphics::Mouse_cl* Mouse;
-        extern Sauce::Memory::PageTableManager_cl PageTableManager;
+        extern Sauce::Memory::Management::PageTableManager_cl PageTableManager;
         extern Sauce::Storage::AHCIDriver_cl* AHCIDriver;
     };
 };

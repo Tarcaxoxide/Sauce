@@ -1,5 +1,4 @@
 #include<Sauce/IO/Debug/Console.hpp>
-
 namespace Sauce{
     namespace IO{
         namespace Debug{

@@ -1,9 +1,10 @@
-#include<Sauce/Types.hpp>
+//#include<Sauce/Types.hpp>
 #include<Sauce/Memory/Heap.hpp>
+#include<Sauce/Memory/Memory.hpp>
 #pragma once
 namespace Sauce{
     namespace Memory{
-        template<typename TT,size_t StageSize=16>
+        template<typename TT,size_t StageSize=32>
         class List_cl{
             TT* Array{nullptr};
             size_t Array_Size{0};
@@ -87,12 +88,15 @@ namespace Sauce{
                 }
             public://Secondary functions
                 bool AddFirst(const TT* nValue){
-                    TT* ValuePtr = nValue;
+                    TT* ValuePtr = (TT*)nValue;
                     while(*ValuePtr){
                         if(!AddFirst(*ValuePtr))return false;
                         ValuePtr++;
                     }
                     return true;
+                }
+                inline bool AddFirst(List_cl<TT> nValue){
+                    return AddFirst(nValue.Raw());
                 }
                 bool AddLast(const TT* nValue){
                     //TT* ValuePtr = nValue;
@@ -101,6 +105,9 @@ namespace Sauce{
                         nValue++;
                     }
                     return true;
+                }
+                inline bool AddLast(List_cl<TT> nValue){
+                    return AddFirst(nValue.Raw());
                 }
                 TT& Get(size_t index){
                     size_t target=(Shift_Value+index)%(Array_Size); // no more out of range errors :) doesn't mean your program will run well though. (Last+1 == First)
@@ -220,6 +227,10 @@ namespace Sauce{
                     return Raw();
                 }
                 TT* operator+=(const TT nValue){
+                    AddLast(nValue);
+                    return Raw();
+                }
+                TT* operator+=(const List_cl<TT> nValue){
                     AddLast(nValue);
                     return Raw();
                 }

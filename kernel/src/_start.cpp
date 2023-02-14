@@ -9,7 +9,6 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader 
     Sauce::IO::Debug::COM6_Good=Sauce::IO::Debug::init_serial(Sauce::IO::Debug::COM6);
     Sauce::IO::Debug::COM7_Good=Sauce::IO::Debug::init_serial(Sauce::IO::Debug::COM7);
     Sauce::IO::Debug::COM8_Good=Sauce::IO::Debug::init_serial(Sauce::IO::Debug::COM8);
-
     if(Sauce::IO::Debug::COM1_Good)Sauce::IO::Debug::COM1_Console.Initialize(Sauce::IO::Debug::COM1);
     if(Sauce::IO::Debug::COM2_Good)Sauce::IO::Debug::COM2_Console.Initialize(Sauce::IO::Debug::COM2);
     if(Sauce::IO::Debug::COM3_Good)Sauce::IO::Debug::COM3_Console.Initialize(Sauce::IO::Debug::COM3);
@@ -18,8 +17,6 @@ extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader 
     if(Sauce::IO::Debug::COM6_Good)Sauce::IO::Debug::COM6_Console.Initialize(Sauce::IO::Debug::COM6);
     if(Sauce::IO::Debug::COM7_Good)Sauce::IO::Debug::COM7_Console.Initialize(Sauce::IO::Debug::COM7);
     if(Sauce::IO::Debug::COM8_Good)Sauce::IO::Debug::COM8_Console.Initialize(Sauce::IO::Debug::COM8);
-    
-
     Sauce::Kernel_cl Kernel(DFBL);
     return DFBL->TestNumber;
 }

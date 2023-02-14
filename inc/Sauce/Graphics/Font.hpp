@@ -1,6 +1,5 @@
-#include<Sauce/Types.hpp>
-#include<Sauce/Math.hpp>
-#include<Sauce/Memory/List.hpp>
+#include<stddef.h>
+#include<stdint.h>
 #pragma once
 namespace Sauce{
     namespace Graphics{
