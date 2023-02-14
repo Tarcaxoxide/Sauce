@@ -79,9 +79,9 @@ namespace Sauce{
     }
     void Kernel_cl::MainLoop(){
         Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::MainLoop",_NAMESPACE_,_ALLOW_PRINT_);
+        asm volatile("sti");
         while(true){
-            AcceptingInterrupts(100);// are accepting interrupts for X miliseconds, X being the number passed to 'AcceptingInterrupts(X)'.
-            DrawUI();// we do all the drawing operations by calling this function, it's effectively 'double buffering'.
+            DrawUI();
         }
     }
     void Kernel_cl::Prep_GlobalAllocator(){
@@ -240,18 +240,14 @@ namespace Sauce{
         }
     }
     void Kernel_cl::DrawUI(){
+        asm volatile("cli");
         Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::DrawUI",_NAMESPACE_,_ALLOW_PRINT_);
         for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
             Sauce::Global::Terminal->CopyFrom(Sauce::Global::Windows[i]);
         }
         Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
         Sauce::Global::Screen->CopyFrom(Sauce::Global::Terminal);
-    }
-    void Kernel_cl::AcceptingInterrupts(size_t TimeSpan){
-        Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::AcceptingInterrupts",_NAMESPACE_,_ALLOW_PRINT_);
         asm volatile("sti");
-        Sauce::Interrupts::PIT::Sleep(TimeSpan);
-        asm volatile("cli");
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Notify",_NAMESPACE_,_ALLOW_PRINT_);

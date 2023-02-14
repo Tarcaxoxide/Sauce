@@ -10,7 +10,6 @@
 #include<_std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
-
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
@@ -21,6 +20,7 @@ namespace Sauce{
         void Shell_cl::PutChar(char chr,bool AddToBuffer){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
             size_t chrindex = (size_t)chr;
+            if(AddToBuffer)Sauce::Global::Kernel->DrawUI();
             switch(chrindex){
                 case '\n':{
                     if(AddToBuffer){
@@ -75,6 +75,7 @@ namespace Sauce{
             for(size_t i=0;i<str.Size();i++){
                 PutChar(str[i],AddToBuffer);
             }
+            Sauce::Global::Kernel->DrawUI();
         }
         bool Shell_cl::GoDown(size_t amount){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoDown",_NAMESPACE_,_ALLOW_PRINT_);
