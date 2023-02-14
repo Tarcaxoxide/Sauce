@@ -1,6 +1,6 @@
-#include<Sauce/Types.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #pragma once
+#include<stddef.h>
+#include<stdint.h>
 namespace Sauce{
     namespace IO{
         namespace ACPI{

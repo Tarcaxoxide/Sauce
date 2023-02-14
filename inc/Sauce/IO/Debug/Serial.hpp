@@ -1,4 +1,3 @@
-#include<Sauce/Types.hpp>
 #include<Sauce/IO/IO.hpp>
 #pragma once
 namespace Sauce{

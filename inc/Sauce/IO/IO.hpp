@@ -1,5 +1,6 @@
-#include<Sauce/Types.hpp>
 #pragma once
+#include<stddef.h>
+#include<stdint.h>
 namespace Sauce{
     namespace IO{
         void io_wait();

@@ -1,7 +1,5 @@
-#include<Sauce/Types.hpp>
-#include<Sauce/Math.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #pragma once
+#include<Sauce/Types.hpp>
 #define PS2LeftButton 0b00000001
 #define PS2RightButton 0b00000010
 #define PS2MiddleButton 0b00000100

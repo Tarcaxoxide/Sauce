@@ -5,6 +5,7 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
+
 namespace Sauce{
     namespace IO{
 		Sauce::Point64_st MousePosition {0,0,0};

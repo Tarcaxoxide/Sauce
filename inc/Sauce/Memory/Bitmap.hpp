@@ -1,5 +1,6 @@
-#include<Sauce/Types.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
+#include<stddef.h>
+#include<stdint.h>
+
 #pragma once
 namespace Sauce{
     namespace Memory{

@@ -2,6 +2,7 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<Sauce/Math.hpp>
 
 
 uint8_t Glyphs[][13*13]={
