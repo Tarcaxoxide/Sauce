@@ -6,7 +6,7 @@ namespace Sauce{
     namespace Utility{
         namespace Conversion{
             _std::string HexToString(uint8_t value,bool ClearBefore){
-                Sauce::IO::Debug::Debugger_st Debugger("HexToString",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
                 unsigned char haxString[512] = {0};
                 uint8_t* valPtr = &value;
                 uint8_t* ptr;
@@ -24,7 +24,7 @@ namespace Sauce{
                 return Result;
             }
             _std::string HexToString(uint16_t value,bool ClearBefore){
-                Sauce::IO::Debug::Debugger_st Debugger("HexToString",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
                 unsigned char haxString[512] = {0};
                 uint16_t* valPtr = &value;
                 uint8_t* ptr;
@@ -42,7 +42,7 @@ namespace Sauce{
                 return Result;
             }
             _std::string HexToString(uint32_t value,bool ClearBefore){
-                Sauce::IO::Debug::Debugger_st Debugger("HexToString",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
                 unsigned char haxString[512] = {0};
                 uint32_t* valPtr = &value;
                 uint8_t* ptr;
@@ -60,7 +60,7 @@ namespace Sauce{
                 return Result;
             }
             _std::string HexToString(uint64_t value,bool ClearBefore){
-                Sauce::IO::Debug::Debugger_st Debugger("HexToString",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
                 unsigned char haxString[512] = {0};
                 uint64_t* valPtr = &value;
                 uint8_t* ptr;
@@ -99,7 +99,7 @@ namespace Sauce{
                 return ToString((int64_t)value,ClearBefore);
             }
 		    _std::string ToString(int64_t value,bool ClearBefore){
-                Sauce::IO::Debug::Debugger_st Debugger("ToString",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
                 unsigned char haxString[512]{0};
                 uint8_t isNegative = 0;
                 if(value < 0){
@@ -127,7 +127,7 @@ namespace Sauce{
                 return Result;
             }
             _std::string ToString(float value,uint16_t decimalPlaces){
-                Sauce::IO::Debug::Debugger_st Debugger("ToString",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
                 _std::string Result = ToString((int)value);
                 if(value < 0){
                     value *= -1;
@@ -142,7 +142,7 @@ namespace Sauce{
                 return Result;
             }
             _std::string ToString(double value,uint16_t decimalPlaces){
-                Sauce::IO::Debug::Debugger_st Debugger("ToString",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
                 _std::string Result = ToString((int)value);
                 if(value < 0){
                     value *= -1;
@@ -157,7 +157,7 @@ namespace Sauce{
                 return Result;
             }
             uint64_t ToUint64(_std::string value){
-                Sauce::IO::Debug::Debugger_st Debugger("ToUint64",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToUint64",_NAMESPACE_,_ALLOW_PRINT_);
                 uint64_t Result=0;
                 for(size_t i=0;(i<30&&i<value.Size());i++){
                     size_t Mag=1;

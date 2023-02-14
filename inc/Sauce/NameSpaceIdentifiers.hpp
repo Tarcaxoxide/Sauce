@@ -1,5 +1,6 @@
 #pragma once
-
+#include<Sauce/Memory/List.hpp>
+#include<_std/string.hpp>
 const static char* _NAMESPACE_="::";
 const static bool _ALLOW_PRINT_=false;
 namespace _std{
@@ -11,7 +12,11 @@ namespace Sauce{
     const static bool _ALLOW_PRINT_=false;
     namespace Graphics{
         const static char* _NAMESPACE_="::Sauce::Graphics";
-        const static bool _ALLOW_PRINT_=false;
+        const static bool _ALLOW_PRINT_=true;
+        namespace Basic{
+            const static char* _NAMESPACE_="::Sauce::Graphics::Basic";
+            const static bool _ALLOW_PRINT_=false;
+        };
     };
     namespace Interrupts{
         const static char* _NAMESPACE_="::Sauce::Interrupts";

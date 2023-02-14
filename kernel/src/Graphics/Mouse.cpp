@@ -26,7 +26,7 @@ uint8_t Glyphs[][13*13]={
 namespace Sauce{
     namespace Graphics{
         void Mouse_cl::PutChar(size_t chr){
-            Sauce::IO::Debug::Debugger_st Debugger("Mouse_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
+            Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
             for(size_t X=0;X<13;X++){
                 for(size_t Y=0;Y<13;Y++){
                     GOP_PixelStructure ThisColor{0,0,0,0xFF};
@@ -45,7 +45,7 @@ namespace Sauce{
         }
         Mouse_cl::Mouse_cl(Sauce::Point64_st InitialPosition)
         :Terminal_cl((13*13),13,InitialPosition){
-            Sauce::IO::Debug::Debugger_st Debugger("Mouse_cl::Mouse_cl",_NAMESPACE_,_ALLOW_PRINT_);
+            Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::Mouse_cl",_NAMESPACE_,_ALLOW_PRINT_);
             Clear();
             PutChar(0);
             Sauce::IO::PS2MouseInitialize(InitialPosition);

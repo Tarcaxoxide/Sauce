@@ -14,12 +14,17 @@ namespace Sauce{
                     size_t indent=0;
                     char* FunctionName;
                     char* thisNameSpace;
+                    char* FileName;
                     bool AllowPrint=false;
-                    Debugger_st(const char* FunctionName,const char* thisNameSpace,bool AllowPrint){
+                    Debugger_st(const char* FileName,const char* FunctionName,const char* thisNameSpace,bool AllowPrint){
                         this->FunctionName=(char*)FunctionName;
                         this->thisNameSpace=(char*)thisNameSpace;
+                        this->FileName=(char*)FileName;
                         this->AllowPrint=AllowPrint;
                         if(!AllowPrint)return;
+                        Sauce::IO::Debug::COM1_Console.Write((char*)"(");
+                        Sauce::IO::Debug::COM1_Console.Write(this->FileName);
+                        Sauce::IO::Debug::COM1_Console.Write((char*)")");
                         Sauce::IO::Debug::COM1_Console.Write((char*)">[");
                         Sauce::IO::Debug::COM1_Console.Write(this->thisNameSpace);
                         Sauce::IO::Debug::COM1_Console.Write((char*)"::");
@@ -39,6 +44,9 @@ namespace Sauce{
                     inline void Print(_std::string text){Print(text.Raw());}
                     ~Debugger_st(){
                         if(!AllowPrint)return;
+                        Sauce::IO::Debug::COM1_Console.Write((char*)"(");
+                        Sauce::IO::Debug::COM1_Console.Write(this->FileName);
+                        Sauce::IO::Debug::COM1_Console.Write((char*)")");
                         Sauce::IO::Debug::COM1_Console.Write((char*)"<[");
                         Sauce::IO::Debug::COM1_Console.Write(this->thisNameSpace);
                         Sauce::IO::Debug::COM1_Console.Write((char*)"::");

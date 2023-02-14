@@ -4,7 +4,7 @@
 
 namespace _std{
     cout_st& cout_st::operator<<(_std::string str){
-        Sauce::IO::Debug::Debugger_st Debugger("cout_st::operator<<",_NAMESPACE_,_ALLOW_PRINT_);
+        Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"cout_st::operator<<",_NAMESPACE_,_ALLOW_PRINT_);
         Sauce::Global::Shell->PutString(str,false);
         return *this;
     }

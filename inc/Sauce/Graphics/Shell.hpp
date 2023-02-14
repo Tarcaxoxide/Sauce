@@ -2,7 +2,7 @@
 #pragma once
 namespace Sauce{
     namespace Graphics{
-        class Shell_cl : public Terminal_cl {
+        class Shell_cl : public Basic::Terminal_cl {
 			Sauce::Point64_st Cursor{0,0,0};
             _std::string CharBuffer;
             public:

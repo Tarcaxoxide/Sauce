@@ -6,7 +6,7 @@ namespace _std{
     struct is_const{
         bool value=false;
         is_const(){
-            Sauce::IO::Debug::Debugger_st Debugger("is_const::is_const",_NAMESPACE_,_ALLOW_PRINT_);
+            Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"is_const::is_const",_NAMESPACE_,_ALLOW_PRINT_);
             try{
                 T xx;
                 xx = (T)0x00;
