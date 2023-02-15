@@ -15,7 +15,7 @@ namespace Sauce{
         const static bool _ALLOW_PRINT_=true;
         namespace DataTypes{
             const static char* _NAMESPACE_="::Sauce::Fauxon::DataTypes";
-            const static bool _ALLOW_PRINT_=false;
+            const static bool _ALLOW_PRINT_=true;
         };
     };
     namespace Graphics{

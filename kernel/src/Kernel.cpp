@@ -23,6 +23,11 @@
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<_std/to_string.hpp>
+
+
+extern "C" int64_t _start(DataStructure* DFBL);
+
 namespace Sauce{
     int testcount=0;
 	Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
@@ -36,16 +41,14 @@ namespace Sauce{
         Prep_GlobalAllocator();
         Prep_VirtualAddresses();
         Prep_GDT();
-        //setup memory
-        Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
-
-        //setting up divisor for timer interrupt and initializing the heap, should happen after virtual address
-        //but before setting up the interrupts.
+        //Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
+        Sauce::Memory::InitalizeHeap((void*)DFBL->TestNumber,0x512);
         Sauce::Interrupts::PIT::SetDivisor(65535/6);
         Debugger.Print("The kernel says hi!");
         Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelEndRef));
         Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelStartRef));
-        
+        Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)this));
+        Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)DFBL->TestNumber));
         Prep_Interrupts();
         asm volatile("sti");
         Prep_IO();
@@ -239,19 +242,25 @@ namespace Sauce{
             }
         }
     }
-    void Kernel_cl::DrawUI(){
+    void Kernel_cl::InterruptsOff(){
         asm volatile("cli");
+    }
+    void Kernel_cl::InterruptsOn(){
+        asm volatile("sti");
+    }
+    void Kernel_cl::DrawUI(){
+        InterruptsOff();
         Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::DrawUI",_NAMESPACE_,_ALLOW_PRINT_);
         for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
             Sauce::Global::Terminal->CopyFrom(Sauce::Global::Windows[i]);
         }
         Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
         Sauce::Global::Screen->CopyFrom(Sauce::Global::Terminal);
-        asm volatile("sti");
+        InterruptsOn();
     }
     void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
         Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Notify",_NAMESPACE_,_ALLOW_PRINT_);
-        asm volatile("cli");
+        Sauce::Global::Kernel->InterruptsOff();
         switch(InterruptData.TypeCode){
             case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
                 Debugger.Print("ITC__Mouse");
@@ -267,7 +276,9 @@ namespace Sauce{
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
                 Debugger.Print("ITC__Time");
+                Debugger.Print(_std::to_string(Sauce::Interrupts::PIT::GetTimeSinceBoot())); 
             }break;
         }
+        Sauce::Global::Kernel->InterruptsOn();
     }
 };

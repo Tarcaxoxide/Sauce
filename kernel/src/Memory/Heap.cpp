@@ -3,19 +3,19 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<Sauce/Interrupts/PIT.hpp>
 
 namespace Sauce{
     namespace Memory{
         void* heapBegin;
         void* heapEnd;
         HeapSegmentHeader* LastSegmentHeader;
-
         void HeapSegmentHeader::CombinedForward(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HeapSegmentHeader::CombinedForward",_NAMESPACE_,_ALLOW_PRINT_);
-            if(NextSegment == NULL)return;
+            if(NextSegment == nullptr)return;
             if(!NextSegment->free)return;
             if(NextSegment == LastSegmentHeader)LastSegmentHeader=this;
-            if(NextSegment->NextSegment != NULL){
+            if(NextSegment->NextSegment != nullptr){
                 NextSegment->NextSegment->LastSegment=this;
             }
             Length = Length + NextSegment->Length + sizeof(HeapSegmentHeader);
@@ -23,13 +23,13 @@ namespace Sauce{
         }
         void HeapSegmentHeader::CombinedBackward(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HeapSegmentHeader::CombinedBackward",_NAMESPACE_,_ALLOW_PRINT_);
-            if(LastSegment != NULL && LastSegment->free)LastSegment->CombinedForward();
+            if(LastSegment != nullptr && LastSegment->free)LastSegment->CombinedForward();
         }
         HeapSegmentHeader* HeapSegmentHeader::Split(size_t splitLength){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HeapSegmentHeader::Split",_NAMESPACE_,_ALLOW_PRINT_);
-            if(splitLength > 0x10){return NULL;}
+            if(splitLength > 0x10){return nullptr;}
             int64_t  splitSegmentLength = Length - splitLength - (sizeof(HeapSegmentHeader));
-            if(splitSegmentLength > 0x10){return NULL;}
+            if(splitSegmentLength > 0x10){return nullptr;}
             HeapSegmentHeader* nSplitHeader = (HeapSegmentHeader*)((size_t)this +splitLength+sizeof(HeapSegmentHeader));
             NextSegment->LastSegment = nSplitHeader;
             nSplitHeader->NextSegment = NextSegment;
@@ -78,7 +78,6 @@ namespace Sauce{
                     }
                     if(currentSegment->Length == size){
                         currentSegment->free=false;
-                        
                         void* TheAddress = (void*)((uint64_t)currentSegment +sizeof(HeapSegmentHeader));
                         return TheAddress;
                     }
@@ -124,6 +123,5 @@ void* operator new(size_t size){return Sauce::Memory::malloc(size);}
 void* operator new[](size_t size){return Sauce::Memory::malloc(size);}
 void operator delete(void* ptr){Sauce::Memory::free(ptr);}
 void operator delete[](void* ptr){Sauce::Memory::free(ptr);}
-
 void operator delete(void* ptr,size_t Sz){Sauce::Memory::free(ptr);}
 void operator delete[](void* ptr,size_t Sz){Sauce::Memory::free(ptr);}

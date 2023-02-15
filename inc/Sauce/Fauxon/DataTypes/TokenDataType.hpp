@@ -45,7 +45,6 @@ namespace Sauce{
             struct TokenDataType_st:public BaseDataType_st{
                 TokenSubKind_en::TokenSubKind_en RawKind;//used for translation.
                 void* Value{nullptr};
-                TokenDataType_st(void);
                 TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind);
                 TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,_std::string Vin);
                 TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,long double Vin);

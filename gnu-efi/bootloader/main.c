@@ -99,6 +99,7 @@ typedef struct{
 
 EFI_HANDLE _ImageHandle;
 EFI_SYSTEM_TABLE *_SystemTable;
+UINTN KERNEL_SIZE;
 
 EFI_FILE* LoadFile(EFI_FILE* Directory,CHAR16* Path){
 	Print(L"Loading ");
@@ -198,14 +199,14 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 	if(Kernel != NULL){
 		Elf64_Ehdr Kernel_header;
 		UINTN FileInfoSize;
+		
 		EFI_FILE_INFO* FileInfo;
 		Kernel->GetInfo(Kernel,&gEfiFileInfoGuid,&FileInfoSize,NULL);
 		_SystemTable->BootServices->AllocatePool(EfiLoaderData,FileInfoSize,(void**)&FileInfo);
 		Kernel->GetInfo(Kernel,&gEfiFileInfoGuid,&FileInfoSize,(void**)&FileInfo);
-
 		UINTN size = sizeof(Kernel_header);
+		KERNEL_SIZE=size;
 		Print(L"Kernel header format: ");
-
 		Kernel->Read(Kernel,&size,&Kernel_header);
 		if(	memcmp(&Kernel_header.e_ident[EI_MAG0],ELFMAG,SELFMAG) != 0){
 			Print(L"Invalid Magic %d\r\n",memcmp(&Kernel_header.e_ident[EI_MAG0],ELFMAG,SELFMAG));
@@ -249,6 +250,7 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 							Kernel->SetPosition(Kernel,phdr->p_offset);
 							UINTN size = phdr->p_filesz;
 							Kernel->Read(Kernel,&size,(void*)segment);
+							KERNEL_SIZE=size;
 						}break;
 					}
 					// IDK why but on real hardware the system seems to stop here during the 2nd loop around?
@@ -256,7 +258,6 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 				Print(L" Done\n\r");
 				DataStructure nDFBL;
 				int64_t (*KernelStart)(DataStructure* DFBL) = ((__attribute__((sysv_abi)) int64_t (*)(DataStructure* DFBL) ) Kernel_header.e_entry);
-				nDFBL.TestNumber=0x0123456789ABCDEF;
 				nDFBL.FrameBuffer=InitializeGOP();
 				nDFBL.Font=Load_PSF1_FONT(NULL,L"zap-light16.psf");
 				if(nDFBL.Font == NULL){
@@ -302,6 +303,7 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 					nDFBL.mMap=Map;
 					nDFBL.mMapSize = MapSize;
 					nDFBL.mDescriptorSize=DescriptorSize;
+					nDFBL.TestNumber=0xF0000000+KERNEL_SIZE+Kernel_header.e_entry;
 					Print(L"Starting Kernel now!\n\r");
 					_SystemTable->BootServices->ExitBootServices(_ImageHandle,MapKey);
 					int64_t return_code=KernelStart(&nDFBL);

@@ -13,6 +13,7 @@ namespace Sauce{
             uint64_t GetFrequency();
             void SetFrequency(uint64_t frequency);
             void Tick();
+            long double GetTimeSinceBoot();
         };
     };
 };

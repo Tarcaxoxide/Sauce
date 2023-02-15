@@ -2,16 +2,19 @@
 #include<stddef.h>
 #include<stdint.h>
 #include<_std/string.hpp>
+#include<Sauce/IO/Debug/Debug.hpp>
 namespace Sauce{
     namespace Fauxon{
         namespace DataTypes{
             namespace Kind_en{
                 _std::string toString(Kind_en Kind){
+                    Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kind_en::toString",_NAMESPACE_,_ALLOW_PRINT_);
                     _std::string Result="";
                     switch(Kind){
                         case Kind_en::__NULL:{Result="__NULL";}break;
                         case Kind_en::__TOKEN:{Result="__TOKEN";}break;
                     }
+                    Debugger.Print(Result);
                     return Result;
                 }
             };

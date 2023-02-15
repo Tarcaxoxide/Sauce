@@ -6,6 +6,7 @@ namespace Sauce{
         namespace DataTypes{
             namespace TokenSubKind_en{
                 _std::string toString(TokenSubKind_en SubKind){
+                    Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenSubKind_en::toString",_NAMESPACE_,_ALLOW_PRINT_);
                     _std::string Result="";
                     switch(SubKind){
                         case TokenSubKind_en::__NULL:{Result="__NULL";}break;
@@ -42,37 +43,49 @@ namespace Sauce{
                         case TokenSubKind_en::__SMALLEST:{Result="__SMALLEST";}break;
                         case TokenSubKind_en::__ERROR:{Result="__ERROR";}break;
                     };
+                    Debugger.Print(Result);
                     return Result;
                 }
             };
-                
-            TokenDataType_st::TokenDataType_st(void):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)TokenSubKind_en::__NULL){
-                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(void)",_NAMESPACE_,_ALLOW_PRINT_);
-            }
             TokenDataType_st::TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)SubKind){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(SubKind)",_NAMESPACE_,_ALLOW_PRINT_);
             }
             TokenDataType_st::TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,_std::string Vin):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)SubKind){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(SubKind,Word)",_NAMESPACE_,_ALLOW_PRINT_);
                 RawKind=TokenSubKind_en::__WORD;
+                Debugger.Print(Vin);
                 Value = new _std::string(Vin);
             }
             TokenDataType_st::TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,long double Vin):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)SubKind){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(SubKind,Decimal)",_NAMESPACE_,_ALLOW_PRINT_);
                 RawKind=TokenSubKind_en::__DECIMAL_NUMBER;
+                Debugger.Print(_std::to_string(Vin));
                 Value = new long double(Vin);
             }
             TokenDataType_st::TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,int64_t Vin):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)SubKind){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(SubKind,Number)",_NAMESPACE_,_ALLOW_PRINT_);
                 RawKind=TokenSubKind_en::__WHOLE_NUMBER;
+                Debugger.Print(_std::to_string(Vin));
                 Value = new int64_t(Vin);
             }
             _std::string TokenDataType_st::toString(){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::toString",_NAMESPACE_,_ALLOW_PRINT_);
                 _std::string Result="(";
-                if(RawKind == TokenSubKind_en::__WORD)Result+=(*((_std::string*)Value));
-                else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER)Result+=_std::to_string((*((int64_t*)Value)));
-                else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER)Result+=_std::to_string((*((long double*)Value)));
+                Result+=DataTypes::Kind_en::toString(Header.Kind);
+                Result+=DataTypes::TokenSubKind_en::toString((DataTypes::TokenSubKind_en::TokenSubKind_en)Header.SubKind);
+                if(Value != nullptr){
+                    Result+=":";
+                    if(RawKind == TokenSubKind_en::__WORD){
+                        Result+=(*((_std::string*)Value));
+                    }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        Result+=_std::to_string((*((long double*)Value)));
+                    }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        Result+=_std::to_string((*((int64_t*)Value)));
+                    }else{
+                        Result+="?";
+                    }
+                    
+                }
                 Result+=")";
                 Debugger.Print(Result);
                 return Result;

@@ -40,6 +40,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Tick",_NAMESPACE_,_ALLOW_PRINT_);
                 TimeSinceBoot += 1 / (long double)GetFrequency();
             }
+            long double GetTimeSinceBoot(){return TimeSinceBoot;}
         };
     };
 };

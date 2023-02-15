@@ -167,7 +167,8 @@ namespace Sauce{
                     char _char=value[value.Size()-(i+1)];
                     Result+=(_char-0x30)*Mag;
                 }
-                return Result*(negative*-1);
+                if(negative)return -Result;
+                return Result;
             }
             uint64_t ToUint64(_std::string value){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToUint64",_NAMESPACE_,_ALLOW_PRINT_);

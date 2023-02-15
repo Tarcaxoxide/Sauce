@@ -4,6 +4,6 @@
 
 namespace Sauce{
     namespace Fauxon{
-        DataTypes::TokenList_st Tokenize(_std::string sourceCode);
+        void Tokenize(_std::string sourceCode,DataTypes::TokenList_st& Tokens);
     };
 };
