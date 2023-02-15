@@ -1,5 +1,7 @@
 #include<Sauce/Fauxon/DataTypes/TokenDataType.hpp>
 #include<_std/to_string.hpp>
+#include<_std/to_double.hpp>
+#include<_std/to_int.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 namespace Sauce{
     namespace Fauxon{
@@ -48,6 +50,7 @@ namespace Sauce{
                 }
             };
             TokenDataType_st::TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)SubKind){
+                RawKind=TokenSubKind_en::__NULL;
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(SubKind)",_NAMESPACE_,_ALLOW_PRINT_);
             }
             TokenDataType_st::TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,_std::string Vin):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)SubKind){
@@ -84,14 +87,11 @@ namespace Sauce{
                     }else{
                         Result+="?";
                     }
-                    
                 }
                 Result+=")";
                 Debugger.Print(Result);
                 return Result;
             }
-
-            
             _std::string TokenList_st::toString(){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenList_st::toString",_NAMESPACE_,_ALLOW_PRINT_);
                 _std::string Result="[";
@@ -101,6 +101,148 @@ namespace Sauce{
                 Result+="]";
                 Debugger.Print(Result);
                 return Result;
+            }
+            void TokenDataType_st::append(const TokenDataType_st& Other){
+                if(Value != nullptr){
+                    if(RawKind == TokenSubKind_en::__WORD){
+                        if(Other.RawKind == TokenSubKind_en::__WORD){
+                            (*((_std::string*)Value))+=(*((_std::string*)Other.Value));
+                        }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                            (*((_std::string*)Value))+=_std::to_string((*((long double*)Other.Value)));
+                        }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                            (*((_std::string*)Value))+=_std::to_string((*((int64_t*)Other.Value)));
+                        }
+                    }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        if(Other.RawKind == TokenSubKind_en::__WORD){
+                            _std::string tmp = _std::to_string((*((long double*)Value)));
+                            tmp+=(*((_std::string*)Other.Value));
+                            delete ((long double*)Value);
+                            Value = new _std::string(tmp);
+                            RawKind=TokenSubKind_en::__WORD;
+                            Header.SubKind=TokenSubKind_en::__WORD;
+                        }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                            _std::string tmpOther = _std::to_string((*((long double*)Other.Value)));
+                            _std::string tmp = _std::to_string((*((long double*)Value)));
+                            tmp+=tmpOther;
+                            (*((long double*)Value))=_std::to_double(tmp);
+                        }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                            _std::string tmpOther = _std::to_string((*((int64_t*)Other.Value)));
+                            _std::string tmp = _std::to_string((*((long double*)Value)));
+                            tmp+=tmpOther;
+                            (*((long double*)Value))=_std::to_double(tmp);
+                        }
+                    }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        if(Other.RawKind == TokenSubKind_en::__WORD){
+                            _std::string tmp = _std::to_string((*((int64_t*)Value)));
+                            tmp+=(*((_std::string*)Other.Value));
+                            delete ((int64_t*)Value);
+                            Value = new _std::string(tmp);
+                            RawKind=TokenSubKind_en::__WORD;
+                            Header.SubKind=TokenSubKind_en::__WORD;
+                        }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                            _std::string tmpOther = _std::to_string((*((long double*)Other.Value)));
+                            _std::string tmp = _std::to_string((*((int64_t*)Value)));
+                            tmp+=tmpOther;
+                            (*((long double*)Value))=_std::to_int(tmp);
+                        }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                            _std::string tmpOther = _std::to_string((*((int64_t*)Other.Value)));
+                            _std::string tmp = _std::to_string((*((int64_t*)Value)));
+                            tmp+=tmpOther;
+                            (*((long double*)Value))=_std::to_int(tmp);
+                        }
+                    }
+                }
+            }
+            void TokenDataType_st::add(const TokenDataType_st& Other){
+                if(RawKind == TokenSubKind_en::__WORD){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]+(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((long double*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]+tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((int64_t*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]+tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }
+                }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((long double*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]+(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((long double*)Value))+=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((long double*)Value))+=(*((int64_t*)Other.Value));
+                    }
+                }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((int64_t*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]+(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((int64_t*)Value))+=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((int64_t*)Value))+=(*((int64_t*)Other.Value));
+                    }
+                }
             }
         };
     };

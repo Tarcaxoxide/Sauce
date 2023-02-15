@@ -50,6 +50,8 @@ namespace Sauce{
                 TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,long double Vin);
                 TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,int64_t Vin);
                 _std::string toString();
+                void append(const TokenDataType_st& Other);
+                void add(const TokenDataType_st& Other);
             };
             struct TokenList_st:public Sauce::Memory::List_cl<TokenDataType_st>{
                 _std::string toString();
