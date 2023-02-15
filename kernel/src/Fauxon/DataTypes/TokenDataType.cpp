@@ -102,6 +102,7 @@ namespace Sauce{
                 Debugger.Print(Result);
                 return Result;
             }
+/////////////////////////////////////////////////////////////////
             void TokenDataType_st::append(const TokenDataType_st& Other){
                 if(Value != nullptr){
                     if(RawKind == TokenSubKind_en::__WORD){
@@ -153,6 +154,7 @@ namespace Sauce{
                     }
                 }
             }
+/////////////////////////////////////////////////////////////////
             void TokenDataType_st::add(const TokenDataType_st& Other){
                 if(RawKind == TokenSubKind_en::__WORD){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -241,6 +243,282 @@ namespace Sauce{
                         (*((int64_t*)Value))+=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((int64_t*)Value))+=(*((int64_t*)Other.Value));
+                    }
+                }
+            }
+/////////////////////////////////////////////////////////////////
+            void TokenDataType_st::subtract(const TokenDataType_st& Other){
+                if(RawKind == TokenSubKind_en::__WORD){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]-(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((long double*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]-tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((int64_t*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]-tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }
+                }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((long double*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]-(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((long double*)Value))-=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((long double*)Value))-=(*((int64_t*)Other.Value));
+                    }
+                }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((int64_t*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]-(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((int64_t*)Value))-=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((int64_t*)Value))-=(*((int64_t*)Other.Value));
+                    }
+                }
+            }
+/////////////////////////////////////////////////////////////////
+            void TokenDataType_st::multiply(const TokenDataType_st& Other){
+                if(RawKind == TokenSubKind_en::__WORD){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]*(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((long double*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]*tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((int64_t*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]*tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }
+                }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((long double*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]*(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((long double*)Value))*=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((long double*)Value))*=(*((int64_t*)Other.Value));
+                    }
+                }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((int64_t*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]*(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((int64_t*)Value))*=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((int64_t*)Value))*=(*((int64_t*)Other.Value));
+                    }
+                }
+            }
+/////////////////////////////////////////////////////////////////
+            void TokenDataType_st::divide(const TokenDataType_st& Other){
+                if(RawKind == TokenSubKind_en::__WORD){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]/(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((long double*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]/tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((int64_t*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]/tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }
+                }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((long double*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]/(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((long double*)Value))/=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((long double*)Value))/=(*((int64_t*)Other.Value));
+                    }
+                }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((int64_t*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]/(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((int64_t*)Value))/=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((int64_t*)Value))/=(*((int64_t*)Other.Value));
                     }
                 }
             }

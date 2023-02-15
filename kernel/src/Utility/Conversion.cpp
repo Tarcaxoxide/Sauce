@@ -156,6 +156,80 @@ namespace Sauce{
                 }
                 return Result;
             }
+            ///
+            _std::string ToString(Sauce::uPoint8_st value){
+                _std::string Result="";
+                Result+=ToString(value.X);
+                Result+=".";
+                Result+=ToString(value.Y);
+                Result+=".";
+                Result+=ToString(value.Z);
+                return Result;
+            }
+			_std::string ToString(Sauce::uPoint16_st value){
+                _std::string Result="";
+                Result+=ToString(value.X);
+                Result+=".";
+                Result+=ToString(value.Y);
+                Result+=".";
+                Result+=ToString(value.Z);
+                return Result;
+            }
+			_std::string ToString(Sauce::uPoint32_st value){
+                _std::string Result="";
+                Result+=ToString(value.X);
+                Result+=".";
+                Result+=ToString(value.Y);
+                Result+=".";
+                Result+=ToString(value.Z);
+                return Result;
+            }
+			_std::string ToString(Sauce::uPoint64_st value){
+                _std::string Result="";
+                Result+=ToString(value.X);
+                Result+=".";
+                Result+=ToString(value.Y);
+                Result+=".";
+                Result+=ToString(value.Z);
+                return Result;
+            }
+			_std::string ToString(Sauce::Point8_st value){
+                _std::string Result="";
+                Result+=ToString(value.X);
+                Result+=".";
+                Result+=ToString(value.Y);
+                Result+=".";
+                Result+=ToString(value.Z);
+                return Result;
+            }
+			_std::string ToString(Sauce::Point16_st value){
+                _std::string Result="";
+                Result+=ToString(value.X);
+                Result+=".";
+                Result+=ToString(value.Y);
+                Result+=".";
+                Result+=ToString(value.Z);
+                return Result;
+            }
+			_std::string ToString(Sauce::Point32_st value){
+                _std::string Result="";
+                Result+=ToString(value.X);
+                Result+=".";
+                Result+=ToString(value.Y);
+                Result+=".";
+                Result+=ToString(value.Z);
+                return Result;
+            }
+			_std::string ToString(Sauce::Point64_st value){
+                _std::string Result="";
+                Result+=ToString(value.X);
+                Result+=".";
+                Result+=ToString(value.Y);
+                Result+=".";
+                Result+=ToString(value.Z);
+                return Result;
+            }
+            ///
             int64_t ToInt64(_std::string value){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToInt64",_NAMESPACE_,_ALLOW_PRINT_);
                 uint64_t Result=0;
@@ -201,6 +275,238 @@ namespace Sauce{
                 }
                 long double Result=PostDotNumber+PreDotNumber;
                 return Result;
+            }
+            Sauce::uPoint8_st TouPoint8(_std::string value){
+                size_t dot_counter=0;
+                uint8_t X=0,Y=0,Z=0;
+                _std::string tmp="";
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){
+                        switch(dot_counter){
+                            case 0:{
+                                X = (uint8_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 1:{
+                                Y = (uint8_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 2:{
+                                Z = (uint8_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            default:{return Sauce::uPoint8_st{X,Y,Z};}break;
+                        }
+                    }
+                    tmp+=value[i];
+                }
+                return Sauce::uPoint8_st{X,Y,Z};
+            }
+			Sauce::uPoint16_st TouPoint16(_std::string value){
+                size_t dot_counter=0;
+                uint16_t X=0,Y=0,Z=0;
+                _std::string tmp="";
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){
+                        switch(dot_counter){
+                            case 0:{
+                                X = (uint16_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 1:{
+                                Y = (uint16_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 2:{
+                                Z = (uint16_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            default:{return Sauce::uPoint16_st{X,Y,Z};}break;
+                        }
+                    }
+                    tmp+=value[i];
+                }
+                return Sauce::uPoint16_st{X,Y,Z};
+            }
+			Sauce::uPoint32_st TouPoint32(_std::string value){
+                size_t dot_counter=0;
+                uint32_t X=0,Y=0,Z=0;
+                _std::string tmp="";
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){
+                        switch(dot_counter){
+                            case 0:{
+                                X = (uint32_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 1:{
+                                Y = (uint32_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 2:{
+                                Z = (uint32_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            default:{return Sauce::uPoint32_st{X,Y,Z};}break;
+                        }
+                    }
+                    tmp+=value[i];
+                }
+                return Sauce::uPoint32_st{X,Y,Z};
+            }
+			Sauce::uPoint64_st TouPoint64(_std::string value){
+                size_t dot_counter=0;
+                uint64_t X=0,Y=0,Z=0;
+                _std::string tmp="";
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){
+                        switch(dot_counter){
+                            case 0:{
+                                X = (uint64_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 1:{
+                                Y = (uint64_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 2:{
+                                Z = (uint64_t)ToUint64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            default:{return Sauce::uPoint64_st{X,Y,Z};}break;
+                        }
+                    }
+                    tmp+=value[i];
+                }
+                return Sauce::uPoint64_st{X,Y,Z};
+            }
+			Sauce::Point8_st ToPoint8(_std::string value){
+                size_t dot_counter=0;
+                int8_t X=0,Y=0,Z=0;
+                _std::string tmp="";
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){
+                        switch(dot_counter){
+                            case 0:{
+                                X = (int8_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 1:{
+                                Y = (int8_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 2:{
+                                Z = (int8_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            default:{return Sauce::Point8_st{X,Y,Z};}break;
+                        }
+                    }
+                    tmp+=value[i];
+                }
+                return Sauce::Point8_st{X,Y,Z};
+            }
+			Sauce::Point16_st ToPoint16(_std::string value){
+                size_t dot_counter=0;
+                int16_t X=0,Y=0,Z=0;
+                _std::string tmp="";
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){
+                        switch(dot_counter){
+                            case 0:{
+                                X = (int16_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 1:{
+                                Y = (int16_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 2:{
+                                Z = (int16_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            default:{return Sauce::Point16_st{X,Y,Z};}break;
+                        }
+                    }
+                    tmp+=value[i];
+                }
+                return Sauce::Point16_st{X,Y,Z};
+            }
+			Sauce::Point32_st ToPoint32(_std::string value){
+                size_t dot_counter=0;
+                int32_t X=0,Y=0,Z=0;
+                _std::string tmp="";
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){
+                        switch(dot_counter){
+                            case 0:{
+                                X = (int32_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 1:{
+                                Y = (int32_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 2:{
+                                Z = (int32_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            default:{return Sauce::Point32_st{X,Y,Z};}break;
+                        }
+                    }
+                    tmp+=value[i];
+                }
+                return Sauce::Point32_st{X,Y,Z};
+            }
+			Sauce::Point64_st ToPoint64(_std::string value){
+                size_t dot_counter=0;
+                int64_t X=0,Y=0,Z=0;
+                _std::string tmp="";
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){
+                        switch(dot_counter){
+                            case 0:{
+                                X = (int64_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 1:{
+                                Y = (int64_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            case 2:{
+                                Z = (int64_t)ToInt64(tmp);
+                                dot_counter++;
+                                tmp="";
+                            }break;
+                            default:{return Sauce::Point64_st{X,Y,Z};}break;
+                        }
+                    }
+                    tmp+=value[i];
+                }
+                return Sauce::Point64_st{X,Y,Z};
             }
         };
     };

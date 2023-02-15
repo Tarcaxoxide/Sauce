@@ -128,13 +128,11 @@ namespace Sauce{
         }
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
-            Sauce::Global::Kernel->InterruptsOff();
             PutString("\n\r",false);
             Sauce::Fauxon::DataTypes::TokenList_st Tokens;
             Sauce::Fauxon::Tokenize(CharBuffer,Tokens);
             PutString(Tokens.toString(),false);
             ShellClear(false);
-            Sauce::Global::Kernel->InterruptsOn();
         }
         void Shell_cl::ShellClear(bool ClearScreen){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ShellClear",_NAMESPACE_,_ALLOW_PRINT_);

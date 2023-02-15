@@ -22,32 +22,32 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"index",_NAMESPACE_,_ALLOW_PRINT_);
         	return (X + (Y * MaxX));
     	}
-		double round(double number,double medium){
+		long double round(long double number,long double medium){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"round",_NAMESPACE_,_ALLOW_PRINT_);
 			int A1=(int)number;
-			double A2=number-A1;
-			double A=0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
-			A=(double)A1;
+			long double A2=number-A1;
+			long double A=0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+			A=(long double)A1;
 			if(A2 > medium)A+=1.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
-			return (double)A;
+			return (long double)A;
 		}
-		double maximum(double number1,double number2){
+		long double maximum(long double number1,long double number2){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"maximum",_NAMESPACE_,_ALLOW_PRINT_);
 			if(number1>number2)return number1;
 			if(number2>number1)return number2;
 			return number1;// their equal so it doesn't matter.
 		}
-		double minimum(double number1,double number2){
+		long double minimum(long double number1,long double number2){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"minimum",_NAMESPACE_,_ALLOW_PRINT_);
 			if(number1<number2)return number1;
 			if(number2<number1)return number2;
 			return number1;// their equal so it doesn't matter.
 		}
-		double average(double number1,double number2){
+		long double average(long double number1,long double number2){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"average",_NAMESPACE_,_ALLOW_PRINT_);
 			return (number1+number2)/2;
 		}
-		double difference(double number1,double number2){
+		long double difference(long double number1,long double number2){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"difference",_NAMESPACE_,_ALLOW_PRINT_);
 			return Sauce::Math::maximum(number1,number2)/Sauce::Math::minimum(number1,number2);
 		}
@@ -149,7 +149,6 @@ namespace Sauce{
     		    drawCircle(point.X, point.Y, x, y, Circle);
     		}
 		}
-		
 		size_t next = 1;
 		size_t random_get(size_t max){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"random_get",_NAMESPACE_,_ALLOW_PRINT_);

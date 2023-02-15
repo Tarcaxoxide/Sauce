@@ -52,6 +52,9 @@ namespace Sauce{
                 _std::string toString();
                 void append(const TokenDataType_st& Other);
                 void add(const TokenDataType_st& Other);
+                void subtract(const TokenDataType_st& Other);
+                void multiply(const TokenDataType_st& Other);
+                void divide(const TokenDataType_st& Other);
             };
             struct TokenList_st:public Sauce::Memory::List_cl<TokenDataType_st>{
                 _std::string toString();
@@ -59,3 +62,13 @@ namespace Sauce{
         };
     };
 };
+
+
+
+
+/*
+loopLabel:
+Foo();
+Bar();
+if(!condition)goto loopLabel;
+*/
