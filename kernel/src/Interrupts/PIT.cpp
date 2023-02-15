@@ -7,19 +7,19 @@
 namespace Sauce{
     namespace Interrupts{
         namespace PIT{
-            double TimeSinceBoot = 0;
+            long double TimeSinceBoot = 0;
             uint16_t Divisor=65535;
-            void Sleepd(double seconds){
+            void Sleepd(long double seconds){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Sleepd",_NAMESPACE_,_ALLOW_PRINT_);
                 Debugger.Print(Sauce::Utility::Conversion::ToString(seconds));
-                double startTime = TimeSinceBoot;
+                long double startTime = TimeSinceBoot;
                 while(TimeSinceBoot < startTime+seconds){
                     asm("hlt");
                 }
             }
             void Sleep(uint64_t milliseconds){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Sleep",_NAMESPACE_,_ALLOW_PRINT_);
-                Sleepd((double)milliseconds/1000);
+                Sleepd((long double)milliseconds/1000);
             }
             void SetDivisor(uint16_t divisor){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"SetDivisor",_NAMESPACE_,_ALLOW_PRINT_);
@@ -38,7 +38,7 @@ namespace Sauce{
             }
             void Tick(){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Tick",_NAMESPACE_,_ALLOW_PRINT_);
-                TimeSinceBoot += 1 / (double)GetFrequency();
+                TimeSinceBoot += 1 / (long double)GetFrequency();
             }
         };
     };

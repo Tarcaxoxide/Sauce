@@ -141,7 +141,7 @@ namespace Sauce{
                 }
                 return Result;
             }
-            _std::string ToString(double value,uint16_t decimalPlaces){
+            _std::string ToString(long double value,uint16_t decimalPlaces){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
                 _std::string Result = ToString((int)value);
                 if(value < 0){
@@ -156,15 +156,49 @@ namespace Sauce{
                 }
                 return Result;
             }
-            uint64_t ToUint64(_std::string value){
-                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToUint64",_NAMESPACE_,_ALLOW_PRINT_);
+            int64_t ToInt64(_std::string value){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToInt64",_NAMESPACE_,_ALLOW_PRINT_);
                 uint64_t Result=0;
+                bool negative=(value.First() == '-');
+                if(value.First() == '-'||value.First() == '+')value.RemoveFirst();
                 for(size_t i=0;(i<30&&i<value.Size());i++){
                     size_t Mag=1;
                     for(size_t ii=0;ii<i;ii++){Mag*=10;}
                     char _char=value[value.Size()-(i+1)];
                     Result+=(_char-0x30)*Mag;
                 }
+                return Result*(negative*-1);
+            }
+            uint64_t ToUint64(_std::string value){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToUint64",_NAMESPACE_,_ALLOW_PRINT_);
+                uint64_t Result=0;
+                if(value.First() == '-'||value.First() == '+')value.RemoveFirst();
+                for(size_t i=0;(i<30&&i<value.Size());i++){
+                    size_t Mag=1;
+                    for(size_t ii=0;ii<i;ii++){Mag*=10;}
+                    char _char=value[value.Size()-(i+1)];
+                    Result+=(_char-0x30)*Mag;
+                }
+                return Result;
+            }
+            long double ToDouble(_std::string value){
+                _std::string PreDot="";
+                _std::string PostDot="";
+                bool AfterDot=false;
+                for(size_t i=0;i<value.Size();i++){
+                    if(value[i] == '.'){AfterDot=true;continue;}
+                    if(AfterDot){
+                        PostDot+=value[i];
+                    }else{
+                        PreDot+=value[i];
+                    }
+                }
+                long double PreDotNumber=(long double)ToInt64(PreDot);
+                long double PostDotNumber=(long double)ToInt64(PostDot);
+                for(size_t i=0;i<PostDot.Size();i++){
+                    PostDotNumber/=10;
+                }
+                long double Result=PostDotNumber+PreDotNumber;
                 return Result;
             }
         };

@@ -10,6 +10,14 @@ namespace _std{
 namespace Sauce{
     const static char* _NAMESPACE_="::Sauce";
     const static bool _ALLOW_PRINT_=false;
+    namespace Fauxon{
+        const static char* _NAMESPACE_="::Sauce::Fauxon";
+        const static bool _ALLOW_PRINT_=true;
+        namespace DataTypes{
+            const static char* _NAMESPACE_="::Sauce::Fauxon::DataTypes";
+            const static bool _ALLOW_PRINT_=false;
+        };
+    };
     namespace Graphics{
         const static char* _NAMESPACE_="::Sauce::Graphics";
         const static bool _ALLOW_PRINT_=true;

@@ -9,6 +9,7 @@
 #include<_std/functional.hpp>
 #include<_std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<Sauce/Fauxon/Tokenize.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -127,24 +128,11 @@ namespace Sauce{
         }
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
-            _std::deque<_std::string> ArgBuffer;
-            {/*Parse command string*/
-                size_t CrawlerVal=0;
-                for(size_t i=0;i<CharBuffer.Size();i++){
-                    if(CharBuffer[i] == ' ' || CharBuffer[i] == '\n'){
-                        _std::string str;
-                        for(size_t a=CrawlerVal;a<i;a++){
-                            if(!(CharBuffer[a] == ' ' || CharBuffer[a] == '\n')){
-                                str.AddLast((char)CharBuffer[a]);
-                            }
-                        }
-                        ArgBuffer.AddLast(str.Raw());
-                        CrawlerVal=i;
-                    }
-                }
-            }
+            PutString("\n\r",false);
+            PutString(CharBuffer,false); // <- prints it out to the terminal
+            Debugger.Print(CharBuffer); // <- but wont print it out to serial
+            Sauce::Fauxon::Tokenize(CharBuffer); //<- or pass it as a parameter.
             ShellClear(false);
-            //Run Command
         }
         void Shell_cl::ShellClear(bool ClearScreen){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ShellClear",_NAMESPACE_,_ALLOW_PRINT_);
