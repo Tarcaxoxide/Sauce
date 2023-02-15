@@ -96,9 +96,10 @@ namespace Sauce{
                     }
                     return true;
                 }
-                inline bool AddFirst(List_cl<TT> nValue){
-                    return AddFirst(nValue.Raw());
-                }
+                inline bool AddFirst(List_cl<TT> nValue){return AddFirst(nValue.Raw());}
+                inline bool push_front(const TT* nValue){return AddFirst(nValue);}
+                inline bool push_front(List_cl<TT> nValue){return AddFirst(nValue);}
+                inline bool pop_front(){return RemoveFirst();}
                 bool AddLast(const TT* nValue){
                     //TT* ValuePtr = nValue;
                     while(*nValue){
@@ -107,20 +108,30 @@ namespace Sauce{
                     }
                     return true;
                 }
-                inline bool AddLast(List_cl<TT> nValue){
-                    return AddLast(nValue.Raw());
-                }
-                TT& Get(size_t index){
+                inline bool AddLast(List_cl<TT> nValue){return AddLast(nValue.Raw());}
+                inline bool push_back(const TT* nValue){return AddLast(nValue);}
+                inline bool push_back(List_cl<TT> nValue){return AddLast(nValue);}
+                inline bool pop_back(){return RemoveLast();}
+                TT& Get(size_t index)const{
                     size_t target=(Shift_Value+index)%(Array_Size); // no more out of range errors :) doesn't mean your program will run well though. (Last+1 == First)
                     return ((TT*)Array)[target];
                 }
-                TT& First(){
+                TT& First()const{
                     return Get(0); // the first element, it's always the 0th element *shrug* unless shift_value is specified but that's taken care of.
                 }
-                TT& Last(){
+                TT& front()const{
+                    return First(); // the first element, it's always the 0th element *shrug* unless shift_value is specified but that's taken care of.
+                }
+                TT& Last()const{
                     return Get(Array_Size-1);
                 }
-                TT* Raw(){
+                TT& back()const{
+                    return Last();
+                }
+                TT* Raw()const{
+                    return ((TT*)Array);
+                }
+                TT* c_str()const{
                     return ((TT*)Array);
                 }
                 size_t Count(){
