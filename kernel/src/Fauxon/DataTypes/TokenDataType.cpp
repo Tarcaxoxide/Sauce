@@ -71,7 +71,13 @@ namespace Sauce{
                 Debugger.Print(_std::to_string(Vin));
                 Value = new int64_t(Vin);
             }
-            _std::string TokenDataType_st::toString(){
+            TokenDataType_st::TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,Sauce::Point64_st Vin):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)SubKind){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(SubKind,Point)",_NAMESPACE_,_ALLOW_PRINT_);
+                RawKind=TokenSubKind_en::__POINT_NUMBER;
+                Debugger.Print(_std::to_string(Vin));
+                Value = new Sauce::Point64_st{Vin.X,Vin.Y,Vin.Z};
+            }
+            _std::string TokenDataType_st::toString()const{
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::toString",_NAMESPACE_,_ALLOW_PRINT_);
                 _std::string Result="(";
                 Result+=DataTypes::Kind_en::toString(Header.Kind);
@@ -84,7 +90,10 @@ namespace Sauce{
                         Result+=_std::to_string((*((long double*)Value)));
                     }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         Result+=_std::to_string((*((int64_t*)Value)));
-                    }else{
+                    }else if(RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        Result+=_std::to_string((*((Sauce::Point64_st*)Value)));
+                    }
+                    else{
                         Result+="?";
                     }
                 }
@@ -104,6 +113,9 @@ namespace Sauce{
             }
 /////////////////////////////////////////////////////////////////
             void TokenDataType_st::append(const TokenDataType_st& Other){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::append",_NAMESPACE_,_ALLOW_PRINT_);
+                Debugger.Print(this->toString());
+                Debugger.Print(Other.toString());
                 if(Value != nullptr){
                     if(RawKind == TokenSubKind_en::__WORD){
                         if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -112,6 +124,8 @@ namespace Sauce{
                             (*((_std::string*)Value))+=_std::to_string((*((long double*)Other.Value)));
                         }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                             (*((_std::string*)Value))+=_std::to_string((*((int64_t*)Other.Value)));
+                        }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                            (*((_std::string*)Value))+=_std::to_string((*((Sauce::Point64_st*)Other.Value)));
                         }
                     }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
                         if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -131,6 +145,8 @@ namespace Sauce{
                             _std::string tmp = _std::to_string((*((long double*)Value)));
                             tmp+=tmpOther;
                             (*((long double*)Value))=_std::to_double(tmp);
+                        }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                            // Skipping for now (69.69) append (69.69.69)
                         }
                     }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -150,12 +166,19 @@ namespace Sauce{
                             _std::string tmp = _std::to_string((*((int64_t*)Value)));
                             tmp+=tmpOther;
                             (*((long double*)Value))=_std::to_int(tmp);
+                        }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                            // Skipping for now (69) append (69.69.69)
                         }
+                    }else if(RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        // Skipping for now (69.69.69) append (...)
                     }
                 }
             }
 /////////////////////////////////////////////////////////////////
             void TokenDataType_st::add(const TokenDataType_st& Other){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::add",_NAMESPACE_,_ALLOW_PRINT_);
+                Debugger.Print(this->toString());
+                Debugger.Print(Other.toString());
                 if(RawKind == TokenSubKind_en::__WORD){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
                         size_t size = (*((_std::string*)Value)).Size();
@@ -201,6 +224,21 @@ namespace Sauce{
                             }
                         }
                         (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((Sauce::Point64_st*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]+tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
                     }
                 }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -222,6 +260,10 @@ namespace Sauce{
                         (*((long double*)Value))+=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((long double*)Value))+=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((long double*)Value))+=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((long double*)Value))+=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((long double*)Value))+=(*((Sauce::Point64_st*)Other.Value)).Z;
                     }
                 }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -243,11 +285,47 @@ namespace Sauce{
                         (*((int64_t*)Value))+=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((int64_t*)Value))+=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((int64_t*)Value))+=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((int64_t*)Value))+=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((int64_t*)Value))+=(*((Sauce::Point64_st*)Other.Value)).Z;
+                    }
+                }else if(RawKind == TokenSubKind_en::__POINT_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((Sauce::Point64_st*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]+(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X+=(*((long double*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Y+=(*((long double*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Z+=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X+=(*((int64_t*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Y+=(*((int64_t*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Z+=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X+=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((Sauce::Point64_st*)Value)).Y+=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((Sauce::Point64_st*)Value)).Z+=(*((Sauce::Point64_st*)Other.Value)).Z;
                     }
                 }
             }
 /////////////////////////////////////////////////////////////////
             void TokenDataType_st::subtract(const TokenDataType_st& Other){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::subtract",_NAMESPACE_,_ALLOW_PRINT_);
+                Debugger.Print(this->toString());
+                Debugger.Print(Other.toString());
                 if(RawKind == TokenSubKind_en::__WORD){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
                         size_t size = (*((_std::string*)Value)).Size();
@@ -293,6 +371,21 @@ namespace Sauce{
                             }
                         }
                         (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((Point64_st*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]-tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
                     }
                 }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -314,6 +407,10 @@ namespace Sauce{
                         (*((long double*)Value))-=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((long double*)Value))-=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((long double*)Value))-=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((long double*)Value))-=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((long double*)Value))-=(*((Sauce::Point64_st*)Other.Value)).Z;
                     }
                 }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -335,11 +432,47 @@ namespace Sauce{
                         (*((int64_t*)Value))-=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((int64_t*)Value))-=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((int64_t*)Value))-=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((int64_t*)Value))-=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((int64_t*)Value))-=(*((Sauce::Point64_st*)Other.Value)).Z;
+                    }
+                }else if(RawKind == TokenSubKind_en::__POINT_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((Sauce::Point64_st*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]-(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X-=(*((long double*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Y-=(*((long double*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Z-=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X-=(*((int64_t*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Y-=(*((int64_t*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Z-=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X-=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((Sauce::Point64_st*)Value)).Y-=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((Sauce::Point64_st*)Value)).Z-=(*((Sauce::Point64_st*)Other.Value)).Z;
                     }
                 }
             }
 /////////////////////////////////////////////////////////////////
             void TokenDataType_st::multiply(const TokenDataType_st& Other){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::multiply",_NAMESPACE_,_ALLOW_PRINT_);
+                Debugger.Print(this->toString());
+                Debugger.Print(Other.toString());
                 if(RawKind == TokenSubKind_en::__WORD){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
                         size_t size = (*((_std::string*)Value)).Size();
@@ -385,6 +518,21 @@ namespace Sauce{
                             }
                         }
                         (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((Sauce::Point64_st*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]*tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
                     }
                 }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -406,6 +554,10 @@ namespace Sauce{
                         (*((long double*)Value))*=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((long double*)Value))*=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((long double*)Value))*=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((long double*)Value))*=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((long double*)Value))*=(*((Sauce::Point64_st*)Other.Value)).Z;
                     }
                 }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -427,11 +579,47 @@ namespace Sauce{
                         (*((int64_t*)Value))*=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((int64_t*)Value))*=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((int64_t*)Value))*=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((int64_t*)Value))*=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((int64_t*)Value))*=(*((Sauce::Point64_st*)Other.Value)).Z;
+                    }
+                }else if(RawKind == TokenSubKind_en::__POINT_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((Sauce::Point64_st*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]*(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X*=(*((long double*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Y*=(*((long double*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Z*=(*((long double*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X*=(*((int64_t*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Y*=(*((int64_t*)Other.Value));
+                        (*((Sauce::Point64_st*)Value)).Z*=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X*=(*((Sauce::Point64_st*)Other.Value)).X;
+                        (*((Sauce::Point64_st*)Value)).Y*=(*((Sauce::Point64_st*)Other.Value)).Y;
+                        (*((Sauce::Point64_st*)Value)).Z*=(*((Sauce::Point64_st*)Other.Value)).Z;
                     }
                 }
             }
 /////////////////////////////////////////////////////////////////
             void TokenDataType_st::divide(const TokenDataType_st& Other){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::divide",_NAMESPACE_,_ALLOW_PRINT_);
+                Debugger.Print(this->toString());
+                Debugger.Print(Other.toString());
                 if(RawKind == TokenSubKind_en::__WORD){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
                         size_t size = (*((_std::string*)Value)).Size();
@@ -477,6 +665,21 @@ namespace Sauce{
                             }
                         }
                         (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        _std::string tmpOther = _std::to_string((*((Sauce::Point64_st*)Other.Value)));
+                        size_t size = (*((_std::string*)Value)).Size();
+                        size_t sizeOther = tmpOther.Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=((*((_std::string*)Value))[i]/tmpOther[i]);
+                            }else if(i<size){
+                                tmp+=((*((_std::string*)Value))[i]);
+                            }else if(i<sizeOther){
+                                tmp+=tmpOther[i];
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
                     }
                 }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -498,6 +701,10 @@ namespace Sauce{
                         (*((long double*)Value))/=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((long double*)Value))/=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((long double*)Value))/=(*((Sauce::Point64_st*)Other.Value)).X;// NOTE: Potential for divide by zero. (please fix).
+                        (*((long double*)Value))/=(*((Sauce::Point64_st*)Other.Value)).Y;// NOTE: Potential for divide by zero. (please fix).
+                        (*((long double*)Value))/=(*((Sauce::Point64_st*)Other.Value)).Z;// NOTE: Potential for divide by zero. (please fix).
                     }
                 }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                     if(Other.RawKind == TokenSubKind_en::__WORD){
@@ -519,6 +726,39 @@ namespace Sauce{
                         (*((int64_t*)Value))/=(*((long double*)Other.Value));
                     }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
                         (*((int64_t*)Value))/=(*((int64_t*)Other.Value));
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((int64_t*)Value))/=(*((Sauce::Point64_st*)Other.Value)).X;// NOTE: Potential for divide by zero. (please fix).
+                        (*((int64_t*)Value))/=(*((Sauce::Point64_st*)Other.Value)).Y;// NOTE: Potential for divide by zero. (please fix).
+                        (*((int64_t*)Value))/=(*((Sauce::Point64_st*)Other.Value)).Z;// NOTE: Potential for divide by zero. (please fix).
+                    }
+                }else if(RawKind == TokenSubKind_en::__POINT_NUMBER){
+                    if(Other.RawKind == TokenSubKind_en::__WORD){
+                        _std::string tmpi = _std::to_string((*((Sauce::Point64_st*)Value)));
+                        size_t size = tmpi.Size();
+                        size_t sizeOther = (*((_std::string*)Other.Value)).Size();
+                        _std::string tmp="";
+                        for(size_t i=0;(i<size||i<sizeOther);i++){
+                            if(i<size&&i<sizeOther){
+                                tmp+=(tmpi[i]/(*((_std::string*)Other.Value))[i]);
+                            }else if(i<size){
+                                tmp+=tmpi[i];
+                            }else if(i<sizeOther){
+                                tmp+=((*((_std::string*)Other.Value))[i]);
+                            }
+                        }
+                        (*((_std::string*)Value))=tmp;
+                    }else if(Other.RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X/=(*((long double*)Other.Value));// NOTE: Potential for divide by zero. (please fix).
+                        (*((Sauce::Point64_st*)Value)).Y/=(*((long double*)Other.Value));// NOTE: Potential for divide by zero. (please fix).
+                        (*((Sauce::Point64_st*)Value)).Z/=(*((long double*)Other.Value));// NOTE: Potential for divide by zero. (please fix).
+                    }else if(Other.RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X/=(*((int64_t*)Other.Value));// NOTE: Potential for divide by zero. (please fix).
+                        (*((Sauce::Point64_st*)Value)).Y/=(*((int64_t*)Other.Value));// NOTE: Potential for divide by zero. (please fix).
+                        (*((Sauce::Point64_st*)Value)).Z/=(*((int64_t*)Other.Value));// NOTE: Potential for divide by zero. (please fix).
+                    }else if(Other.RawKind == TokenSubKind_en::__POINT_NUMBER){
+                        (*((Sauce::Point64_st*)Value)).X/=(*((Sauce::Point64_st*)Other.Value)).X;// NOTE: Potential for divide by zero. (please fix).
+                        (*((Sauce::Point64_st*)Value)).Y/=(*((Sauce::Point64_st*)Other.Value)).Y;// NOTE: Potential for divide by zero. (please fix).
+                        (*((Sauce::Point64_st*)Value)).Z/=(*((Sauce::Point64_st*)Other.Value)).Z;// NOTE: Potential for divide by zero. (please fix).
                     }
                 }
             }

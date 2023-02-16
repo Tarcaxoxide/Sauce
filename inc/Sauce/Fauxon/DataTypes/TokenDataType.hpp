@@ -1,6 +1,7 @@
 #pragma once
 #include<Sauce/Fauxon/DataTypes/BaseDataType.hpp>
 #include<_std/string.hpp>
+#include<Sauce/Types.hpp>
 namespace Sauce{
     namespace Fauxon{
         namespace DataTypes{
@@ -10,6 +11,7 @@ namespace Sauce{
                     /*'a..z|A..Z&...'*/__WORD,
                     /*'0..9&...'*/__WHOLE_NUMBER,
                     /*'WHOLE_NUMBER.WHOLE_NUMBER'*/__DECIMAL_NUMBER,
+                    /*'WHOLE_NUMBER.WHOLE_NUMBER.WHOLE_NUMBER'*/__POINT_NUMBER,
                     /*'+'*/__PLUS,
                     /*'-'*/__MINUS,
                     /*'*'*/__MULTIPLY,
@@ -49,7 +51,8 @@ namespace Sauce{
                 TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,_std::string Vin);
                 TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,long double Vin);
                 TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,int64_t Vin);
-                _std::string toString();
+                TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind,Sauce::Point64_st Vin);
+                _std::string toString()const;
                 void append(const TokenDataType_st& Other);
                 void add(const TokenDataType_st& Other);
                 void subtract(const TokenDataType_st& Other);

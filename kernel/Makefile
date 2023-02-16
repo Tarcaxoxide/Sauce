@@ -8,7 +8,7 @@ ASMC=nasm
 CC = g++
 
 INCDIR=inc
-CFLAGS = -I$(INCDIR) -O0 -Werror -ffreestanding -fshort-wchar -mno-red-zone -fmax-errors=1 -fno-exceptions
+CFLAGS = -I$(INCDIR) -Werror -ffreestanding -fshort-wchar -mno-red-zone -fmax-errors=1 -fno-exceptions
 ASMFLAGS = -I$(INCDIR)
 LDFLAGS = -T $(LDS) -static -Bsymbolic -nostdlib
 
@@ -67,6 +67,7 @@ clean:
 	@rm -frv bin/* lib/*
 
 run: $(BUILDDIR)/$(OSNAME).img
+	@echo "log can be found at ./kernel/$(BUILDDIR)/log.txt"
 	@qemu-system-x86_64 -no-reboot -display gtk,zoom-to-fit=on -smp 2 -serial file:$(BUILDDIR)/log.txt -machine q35 -s -drive format=raw,file=$< -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
 	@read -p "press enter to continue..."
 	@reset
