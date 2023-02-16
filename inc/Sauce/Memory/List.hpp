@@ -14,6 +14,10 @@ namespace Sauce{
                 List_cl(){
                     Clear();
                 }
+                List_cl(const List_cl<TT>& nValue){
+                    Clear();
+                    AddLast(nValue);
+                }
                 List_cl(const TT * nValue){
                     Clear();
                     AddLast(nValue);
@@ -32,9 +36,9 @@ namespace Sauce{
                     AddLast(nValueA);
                     AddLast(nValueB);
                 }
-                //~List_cl(){
-                //    Clear();
-                //}
+                ~List_cl(){
+                    Clear();
+                }
             public://Main functions
                 bool AddFirst(const TT nValue){
                     if(++Array_Size > Array_Capacity){
@@ -96,7 +100,12 @@ namespace Sauce{
                     }
                     return true;
                 }
-                inline bool AddFirst(List_cl<TT> nValue){return AddFirst(nValue.Raw());}
+                inline bool AddFirst(const List_cl<TT>& nValue){
+                    for(size_t i=0;i<nValue.Size();i++){
+                        if(!AddFirst(nValue[i]))return false;
+                    }
+                    return true;
+                }
                 inline bool push_front(const TT* nValue){return AddFirst(nValue);}
                 inline bool push_front(List_cl<TT> nValue){return AddFirst(nValue);}
                 inline bool pop_front(){return RemoveFirst();}
@@ -108,7 +117,12 @@ namespace Sauce{
                     }
                     return true;
                 }
-                inline bool AddLast(List_cl<TT> nValue){return AddLast(nValue.Raw());}
+                inline bool AddLast(const List_cl<TT>& nValue){
+                    for(size_t i=0;i<nValue.Size();i++){
+                        if(!AddLast(nValue[i]))return false;
+                    }
+                    return true;
+                }
                 inline bool push_back(const TT* nValue){return AddLast(nValue);}
                 inline bool push_back(List_cl<TT> nValue){return AddLast(nValue);}
                 inline bool pop_back(){return RemoveLast();}
@@ -134,13 +148,13 @@ namespace Sauce{
                 TT* c_str()const{
                     return ((TT*)Array);
                 }
-                size_t Count(){
+                size_t Count()const{
                     return Array_Size;
                 }
-                size_t Capacity(){
+                size_t Capacity()const{
                     return Array_Capacity;
                 }
-                size_t Size(){
+                size_t Size()const{
                     return Count(); // Size calls count because it's the count of how many elements there are.
                 }
                 void Flip(){
@@ -159,14 +173,14 @@ namespace Sauce{
                     Array_Capacity=0;
                     Array_Size=0;
                 }
-                bool Compare(List_cl<TT> OtherValue){
+                bool Compare(List_cl<TT> OtherValue)const{
                     if(OtherValue.Size() != Array_Size)return false;
                     for(size_t i=0;i<Array_Size;i++){
                         if(Get(i) != OtherValue[i])return false;
                     }
                     return true;
                 }
-                bool Compare(const TT** OtherValues){
+                bool Compare(const TT** OtherValues)const{
                     //Example Usage of this operator:
                     //Equation.Compare(new const char*[]{"1","2","3",nullptr})
                     //new is required because otherwise it complains about taking a pointer to a temporary array.
@@ -249,24 +263,24 @@ namespace Sauce{
                     tmp+=nValue;
                     return tmp.Raw();
                 }
-                TT& operator[](size_t TargetIndex){
+                TT& operator[](size_t TargetIndex)const{
                     return Get(TargetIndex);
                 }
-                bool operator==(const TT* OtherValue){
+                bool operator==(const TT* OtherValue)const{
                     List_cl<TT> OtherTmp(OtherValue);
                     return Compare(OtherTmp);
                 }
-                bool operator==(List_cl<TT> OtherValue){
+                bool operator==(List_cl<TT> OtherValue)const{
                     return Compare(OtherValue);
                 }
-                bool operator!=(const TT* OtherValue){
+                bool operator!=(const TT* OtherValue)const{
                     List_cl<TT> OtherTmp(OtherValue);
                     return !Compare(OtherTmp);
                 }
-                bool operator!=(const TT** OtherValues){
+                bool operator!=(const TT** OtherValues)const{
                     return !Compare(OtherValues);
                 }
-                bool operator!=(List_cl<TT> OtherValue){
+                bool operator!=(List_cl<TT> OtherValue)const{
                     return !Compare(OtherValue);
                 }
                 inline List_cl<TT>& operator<<(List_cl<TT>& OtherValue){
