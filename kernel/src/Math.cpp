@@ -4,6 +4,7 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<_std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<Sauce/Interrupts/PIT.hpp>
 
 namespace Sauce{
     namespace Math{
@@ -157,27 +158,8 @@ namespace Sauce{
 		}
 		void random_seed(size_t seed){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"random_seed",_NAMESPACE_,_ALLOW_PRINT_);
-		    next = seed;
-		}
-		_std::string simple_equation(_std::string A,_std::string Operator,_std::string B){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"simple_equation",_NAMESPACE_,_ALLOW_PRINT_);
-			_std::string Result;
-			uint64_t ValueA=Sauce::Utility::Conversion::ToUint64(A.Raw());
-        	uint64_t ValueB=Sauce::Utility::Conversion::ToUint64(B.Raw());
-        	uint64_t ValueC=0;
-			if(Operator.Compare(new const char*[]{"add","addition","+",nullptr})){
-				ValueC=ValueA+ValueB;
-			}
-			if(Operator.Compare(new const char*[]{"sub","subtract","-",nullptr})){
-				ValueC=ValueA-ValueB;
-			}
-			if(Operator.Compare(new const char*[]{"mul","multiply","times","*",nullptr})){
-				ValueC=ValueA*ValueB;
-			}
-			if(Operator.Compare(new const char*[]{"div","divide","/",nullptr})){
-				ValueC=ValueA/ValueB;
-			}
-			return Sauce::Utility::Conversion::ToString(ValueC);
+
+		    next = (seed?seed:(Sauce::Interrupts::PIT::GetTimeSinceBoot()*10000));
 		}
 	};
 };
