@@ -52,8 +52,7 @@ namespace Sauce{
         Prep_Interrupts();
         asm volatile("sti");
         Prep_IO();
-        asm volatile("cli");//be default we have interrupts disabled and we enable them when we want to recieve them,
-                            //this happens in the main loop when we call 'AcceptingIntterupts'
+        asm volatile("cli");
         Prep_Windows();
         Sauce::IO::outb(PIC1_DATA,0b11111000);
         Sauce::IO::outb(PIC2_DATA,0b11101111);
