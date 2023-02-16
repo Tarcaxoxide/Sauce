@@ -1,4 +1,5 @@
 #include<Sauce/Kernel.hpp>
+#include<Sauce/IO/Debug/Console.hpp>
 
 extern "C" int64_t _start(DataStructure* DFBL){ // DFBL = Data From Boot Loader // I will not be using shortnames like this in userspace.
     Sauce::IO::Debug::COM1_Good=Sauce::IO::Debug::init_serial(Sauce::IO::Debug::COM1);

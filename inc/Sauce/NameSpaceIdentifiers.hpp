@@ -85,9 +85,5 @@ namespace Sauce{
             const static char* _NAMESPACE_="::Sauce::Utility::Manipulate";
             const static bool _ALLOW_PRINT_=false;
         };
-        namespace Neural{
-            const static char* _NAMESPACE_="::Sauce::Utility::Neural";
-            const static bool _ALLOW_PRINT_=false;
-        };
     };
 };

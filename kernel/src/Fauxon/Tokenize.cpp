@@ -105,7 +105,7 @@ namespace Sauce{
                     }
                     Debugger.Print("Number?");
                     Debugger.Print(tmp);
-                    if(dot_count > 2){
+                    if(dot_count >= 3){
                         _std::string msg="Malformed decimal or number '";
                         msg+=tmp;
                         msg+="' at index ";
@@ -115,8 +115,7 @@ namespace Sauce{
                         Tokens.AddLast(DataTypes::TokenDataType_st(Sauce::Fauxon::DataTypes::TokenSubKind_en::__DECIMAL_NUMBER,_std::to_double(tmp)));
                     }else if(dot_count == 2){
                         Tokens.AddLast(DataTypes::TokenDataType_st(Sauce::Fauxon::DataTypes::TokenSubKind_en::__POINT_NUMBER,_std::to_point(tmp)));
-                    }
-                    else{
+                    }else if(dot_count == 0){
                         Tokens.AddLast(DataTypes::TokenDataType_st(Sauce::Fauxon::DataTypes::TokenSubKind_en::__WHOLE_NUMBER,_std::to_int(tmp)));
                     }
                 }else{

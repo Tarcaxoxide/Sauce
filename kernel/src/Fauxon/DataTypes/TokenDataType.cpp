@@ -15,6 +15,7 @@ namespace Sauce{
                         case TokenSubKind_en::__WORD:{Result="__WORD";}break;
                         case TokenSubKind_en::__WHOLE_NUMBER:{Result="__WHOLE_NUMBER";}break;
                         case TokenSubKind_en::__DECIMAL_NUMBER:{Result="__DECIMAL_NUMBER";}break;
+                        case TokenSubKind_en::__POINT_NUMBER:{Result="__POINT_NUMBER";}break;
                         case TokenSubKind_en::__PLUS:{Result="__PLUS";}break;
                         case TokenSubKind_en::__MINUS:{Result="__MINUS";}break;
                         case TokenSubKind_en::__MULTIPLY:{Result="__MULTIPLY";}break;
