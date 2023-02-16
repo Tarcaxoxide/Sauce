@@ -2,6 +2,7 @@
 #include<_std/to_string.hpp>
 #include<_std/to_int.hpp>
 #include<_std/to_double.hpp>
+#include<_std/to_point.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
 
@@ -104,15 +105,18 @@ namespace Sauce{
                     }
                     Debugger.Print("Number?");
                     Debugger.Print(tmp);
-                    if(dot_count > 1){
+                    if(dot_count > 2){
                         _std::string msg="Malformed decimal or number '";
                         msg+=tmp;
                         msg+="' at index ";
                         msg+=_std::to_string(i);
                         Tokens.AddLast(DataTypes::TokenDataType_st(Sauce::Fauxon::DataTypes::TokenSubKind_en::__ERROR,msg));
-                    }else if(dot_count){
+                    }else if(dot_count == 1){
                         Tokens.AddLast(DataTypes::TokenDataType_st(Sauce::Fauxon::DataTypes::TokenSubKind_en::__DECIMAL_NUMBER,_std::to_double(tmp)));
-                    }else{
+                    }else if(dot_count == 2){
+                        Tokens.AddLast(DataTypes::TokenDataType_st(Sauce::Fauxon::DataTypes::TokenSubKind_en::__POINT_NUMBER,_std::to_point(tmp)));
+                    }
+                    else{
                         Tokens.AddLast(DataTypes::TokenDataType_st(Sauce::Fauxon::DataTypes::TokenSubKind_en::__WHOLE_NUMBER,_std::to_int(tmp)));
                     }
                 }else{
