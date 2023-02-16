@@ -4,6 +4,27 @@
 #pragma once
 namespace Sauce{
     namespace Memory{
+        // struct Byte_st{
+        //     uint8_t Byte{0};
+        //     uint8_t bitAddress{0};
+        //     inline Byte_st& operator[](uint8_t bitAddress){
+        //         this->bitAddress=bitAddress;
+        //         return *this;
+        //     }
+        //     inline Byte_st& operator<<(bool& value){
+        //         uint8_t bitIndex = bitAddress%8;
+        //         uint8_t bitIndexer = 0b10000000 >> bitIndex;
+        //         Byte &= ~bitIndexer;
+        //         if(value)Byte |= bitIndexer;
+        //         *this;
+        //     }
+        //     inline Byte_st& operator>>(bool& value){
+        //         uint8_t bitIndex = bitAddress%8;
+        //         uint8_t bitIndexer = 0b10000000 >> bitIndex;
+        //         value=((Byte & bitIndexer) > 0);
+        //         *this;
+        //     }
+        // };
         template<typename TT,size_t StageSize=32>
         class List_cl{
             void* Array{nullptr};

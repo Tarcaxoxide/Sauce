@@ -8,7 +8,8 @@ namespace Sauce{
             namespace Kind_en{
                 enum Kind_en:uint64_t{
                     __NULL=0,
-                    __TOKEN
+                    __TOKEN,
+                    __STATEMENT
                 };
                 _std::string toString(Kind_en Kind);
             };

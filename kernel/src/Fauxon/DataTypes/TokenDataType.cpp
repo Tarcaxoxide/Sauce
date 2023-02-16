@@ -50,6 +50,30 @@ namespace Sauce{
                     return Result;
                 }
             };
+            TokenDataType_st::~TokenDataType_st(){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::~TokenDataType_st",_NAMESPACE_,_ALLOW_PRINT_);
+                if(RawKind == TokenSubKind_en::__WORD){
+                    delete ((_std::string*)Value);
+                }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                    delete ((long double*)Value);
+                }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                    delete ((int64_t*)Value);
+                }else if(RawKind == TokenSubKind_en::__POINT_NUMBER){
+                    delete ((Sauce::Point64_st*)Value);
+                }
+            }
+            TokenDataType_st::TokenDataType_st(const TokenDataType_st& Other):BaseDataType_st(Other.Header.Kind,Other.Header.SubKind){
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st",_NAMESPACE_,_ALLOW_PRINT_);
+                if(RawKind == TokenSubKind_en::__WORD){
+                    Value = new _std::string((*((_std::string*)Other.Value)));
+                }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
+                    Value = new long double((*((long double*)Other.Value)));
+                }else if(RawKind == TokenSubKind_en::__WHOLE_NUMBER){
+                    Value = new int64_t((*((int64_t*)Other.Value)));
+                }else if(RawKind == TokenSubKind_en::__POINT_NUMBER){
+                    Value = new Sauce::Point64_st((*((Sauce::Point64_st*)Other.Value)));
+                }
+            }
             TokenDataType_st::TokenDataType_st(TokenSubKind_en::TokenSubKind_en SubKind):BaseDataType_st(Kind_en::__TOKEN,(uint64_t)SubKind){
                 RawKind=TokenSubKind_en::__NULL;
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(SubKind)",_NAMESPACE_,_ALLOW_PRINT_);

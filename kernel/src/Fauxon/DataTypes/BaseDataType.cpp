@@ -13,6 +13,7 @@ namespace Sauce{
                     switch(Kind){
                         case Kind_en::__NULL:{Result="__NULL";}break;
                         case Kind_en::__TOKEN:{Result="__TOKEN";}break;
+                        case Kind_en::__STATEMENT:{Result="__STATEMENT";}break;
                     }
                     Debugger.Print(Result);
                     return Result;
