@@ -11,7 +11,7 @@ namespace Sauce{
                     bool AllowPrint=false;
                     Debugger_st(const char* FileName,const char* FunctionName,const char* thisNameSpace,bool AllowPrint);
                     void Print(const char* text);
-                    inline void Print(_std::string text){Print(text.Raw());}
+                    inline void Print(_std::string text){Print(text.RawTyped());}
                     void indent();
                     ~Debugger_st();
                 };

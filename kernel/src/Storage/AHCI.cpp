@@ -195,5 +195,14 @@ namespace Sauce{
         AHCIDriver_cl::~AHCIDriver_cl(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"AHCIDriver_cl::~AHCIDriver_cl",_NAMESPACE_,_ALLOW_PRINT_);
         }
+
+        //Just fill this please! functions.
+        void AHCIDriver_cl::FillRead(size_t portNumber,size_t startingSector,size_t Size,void *Variable){
+            //void Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr);
+            Sauce::Memory::List_cl<uint8_t> Buffer;
+            size_t sectorCount=((Size/sector_size)>0?(Size/sector_size):1);
+            Read(portNumber,startingSector,sectorCount,Buffer);
+            Sauce::Memory::memcpy(Buffer.Raw(),Variable,1,Size);
+        }
     };
 };

@@ -40,7 +40,8 @@ namespace Sauce{
                     /*'<='*/__LESS_EQUALS,
                     /*'><'*/__BIGGEST,
                     /*'<>'*/__SMALLEST,
-                    /*'WORD'*/__ERROR
+                    /*'WORD'*/__ERROR,
+                    __EOF
                 };
                 _std::string toString(TokenSubKind_en SubKind);
             };

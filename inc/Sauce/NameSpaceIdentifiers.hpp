@@ -12,15 +12,15 @@ namespace Sauce{
     const static bool _ALLOW_PRINT_=false;
     namespace Fauxon{
         const static char* _NAMESPACE_="::Sauce::Fauxon";
-        const static bool _ALLOW_PRINT_=false;
+        const static bool _ALLOW_PRINT_=true;
         namespace DataTypes{
             const static char* _NAMESPACE_="::Sauce::Fauxon::DataTypes";
-            const static bool _ALLOW_PRINT_=false;
+            const static bool _ALLOW_PRINT_=true;
         };
     };
     namespace Graphics{
         const static char* _NAMESPACE_="::Sauce::Graphics";
-        const static bool _ALLOW_PRINT_=false;
+        const static bool _ALLOW_PRINT_=true;
         namespace Basic{
             const static char* _NAMESPACE_="::Sauce::Graphics::Basic";
             const static bool _ALLOW_PRINT_=false;
@@ -66,7 +66,7 @@ namespace Sauce{
             const static bool _ALLOW_PRINT_=false;
             namespace FAT{
                 const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::FAT";
-                const static bool _ALLOW_PRINT_=false;
+                const static bool _ALLOW_PRINT_=true;
             };
             namespace VirtualFileSystem{
                 const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::VirtualFileSystem";

@@ -45,6 +45,7 @@ namespace Sauce{
                         case TokenSubKind_en::__BIGGEST:{Result="__BIGGEST";}break;
                         case TokenSubKind_en::__SMALLEST:{Result="__SMALLEST";}break;
                         case TokenSubKind_en::__ERROR:{Result="__ERROR";}break;
+                        case TokenSubKind_en::__EOF:{Result="__EOF";}break;
                     };
                     Debugger.Print(Result);
                     return Result;
@@ -63,7 +64,9 @@ namespace Sauce{
                 }
             }
             TokenDataType_st::TokenDataType_st(const TokenDataType_st& Other):BaseDataType_st(Other.Header.Kind,Other.Header.SubKind){
-                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st",_NAMESPACE_,_ALLOW_PRINT_);
+                Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::TokenDataType_st(Copy Constructor)",_NAMESPACE_,_ALLOW_PRINT_);
+                RawKind=Other.RawKind;
+                Debugger.Print(Other.toString());
                 if(RawKind == TokenSubKind_en::__WORD){
                     Value = new _std::string((*((_std::string*)Other.Value)));
                 }else if(RawKind == TokenSubKind_en::__DECIMAL_NUMBER){
@@ -106,6 +109,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TokenDataType_st::toString",_NAMESPACE_,_ALLOW_PRINT_);
                 _std::string Result="(";
                 Result+=DataTypes::Kind_en::toString(Header.Kind);
+                Result+=",";
                 Result+=DataTypes::TokenSubKind_en::toString((DataTypes::TokenSubKind_en::TokenSubKind_en)Header.SubKind);
                 if(Value != nullptr){
                     Result+=":";

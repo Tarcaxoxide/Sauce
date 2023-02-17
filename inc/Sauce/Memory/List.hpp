@@ -4,27 +4,6 @@
 #pragma once
 namespace Sauce{
     namespace Memory{
-        // struct Byte_st{
-        //     uint8_t Byte{0};
-        //     uint8_t bitAddress{0};
-        //     inline Byte_st& operator[](uint8_t bitAddress){
-        //         this->bitAddress=bitAddress;
-        //         return *this;
-        //     }
-        //     inline Byte_st& operator<<(bool& value){
-        //         uint8_t bitIndex = bitAddress%8;
-        //         uint8_t bitIndexer = 0b10000000 >> bitIndex;
-        //         Byte &= ~bitIndexer;
-        //         if(value)Byte |= bitIndexer;
-        //         *this;
-        //     }
-        //     inline Byte_st& operator>>(bool& value){
-        //         uint8_t bitIndex = bitAddress%8;
-        //         uint8_t bitIndexer = 0b10000000 >> bitIndex;
-        //         value=((Byte & bitIndexer) > 0);
-        //         *this;
-        //     }
-        // };
         template<typename TT,size_t StageSize=32>
         class List_cl{
             void* Array{nullptr};
@@ -133,7 +112,7 @@ namespace Sauce{
                     return true;
                 }
                 inline bool push_front(const TT* nValue){return AddFirst(nValue);}
-                inline bool push_front(List_cl<TT> nValue){return AddFirst(nValue);}
+                inline bool push_front(const List_cl<TT>& nValue){return AddFirst(nValue);}
                 inline bool pop_front(){return RemoveFirst();}
                 bool AddLast(const TT* nValue){
                     //TT* ValuePtr = nValue;
@@ -150,11 +129,28 @@ namespace Sauce{
                     return true;
                 }
                 inline bool push_back(const TT* nValue){return AddLast(nValue);}
-                inline bool push_back(List_cl<TT> nValue){return AddLast(nValue);}
+                inline bool push_back(const List_cl<TT>& nValue){return AddLast(nValue);}
                 inline bool pop_back(){return RemoveLast();}
+                inline size_t IndexGaurd(size_t i)const{return (Shift_Value+i)%(Array_Size);}
                 TT& Get(size_t index)const{
-                    size_t target=(Shift_Value+index)%(Array_Size); // no more out of range errors :) doesn't mean your program will run well though. (Last+1 == First)
+                    size_t target=IndexGaurd(index); // no more out of range errors :) doesn't mean your program will run well though. (Last+1 == First)
                     return ((TT*)Array)[target];
+                }
+                void BitGet(size_t index,size_t bitAddress,bool& Value)const{
+                    uint8_t bitIndex = bitAddress%8;
+                    uint8_t bitIndexer = 0b10000000 >> bitIndex;
+                    Value=((((uint8_t*)Array)[IndexGaurd(index)] & bitIndexer) > 0);
+                }
+                void BitSet(size_t index,size_t bitAddress,bool Value){
+                    uint8_t bitIndex = bitAddress%8;
+                    uint8_t bitIndexer = 0b10000000 >> bitIndex;
+                    ((uint8_t*)Array)[IndexGaurd(index)] &= ~bitIndexer;
+                    if(Value)((uint8_t*)Array)[IndexGaurd(index)] |= bitIndexer;
+                }
+                void BitFlip(size_t index,size_t bitAddress){
+                    bool Value;
+                    BitGet(index,bitAddress,Value);
+                    BitSet(index,bitAddress,!Value);
                 }
                 TT& First()const{
                     return Get(0); // the first element, it's always the 0th element *shrug* unless shift_value is specified but that's taken care of.
@@ -168,11 +164,11 @@ namespace Sauce{
                 TT& back()const{
                     return Last();
                 }
-                TT* Raw()const{
-                    return ((TT*)Array);
+                void* Raw()const{
+                    return Array;
                 }
-                TT* c_str()const{
-                    return ((TT*)Array);
+                TT* RawTyped()const{
+                    return ((TT*)Raw());
                 }
                 size_t Count()const{
                     return Array_Size;
@@ -199,7 +195,7 @@ namespace Sauce{
                     Array_Capacity=0;
                     Array_Size=0;
                 }
-                bool Compare(List_cl<TT> OtherValue)const{
+                bool Compare(const List_cl<TT>& OtherValue)const{
                     if(OtherValue.Size() != Array_Size)return false;
                     for(size_t i=0;i<Array_Size;i++){
                         if(Get(i) != OtherValue[i])return false;
@@ -223,6 +219,11 @@ namespace Sauce{
                         (*CallBack)(Get(i));
                     }
                 }
+                void ForEach(void (*CallBack)(TT &Item,size_t& index)){ //void Function(TT &item){/*Do something with item*/}
+                    for(size_t i=0;i<Array_Size;i++){
+                        (*CallBack)(Get(i),i);
+                    }
+                }
                 template<typename TV>
                 bool Pop(TV& OtherValue){
                     if(!Size())return false;
@@ -244,7 +245,7 @@ namespace Sauce{
                     return true;
                 }
                 template<typename TV>
-                bool Push(TV OtherValue){
+                bool Push(TV& OtherValue){
                     if(Size() >= 0xFFFFFFFFFFFFFFF0)return false;
                     uint64_t sizeOfExternal=sizeof(TV);
                     uint64_t sizeOfInternal=sizeof(TT);
@@ -265,34 +266,39 @@ namespace Sauce{
                 TT* operator=(const TT* nValue){
                     Clear();
                     AddLast(nValue);
-                    return Raw();
+                    return RawTyped();
                 }
                 TT* operator=(const TT nValue){
                     Clear();
                     AddLast(nValue);
-                    return Raw();
+                    return RawTyped();
                 }
                 TT* operator+=(const TT* nValue){
                     AddLast(nValue);
-                    return Raw();
+                    return RawTyped();
                 }
                 TT* operator+=(const TT nValue){
                     AddLast(nValue);
-                    return Raw();
+                    return RawTyped();
                 }
-                TT* operator+=(const List_cl<TT> nValue){
+                TT* operator+=(const List_cl<TT>& nValue){
                     AddLast(nValue);
-                    return Raw();
+                    return RawTyped();
                 }
-                TT* operator+(const TT* nValue){
-                    List_cl<TT> tmp(Raw());
+                TT* operator+(const TT* nValue)const{
+                    List_cl<TT> tmp(RawTyped());
                     tmp+=nValue;
-                    return tmp.Raw();
+                    return tmp.RawTyped();
                 }
-                TT* operator+(const TT nValue){
-                    List_cl<TT> tmp(Raw());
+                TT* operator+(const TT nValue)const{
+                    List_cl<TT> tmp(RawTyped());
                     tmp+=nValue;
-                    return tmp.Raw();
+                    return tmp.RawTyped();
+                }
+                TT* operator+(const List_cl<TT>& nValue)const{
+                    List_cl<TT> tmp(RawTyped());
+                    tmp+=nValue;
+                    return tmp.RawTyped();
                 }
                 TT& operator[](size_t TargetIndex)const{
                     return Get(TargetIndex);
@@ -311,11 +317,11 @@ namespace Sauce{
                 bool operator!=(const TT** OtherValues)const{
                     return !Compare(OtherValues);
                 }
-                bool operator!=(List_cl<TT> OtherValue)const{
+                bool operator!=(const List_cl<TT>& OtherValue)const{
                     return !Compare(OtherValue);
                 }
-                inline List_cl<TT>& operator<<(List_cl<TT>& OtherValue){
-                    AddLast(OtherValue.Raw());
+                inline List_cl<TT>& operator<<(const List_cl<TT>& OtherValue){
+                    AddLast(OtherValue.RawTyped());
                     return *this;
                 }
                 inline List_cl<TT>& operator<<(const TT* OtherValue){

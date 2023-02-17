@@ -25,7 +25,6 @@
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<_std/to_string.hpp>
 
-
 extern "C" int64_t _start(DataStructure* DFBL);
 
 namespace Sauce{

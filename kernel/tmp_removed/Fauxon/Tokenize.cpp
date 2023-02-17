@@ -5,7 +5,6 @@
 #include<_std/to_point.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
-
 bool isNumberic(char x){
     if(x == '1')return true;
     if(x == '2')return true;
@@ -78,8 +77,9 @@ bool isAlphabetic(char x){
 
 namespace Sauce{
     namespace Fauxon{
-        void Tokenize(_std::string sourceCode,DataTypes::TokenList_st& Tokens){
+        DataTypes::TokenList_st Tokenize(_std::string sourceCode){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Tokenize",_NAMESPACE_,_ALLOW_PRINT_);
+            DataTypes::TokenList_st Tokens;
             Tokens.Clear();
             for(size_t i=0;i<sourceCode.Size();i++){
                 if(sourceCode[i] == '\n')continue;
@@ -186,6 +186,8 @@ namespace Sauce{
                     }
                 }
             }
+            Tokens.AddLast(DataTypes::TokenDataType_st(Sauce::Fauxon::DataTypes::TokenSubKind_en::__EOF));
+            return Tokens;
         }
     };
 };

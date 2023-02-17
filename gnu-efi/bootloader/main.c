@@ -303,7 +303,7 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 					nDFBL.mMap=Map;
 					nDFBL.mMapSize = MapSize;
 					nDFBL.mDescriptorSize=DescriptorSize;
-					nDFBL.TestNumber=0xF000000000+KERNEL_SIZE+Kernel_header.e_entry;
+					nDFBL.TestNumber=0xF000000000;
 					Print(L"Starting Kernel now!\n\r");
 					_SystemTable->BootServices->ExitBootServices(_ImageHandle,MapKey);
 					int64_t return_code=KernelStart(&nDFBL);

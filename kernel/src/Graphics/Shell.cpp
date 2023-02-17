@@ -4,12 +4,10 @@
 #include<Sauce/Math.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
-#include<Sauce/Storage/FileSystem/FAT.hpp>
 #include<_std/deque.hpp>
 #include<_std/functional.hpp>
 #include<_std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-#include<Sauce/Fauxon/Tokenize.hpp>
 
 namespace Sauce{
     namespace Graphics{
@@ -129,9 +127,6 @@ namespace Sauce{
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
             PutString("\n\r",false);
-            Sauce::Fauxon::DataTypes::TokenList_st Tokens;
-            Sauce::Fauxon::Tokenize(CharBuffer,Tokens);
-            PutString(Tokens.toString(),false);
             ShellClear(false);
         }
         void Shell_cl::ShellClear(bool ClearScreen){

@@ -8,7 +8,7 @@ ASMC=nasm
 CC = g++
 
 INCDIR=inc
-CFLAGS = -I$(INCDIR) -Werror -ffreestanding -fshort-wchar -mno-red-zone -fmax-errors=1 -fno-exceptions
+CFLAGS = -I$(INCDIR) -O0 -Werror -ffreestanding -fshort-wchar -mno-red-zone -fmax-errors=1 -fno-exceptions
 ASMFLAGS = -I$(INCDIR)
 LDFLAGS = -T $(LDS) -static -Bsymbolic -nostdlib
 
@@ -21,12 +21,12 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 SRC = $(call rwildcard,$(SRCDIR),*.cpp)
 ASMSRC = $(call rwildcard,$(SRCDIR),*.asm)
-OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%_cpp.o, $(SRC))
-OBJS += $(patsubst $(SRCDIR)/%.asm, $(OBJDIR)/%_asm.o, $(ASMSRC))
+OBJS = $(patsubst $(SRCDIR)/%.asm, $(OBJDIR)/%_asm.o, $(ASMSRC))
+OBJS += $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%_cpp.o, $(SRC))
 DIRS = $(wildcard $(SRCDIR)/*)
 
 $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
-	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=93750
+	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=400000
 	mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
 	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
 	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
@@ -34,7 +34,6 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::/
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::/
 	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::/
-	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/TESTFILE.txt ::/
 
 $(BUILDDIR)/$(OSNAME).iso: $(BUILDDIR)/$(OSNAME).img
 	mkisofs -d -D -J -l -r -U -relaxed-filenames -o $@ $<
@@ -68,7 +67,7 @@ clean:
 
 run: $(BUILDDIR)/$(OSNAME).img
 	@echo "log can be found at ./kernel/$(BUILDDIR)/log.txt"
-	@qemu-system-x86_64 -no-reboot -display gtk,zoom-to-fit=on -smp 2 -serial file:$(BUILDDIR)/log.txt -machine q35 -s -drive format=raw,file=$< -m 2G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
+	@qemu-system-x86_64 -no-reboot -display gtk,zoom-to-fit=on -smp 2 -serial file:$(BUILDDIR)/log.txt -machine q35 -s -drive format=raw,file=$< -m 512M -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
 	@read -p "press enter to continue..."
 	@reset
 

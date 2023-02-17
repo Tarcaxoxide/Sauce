@@ -45,7 +45,7 @@ namespace Sauce{
                 for(int64_t i=0;i<Indentation;i++){
                     IndentString+=".";
                 }
-                Sauce::IO::Debug::COM1_Console.Write(IndentString.c_str());
+                Sauce::IO::Debug::COM1_Console.Write(IndentString.RawTyped());
             }
             Debugger_st::~Debugger_st(){
                 if(!AllowPrint)return;
