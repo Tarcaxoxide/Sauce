@@ -48,6 +48,11 @@ namespace Sauce{
                     AddLast(nValueA);
                     AddLast(nValueB);
                 }
+                List_cl(const List_cl<TT>& nValueA,const List_cl<TT>& nValueB){
+                    Clear();
+                    AddLast(nValueA);
+                    AddLast(nValueB);
+                }
                 List_cl(const TT nValue){
                     Clear();
                     AddLast(nValue);
@@ -228,11 +233,14 @@ namespace Sauce{
                     TT Itmp;
                     uint8_t* ItmpPtr = (uint8_t*)&Itmp;
                     Itmp=Last();
-                    for(size_t i=0;(i<sizeOfInternal && i<sizeOfExternal);i++){
-                        EtmpPtr[i] = ItmpPtr[i];
+                    for(size_t a=0;a<sizeOfExternal;a++){
+                        Itmp=Last();
+                        if(!RemoveLast())break;
+                        for(size_t b=0;(b<sizeOfInternal && b<sizeOfExternal);b++){
+                            EtmpPtr[a]=ItmpPtr[b];
+                        }
                     }
                     OtherValue=Etmp;
-                    RemoveLast();
                     return true;
                 }
                 template<typename TV>
@@ -245,10 +253,12 @@ namespace Sauce{
                     TT Itmp;
                     uint8_t* ItmpPtr = (uint8_t*)&Itmp;
                     Etmp=OtherValue;
-                    for(size_t i=0;(i<sizeOfInternal && i<sizeOfExternal);i++){
-                        ItmpPtr[i] = EtmpPtr[i];
+                    for(size_t a=0;a<sizeOfExternal;a++){
+                        for(size_t b=0;(b<sizeOfInternal && b<sizeOfExternal);b++){
+                            ItmpPtr[b]=EtmpPtr[a];
+                        }
+                        AddLast(Itmp);
                     }
-                    AddLast(Itmp);
                     return true;
                 }
             public://Operators
