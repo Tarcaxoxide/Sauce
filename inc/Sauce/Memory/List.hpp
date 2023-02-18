@@ -1,10 +1,9 @@
-//#include<Sauce/Types.hpp>
+#pragma once
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/Memory/Memory.hpp>
-#pragma once
 namespace Sauce{
     namespace Memory{
-        template<typename TT,size_t StageSize=32>
+        template<typename TT,size_t StageSize=16>
         class List_cl{
             void* Array{nullptr};
             size_t Array_Size{0};
@@ -51,7 +50,8 @@ namespace Sauce{
                     }
                     void* nArray = Sauce::Memory::malloc(Array_Capacity*(sizeof(TT)));
                     Sauce::Memory::memset(nArray,0,Array_Capacity*(sizeof(TT)));
-                    Sauce::Memory::memcpy(Array,(void*)(((TT*)nArray)+1),Array_Size);
+                    void* dest = (void*)(((TT*)nArray)+1);
+                    Sauce::Memory::memcpy(Array,dest,Array_Size-1);
                     ((TT*)nArray)[0]=nValue;
                     delete[] ((TT*)Array);
                     Array = nArray;
@@ -98,16 +98,18 @@ namespace Sauce{
                 }
             public://Secondary functions
                 bool AddFirst(const TT* nValue){
-                    TT* ValuePtr = (TT*)nValue;
-                    while(*ValuePtr){
-                        if(!AddFirst(*ValuePtr))return false;
-                        ValuePtr++;
+                    List_cl<TT> tmp(nValue);
+                    tmp.Flip();
+                    for(size_t i=0;i<tmp.Size();i++){
+                        if(!AddFirst(tmp[i]))return false;
                     }
                     return true;
                 }
-                inline bool AddFirst(const List_cl<TT>& nValue){
-                    for(size_t i=0;i<nValue.Size();i++){
-                        if(!AddFirst(nValue[i]))return false;
+                bool AddFirst(const List_cl<TT>& nValue){
+                    List_cl<TT> tmp(nValue);
+                    tmp.Flip();
+                    for(size_t i=0;i<tmp.Size();i++){
+                        if(!AddFirst(tmp[i]))return false;
                     }
                     return true;
                 }
@@ -214,14 +216,16 @@ namespace Sauce{
                     delete[] OtherValues;//we obviously delete this pointer so the end user doesn't have to deal with that.
                     return false;
                 }
-                void ForEach(void (*CallBack)(TT &Item)){ //void Function(TT &item){/*Do something with item*/}
+
+                template<typename CT>
+                void ForEach(CT& Reference,void (*Fun)(TT&Item,size_t&Index,CT& Reference)){ //void Function(TT &item){/*Do something with item*/}
                     for(size_t i=0;i<Array_Size;i++){
-                        (*CallBack)(Get(i));
+                        (*Fun)(Get(i),i,Reference);
                     }
                 }
-                void ForEach(void (*CallBack)(TT &Item,size_t& index)){ //void Function(TT &item){/*Do something with item*/}
+                void ForEach(void (*Fun)(TT&Item,size_t&Index)){ //void Function(TT &item){/*Do something with item*/}
                     for(size_t i=0;i<Array_Size;i++){
-                        (*CallBack)(Get(i),i);
+                        (*Fun)(Get(i),i);
                     }
                 }
                 template<typename TV>
@@ -320,6 +324,7 @@ namespace Sauce{
                 bool operator!=(const List_cl<TT>& OtherValue)const{
                     return !Compare(OtherValue);
                 }
+                
                 inline List_cl<TT>& operator<<(const List_cl<TT>& OtherValue){
                     AddLast(OtherValue.RawTyped());
                     return *this;

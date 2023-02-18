@@ -158,11 +158,6 @@ namespace Sauce{
                 _std::string ListPorts();
                 void Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr);
                 uint8_t Read(size_t portNumber,size_t ByteToRead);
-
-            public: //Just fill this please! functions.
-                void FillRead(size_t portNumber,size_t startingSector,size_t Size,void *Variable);
-                template<typename T>
-                inline void FillRead(size_t portNumber,size_t startingSector,T &Variable){FillRead(portNumber,startingSector,sizeof(Variable),(void*)&Variable);}
         };
     };
 };

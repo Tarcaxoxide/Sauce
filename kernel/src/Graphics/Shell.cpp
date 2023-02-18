@@ -127,6 +127,11 @@ namespace Sauce{
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
             PutString("\n\r",false);
+            CharBuffer.RemoveLast();// remove the newline.
+            PutString("'",false);
+            PutString(CharBuffer,false);
+            PutString("'",false);
+            
             ShellClear(false);
         }
         void Shell_cl::ShellClear(bool ClearScreen){
