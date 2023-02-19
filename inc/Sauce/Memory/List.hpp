@@ -216,16 +216,16 @@ namespace Sauce{
                     delete[] OtherValues;//we obviously delete this pointer so the end user doesn't have to deal with that.
                     return false;
                 }
-
-                template<typename CT>
-                void ForEach(CT& Reference,void (*Fun)(TT&Item,size_t&Index,CT& Reference)){ //void Function(TT &item){/*Do something with item*/}
+                template<typename F>
+                ////normally i would do something like this
+                //void ForEach(const void(*LAMBDA)(TT&Item,size_t&Index))
+                ////but that can't accept the lambda captures.
+                void ForEach(const F&& LAMBDA){
+                    //(function) -> ?(TT&Item,size_t&Index){?}
+                    //(lambda) -> [?](TT&Item,size_t&Index){?}
+                    //(class/struct) -> operator()(TT&Item,size_t&Index)
                     for(size_t i=0;i<Array_Size;i++){
-                        (*Fun)(Get(i),i,Reference);
-                    }
-                }
-                void ForEach(void (*Fun)(TT&Item,size_t&Index)){ //void Function(TT &item){/*Do something with item*/}
-                    for(size_t i=0;i<Array_Size;i++){
-                        (*Fun)(Get(i),i);
+                        LAMBDA(Get(i),i);
                     }
                 }
                 template<typename TV>
