@@ -145,6 +145,7 @@ namespace Sauce{
                     Value=((((uint8_t*)Array)[IndexGaurd(index)] & bitIndexer) > 0);
                 }
                 void BitSet(size_t index,size_t bitAddress,bool Value){
+                    if(index > Size())AddLast((TT)0);
                     uint8_t bitIndex = bitAddress%8;
                     uint8_t bitIndexer = 0b10000000 >> bitIndex;
                     ((uint8_t*)Array)[IndexGaurd(index)] &= ~bitIndexer;

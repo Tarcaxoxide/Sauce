@@ -9,6 +9,8 @@
 #include<_std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
+#include<Sauce/Memory/List.hpp>
+
 namespace Sauce{
     namespace Graphics{
         Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
@@ -24,7 +26,7 @@ namespace Sauce{
                 case '\n':{
                     if(AddToBuffer){
                         if(!CharBuffer.Size())break;
-                        CharBuffer.AddLast(chr);
+                        //CharBuffer.AddLast(chr);
                         ParseAndRunCommand();
                     }
                     if(!GoDown()){
@@ -127,12 +129,8 @@ namespace Sauce{
         void Shell_cl::ParseAndRunCommand(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
             PutString("\n\r",false);
-            CharBuffer.RemoveLast();// remove the newline.
             
-            CharBuffer.ForEach([this](char& Char,size_t& index){
-                PutChar(Char,false);
-                PutString("\n\r",false);
-            });
+            PutString(CharBuffer,false);
             
             ShellClear(false);
         }
