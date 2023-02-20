@@ -129,7 +129,7 @@ namespace Sauce{
             PutString("\n\r",false);
             CharBuffer.RemoveLast();// remove the newline.
             
-            CharBuffer.ForEach([=](char& Char,size_t& index){
+            CharBuffer.ForEach([this](char& Char,size_t& index){
                 PutChar(Char,false);
                 PutString("\n\r",false);
             });

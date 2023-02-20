@@ -1,6 +1,7 @@
 #pragma once
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/Memory/Memory.hpp>
+
 namespace Sauce{
     namespace Memory{
         template<typename TT,size_t StageSize=16>
@@ -217,13 +218,7 @@ namespace Sauce{
                     return false;
                 }
                 template<typename F>
-                ////normally i would do something like this
-                //void ForEach(const void(*LAMBDA)(TT&Item,size_t&Index))
-                ////but that can't accept the lambda captures.
-                void ForEach(const F&& LAMBDA){
-                    //(function) -> ?(TT&Item,size_t&Index){?}
-                    //(lambda) -> [?](TT&Item,size_t&Index){?}
-                    //(class/struct) -> operator()(TT&Item,size_t&Index)
+                void ForEach(F&& LAMBDA){
                     for(size_t i=0;i<Array_Size;i++){
                         LAMBDA(Get(i),i);
                     }
