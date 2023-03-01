@@ -4,7 +4,6 @@ OSNAME = Sauce
 GNUEFI = ../gnu-efi
 OVMFDIR = ../OVMFbin
 LDS = kernel.ld
-CC := g++
 ASMC=nasm
 
 

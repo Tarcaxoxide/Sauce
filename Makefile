@@ -7,12 +7,11 @@ compile:
 	make clean &&\
 	make
 
-
 purge:
 	cd gnu-efi &&\
 	make clean &&\
 	make &&\
-	make bootloader
+	make  bootloader
 	cd kernel &&\
 	make clean
 

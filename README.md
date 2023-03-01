@@ -2,14 +2,17 @@
 
 - Requirements
     - mtools
-        - mcopy
-        - mmd
+        - mcopy copying files over to the .img file
+        - mmd for creating directories in the .img file
     - nasm
-    - gcc
-        - g++
+        - for compiling the assembly files
+    - gcc/clang
+        - g++/clang++ for compiling the cpp files
     - qemu
-        - qemu-system-x86_64
+        - qemu-system-x86_64 to run the produced .img file
     - dosfstools
-        - mkfs.fat
+        - mkfs.fat for generating the fat32 filesystem on the .img file
     - cdrtools
-        - mkisofs
+        - mkisofs for producing the final .img file.
+    - gnu make
+        - to run the Makefiles ;)
