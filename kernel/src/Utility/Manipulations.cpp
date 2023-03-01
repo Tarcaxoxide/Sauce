@@ -20,10 +20,10 @@ namespace Sauce{
                 }
                 return true;
             }
-            Sauce::Memory::List_cl<_std::string> split(_std::string path, char delimiter){
+            Sauce::Memory::List_cl<std::string> split(std::string path, char delimiter){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"split",_NAMESPACE_,_ALLOW_PRINT_);
-                _std::string tmpString;
-                Sauce::Memory::List_cl<_std::string> Result;
+                std::string tmpString;
+                Sauce::Memory::List_cl<std::string> Result;
                 for(size_t i=0;i<path.Size();i++){
                     if(path[i] != delimiter){
                         tmpString.AddLast(path[i]);

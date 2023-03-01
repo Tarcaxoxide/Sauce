@@ -4,14 +4,14 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Utility/Manipulations.hpp>
-#include<_std/swap.hpp>
-#include<_std/memcpy.hpp>
+#include<std/swap.hpp>
+#include<std/memcpy.hpp>
 #include<Sauce/Math.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 namespace Sauce{
     namespace Graphics{
         namespace Basic{
-            Terminal_cl::Terminal_cl(size_t PixelBufferTotalSize,size_t PixelsPerLine,Sauce::Point64_st Offset,GOP_PixelStructure* PixelBuffer){
+            Terminal_cl::Terminal_cl(int64_t PixelBufferTotalSize,int64_t PixelsPerLine,Sauce::Point64_st Offset,GOP_PixelStructure* PixelBuffer){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Terminal_cl",_NAMESPACE_,_ALLOW_PRINT_);
                 if(PixelBuffer == nullptr){this->PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];}else{this->PixelBuffer=PixelBuffer;}
                 this->PixelBufferTotalSize=PixelBufferTotalSize;
@@ -37,7 +37,7 @@ namespace Sauce{
                 this->ForegroundColor=ForegroundColor;
                 return true;
             }
-            bool Terminal_cl::RowFill(size_t RowIndex,GOP_PixelStructure TheColor){
+            bool Terminal_cl::RowFill(int64_t RowIndex,GOP_PixelStructure TheColor){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::RowFill",_NAMESPACE_,_ALLOW_PRINT_);
                 if(RowIndex > PixelsPerLine){
                     return false;
@@ -66,7 +66,7 @@ namespace Sauce{
             	uint8_t Bnew = (Front.Blue * Alpha) + (Back.Blue * (1.0 - Alpha));
             	return {Bnew,Gnew,Rnew,0xFF};
             }
-            bool Terminal_cl::ColumnFill(size_t ColumnIndex,GOP_PixelStructure TheColor){
+            bool Terminal_cl::ColumnFill(int64_t ColumnIndex,GOP_PixelStructure TheColor){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::ColumnFill",_NAMESPACE_,_ALLOW_PRINT_);
                 if(ColumnIndex > PixelsPerLine){
                     return false;
@@ -77,13 +77,13 @@ namespace Sauce{
                 }
                 return true;
             }
-            bool Terminal_cl::ShiftUp(size_t Rows){
+            bool Terminal_cl::ShiftUp(int64_t Rows){
                 PixelPointer.X=0;
                 if(Rows > PixelsBufferHeight)return false;
                 int64_t Y=PixelsBufferHeight-1;
                 for(;Y;Y--){
                     if(Y-Rows < 0)break;//don't write off the screen XD.
-                    _std::memcpy(PixelBuffer+Sauce::Math::index(0,Y,PixelsPerLine),PixelBuffer+Sauce::Math::index(0,Y-Rows,PixelsPerLine),PixelsPerLine);
+                    std::memcpy(PixelBuffer+Sauce::Math::index(0,Y,PixelsPerLine),PixelBuffer+Sauce::Math::index(0,Y-Rows,PixelsPerLine),PixelsPerLine);
                     RowFill(Y,BackgroundColor);
                 }
                 for(;Y;Y--){
@@ -91,22 +91,22 @@ namespace Sauce{
                 }
                 return true;
             }
-            bool Terminal_cl::ShiftDown(size_t Rows){return false;/*Unimplemented*/}
+            bool Terminal_cl::ShiftDown(int64_t Rows){return false;/*Unimplemented*/}
             bool Terminal_cl::Fill(GOP_PixelStructure TheColor){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Fill",_NAMESPACE_,_ALLOW_PRINT_);
                 RowFill(0,TheColor);
                 PixelPointer.X=0;
                 for(PixelPointer.Y=1;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
-                    _std::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y-1,PixelsPerLine),PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),PixelsPerLine);
+                    std::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y-1,PixelsPerLine),PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),PixelsPerLine);
                 }
                 return true;
             }
-            bool Terminal_cl::RowClear(size_t RowIndex){
+            bool Terminal_cl::RowClear(int64_t RowIndex){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::RowClear",_NAMESPACE_,_ALLOW_PRINT_);
                 bool Ret=RowFill(RowIndex,BackgroundColor);
                 return Ret;
             }
-            bool Terminal_cl::ColumnClear(size_t ColumnIndex){
+            bool Terminal_cl::ColumnClear(int64_t ColumnIndex){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::ColumnClear",_NAMESPACE_,_ALLOW_PRINT_);
                 bool Ret = ColumnFill(ColumnIndex,BackgroundColor);
                 return Ret;
@@ -124,7 +124,7 @@ namespace Sauce{
                 PixelPointer={X,Y,Z};
                 return true;
             }
-            bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,size_t OtherPixelBufferTotalSize,size_t OtherPixelsPerLine,Sauce::Point64_st Offset){
+            bool Terminal_cl::CopyTo(GOP_PixelStructure* OtherPixelBuffer,int64_t OtherPixelBufferTotalSize,int64_t OtherPixelsPerLine,Sauce::Point64_st Offset){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::CopyTo",_NAMESPACE_,_ALLOW_PRINT_);
                 Offset.X+=MyOffset.X;
                 Offset.Y+=MyOffset.Y;
@@ -134,7 +134,7 @@ namespace Sauce{
                 }
                 PixelPointer.X=0;
                 for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
-                    _std::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),OtherPixelBuffer+Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine),PixelsPerLine);
+                    std::memcpy(PixelBuffer+Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine),OtherPixelBuffer+Sauce::Math::index(PixelPointer.X+Offset.X,PixelPointer.Y+Offset.Y,OtherPixelsPerLine),PixelsPerLine);
                     // changed to memcpy, it's a wee bit janky around the edges but eh at least it's faster right :)
                 }
                 return true;
@@ -143,7 +143,7 @@ namespace Sauce{
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::CopyFrom",_NAMESPACE_,_ALLOW_PRINT_);
                 return OtherTerminal->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,MyOffset);
             }
-		    Sauce::uPoint64_st Terminal_cl::Size(){
+		    Sauce::Point64_st Terminal_cl::Size(){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Size",_NAMESPACE_,_ALLOW_PRINT_);
                 return {PixelsPerLine,PixelsBufferHeight,0};
             }
@@ -152,9 +152,9 @@ namespace Sauce{
                 MyOffset=Offset;
                 return true;
             }
-            void Terminal_cl::SetID(_std::string nID){
+            void Terminal_cl::SetID(std::string nID){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::setID",_NAMESPACE_,_ALLOW_PRINT_);
-                size_t i=0;
+                int64_t i=0;
                 ID=nID;
             }
             bool Terminal_cl::Is_Over(Sauce::Point64_st Location){

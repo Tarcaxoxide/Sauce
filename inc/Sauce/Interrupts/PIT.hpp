@@ -1,7 +1,8 @@
+#ifndef __Sauce_Interrupts_PIT
+#define __Sauce_Interrupts_PIT
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/IO/Debug/Debug.hpp>
-#pragma once
 namespace Sauce{
     namespace Interrupts{
         namespace PIT{
@@ -17,3 +18,4 @@ namespace Sauce{
         };
     };
 };
+#endif

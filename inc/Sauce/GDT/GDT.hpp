@@ -1,6 +1,7 @@
+#ifndef __Sauce_GDT
+#define __Sauce_GDT
 #include<stddef.h>
 #include<stdint.h>
-#pragma once
 namespace Sauce{
     namespace GDT{
         struct GDTDescriptor_st{
@@ -27,3 +28,4 @@ namespace Sauce{
         extern GDT_st DefaultGDT;
     };
 };
+#endif

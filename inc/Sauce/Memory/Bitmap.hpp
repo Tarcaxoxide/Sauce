@@ -1,7 +1,7 @@
+#ifndef __Sauce_Memory_Bitmap
+#define __Sauce_Memory_Bitmap
 #include<stddef.h>
 #include<stdint.h>
-
-#pragma once
 namespace Sauce{
     namespace Memory{
         namespace Management{
@@ -16,3 +16,4 @@ namespace Sauce{
         };
     };
 };
+#endif

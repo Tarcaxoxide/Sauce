@@ -1,6 +1,7 @@
+#ifndef __Sauce_Memory_PageFrameAllocator
+#define __Sauce_Memory_PageFrameAllocator
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/Memory/Bitmap.hpp>
-#pragma once
 namespace Sauce{
     namespace Memory{
         namespace Management{
@@ -27,3 +28,4 @@ namespace Sauce{
         };
     };
 };
+#endif

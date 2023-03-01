@@ -115,7 +115,7 @@ namespace Sauce{
             for(size_t SectorI=0;SectorI<sectorCount;SectorI++){
                 Sauce::Memory::memset(HBAPorts[portNumber].buffer,0,1024);
                 HBAPorts[portNumber].Read(startingSector+SectorI,1,HBAPorts[portNumber].buffer);
-                for(int t=0;t<sector_size;t++){
+                for(size_t t=0;t<sector_size;t++){
                     Bufferr.AddLast((uint8_t)HBAPorts[portNumber].buffer[t]);
                 }
             }
@@ -145,7 +145,7 @@ namespace Sauce{
                     }
                 }
             }
-            for(int i=0;i<HBAPorts.Size();i++){
+            for(size_t i=0;i<HBAPorts.Size();i++){
                 switch(HBAPorts[i].Type){
                     case HBAPortType::NONE:{
                     }break;
@@ -164,10 +164,10 @@ namespace Sauce{
                 }
             }
         }
-        _std::string AHCIDriver_cl::ListPorts(){
+        std::string AHCIDriver_cl::ListPorts(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"AHCIDriver_cl::ListPorts",_NAMESPACE_,_ALLOW_PRINT_);
-            _std::string Result;
-            for(int i=0;i<HBAPorts.Size();i++){
+            std::string Result;
+            for(size_t i=0;i<HBAPorts.Size();i++){
                 Result.AddLast((char*)"[");
                 Result.AddLast(Sauce::Utility::Conversion::ToString(i));
                 Result.AddLast((char*)",");

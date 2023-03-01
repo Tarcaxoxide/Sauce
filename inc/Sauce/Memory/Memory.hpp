@@ -1,5 +1,6 @@
+#ifndef __Sauce_Memory_Memory
+#define __Sauce_Memory_Memory
 #include<Sauce/Memory/efiMemory.hpp>
-#pragma once
 namespace Sauce{
     namespace IO{
         namespace Debug{
@@ -17,3 +18,4 @@ namespace Sauce{
         int64_t memcmp(const void* aptr,const void* bptr,size_t s);
     };
 };
+#endif

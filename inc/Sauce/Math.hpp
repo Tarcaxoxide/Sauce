@@ -1,6 +1,7 @@
+#ifndef __Sauce_Math
+#define __Sauce_Math
 #include<Sauce/Memory/List.hpp>
-#include<_std/string.hpp>
-#pragma once
+#include<std/string.hpp>
 namespace Sauce{
 	namespace Math{
 		size_t index(size_t X,size_t Y,size_t MaxX);
@@ -22,3 +23,4 @@ namespace Sauce{
 		inline int abs(int number){return make_positive(number);}
 	};
 };
+#endif

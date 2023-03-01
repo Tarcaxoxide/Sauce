@@ -1,5 +1,6 @@
+#ifndef __Sauce_Memory_PageTableManager
+#define __Sauce_Memory_PageTableManager
 #include<Sauce/Memory/Paging.hpp>
-#pragma once
 namespace Sauce{
     namespace Memory{
         namespace Management{
@@ -12,3 +13,4 @@ namespace Sauce{
         };
     };
 };
+#endif

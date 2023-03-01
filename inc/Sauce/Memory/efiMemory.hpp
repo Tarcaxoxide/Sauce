@@ -1,5 +1,6 @@
+#ifndef __Sauce_Memory_efiMemory
+#define __Sauce_Memory_efiMemory
 #include<Sauce/Types.hpp>
-#pragma once
 namespace Sauce{
     namespace Memory{
         struct EFI_MEMORY_DESCRIPTOR{
@@ -28,3 +29,4 @@ namespace Sauce{
         };
     };
 };
+#endif

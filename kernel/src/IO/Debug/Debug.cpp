@@ -41,7 +41,7 @@ namespace Sauce{
                 Sauce::Global::Kernel->InterruptsOn();
             }
             void Debugger_st::indent(){
-                _std::string IndentString="";
+                std::string IndentString="";
                 for(int64_t i=0;i<Indentation;i++){
                     IndentString+=".";
                 }

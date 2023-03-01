@@ -1,6 +1,7 @@
+#ifndef __Sauce_Memory_PageMapIndexer
+#define __Sauce_Memory_PageMapIndexer
 #include<stddef.h>
 #include<stdint.h>
-#pragma once
 namespace Sauce{
     namespace Memory{
         namespace Management{
@@ -15,3 +16,4 @@ namespace Sauce{
         };
     };
 };
+#endif

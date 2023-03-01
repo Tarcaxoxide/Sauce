@@ -1,6 +1,7 @@
+#ifndef __Sauce_Graphics_Window
+#define __Sauce_Graphics_Window
 #include<Sauce/Graphics/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
-#pragma once
 namespace Sauce{
     namespace Graphics{
         class Window_cl : public Shell_cl {
@@ -9,3 +10,4 @@ namespace Sauce{
         };
     };
 };
+#endif

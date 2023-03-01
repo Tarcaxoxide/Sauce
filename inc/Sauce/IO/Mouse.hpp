@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Sauce_IO_Mouse
+#define __Sauce_IO_Mouse
 #include<Sauce/Types.hpp>
 #define PS2LeftButton 0b00000001
 #define PS2RightButton 0b00000010
@@ -20,3 +21,4 @@ namespace Sauce{
         extern Sauce::Point64_st MousePosition;
     };
 };
+#endif

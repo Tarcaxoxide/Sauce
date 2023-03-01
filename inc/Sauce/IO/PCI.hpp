@@ -1,7 +1,8 @@
+#ifndef __Sauce_IO_PCI
+#define __Sauce_IO_PCI
 #include<Sauce/Types.hpp>
 #include<Sauce/IO/ACPI.hpp>
-#include<_std/string.hpp>
-#pragma once
+#include<std/string.hpp>
 namespace Sauce{
     namespace IO{
         struct PCIDeviceHeader_st{
@@ -44,9 +45,10 @@ namespace Sauce{
         void EnumerateBus(uint64_t baseAddress,uint64_t bus);
         void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg);
         extern const char* DeviceClasses[];
-        const _std::string GetVenderName(uint16_t VendorID);
-        const _std::string GetDeviceName(uint16_t VendorID,uint16_t DeviceID);
-        const _std::string GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode);
-        const _std::string GetProgIFName(uint8_t ClassCode,uint8_t SubClassCode,uint8_t ProgIFCode);
+        const std::string GetVenderName(uint16_t VendorID);
+        const std::string GetDeviceName(uint16_t VendorID,uint16_t DeviceID);
+        const std::string GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode);
+        const std::string GetProgIFName(uint8_t ClassCode,uint8_t SubClassCode,uint8_t ProgIFCode);
     };
 };
+#endif

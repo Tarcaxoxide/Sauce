@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Sauce_IO_IO
+#define __Sauce_IO_IO
 #include<stddef.h>
 #include<stdint.h>
 namespace Sauce{
@@ -52,3 +53,4 @@ namespace Sauce{
         };
     };
 };
+#endif

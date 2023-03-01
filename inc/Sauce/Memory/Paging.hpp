@@ -1,5 +1,6 @@
+#ifndef __Sauce_Memory_Paging
+#define __Sauce_Memory_Paging
 #include<Sauce/IO/Debug/Debug.hpp>
-#pragma once
 namespace Sauce{
     namespace Memory{
         namespace Management{
@@ -29,3 +30,4 @@ namespace Sauce{
         };
     };
 };
+#endif

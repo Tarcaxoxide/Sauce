@@ -1,7 +1,7 @@
-#pragma once
+#ifndef __Sauce_Memory_List
+#define __Sauce_Memory_List
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/Memory/Memory.hpp>
-
 namespace Sauce{
     namespace Memory{
         template<typename TT,size_t StageSize=16>
@@ -332,3 +332,4 @@ namespace Sauce{
         };
     };
 };
+#endif

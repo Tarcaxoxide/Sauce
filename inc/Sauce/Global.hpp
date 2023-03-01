@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Sauce_Global
+#define __Sauce_Global
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/Graphics/Terminal.hpp>
@@ -23,3 +24,4 @@ namespace Sauce{
         extern Sauce::Storage::AHCIDriver_cl* AHCIDriver;
     };
 };
+#endif

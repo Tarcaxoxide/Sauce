@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Sauce_IO_Keyboard
+#define __Sauce_IO_Keyboard
 #include<Sauce/Types.hpp>
 namespace Sauce{
     namespace IO{
@@ -7,3 +8,4 @@ namespace Sauce{
         extern const uint8_t KeyMapCodes_1[];
     };
 };
+#endif

@@ -1,3 +1,5 @@
+#ifndef __Sauce_Interrupts_Interrupts
+#define __Sauce_Interrupts_Interrupts
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/Memory/List.hpp>
@@ -38,3 +40,4 @@ namespace Sauce{
         void PIC2_Done();
     };
 };
+#endif

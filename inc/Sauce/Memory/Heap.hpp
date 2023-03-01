@@ -1,6 +1,7 @@
+#ifndef __Sauce_Memory_Heap
+#define __Sauce_Memory_Heap
 #include<stddef.h>
 #include<stdint.h>
-#pragma once
 namespace Sauce{
     namespace Memory{
         struct HeapSegmentHeader{
@@ -26,3 +27,4 @@ void operator delete[](void* ptr);
 
 void operator delete(void* ptr,size_t Sz);
 void operator delete[](void* ptr,size_t Sz);
+#endif

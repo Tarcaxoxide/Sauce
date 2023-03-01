@@ -4,9 +4,9 @@
 #include<Sauce/Math.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
-#include<_std/deque.hpp>
-#include<_std/functional.hpp>
-#include<_std/iostream.hpp>
+#include<std/deque.hpp>
+#include<std/functional.hpp>
+#include<std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
 #include<Sauce/Memory/List.hpp>
@@ -71,7 +71,7 @@ namespace Sauce{
                 }break;
             }
         }
-        void Shell_cl::PutString(_std::string str,bool AddToBuffer){
+        void Shell_cl::PutString(std::string str,bool AddToBuffer){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::PutString",_NAMESPACE_,_ALLOW_PRINT_);
             for(size_t i=0;i<str.Size();i++){
                 PutChar(str[i],AddToBuffer);

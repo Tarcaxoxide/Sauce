@@ -1,7 +1,8 @@
+#ifndef __Sauce_Storage_AHCI
+#define __Sauce_Storage_AHCI
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Memory/List.hpp>
-#include<_std/string.hpp>
-#pragma once
+#include<std/string.hpp>
 namespace Sauce{
     namespace Storage{
         #define HBA_PORT_DEVICE_PRESENT 0x3
@@ -155,9 +156,10 @@ namespace Sauce{
                 AHCIDriver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress);
                 ~AHCIDriver_cl();
                 void ProbePorts();
-                _std::string ListPorts();
+                std::string ListPorts();
                 void Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr);
                 uint8_t Read(size_t portNumber,size_t ByteToRead);
         };
     };
 };
+#endif

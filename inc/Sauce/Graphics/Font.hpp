@@ -1,6 +1,7 @@
+#ifndef __Sauce_Graphics_Font
+#define __Sauce_Graphics_Font
 #include<stddef.h>
 #include<stdint.h>
-#pragma once
 namespace Sauce{
     namespace Graphics{
         namespace SauceFont{
@@ -11,7 +12,7 @@ namespace Sauce{
         };
     };
 };
-
+#endif
 /*
     . . . . . . . . . . . . .
     . 9 9 9 9 9 9 9 9 9 9 9 .

@@ -1,3 +1,5 @@
+#ifndef __Sauce_Common
+#define __Sauce_Common
 #include<stdbool.h>
 #include<stddef.h>
 #include<stdint.h>
@@ -7,7 +9,6 @@
 #include<stdarg.h>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/IO/ACPI.hpp>
-#pragma once
 typedef struct {
     uint8_t Blue;
     uint8_t Green;
@@ -51,3 +52,4 @@ typedef struct{
     uint64_t mDescriptorSize;
     Sauce::IO::ACPI::RSDP2* rsdp;
 }DataStructure;
+#endif

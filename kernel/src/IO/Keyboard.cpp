@@ -184,8 +184,6 @@ namespace Sauce{
                     case 0x78:IDisplay = L' ';break;
                 }
             }
-            char xDisplay[2]={0};
-            xDisplay[0]=IDisplay;
             return {Capital,Press,IVisible,IKey,IDisplay}; // we return a structure of the values which is defined in Keyboard.hpp
         }
     };

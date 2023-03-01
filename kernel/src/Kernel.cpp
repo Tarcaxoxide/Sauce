@@ -23,7 +23,7 @@
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-#include<_std/to_string.hpp>
+#include<std/to_string.hpp>
 
 extern "C" int64_t _start(DataStructure* DFBL);
 
@@ -274,7 +274,7 @@ namespace Sauce{
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
                 Debugger.Print("ITC__Time");
-                Debugger.Print(_std::to_string(Sauce::Interrupts::PIT::GetTimeSinceBoot())); 
+                Debugger.Print(std::to_string(Sauce::Interrupts::PIT::GetTimeSinceBoot())); 
             }break;
         }
         Sauce::Global::Kernel->InterruptsOn();

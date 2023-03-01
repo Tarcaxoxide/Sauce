@@ -1,12 +1,11 @@
-
+#ifndef __Sauce_Interrupts_IDT
+#define __Sauce_Interrupts_IDT
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/IO/Debug/Debug.hpp>
-#pragma once
 #define IDT_TA_InterruptGate 0b10001110
 #define IDT_TA_CallGate 0b10001100
 #define IDT_TA_TrapGate 0b10001111
-
 namespace Sauce{
     namespace Interrupts{
         struct IDTDescriptorEntry {
@@ -26,3 +25,4 @@ namespace Sauce{
         }__attribute__((packed));
     };
 };
+#endif

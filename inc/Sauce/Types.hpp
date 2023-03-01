@@ -1,3 +1,5 @@
+#ifndef __Sauce_Types
+#define __Sauce_Types
 #include<stddef.h>
 #include<stdint.h>
 #include<cstring>
@@ -8,8 +10,6 @@
 #include<iso646.h>
 #include<limits.h>
 #include<stdarg.h>
-#pragma once
-
 namespace Sauce{
     	struct uPoint8_st{
         	uint8_t X;
@@ -82,3 +82,4 @@ namespace Sauce{
             bool Good;
         };
 };
+#endif

@@ -1,5 +1,6 @@
+#ifndef __Sauce_IO_Debug_Console
+#define __Sauce_IO_Debug_Console
 #include<Sauce/IO/Debug/Serial.hpp>
-#pragma once
 namespace Sauce{
     namespace IO{
         namespace Debug{
@@ -28,3 +29,4 @@ namespace Sauce{
         };
     };
 };
+#endif

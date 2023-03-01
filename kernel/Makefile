@@ -4,11 +4,15 @@ OSNAME = Sauce
 GNUEFI = ../gnu-efi
 OVMFDIR = ../OVMFbin
 LDS = kernel.ld
+CC := g++
 ASMC=nasm
-CC = g++
+
 
 INCDIR=inc
-CFLAGS = -I$(INCDIR) -O0 -Werror -ffreestanding -fshort-wchar -mno-red-zone -fmax-errors=1 -fno-exceptions
+OPTIMIZATION_FLAGS=-O3
+WARNING_FLAGS=-Werror -Wall -Wno-unused-variable
+PLATFORM_FLAGS=-ffreestanding -fshort-wchar -mno-red-zone -fno-exceptions
+CFLAGS = -I$(INCDIR) $(OPTIMIZATION_FLAGS) $(WARNING_FLAGS) $(PLATFORM_FLAGS)
 ASMFLAGS = -I$(INCDIR)
 LDFLAGS = -T $(LDS) -static -Bsymbolic -nostdlib
 
@@ -53,7 +57,7 @@ $(OBJDIR)/%_asm.o:$(SRCDIR)/%.asm
 
 $(BUILDDIR)/kernel.elf: $(OBJS)
 	mkdir -p $(@D)
-	ld $(LDFLAGS) -o $(BUILDDIR)/kernel.elf $^
+	$(CC) $(LDFLAGS) -o $(BUILDDIR)/kernel.elf $^
 
 setup:
 	@mkdir -p $(BUILDDIR)

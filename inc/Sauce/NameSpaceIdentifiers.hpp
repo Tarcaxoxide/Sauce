@@ -1,10 +1,11 @@
-#pragma once
+#ifndef __Sauce_NameSpaceIdentifiers
+#define __Sauce_NameSpaceIdentifiers
 #include<Sauce/Memory/List.hpp>
-#include<_std/string.hpp>
+#include<std/string.hpp>
 const static char* _NAMESPACE_="::";
 const static bool _ALLOW_PRINT_=false;
-namespace _std{
-    const static char* _NAMESPACE_="::_std";
+namespace std{
+    const static char* _NAMESPACE_="::std";
     const static bool _ALLOW_PRINT_=false;
 };
 namespace Sauce{
@@ -79,3 +80,4 @@ namespace Sauce{
         };
     };
 };
+#endif

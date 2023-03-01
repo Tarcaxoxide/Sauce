@@ -1,6 +1,6 @@
+#ifndef __Sauce_Graphics_Mouse
+#define __Sauce_Graphics_Mouse
 #include<Sauce/Graphics/Terminal.hpp>
-#pragma once
-
 namespace Sauce{
     namespace Graphics{
         class Mouse_cl : public Basic::Terminal_cl {
@@ -11,3 +11,4 @@ namespace Sauce{
         };
     };
 };
+#endif

@@ -1,9 +1,10 @@
+#ifndef __Sauce_Kernel
+#define __Sauce_Kernel
 #include<Sauce/Common.hpp>
 #include<Sauce/Interrupts/IDT.hpp>
 #include<Sauce/GDT/GDT.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Interrupts/Interrupts.hpp>
-#pragma once
 extern uint64_t* _KernelStartRef;
 extern uint64_t* _KernelEndRef;
 namespace Sauce{
@@ -37,3 +38,4 @@ namespace Sauce{
             void InterruptsOff();
     };
 };
+#endif
