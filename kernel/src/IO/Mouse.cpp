@@ -72,14 +72,11 @@ namespace Sauce{
                 return &nMouseData;
             }
             nMouseData.Good=true;
-
             bool xNegative,yNegative,xOverflow,yOverflow;
-            
             xNegative=(bool)(MousePacket[0] & PS2XSign);
             yNegative=(bool)(MousePacket[0] & PS2YSign);
             xOverflow=(bool)(MousePacket[0] & PS2XOverflow);
             yOverflow=(bool)(MousePacket[0] & PS2YOverflow);
-
             if(!xNegative){
                 MousePosition.X+=MousePacket[1];
                 if(xOverflow){
@@ -107,11 +104,9 @@ namespace Sauce{
             }
             MousePosition.Z=0;
             MousePacketReady=false;
-
             nMouseData.LeftButton=(MousePacket[0] & PS2LeftButton);
             nMouseData.CenterButton=(MousePacket[0] & PS2MiddleButton);
             nMouseData.RightButton=(MousePacket[0] & PS2RightButton);
-            
             return &nMouseData;
         }
         void PS2MouseInitialize(Sauce::Point64_st InitMousePosition){
@@ -130,10 +125,8 @@ namespace Sauce{
             outb(0x64,0x60);
             MouseWait();
             outb(0x60,status); // setting the correct bit , the "compaq" status byte.
-
             MouseWrite(0xF6);// 0xF6 , use default settings.
             MouseRead();
-
             MouseWrite(0xF4); // enable mouse
             MouseRead();
         }

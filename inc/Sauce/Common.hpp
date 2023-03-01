@@ -40,7 +40,6 @@ typedef struct{
     void* glyphBuffer;
 }PSF1_FONT;
 
-
 typedef struct{
     uint64_t TestNumber;
     FrameBufferStructure* FrameBuffer;

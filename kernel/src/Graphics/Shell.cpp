@@ -130,7 +130,11 @@ namespace Sauce{
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
             PutString("\n\r",false);
             
-            PutString(CharBuffer,false);
+            //PutString(CharBuffer,false);
+
+            if(CharBuffer.Compare(new const char*[]{"hi","Hi","HI","hI","hello","Hello","HEllo","HELlo","HELLo","HELLO",nullptr})){
+                PutString("The kernel says hi!\n\r",false);
+            }
             
             ShellClear(false);
         }

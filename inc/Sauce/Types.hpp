@@ -72,7 +72,7 @@ namespace Sauce{
 		    bool Press=false;
 		    bool visible=true;
 		    uint8_t Key;
-		    wchar_t Display;
+		    char Display;
         };
         struct Mouse_st{
             bool RightButton;

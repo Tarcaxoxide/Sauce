@@ -140,13 +140,13 @@ namespace Sauce{
                     return ((TT*)Array)[target];
                 }
                 void BitGet(size_t index,size_t bitAddress,bool& Value)const{
-                    uint8_t bitIndex = bitAddress%8;
+                    uint8_t bitIndex = bitAddress%(8*sizeof(TT));
                     uint8_t bitIndexer = 0b10000000 >> bitIndex;
                     Value=((((uint8_t*)Array)[IndexGaurd(index)] & bitIndexer) > 0);
                 }
                 void BitSet(size_t index,size_t bitAddress,bool Value){
                     if(index > Size())AddLast((TT)0);
-                    uint8_t bitIndex = bitAddress%8;
+                    uint8_t bitIndex = bitAddress%(8*sizeof(TT));
                     uint8_t bitIndexer = 0b10000000 >> bitIndex;
                     ((uint8_t*)Array)[IndexGaurd(index)] &= ~bitIndexer;
                     if(Value)((uint8_t*)Array)[IndexGaurd(index)] |= bitIndexer;
@@ -172,7 +172,7 @@ namespace Sauce{
                     return Array;
                 }
                 TT* RawTyped()const{
-                    return ((TT*)Raw());
+                    return ((TT*)Array);
                 }
                 size_t Count()const{
                     return Array_Size;
@@ -184,6 +184,7 @@ namespace Sauce{
                     return Count(); // Size calls count because it's the count of how many elements there are.
                 }
                 void Flip(){
+                    //flip the array, the back is now the front and the front is now the back :)
                     List_cl<TT> Other(*this);
                     Clear();
                     for(size_t i=0;i<Other.Size();i++){
@@ -220,6 +221,7 @@ namespace Sauce{
                 }
                 template<typename F>
                 void ForEach(F&& LAMBDA){
+                    //void [...](TT& Item,size_t& Index){...}
                     for(size_t i=0;i<Array_Size;i++){
                         LAMBDA(Get(i),i);
                     }

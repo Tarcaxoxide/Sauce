@@ -3,8 +3,6 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
-#define THRESHOLD sizeof(long)
-
 namespace Sauce{
     namespace Memory{
         size_t GetMemorySize(Sauce::Memory::EFI_MEMORY_DESCRIPTOR*mMap,size_t mMapEntries,size_t mDescriptorSize){

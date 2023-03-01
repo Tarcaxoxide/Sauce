@@ -11,4 +11,3 @@ namespace std{
     const char* endl("\n\r");
     cout_st cout;
 };
-

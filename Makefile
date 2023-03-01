@@ -15,9 +15,11 @@ purge:
 	cd kernel &&\
 	make clean
 
-push: compile
+commit: compile
 	git add .
 	git commit -am "$(shell date)" 
+
+push: commit
 	git push "https://loganer%40vivaldi.net:$(shell cat ../git_token.txt)@github.com/Tarcaxoxide/Sauce.git"
 
 run: compile

@@ -55,22 +55,16 @@ namespace Sauce{
         void RemapPic(){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"RemapPic",_NAMESPACE_,_ALLOW_PRINT_);
             uint8_t a1, a2;
-            
             a1 = Sauce::IO::inb_w(PIC1_DATA);
             a2 = Sauce::IO::inb_w(PIC2_DATA);
-            
             Sauce::IO::outb_w(PIC1_COMMAND, ICW1_INIT | ICW1_ICW4);
             Sauce::IO::outb_w(PIC2_COMMAND, ICW1_INIT | ICW1_ICW4);
-
             Sauce::IO::outb_w(PIC1_DATA,0x20);
             Sauce::IO::outb_w(PIC2_DATA,0x28);
-
             Sauce::IO::outb_w(PIC1_DATA, 4);
             Sauce::IO::outb_w(PIC2_DATA, 2);
-
             Sauce::IO::outb_w(PIC1_DATA, ICW4_8086);
             Sauce::IO::outb_w(PIC2_DATA, ICW4_8086);
-
             Sauce::IO::outb_w(PIC1_DATA,a1);
             Sauce::IO::outb_w(PIC2_DATA,a2);
         }

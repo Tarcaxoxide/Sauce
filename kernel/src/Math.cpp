@@ -54,12 +54,12 @@ namespace Sauce{
 		}
 		int make_positive(int number){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"make_positive",_NAMESPACE_,_ALLOW_PRINT_);
-			if(number < 0)return (number-number-number);
+			if(number < 0)return -number;
 			return number;
 		}
 		int make_negative(int number){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"make_negative",_NAMESPACE_,_ALLOW_PRINT_);
-			if(number > 0)return (number-number-number);
+			if(number > 0)return -number;
 			return number;
 		}
 		void make_line(Sauce::Point64_st pointA,Sauce::Point64_st pointB,Sauce::Memory::List_cl<Sauce::Point64_st> &Line){

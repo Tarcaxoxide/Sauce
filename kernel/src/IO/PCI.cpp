@@ -16,7 +16,6 @@ namespace Sauce{
             PCIDeviceHeader_st* pciDeviceHeader = (PCIDeviceHeader_st*)functionAddress;
             if(pciDeviceHeader->DeviceID == 0x0000)return;
             if(pciDeviceHeader->DeviceID == 0xFFFF)return;
-
             switch(pciDeviceHeader->Class){
                 case 0x01:{ // mass storage controller
                     switch(pciDeviceHeader->Subclass){
