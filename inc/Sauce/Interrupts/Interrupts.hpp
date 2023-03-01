@@ -20,12 +20,10 @@ namespace Sauce{
             ITC__NULL=0,
             ITC__Time,
             ITC__Keyboard,
-            ITC__Mouse
-        };
-
-        struct InterruptDataStruct{
-            InterruptTypeCode TypeCode;
-            uint8_t RawInterruptData;
+            ITC__Mouse,
+            ITC__GeneralProtectionFault,
+            ITC__DoubleFault,
+            ITC__PageFault
         };
 
         struct interrupt_frame{
@@ -34,6 +32,11 @@ namespace Sauce{
             uint8_t flags;
             uint8_t sp;
             uint8_t ss;
+        };
+        struct InterruptDataStruct{
+            InterruptTypeCode TypeCode;
+            uint8_t RawInterruptData;
+            interrupt_frame Frame;
         };
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame);

@@ -276,6 +276,30 @@ namespace Sauce{
                 Debugger.Print("ITC__Time");
                 Debugger.Print(std::to_string(Sauce::Interrupts::PIT::GetTimeSinceBoot())); 
             }break;
+            case Sauce::Interrupts::InterruptTypeCode::ITC__DoubleFault:{
+                Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ip));
+                Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.cs));
+                Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.flags));
+                Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.sp));
+                Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ss));
+                Sauce::IO::Panic("Double Fault Detected!");
+            }break;
+            case Sauce::Interrupts::InterruptTypeCode::ITC__GeneralProtectionFault:{
+                Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ip));
+                Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.cs));
+                Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.flags));
+                Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.sp));
+                Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ss));
+                Sauce::IO::Panic("General Protection Fault Detected!");
+            }break;
+            case Sauce::Interrupts::InterruptTypeCode::ITC__PageFault:{
+                Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ip));
+                Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.cs));
+                Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.flags));
+                Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.sp));
+                Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ss));
+                Sauce::IO::Panic("Page Fault Detected!");
+            }break;
         }
         Sauce::Global::Kernel->InterruptsOn();
     }

@@ -12,47 +12,32 @@ namespace Sauce{
     namespace Interrupts{
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"PageFault_handler",_NAMESPACE_,_ALLOW_PRINT_);
-            Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(frame->ip));
-            Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(frame->cs));
-            Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(frame->flags));
-            Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(frame->sp));
-            Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(frame->ss));
-            Sauce::IO::Panic("Page Fault Detected!");
+            Kernel_cl::Notify({InterruptTypeCode::ITC__PageFault,0xFF,{frame->ip,frame->cs,frame->flags,frame->sp,frame->ss}});
         }
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"DoubleFault_handler",_NAMESPACE_,_ALLOW_PRINT_);
-            Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(frame->ip));
-            Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(frame->cs));
-            Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(frame->flags));
-            Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(frame->sp));
-            Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(frame->ss));
-            Sauce::IO::Panic("Double Fault Detected!");
+            Kernel_cl::Notify({InterruptTypeCode::ITC__DoubleFault,0xFF,{frame->ip,frame->cs,frame->flags,frame->sp,frame->ss}});
         }
         __attribute__((interrupt)) void GeneralProtectionFault_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"GeneralProtectionFault_handler",_NAMESPACE_,_ALLOW_PRINT_);
-            Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(frame->ip));
-            Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(frame->cs));
-            Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(frame->flags));
-            Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(frame->sp));
-            Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(frame->ss));
-            Sauce::IO::Panic("General Protection Fault Detected!");
+            Kernel_cl::Notify({InterruptTypeCode::ITC__GeneralProtectionFault,0xFF,{frame->ip,frame->cs,frame->flags,frame->sp,frame->ss}});
         }
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"KeyboardInterrupt_handler",_NAMESPACE_,_ALLOW_PRINT_);
             uint8_t input = Sauce::IO::inb(0x60);
-            Kernel_cl::Notify({InterruptTypeCode::ITC__Keyboard,input});
+            Kernel_cl::Notify({InterruptTypeCode::ITC__Keyboard,input,{frame->ip,frame->cs,frame->flags,frame->sp,frame->ss}});
             PIC1_Done();
         }
         __attribute__((interrupt)) void MouseInterrupt_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"MouseInterrupt_handler",_NAMESPACE_,_ALLOW_PRINT_);
             uint8_t mouseData = Sauce::IO::inb(0x60);
-            Kernel_cl::Notify({InterruptTypeCode::ITC__Mouse,mouseData});
+            Kernel_cl::Notify({InterruptTypeCode::ITC__Mouse,mouseData,{frame->ip,frame->cs,frame->flags,frame->sp,frame->ss}});
             PIC2_Done();
         }
         __attribute__((interrupt)) void PITInterrupt_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"PITInterrupt_handler",_NAMESPACE_,_ALLOW_PRINT_);
             Sauce::Interrupts::PIT::Tick();
-            Kernel_cl::Notify({InterruptTypeCode::ITC__Time,0xFF});
+            Kernel_cl::Notify({InterruptTypeCode::ITC__Time,0xFF,{frame->ip,frame->cs,frame->flags,frame->sp,frame->ss}});
             PIC1_Done();
         }
         void PIC1_Done(){
