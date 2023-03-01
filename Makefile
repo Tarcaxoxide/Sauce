@@ -15,6 +15,9 @@ purge:
 	cd kernel &&\
 	make clean
 
+restore:
+	git restore .
+
 commit: compile
 	git add .
 	git commit -am "$(shell date)" 
