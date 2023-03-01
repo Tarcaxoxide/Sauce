@@ -28,7 +28,13 @@ namespace Sauce{
             uint8_t RawInterruptData;
         };
 
-        struct interrupt_frame;
+        struct interrupt_frame{
+            uint8_t ip;
+            uint8_t cs;
+            uint8_t flags;
+            uint8_t sp;
+            uint8_t ss;
+        };
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame);
         __attribute__((interrupt)) void GeneralProtectionFault_handler(interrupt_frame* frame);

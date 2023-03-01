@@ -12,17 +12,29 @@ namespace Sauce{
     namespace Interrupts{
         __attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"PageFault_handler",_NAMESPACE_,_ALLOW_PRINT_);
-            Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)(*((uint64_t*)frame))));
+            Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(frame->ip));
+            Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(frame->cs));
+            Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(frame->flags));
+            Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(frame->sp));
+            Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(frame->ss));
             Sauce::IO::Panic("Page Fault Detected!");
         }
         __attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"DoubleFault_handler",_NAMESPACE_,_ALLOW_PRINT_);
-            Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)(*((uint64_t*)frame))));
+            Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(frame->ip));
+            Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(frame->cs));
+            Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(frame->flags));
+            Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(frame->sp));
+            Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(frame->ss));
             Sauce::IO::Panic("Double Fault Detected!");
         }
         __attribute__((interrupt)) void GeneralProtectionFault_handler(interrupt_frame* frame){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"GeneralProtectionFault_handler",_NAMESPACE_,_ALLOW_PRINT_);
-            Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)(*((uint64_t*)frame))));
+            Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(frame->ip));
+            Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(frame->cs));
+            Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(frame->flags));
+            Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(frame->sp));
+            Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(frame->ss));
             Sauce::IO::Panic("General Protection Fault Detected!");
         }
         __attribute__((interrupt)) void KeyboardInterrupt_handler(interrupt_frame* frame){
