@@ -4,8 +4,8 @@
 #include<std/string.hpp>
 namespace Sauce{
 	namespace Math{
+		double sqrt(double number,int steps=2);
 		size_t index(size_t X,size_t Y,size_t MaxX);
-		
 		long double round(long double number,long double medium=0.5);
 		long double maximum(long double number1,long double number2);
 		long double minimum(long double number1,long double number2);

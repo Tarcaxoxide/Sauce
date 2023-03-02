@@ -8,6 +8,20 @@
 
 namespace Sauce{
     namespace Math{
+		#define SQRT_MAGIC_F 0x5fe6eb50c7b537a9 
+		double sqrt(double number,int steps){
+			double y = number;
+		  	double x2 = y * 0.5f;
+		  	union{
+		    	double x;
+		    	int i;
+		  	} u;
+		  	u.x = y;
+		  	u.i = SQRT_MAGIC_F - (u.i >> 1);  // gives initial guess y0
+			while(steps--)u.x = u.x * (1.5 - (x2 * u.x * u.x));
+
+			return u.x;// Newton step, repeating increases accuracy 
+		}
 		void drawCircle(int xc, int yc, int x, int y,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"drawCircle",_NAMESPACE_,_ALLOW_PRINT_);
 			Circle.AddLast({xc+x,yc+y,0});
