@@ -1,6 +1,6 @@
 #ifndef __std_exception
 #define __std_exception
 namespace std{
-    class exception;
+	class exception;
 };
 #endif

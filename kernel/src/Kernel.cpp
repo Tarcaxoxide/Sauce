@@ -75,7 +75,7 @@ namespace Sauce{
         Sauce::Global::Terminal->Clear();
         Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine-4,DFBL->FrameBuffer->Height-4,0},{2,2,0});
         Sauce::Global::Shell->SetID((char*)"Shell");
-        Sauce::Global::Shell->SetColor({0x00,0xFF,0x00,0x00},{0x00,0x00,0x00,0x00});
+        Sauce::Global::Shell->SetColor({0x00,0xFF,0x00,0xF0},{0x00,0x00,0x00,0x00});
         Sauce::Global::Shell->ShellClear(true);
         Sauce::Global::Windows.AddLast((Sauce::Graphics::Window_cl*)Sauce::Global::Shell);
     }

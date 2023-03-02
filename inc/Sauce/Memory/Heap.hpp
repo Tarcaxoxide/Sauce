@@ -3,21 +3,21 @@
 #include<stddef.h>
 #include<stdint.h>
 namespace Sauce{
-    namespace Memory{
-        struct HeapSegmentHeader{
-            size_t Length;
-            HeapSegmentHeader* NextSegment=nullptr;
-            HeapSegmentHeader* LastSegment=nullptr;
-            bool free;
-            void CombinedForward();
-            void CombinedBackward();
-            HeapSegmentHeader* Split(size_t splitLength);
-        };
-        void InitalizeHeap(void* heapAddress,size_t PageCount);
-        void* malloc(size_t size);
-        void free(void* address);
-        void ExpandHeap(size_t length);
-    };
+	namespace Memory{
+		struct HeapSegmentHeader{
+			size_t Length;
+			HeapSegmentHeader* NextSegment=nullptr;
+			HeapSegmentHeader* LastSegment=nullptr;
+			bool free;
+			void CombinedForward();
+			void CombinedBackward();
+			HeapSegmentHeader* Split(size_t splitLength);
+		};
+		void InitalizeHeap(void* heapAddress,size_t PageCount);
+		void* malloc(size_t size);
+		void free(void* address);
+		void ExpandHeap(size_t length);
+	};
 };
 
 void* operator new(size_t size);
