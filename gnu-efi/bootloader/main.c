@@ -14,85 +14,85 @@
 #include<stdarg.h>
 
 typedef struct {
-    unsigned char Signature[8];
-    uint8_t Checksum;
-    uint8_t OEM_ID[6];
-    uint8_t Revision;
-    uint32_t RSDT_Address;
-    uint32_t Length;
-    uint64_t XSDT_Address;
-    uint8_t ExtendedChecksum;
-    uint8_t Reserved[3];
+	unsigned char Signature[8];
+	uint8_t Checksum;
+	uint8_t OEM_ID[6];
+	uint8_t Revision;
+	uint32_t RSDT_Address;
+	uint32_t Length;
+	uint64_t XSDT_Address;
+	uint8_t ExtendedChecksum;
+	uint8_t Reserved[3];
 }RSDP2;
 typedef struct {
-    unsigned char Signature[4];
-    uint32_t Length;
-    uint8_t Revision;
-    uint8_t Checksum;
-    uint8_t OEM_ID[6];
-    uint8_t EOM_Table_ID[8];
-    uint32_t OEM_Revision;
-    uint32_t Creator_ID;
-    uint32_t Creator_Revision;
+	unsigned char Signature[4];
+	uint32_t Length;
+	uint8_t Revision;
+	uint8_t Checksum;
+	uint8_t OEM_ID[6];
+	uint8_t EOM_Table_ID[8];
+	uint32_t OEM_Revision;
+	uint32_t Creator_ID;
+	uint32_t Creator_Revision;
 }SDTHeader;
 typedef struct {
-    SDTHeader Header;
-    uint64_t Reserved;
+	SDTHeader Header;
+	uint64_t Reserved;
 }MCFGHeader;
 extern const char* EFI_MEMORY_TYPE_STRINGS[];
 enum EfiMemoryType{
-    EfiMemoryType_EfiReservedMemoryType=0,
-    EfiMemoryType_EfiLoaderCode,
-    EfiMemoryType_EfiLoaderData,
-    EfiMemoryType_EfiBootServicesCode,
-    EfiMemoryType_EfiBootServicesData,
-    EfiMemoryType_EfiRuntimeServicesCode,
-    EfiMemoryType_EfiRuntimeServicesData,
-    EfiMemoryType_EfiConventionalMemory,
-    EfiMemoryType_EfiUnusableMemory,
-    EfiMemoryType_EfiACPIReclaimMemory,
-    EfiMemoryType_EfiACPIMemoryNVS,
-    EfiMemoryType_EfiMemoryMappedIO,
-    EfiMemoryType_EfiMemoryMappedPortSpace,
-    EfiMemoryType_EfiPalCode
+	EfiMemoryType_EfiReservedMemoryType=0,
+	EfiMemoryType_EfiLoaderCode,
+	EfiMemoryType_EfiLoaderData,
+	EfiMemoryType_EfiBootServicesCode,
+	EfiMemoryType_EfiBootServicesData,
+	EfiMemoryType_EfiRuntimeServicesCode,
+	EfiMemoryType_EfiRuntimeServicesData,
+	EfiMemoryType_EfiConventionalMemory,
+	EfiMemoryType_EfiUnusableMemory,
+	EfiMemoryType_EfiACPIReclaimMemory,
+	EfiMemoryType_EfiACPIMemoryNVS,
+	EfiMemoryType_EfiMemoryMappedIO,
+	EfiMemoryType_EfiMemoryMappedPortSpace,
+	EfiMemoryType_EfiPalCode
 };
 typedef struct {
-    uint8_t Blue;
-    uint8_t Green;
-    uint8_t Red;
-    uint8_t Alpha;
+	uint8_t Blue;
+	uint8_t Green;
+	uint8_t Red;
+	uint8_t Alpha;
 }GOP_PixelStructure;
 typedef struct{
-    GOP_PixelStructure* BaseAddress;
-    size_t BufferSize;
-    unsigned int Width;
-    unsigned int Height;
-    unsigned int PixelsPerScanLine;
-    unsigned int BytesPerPixel;
+	GOP_PixelStructure* BaseAddress;
+	size_t BufferSize;
+	unsigned int Width;
+	unsigned int Height;
+	unsigned int PixelsPerScanLine;
+	unsigned int BytesPerPixel;
 }FrameBufferStructure;
 #define PSF1_MAGIC0 0x36
 #define PSF1_MAGIC1 0x04
 typedef struct{
-    unsigned char magic[2];
-    unsigned char mode;
-    unsigned char char_size;
-    unsigned char char_width;
-    unsigned char char_height;
+	unsigned char magic[2];
+	unsigned char mode;
+	unsigned char char_size;
+	unsigned char char_width;
+	unsigned char char_height;
 }PSF1_HEADER;
 typedef struct{
-    PSF1_HEADER* psf1_header;
-    void* glyphBuffer;
+	PSF1_HEADER* psf1_header;
+	void* glyphBuffer;
 }PSF1_FONT;
 typedef struct{
-    uint64_t TestNumber;
-    FrameBufferStructure* FrameBuffer;
-    uint64_t fbBase;
-    uint64_t fbSize;
-    PSF1_FONT* Font;
-    EFI_MEMORY_DESCRIPTOR* mMap;
-    uint64_t mMapSize;
-    uint64_t mDescriptorSize;
-    RSDP2* rsdp;
+	uint64_t TestNumber;
+	FrameBufferStructure* FrameBuffer;
+	uint64_t fbBase;
+	uint64_t fbSize;
+	PSF1_FONT* Font;
+	EFI_MEMORY_DESCRIPTOR* mMap;
+	uint64_t mMapSize;
+	uint64_t mDescriptorSize;
+	RSDP2* rsdp;
 }DataStructure;
 
 
@@ -307,7 +307,7 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 					Print(L"Starting Kernel now!\n\r");
 					_SystemTable->BootServices->ExitBootServices(_ImageHandle,MapKey);
 					int64_t return_code=KernelStart(&nDFBL);
-					Print(L"Kernel Exit:0x%x\n\r    OK code:0x12345678\n\r",return_code);
+					Print(L"Kernel Exit:0x%x\n\r	OK code:0x12345678\n\r",return_code);
 					}
 		}
 	}

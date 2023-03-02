@@ -56,11 +56,11 @@ namespace Sauce{
 		void outl_w(uint16_t port,uint32_t value){
 			outl(port,value);
 			io_wait();
-	    }
-        uint32_t inl_w(uint16_t port){
-            uint32_t ret = inl(port);
-            io_wait();
-            return ret;
-        }
-    };
+		}
+		uint32_t inl_w(uint16_t port){
+			uint32_t ret = inl(port);
+			io_wait();
+			return ret;
+		}
+	};
 };

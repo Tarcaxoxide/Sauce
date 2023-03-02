@@ -7,14 +7,14 @@
 #include<Sauce/Interrupts/PIT.hpp>
 
 namespace Sauce{
-    namespace Math{
+	namespace Math{
 		#define SQRT_MAGIC_F 0x5fe6eb50c7b537a9 
 		double sqrt(double number,int steps){
 			double y = number;
 		  	double x2 = y * 0.5f;
 		  	union{
-		    	double x;
-		    	int i;
+				double x;
+				int i;
 		  	} u;
 		  	u.x = y;
 		  	u.i = SQRT_MAGIC_F - (u.i >> 1);  // gives initial guess y0
@@ -33,10 +33,10 @@ namespace Sauce{
 			Circle.AddLast({xc+y,yc-x,0});
 			Circle.AddLast({xc-y,yc-x,0});
 		}
-    	size_t index(size_t X,size_t Y,size_t MaxX){
+		size_t index(size_t X,size_t Y,size_t MaxX){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"index",_NAMESPACE_,_ALLOW_PRINT_);
-        	return (X + (Y * MaxX));
-    	}
+			return (X + (Y * MaxX));
+		}
 		long double round(long double number,long double medium){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"round",_NAMESPACE_,_ALLOW_PRINT_);
 			int A1=(int)number;
@@ -116,7 +116,7 @@ namespace Sauce{
 			/*
 					A
 				  .   .
-				 .     .
+				 .	 .
 				B.......C
 			*/
 			make_line(pointB,Triangle,true);
@@ -139,41 +139,41 @@ namespace Sauce{
 		}
 		void make_circle(Sauce::Point64_st point,int radius,Sauce::Memory::List_cl<Sauce::Point64_st> &Circle){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"make_circle",_NAMESPACE_,_ALLOW_PRINT_);
-			/*    
+			/*	
 				point = the center of the circle.
 				radius = the radius of the circle.
 			*/
 			int x = 0, y = radius;
-    		int d = 3 - 2 * radius;
-    		drawCircle(point.X, point.Y, x, y,Circle);
-    		while (y >= x)
-    		{
-    		    // for each pixel we will
-    		    // draw all eight pixels
-    		    x++;
-    		    // check for decision parameter
-    		    // and correspondingly
-    		    // update d, x, y
-    		    if (d > 0)
-    		    {
-    		        y--;
-    		        d = d + 4 * (x - y) + 10;
-    		    }
-    		    else
-    		        d = d + 4 * x + 6;
-    		    drawCircle(point.X, point.Y, x, y, Circle);
-    		}
+			int d = 3 - 2 * radius;
+			drawCircle(point.X, point.Y, x, y,Circle);
+			while (y >= x)
+			{
+				// for each pixel we will
+				// draw all eight pixels
+				x++;
+				// check for decision parameter
+				// and correspondingly
+				// update d, x, y
+				if (d > 0)
+				{
+					y--;
+					d = d + 4 * (x - y) + 10;
+				}
+				else
+					d = d + 4 * x + 6;
+				drawCircle(point.X, point.Y, x, y, Circle);
+			}
 		}
 		size_t next = 1;
 		size_t random_get(size_t max){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"random_get",_NAMESPACE_,_ALLOW_PRINT_);
-		    next = next * 1103515245 + 12345;
-		    return (next/65536) % max;
+			next = next * 1103515245 + 12345;
+			return (next/65536) % max;
 		}
 		void random_seed(size_t seed){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"random_seed",_NAMESPACE_,_ALLOW_PRINT_);
 
-		    next = (seed?seed:(Sauce::Interrupts::PIT::GetTimeSinceBoot()*10000));
+			next = (seed?seed:(Sauce::Interrupts::PIT::GetTimeSinceBoot()*10000));
 		}
 	};
 };
