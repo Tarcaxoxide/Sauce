@@ -70,12 +70,13 @@ namespace Sauce{
         Sauce::Global::Screen=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
         Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
         Sauce::Global::Mouse->SetID((char*)"Mouse");
-        Sauce::Global::Terminal->SetColor({0x11,0x11,0x11,0x00},{0x11,0x11,0x11,0x00});
+        Sauce::Global::Terminal->SetColor({0x19,0x19,0x19,0x00},{0x19,0x19,0x19,0x00});
         //Sauce::Global::Terminal->SetID((char*)"Terminator");
         Sauce::Global::Terminal->Clear();
-
         Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine-4,DFBL->FrameBuffer->Height-4,0},{2,2,0});
         Sauce::Global::Shell->SetID((char*)"Shell");
+        Sauce::Global::Shell->SetColor({0x00,0xFF,0x00,0x00},{0x00,0x00,0x00,0x00});
+        Sauce::Global::Shell->ShellClear(true);
         Sauce::Global::Windows.AddLast((Sauce::Graphics::Window_cl*)Sauce::Global::Shell);
     }
     void Kernel_cl::MainLoop(){
@@ -274,7 +275,7 @@ namespace Sauce{
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
                 Debugger.Print("ITC__Time");
-                Debugger.Print(std::to_string(Sauce::Interrupts::PIT::GetTimeSinceBoot())); 
+                Debugger.Print(std::to_string(Sauce::Interrupts::PIT::GetTimeSinceBoot()));
             }break;
             case Sauce::Interrupts::InterruptTypeCode::ITC__DoubleFault:{
                 Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ip));

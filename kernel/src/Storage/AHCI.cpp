@@ -4,6 +4,7 @@
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
+
 namespace Sauce{
     namespace Storage{
         ParsedHBAPort_st CheckPortType(HBAPort_st* port){
@@ -109,7 +110,7 @@ namespace Sauce{
             while(!(Address->commandIssue == 0)){if(Address->interruptStatus & HBA_PxIS_TFES){return false;}}
             return true;
         }
-        void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr){
+        void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,std::ustring &Bufferr){
             Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"AHCIDriver_cl::Read",_NAMESPACE_,_ALLOW_PRINT_);
             if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage();
             for(size_t SectorI=0;SectorI<sectorCount;SectorI++){

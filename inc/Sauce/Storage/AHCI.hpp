@@ -3,6 +3,7 @@
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Memory/List.hpp>
 #include<std/string.hpp>
+#include<std/memcpy.hpp>
 namespace Sauce{
     namespace Storage{
         #define HBA_PORT_DEVICE_PRESENT 0x3
@@ -146,8 +147,19 @@ namespace Sauce{
                 ~AHCIDriver_cl();
                 void ProbePorts();
                 std::string ListPorts();
-                void Read(size_t portNumber,size_t startingSector,size_t sectorCount,Sauce::Memory::List_cl<uint8_t> &Bufferr);
+                void Read(size_t portNumber,size_t startingSector,size_t sectorCount,std::ustring &Bufferr);
                 uint8_t Read(size_t portNumber,size_t ByteToRead);
+                
+                template<typename STRUT>
+                inline void Read(size_t portNumber,size_t startingSector,STRUT& STR){
+                    //TODO: Test.
+                    std::ustring Buf;
+                    size_t SizeInBytes=sizeof(STRUT);
+                    size_t SizeInSectors=(SizeInBytes/sector_size)+((SizeInBytes%sector_size)==0?0:1);
+                    Read(portNumber,startingSector,SizeInSectors,Buf);
+                    uint8_t* STRptr = (uint8_t*)&STR;
+                    std::memcpy(Buf.RawTyped(),STRptr,SizeInBytes);
+                }
         };
     };
 };

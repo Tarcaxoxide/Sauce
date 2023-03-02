@@ -7,18 +7,18 @@
 namespace Sauce{
 	namespace Utility{
 		namespace Conversion{
-			std::string HexToString(uint8_t value,bool ClearBefore=true);
-			std::string HexToString(uint16_t value,bool ClearBefore=true);
-			std::string HexToString(uint32_t value,bool ClearBefore=true);
-			std::string HexToString(uint64_t value,bool ClearBefore=true);
-			std::string ToString(int8_t value,bool ClearBefore=true);
-			std::string ToString(int16_t value,bool ClearBefore=true);
-			std::string ToString(int32_t value,bool ClearBefore=true);
-			std::string ToString(int64_t value,bool ClearBefore=true);
-			std::string ToString(uint8_t value,bool ClearBefore=true);
-			std::string ToString(uint16_t value,bool ClearBefore=true);
-			std::string ToString(uint32_t value,bool ClearBefore=true);
-			std::string ToString(uint64_t value,bool ClearBefore=true);
+			std::string HexToString(uint8_t value);
+			std::string HexToString(uint16_t value);
+			std::string HexToString(uint32_t value);
+			std::string HexToString(uint64_t value);
+			std::string ToString(int8_t value);
+			std::string ToString(int16_t value);
+			std::string ToString(int32_t value);
+			std::string ToString(int64_t value);
+			std::string ToString(uint8_t value);
+			std::string ToString(uint16_t value);
+			std::string ToString(uint32_t value);
+			std::string ToString(uint64_t value);
 			std::string ToString(float value,uint16_t decimalPlaces=4);
 			std::string ToString(long double value,uint16_t decimalPlaces=4);
 			///

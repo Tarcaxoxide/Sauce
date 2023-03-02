@@ -8,7 +8,7 @@
 namespace Sauce{
     namespace Utility{
         namespace Conversion{
-            std::string HexToString(uint8_t value,bool ClearBefore){
+            std::string HexToString(uint8_t value){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
                 std::string Result;
                 uint8_t* valPtr = &value;
@@ -26,7 +26,7 @@ namespace Sauce{
                 Debugger.Print(Result);
                 return Result;
             }
-            std::string HexToString(uint16_t value,bool ClearBefore){
+            std::string HexToString(uint16_t value){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
                 std::string Result;
                 uint16_t* valPtr = &value;
@@ -44,7 +44,7 @@ namespace Sauce{
                 Debugger.Print(Result);
                 return Result;
             }
-            std::string HexToString(uint32_t value,bool ClearBefore){
+            std::string HexToString(uint32_t value){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
                 std::string Result;
                 uint32_t* valPtr = &value;
@@ -62,7 +62,7 @@ namespace Sauce{
                 Debugger.Print(Result);
                 return Result;
             }
-            std::string HexToString(uint64_t value,bool ClearBefore){
+            std::string HexToString(uint64_t value){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
                 std::string Result;
                 uint64_t* valPtr = &value;
@@ -80,53 +80,44 @@ namespace Sauce{
                 Debugger.Print(Result);
                 return Result;
             }
-            std::string ToString(uint8_t value,bool ClearBefore){
-                return ToString((int64_t)value,ClearBefore);
+            std::string ToString(uint8_t value){
+                return ToString((int64_t)value);
             }
-            std::string ToString(uint16_t value,bool ClearBefore){
-                return ToString((int64_t)value,ClearBefore);
+            std::string ToString(uint16_t value){
+                return ToString((int64_t)value);
             }
-            std::string ToString(uint32_t value,bool ClearBefore){
-                return ToString((int64_t)value,ClearBefore);
+            std::string ToString(uint32_t value){
+                return ToString((int64_t)value);
             }
-            std::string ToString(int8_t value,bool ClearBefore){
-                return ToString((int64_t)value,ClearBefore);
+            std::string ToString(int8_t value){
+                return ToString((int64_t)value);
             }
-            std::string ToString(int16_t value,bool ClearBefore){
-                return ToString((int64_t)value,ClearBefore);
+            std::string ToString(int16_t value){
+                return ToString((int64_t)value);
             }
-            std::string ToString(int32_t value,bool ClearBefore){
-                return ToString((int64_t)value,ClearBefore);
+            std::string ToString(int32_t value){
+                return ToString((int64_t)value);
             }
-            std::string ToString(uint64_t value,bool ClearBefore){
-                return ToString((int64_t)value,ClearBefore);
+            std::string ToString(uint64_t value){
+                return ToString((int64_t)value);
             }
-		    std::string ToString(int64_t value,bool ClearBefore){
+		    std::string ToString(int64_t value){
                 Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
-                unsigned char haxString[512]{0};
+                std::string Result;
                 uint8_t isNegative = 0;
                 if(value < 0){
                     isNegative=1;
                     value*=-1;
-                    haxString[0]='-';
                 }
-                uint8_t size = 0;
-                uint64_t sizeTester = (uint64_t)value;
-                while(sizeTester / 10 > 0){
-                    sizeTester /= 10;
-                    size++;
-                }
-                uint8_t index = 0;
                 uint64_t newValue = (uint64_t)value;
                 while(newValue / 10 > 0){
                     uint8_t remainder = (newValue % 10);
                     newValue /= 10;
-                    haxString[((isNegative + size) - index)] = (remainder + 48);
-                    index++;
+                    Result.AddFirst((char)(remainder + 48));
                 }
                 uint8_t remainder = (newValue % 10);
-                haxString[((isNegative + size) - index)] = (remainder + 48);
-                std::string Result((char*)haxString);
+                Result.AddFirst((char)(remainder + 48));
+                if(isNegative)Result.AddFirst('-');
                 Debugger.Print(Result);
                 return Result;
             }
