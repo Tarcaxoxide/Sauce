@@ -73,7 +73,7 @@ namespace Sauce{
 		Sauce::Global::Terminal->SetColor({0x19,0x19,0x19,0x00},{0x19,0x19,0x19,0x00});
 		//Sauce::Global::Terminal->SetID((char*)"Terminator");
 		Sauce::Global::Terminal->Clear();
-		Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine-4,DFBL->FrameBuffer->Height-4,0},{2,2,0});
+		Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
 		Sauce::Global::Shell->SetID((char*)"Shell");
 		Sauce::Global::Shell->SetColor({0x00,0xFF,0x00,0xF0},{0x00,0x00,0x00,0x00});
 		Sauce::Global::Shell->ShellClear(true);
