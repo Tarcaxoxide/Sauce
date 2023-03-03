@@ -174,63 +174,6 @@ namespace Sauce{
 				*/
 				return Vertical && Horizontal;
 			}
-			void Terminal_cl::Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Left_Down",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Click Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Right_Down",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Click Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Center_Down",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Click Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Left_Up",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Release Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Right_Up",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Release Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Center_Up",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Release Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Left_Drag",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Drag Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Right_Drag",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Drag Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Mouse_Center_Drag",_NAMESPACE_,_ALLOW_PRINT_);
-				if(Sauce::Global::Mouse->Is_Over(Location)){
-					Debugger.Print("Drag Detected");
-				}
-			}
-			void Terminal_cl::Notify_Of_Keyboard_Press(Sauce::Keyboard_st KeyData){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Notify_Of_Keyboard_Press",_NAMESPACE_,_ALLOW_PRINT_);
-			}
 		};
 	};
 };

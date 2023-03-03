@@ -34,18 +34,7 @@ namespace Sauce{
 					Sauce::Point64_st Size();
 					bool Move(Sauce::Point64_st Offset);
 					void SetID(std::string nID);
-					//Mouse related functions
 					bool Is_Over(Sauce::Point64_st Location);
-					void Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location);
-					void Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location);
-					void Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location);
-					void Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location);
-					void Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location);
-					void Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location);
-					void Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation);
-					void Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation);
-					void Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation);
-					void Notify_Of_Keyboard_Press(Sauce::Keyboard_st KeyData);
 			};
 		};
 	};
