@@ -6,6 +6,7 @@ namespace Sauce{
 		class Mouse_cl : public Basic::Terminal_cl {
 			Sauce::Point64_st Cursor{0,0,0};
 			void PutChar(size_t chr);
+			size_t CurrentChr;
 			public:
 				Mouse_cl(Sauce::Point64_st InitialPosition);
 				void Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location);

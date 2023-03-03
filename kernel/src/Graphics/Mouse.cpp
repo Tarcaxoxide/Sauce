@@ -35,6 +35,21 @@ uint8_t Glyphs[][13*13]={
 					0,0,0,0,0,0,0,0,0,8,0,9,0,
 					0,0,0,0,0,0,0,0,0,0,9,0,0,
 					0,0,0,0,0,0,0,0,0,0,0,0,0
+				},
+				{
+					9,9,9,9,9,9,9,9,9,9,9,9,9,
+					9,8,8,8,8,8,8,8,8,8,8,8,9,
+					9,8,7,7,7,7,7,7,7,7,7,8,9,
+					9,8,7,6,6,6,6,6,6,6,7,8,9,
+					9,8,7,6,5,5,5,5,5,6,7,8,9,
+					9,8,7,6,5,4,4,4,5,6,7,8,9,
+					9,8,7,6,5,4,3,4,5,6,7,8,9,
+					9,8,7,6,5,4,4,4,5,6,7,8,9,
+					9,8,7,6,5,5,5,5,5,6,7,8,9,
+					9,8,7,6,6,6,6,6,6,6,7,8,9,
+					9,8,7,7,7,7,7,7,7,7,7,8,9,
+					9,8,8,8,8,8,8,8,8,8,8,8,9,
+					9,9,9,9,9,9,9,9,9,9,9,9,9
 				}
 };
 
@@ -42,6 +57,7 @@ uint8_t Glyphs[][13*13]={
 namespace Sauce{
 	namespace Graphics{
 		void Mouse_cl::PutChar(size_t chr){
+			CurrentChr=chr;
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
 			for(size_t X=0;X<13;X++){
 				for(size_t Y=0;Y<13;Y++){
@@ -60,17 +76,31 @@ namespace Sauce{
 			Sauce::IO::PS2MouseInitialize(InitialPosition);
 		}
 		void Mouse_cl::Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location){
-			Clear();
-			PutChar(1);
+			if(CurrentChr==0){
+				Clear();
+				PutChar(1);
+			}
 		}
 		void Mouse_cl::Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
 		void Mouse_cl::Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location){
-			Clear();
-			PutChar(0);
+			if(CurrentChr==1){
+				Clear();
+				PutChar(0);
+			}
 		}
-		void Mouse_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){}
+		void Mouse_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){
+			if(CurrentChr==0){
+				Clear();
+				PutChar(2);
+			}
+		}
 		void Mouse_cl::Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
-		void Mouse_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){}
+		void Mouse_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){
+			if(CurrentChr==2){
+				Clear();
+				PutChar(0);
+			}
+		}
 		void Mouse_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){}
 		void Mouse_cl::Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
 		void Mouse_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){}
