@@ -101,9 +101,17 @@ namespace Sauce{
 				PutChar(0);
 			}
 		}
-		void Mouse_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){}
+		void Mouse_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){
+			ReverseColor();
+			Clear();
+			PutChar(CurrentChr);
+		}
 		void Mouse_cl::Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
-		void Mouse_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){}
+		void Mouse_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){
+			ReverseColor();
+			Clear();
+			PutChar(CurrentChr);
+		}
 	};
 
 };
