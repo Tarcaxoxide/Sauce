@@ -20,6 +20,21 @@ uint8_t Glyphs[][13*13]={
 					2,8,0,0,0,0,0,0,0,8,0,9,0,
 					1,9,0,0,0,0,0,0,0,0,9,0,0,
 					0,0,0,0,0,0,0,0,0,0,0,0,0
+				},
+				{
+					9,9,9,9,0,0,0,0,0,0,0,0,0,
+					9,0,0,0,0,0,0,0,0,0,0,0,0,
+					9,0,0,1,0,0,0,0,0,0,0,0,0,
+					9,0,1,0,2,0,0,0,0,0,0,0,0,
+					0,0,0,2,0,3,0,0,0,0,0,0,0,
+					0,0,0,0,3,0,4,0,0,0,0,0,0,
+					0,0,0,0,0,4,0,5,0,0,0,0,0,
+					0,0,0,0,0,0,5,0,6,0,0,0,0,
+					0,0,0,0,0,0,0,6,0,7,0,0,0,
+					0,0,0,0,0,0,0,0,7,0,8,0,0,
+					0,0,0,0,0,0,0,0,0,8,0,9,0,
+					0,0,0,0,0,0,0,0,0,0,9,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0
 				}
 };
 
@@ -30,17 +45,10 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
 			for(size_t X=0;X<13;X++){
 				for(size_t Y=0;Y<13;Y++){
-					GOP_PixelStructure ThisColor{0,0,0,0xFF};
-					ThisColor.Red=ForegroundColor.Red/9;
-					ThisColor.Green=ForegroundColor.Green/9;
-					ThisColor.Blue=ForegroundColor.Blue/9;
-					ThisColor.Red*=Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
-					ThisColor.Green*=Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
-					ThisColor.Blue*=Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
-					ThisColor.Alpha=Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
-					if(!(ThisColor.Red == 0x00 && ThisColor.Blue == 0x00 && ThisColor.Green == 0x00 && ThisColor.Alpha == 0x00)){
-						PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=ThisColor;
-					}
+					GOP_PixelStructure FGC_Text = ForegroundColor;
+					FGC_Text.Alpha=(ForegroundColor.Alpha/9)*Glyphs[chr][Sauce::Math::index(X-1,Y-1,13)];
+					if(FGC_Text.Alpha)FGC_Text.Alpha+=1;//if it's not 0 then add 1 because division always rounds down and 0xFF isn't evenly dividable by 9
+					PixelBuffer[Sauce::Math::index(X,Y,PixelsPerLine)]=Blend(FGC_Text,BackgroundColor);
 				}
 			}
 		}
@@ -51,6 +59,21 @@ namespace Sauce{
 			PutChar(0);
 			Sauce::IO::PS2MouseInitialize(InitialPosition);
 		}
+		void Mouse_cl::Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location){
+			Clear();
+			PutChar(1);
+		}
+		void Mouse_cl::Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
+		void Mouse_cl::Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location){
+			Clear();
+			PutChar(0);
+		}
+		void Mouse_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){}
+		void Mouse_cl::Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
+		void Mouse_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){}
+		void Mouse_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){}
+		void Mouse_cl::Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
+		void Mouse_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){}
 	};
 
 };

@@ -8,6 +8,15 @@ namespace Sauce{
 			void PutChar(size_t chr);
 			public:
 				Mouse_cl(Sauce::Point64_st InitialPosition);
+				void Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location);
+				void Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation);
+				void Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location);
+				void Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location);
+				void Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation);
+				void Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location);
+				void Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location);
+				void Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation);
+				void Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location);
 		};
 	};
 };
