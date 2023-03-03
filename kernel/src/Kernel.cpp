@@ -183,6 +183,11 @@ namespace Sauce{
 			CurrentMouseCursorPosition = Sauce::Point64_st{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
 			Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
 		}
+		static int safety=8;
+		if(safety){
+			safety--;
+			return;
+		}
 		if(xMouse->CenterButton && xMouse->CenterButton != oMouse.CenterButton){
 			//Press
 			oMouse.CenterButton=xMouse->CenterButton;
@@ -231,7 +236,7 @@ namespace Sauce{
 		}else if(xMouse->LeftButton){
 			//Drag
 			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+				Sauce::Global::Windows[i]->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
 			}
 		}else if(xMouse->LeftButton != oMouse.LeftButton){
 			//Release

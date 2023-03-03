@@ -10,10 +10,8 @@ namespace std{
 		return address;
 	}
 };
-	#ifdef __clang__
-	void *memset(void *dest, int c, size_t count){/*because clang isn't happy with using std::memset XD*/
-		Sauce::Memory::memset(dest,c,count);
-		return dest;
-	}
-	#endif
+void *memset(void *dest, int c, size_t count){/*because clang isn't happy with using std::memset XD*/
+	Sauce::Memory::memset(dest,c,count);
+	return dest;
+}
 #endif

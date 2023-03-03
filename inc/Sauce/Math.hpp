@@ -4,6 +4,7 @@
 #include<std/string.hpp>
 namespace Sauce{
 	namespace Math{
+		const static __float128 PI=3.14159265358979323846264338327950288419716939937510;
 		double sqrt(double number,int steps=2);
 		size_t index(size_t X,size_t Y,size_t MaxX);
 		long double round(long double number,long double medium=0.5);
