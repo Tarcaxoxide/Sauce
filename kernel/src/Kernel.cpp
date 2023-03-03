@@ -184,7 +184,7 @@ namespace Sauce{
 			CurrentMouseCursorPosition = Sauce::Point64_st{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
 			Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
 		}
-		static int safety=8;
+		static int safety=8;//discards the first 8 events, they are likely noise.
 		if(safety){
 			safety--;
 			return;

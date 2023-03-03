@@ -8,7 +8,7 @@
 
 namespace Sauce{
 	namespace Math{
-		#define SQRT_MAGIC_F 0x5fe6eb50c7b537a9 
+		#define SQRT_MAGIC_F 0x5fe6eb50c7b537a9
 		double sqrt(double number,int steps){
 			double y = number;
 		  	double x2 = y * 0.5f;
@@ -18,9 +18,8 @@ namespace Sauce{
 		  	} u;
 		  	u.x = y;
 		  	u.i = SQRT_MAGIC_F - (u.i >> 1);  // gives initial guess y0
-			while(steps--)u.x = u.x * (1.5 - (x2 * u.x * u.x));
-
-			return u.x;// Newton step, repeating increases accuracy 
+			while(steps--)u.x = u.x * (1.5 - (x2 * u.x * u.x));// Newton step, repeating increases accuracy
+			return u.x;
 		}
 		size_t index(size_t X,size_t Y,size_t MaxX){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"index",_NAMESPACE_,_ALLOW_PRINT_);
@@ -54,6 +53,7 @@ namespace Sauce{
 		long double difference(long double number1,long double number2){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"difference",_NAMESPACE_,_ALLOW_PRINT_);
 			return Sauce::Math::maximum(number1,number2)/Sauce::Math::minimum(number1,number2);
+			//I can't remember why i'm doing division here and not substraction.
 		}
 		int make_positive(int number){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"make_positive",_NAMESPACE_,_ALLOW_PRINT_);
@@ -73,7 +73,6 @@ namespace Sauce{
 		}
 		void random_seed(size_t seed){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"random_seed",_NAMESPACE_,_ALLOW_PRINT_);
-
 			next = (seed?seed:(Sauce::Interrupts::PIT::GetTimeSinceBoot()*10000));
 		}
 	};
