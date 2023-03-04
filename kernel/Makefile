@@ -8,7 +8,7 @@ ASMC=nasm
 
 
 INCDIR=inc
-OPTIMIZATION_FLAGS=-O3
+OPTIMIZATION_FLAGS=-O0
 WARNING_FLAGS=-Werror -Wall -Wno-unused-variable
 PLATFORM_FLAGS=-ffreestanding -fshort-wchar -mno-red-zone -fno-exceptions
 CFLAGS = -I$(INCDIR) $(OPTIMIZATION_FLAGS) $(WARNING_FLAGS) $(PLATFORM_FLAGS)
