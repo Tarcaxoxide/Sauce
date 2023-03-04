@@ -5,6 +5,7 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<Sauce/Network/AM78C973/Driver.hpp>
 
 namespace Sauce{
 	namespace IO{
@@ -12,17 +13,27 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"EnemerateFunction",_NAMESPACE_,_ALLOW_PRINT_);
 			uint64_t offset = function << 12;
 			uint64_t functionAddress = deviceAddress + offset;
-			Sauce::Global::PageTableManager.MapMemory((void*)functionAddress,(void*)functionAddress);
+			Sauce::Global::Memory::PageTableManager.MapMemory((void*)functionAddress,(void*)functionAddress);
 			PCIDeviceHeader_st* pciDeviceHeader = (PCIDeviceHeader_st*)functionAddress;
 			if(pciDeviceHeader->DeviceID == 0x0000)return;
 			if(pciDeviceHeader->DeviceID == 0xFFFF)return;
+			switch(pciDeviceHeader->VendorID){
+				case 0x1022:/*AMD*/{
+					switch(pciDeviceHeader->DeviceID){
+						case 0x2000:/*AM78C973*/{
+							Sauce::Global::Network::AM78C973Drivers.AddLast(new Sauce::Network::AM78C973::Driver_cl(pciDeviceHeader));
+						}break;
+					}
+				}break;
+				case 0x8086:/*INTEL*/{}break;
+			}
 			switch(pciDeviceHeader->Class){
 				case 0x01:{ // mass storage controller
 					switch(pciDeviceHeader->Subclass){
 						case 0x06:{ // serial ata
 							switch(pciDeviceHeader->ProgIF){
 								case 0x01:{ // ahci 1.0 device
-									Sauce::Global::AHCIDriver = new Sauce::Storage::AHCIDriver_cl(pciDeviceHeader);
+									Sauce::Global::Storage::AHCIDrivers.AddLast(new Sauce::Storage::AHCIDriver_cl(pciDeviceHeader));
 								}break;
 							}
 						}break;
@@ -34,7 +45,7 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"EnumerateDevice",_NAMESPACE_,_ALLOW_PRINT_);
 			uint64_t offset = device << 15;
 			uint64_t deviceAddress = busAddress + offset;
-			Sauce::Global::PageTableManager.MapMemory((void*)deviceAddress,(void*)deviceAddress);
+			Sauce::Global::Memory::PageTableManager.MapMemory((void*)deviceAddress,(void*)deviceAddress);
 			PCIDeviceHeader_st* pciDeviceHeader = (PCIDeviceHeader_st*)deviceAddress;
 			if(pciDeviceHeader->DeviceID == 0x0000)return;
 			if(pciDeviceHeader->DeviceID == 0xFFFF)return;
@@ -46,7 +57,7 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"EnumerateBus",_NAMESPACE_,_ALLOW_PRINT_);
 			uint64_t offset = bus << 20;
 			uint64_t busAddress = baseAddress + offset;
-			Sauce::Global::PageTableManager.MapMemory((void*)busAddress,(void*)busAddress);
+			Sauce::Global::Memory::PageTableManager.MapMemory((void*)busAddress,(void*)busAddress);
 			PCIDeviceHeader_st* pciDeviceHeader = (PCIDeviceHeader_st*)busAddress;
 			if(pciDeviceHeader->DeviceID == 0x0000)return;
 			if(pciDeviceHeader->DeviceID == 0xFFFF)return;

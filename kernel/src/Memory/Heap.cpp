@@ -46,7 +46,7 @@ namespace Sauce{
 			void* pos = heapAddress;
 
 			for(size_t i=0;i<PageCount;i++){
-				Sauce::Global::PageTableManager.MapMemory(pos,Sauce::Global::PageFrameAllocator.RequestPage());
+				Sauce::Global::Memory::PageTableManager.MapMemory(pos,Sauce::Global::Memory::PageFrameAllocator.RequestPage());
 				pos = (void*)((size_t)pos + 0x1000);
 			}
 			size_t heapLength=PageCount*0x1000;
@@ -105,7 +105,7 @@ namespace Sauce{
 			size_t pageCount = length/0x1000;
 			HeapSegmentHeader* newSegment = (HeapSegmentHeader*)heapEnd;
 			for(size_t i=0;i<pageCount;i++){
-				Sauce::Global::PageTableManager.MapMemory(heapEnd,Sauce::Global::PageFrameAllocator.RequestPage());
+				Sauce::Global::Memory::PageTableManager.MapMemory(heapEnd,Sauce::Global::Memory::PageFrameAllocator.RequestPage());
 				heapEnd = (void*)((size_t)heapEnd+0x1000);
 			}
 			newSegment->free=true;

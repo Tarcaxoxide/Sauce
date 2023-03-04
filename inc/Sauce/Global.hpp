@@ -11,17 +11,27 @@
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/Memory/List.hpp>
 #include<Sauce/Kernel.hpp>
+#include<Sauce/Network/AM78C973/Driver.hpp>
 namespace Sauce{
 	namespace Global{
 		extern Sauce::Kernel_cl* Kernel;
-		extern Sauce::Graphics::Basic::Terminal_cl* Terminal; //<- represents the entire screen. effectively a "double buffer"
-		extern Sauce::Graphics::Basic::Terminal_cl* Screen; //<- the actual screen(hopefully).
-		extern Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
-		extern Sauce::Graphics::Shell_cl* Shell;
-		extern Sauce::Memory::Management::PageFrameAllocator_cl PageFrameAllocator;
-		extern Sauce::Graphics::Mouse_cl* Mouse;
-		extern Sauce::Memory::Management::PageTableManager_cl PageTableManager;
-		extern Sauce::Storage::AHCIDriver_cl* AHCIDriver;
+		namespace Graphics{
+			extern Sauce::Graphics::Basic::Terminal_cl* Terminal; //<- represents the entire screen. effectively a "double buffer"
+			extern Sauce::Graphics::Basic::Terminal_cl* Screen; //<- the actual screen(hopefully).
+			extern Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
+			extern Sauce::Graphics::Shell_cl* Shell;
+			extern Sauce::Graphics::Mouse_cl* Mouse;
+		};
+		namespace Memory{
+			extern Sauce::Memory::Management::PageFrameAllocator_cl PageFrameAllocator;
+			extern Sauce::Memory::Management::PageTableManager_cl PageTableManager;
+		};
+		namespace Storage{
+			extern Sauce::Memory::List_cl<Sauce::Storage::AHCIDriver_cl*> AHCIDrivers;
+		};
+		namespace Network{
+			extern Sauce::Memory::List_cl<Sauce::Network::AM78C973::Driver_cl*> AM78C973Drivers;
+		};
 	};
 };
 #endif

@@ -9,7 +9,7 @@
 namespace Sauce{
 	namespace Math{
 		#define SQRT_MAGIC_F 0x5fe6eb50c7b537a9
-		double sqrt(double number,int steps){
+		double inverse_sqrt(double number,int steps){
 			double y = number;
 		  	double x2 = y * 0.5f;
 		  	union{
@@ -20,6 +20,14 @@ namespace Sauce{
 		  	u.i = SQRT_MAGIC_F - (u.i >> 1);  // gives initial guess y0
 			while(steps--)u.x = u.x * (1.5 - (x2 * u.x * u.x));// Newton step, repeating increases accuracy
 			return u.x;
+		}
+		double sqrt (double number){
+			bool negative=false;
+			if(number<0){number=-number;negative=true;}
+			double res;
+			asm volatile("fsqrt" : "=t" (res) : "0" (number));
+			if(negative)res=-res;
+			return res;
 		}
 		size_t index(size_t X,size_t Y,size_t MaxX){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"index",_NAMESPACE_,_ALLOW_PRINT_);

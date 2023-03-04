@@ -44,18 +44,18 @@ namespace Sauce{
 		void ParsedHBAPort_st::Configure(){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ParsedHBAPort_st::Configure",_NAMESPACE_,_ALLOW_PRINT_);
 			StopCMD();
-			void* commandBase = Sauce::Global::PageFrameAllocator.RequestPage();
+			void* commandBase = Sauce::Global::Memory::PageFrameAllocator.RequestPage();
 			Address->commandListBase = (uint32_t)(uint64_t)commandBase;
 			Address->commandListBaseUpper = (uint32_t)((uint64_t)commandBase >> 32);
 			Sauce::Memory::memset(commandBase,0,1024);
-			void* fisBase = Sauce::Global::PageFrameAllocator.RequestPage();
+			void* fisBase = Sauce::Global::Memory::PageFrameAllocator.RequestPage();
 			Address->fisBaseAddress = (uint32_t)(uint64_t)fisBase;
 			Address->fisBaseAddressUpper = (uint32_t)((uint64_t)fisBase >> 32);
 			Sauce::Memory::memset(fisBase,0,1024);
 			HBACommandHeader_st* cmdHeader = (HBACommandHeader_st*)((uint64_t)Address->commandListBase + ((uint64_t)Address->commandListBaseUpper << 32));
 			for(int i=0;i<32;i++){
 				cmdHeader[i].prdtLength = 8;
-				void* cmdTableAddress = Sauce::Global::PageFrameAllocator.RequestPage();
+				void* cmdTableAddress = Sauce::Global::Memory::PageFrameAllocator.RequestPage();
 				uint64_t _address = ((uint64_t)cmdTableAddress + (i << 8));
 				cmdHeader[i].commandTableBaseAddress = (uint32_t)_address;
 				cmdHeader[i].commandTableBaseAddressUpper = (uint32_t)(_address >> 32);
@@ -112,7 +112,7 @@ namespace Sauce{
 		}
 		void AHCIDriver_cl::Read(size_t portNumber,size_t startingSector,size_t sectorCount,std::ustring &Bufferr){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"AHCIDriver_cl::Read",_NAMESPACE_,_ALLOW_PRINT_);
-			if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage();
+			if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::Memory::PageFrameAllocator.RequestPage();
 			for(size_t SectorI=0;SectorI<sectorCount;SectorI++){
 				Sauce::Memory::memset(HBAPorts[portNumber].buffer,0,1024);
 				HBAPorts[portNumber].Read(startingSector+SectorI,1,HBAPorts[portNumber].buffer);
@@ -123,7 +123,7 @@ namespace Sauce{
 		}
 		uint8_t AHCIDriver_cl::Read(size_t portNumber,size_t ByteToRead){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"AHCIDriver_cl::Read",_NAMESPACE_,_ALLOW_PRINT_);
-			if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::PageFrameAllocator.RequestPage();
+			if(HBAPorts[portNumber].buffer == nullptr)HBAPorts[portNumber].buffer=(uint8_t*)Sauce::Global::Memory::PageFrameAllocator.RequestPage();
 			size_t SectorToRead=ByteToRead/sector_size;
 			size_t SectorOffset=ByteToRead%sector_size;
 			HBAPorts[portNumber].Read(SectorToRead,1,HBAPorts[portNumber].buffer);
@@ -133,7 +133,7 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"AHCIDriver_cl::AHCIDriver_cl",_NAMESPACE_,_ALLOW_PRINT_);
 			this->pciBaseAddress=pciBaseAddress;
 			ABAR = (HBAMemory_st*)((uint64_t)((Sauce::IO::PCIHeader0_st*)pciBaseAddress)->BAR5);
-			Sauce::Global::PageTableManager.MapMemory(ABAR,ABAR);
+			Sauce::Global::Memory::PageTableManager.MapMemory(ABAR,ABAR);
 			ProbePorts();
 		}
 		void AHCIDriver_cl::ProbePorts(){

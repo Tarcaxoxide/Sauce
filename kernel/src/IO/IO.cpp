@@ -63,4 +63,23 @@ namespace Sauce{
 			return ret;
 		}
 	};
+	namespace IO{//objects, objects everywhere.
+		Port_cl::Port_cl(uint16_t portNumber,bool slow):PortNumber(portNumber),Slow(slow){}
+		Port_cl::~Port_cl(){}
+
+		Port8Bit_cl::Port8Bit_cl(uint16_t portNumber,bool slow):Port_cl(portNumber,slow){}
+		Port8Bit_cl& Port8Bit_cl::operator<<(uint8_t Data){outb(PortNumber,Data);if(Slow)io_wait();return *this;}
+		Port8Bit_cl& Port8Bit_cl::operator>>(uint8_t& Data){Data=inb(PortNumber);if(Slow)io_wait();return *this;}
+		Port8Bit_cl::~Port8Bit_cl(){}
+		
+		Port16Bit_cl::Port16Bit_cl(uint16_t portNumber,bool slow):Port_cl(portNumber,slow){}
+		Port16Bit_cl& Port16Bit_cl::operator<<(uint16_t Data){outw(PortNumber,Data);if(Slow)io_wait();return *this;}
+		Port16Bit_cl& Port16Bit_cl::operator>>(uint16_t& Data){Data=inw(PortNumber);if(Slow)io_wait();return *this;}
+		Port16Bit_cl::~Port16Bit_cl(){}
+
+		Port32Bit_cl::Port32Bit_cl(uint16_t portNumber,bool slow):Port_cl(portNumber,slow){}
+		Port32Bit_cl& Port32Bit_cl::operator<<(uint32_t Data){outl(PortNumber,Data);if(Slow)io_wait();return *this;}
+		Port32Bit_cl& Port32Bit_cl::operator>>(uint32_t& Data){Data=inl(PortNumber);if(Slow)io_wait();return *this;}
+		Port32Bit_cl::~Port32Bit_cl(){}
+	};
 };

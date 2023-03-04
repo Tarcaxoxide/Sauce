@@ -66,19 +66,19 @@ namespace Sauce{
 	}
 	void Kernel_cl::Prep_Windows(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Windows",_NAMESPACE_,_ALLOW_PRINT_);
-		Sauce::Global::Terminal=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-		Sauce::Global::Screen=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
-		Sauce::Global::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
-		Sauce::Global::Mouse->SetID((char*)"Mouse");
-		Sauce::Global::Terminal->SetColor({0x19,0x19,0x19,0x00},{0x19,0x19,0x19,0x00});
-		Sauce::Global::Mouse->SetColor({0xFF,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
-		//Sauce::Global::Terminal->SetID((char*)"Terminator");
-		Sauce::Global::Terminal->Clear();
-		Sauce::Global::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
-		Sauce::Global::Shell->SetID((char*)"Shell");
-		Sauce::Global::Shell->SetColor({0x00,0xFF,0x00,0xF0},{0x00,0x00,0x00,0x00});
-		Sauce::Global::Shell->ShellClear(true);
-		Sauce::Global::Windows.AddLast((Sauce::Graphics::Window_cl*)Sauce::Global::Shell);
+		Sauce::Global::Graphics::Terminal=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
+		Sauce::Global::Graphics::Screen=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
+		Sauce::Global::Graphics::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
+		Sauce::Global::Graphics::Mouse->SetID((char*)"Mouse");
+		Sauce::Global::Graphics::Terminal->SetColor({0x19,0x19,0x19,0x00},{0x19,0x19,0x19,0x00});
+		Sauce::Global::Graphics::Mouse->SetColor({0xFF,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
+		//Sauce::Global::Graphics::Terminal->SetID((char*)"Terminator");
+		Sauce::Global::Graphics::Terminal->Clear();
+		Sauce::Global::Graphics::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
+		Sauce::Global::Graphics::Shell->SetID((char*)"Shell");
+		Sauce::Global::Graphics::Shell->SetColor({0x00,0xFF,0x00,0xF0},{0x00,0x00,0x00,0x00});
+		Sauce::Global::Graphics::Shell->ShellClear(true);
+		Sauce::Global::Graphics::Windows.AddLast((Sauce::Graphics::Window_cl*)Sauce::Global::Graphics::Shell);
 	}
 	void Kernel_cl::MainLoop(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::MainLoop",_NAMESPACE_,_ALLOW_PRINT_);
@@ -89,26 +89,26 @@ namespace Sauce{
 	}
 	void Kernel_cl::Prep_GlobalAllocator(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_GlobalAllocator",_NAMESPACE_,_ALLOW_PRINT_);
-		Sauce::Global::PageFrameAllocator = Sauce::Memory::Management::PageFrameAllocator_cl();
+		Sauce::Global::Memory::PageFrameAllocator = Sauce::Memory::Management::PageFrameAllocator_cl();
 		mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
-		Sauce::Global::PageFrameAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
+		Sauce::Global::Memory::PageFrameAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
 		kernelSize = ((uint64_t)&_KernelEndRef)-((uint64_t)&_KernelStartRef);
 		kernelPages = (uint64_t)kernelSize/4096 +1;
-		Sauce::Global::PageFrameAllocator.LockPages(&_KernelStartRef,kernelPages);
-		PML4 = (Sauce::Memory::Management::PageTable*)Sauce::Global::PageFrameAllocator.RequestPage();
+		Sauce::Global::Memory::PageFrameAllocator.LockPages(&_KernelStartRef,kernelPages);
+		PML4 = (Sauce::Memory::Management::PageTable*)Sauce::Global::Memory::PageFrameAllocator.RequestPage();
 		Sauce::Memory::memset(PML4,0,0x1000);
-		Sauce::Global::PageTableManager = Sauce::Memory::Management::PageTableManager_cl(PML4);
+		Sauce::Global::Memory::PageTableManager = Sauce::Memory::Management::PageTableManager_cl(PML4);
 	}
 	void Kernel_cl::Prep_VirtualAddresses(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_VirtualAddresses",_NAMESPACE_,_ALLOW_PRINT_);
 		for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
-			Sauce::Global::PageTableManager.MapMemory((void*)t,(void*)t);
+			Sauce::Global::Memory::PageTableManager.MapMemory((void*)t,(void*)t);
 		}
 		DFBL->fbBase = (uint64_t)DFBL->FrameBuffer->BaseAddress;
 		DFBL->fbSize = (uint64_t)DFBL->FrameBuffer->BufferSize + 0x1000;
-		Sauce::Global::PageFrameAllocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
+		Sauce::Global::Memory::PageFrameAllocator.LockPages((void*)DFBL->fbBase,DFBL->fbSize/0x1000 +1);
 		for(uint64_t t=DFBL->fbBase;t<DFBL->fbBase+DFBL->fbSize;t+=0x1000){
-			Sauce::Global::PageTableManager.MapMemory((void*)t,(void*)t);
+			Sauce::Global::Memory::PageTableManager.MapMemory((void*)t,(void*)t);
 		}
 		asm volatile("mov %0, %%cr3" : : "r" (PML4));
 	}
@@ -128,7 +128,7 @@ namespace Sauce{
 	void Kernel_cl::Prep_Interrupts(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Interrupts",_NAMESPACE_,_ALLOW_PRINT_);
 		idtr.Limit = 0x0FFF;
-		idtr.Offset= (uint64_t)Sauce::Global::PageFrameAllocator.RequestPage();
+		idtr.Offset= (uint64_t)Sauce::Global::Memory::PageFrameAllocator.RequestPage();
 		Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
 		Debugger.Print("PageFault_handler");
 		Add_Interrupt((void*)&Sauce::Interrupts::DoubleFault_handler,0x8,IDT_TA_InterruptGate,0x08);
@@ -158,15 +158,15 @@ namespace Sauce{
 		if(xKeyboard.Press){
 			switch(xKeyboard.Key){
 				case 0xD6:{
-					/*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\n',true);
-					/*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\r',true);
+					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\n',true);
+					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\r',true);
 				}break;
 				case 0x1C:{
-					/*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar('\b',true);
+					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\b',true);
 				}break;
 				default:{   
 					if(xKeyboard.visible){
-						/*Sauce::Global::Shell*/Sauce::Global::Windows[0]->PutChar(xKeyboard.Display,true);
+						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar(xKeyboard.Display,true);
 					}else{
 					   Debugger.Print(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
 					}
@@ -178,11 +178,11 @@ namespace Sauce{
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_Mouse",_NAMESPACE_,_ALLOW_PRINT_);
 		if(xMouse->Position->Y < 0){xMouse->Position->Y=0;}
 		if(xMouse->Position->X < 0){xMouse->Position->X=0;}
-		if((xMouse->Position->Y+Sauce::Global::Mouse->Size().Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Mouse->Size().Y;}
-		if((xMouse->Position->X+Sauce::Global::Mouse->Size().X) > DFBL->FrameBuffer->Width){xMouse->Position->X=DFBL->FrameBuffer->Width-Sauce::Global::Mouse->Size().X;}
+		if((xMouse->Position->Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
+		if((xMouse->Position->X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){xMouse->Position->X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
 		if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
 			CurrentMouseCursorPosition = Sauce::Point64_st{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
-			Sauce::Global::Mouse->Move(CurrentMouseCursorPosition);
+			Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 		}
 		static int safety=8;//discards the first 8 events, they are likely noise.
 		if(safety){
@@ -193,66 +193,66 @@ namespace Sauce{
 			//Press
 			oMouse.CenterButton=xMouse->CenterButton;
 			*oMouse.Position=*xMouse->Position;
-			Sauce::Global::Mouse->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
 			}
 		}else if(xMouse->CenterButton){
 			//Drag
-			Sauce::Global::Mouse->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
 			}
 		}else if(xMouse->CenterButton != oMouse.CenterButton){
 			//Release
-			Sauce::Global::Mouse->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
 			oMouse.CenterButton=xMouse->CenterButton;
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
 			}
 		}
 		if(xMouse->RightButton && xMouse->RightButton != oMouse.RightButton){
 			//Press
-			Sauce::Global::Mouse->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
 			oMouse.RightButton=xMouse->RightButton;
 			*oMouse.Position=*xMouse->Position;
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
 			}
 		}else if(xMouse->RightButton){
 			//Drag
-			Sauce::Global::Mouse->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
 			}
 		}else if(xMouse->RightButton != oMouse.RightButton){
 			//Release
-			Sauce::Global::Mouse->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
 			oMouse.RightButton=xMouse->RightButton;
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
 			}
 		}
 		if(xMouse->LeftButton && xMouse->LeftButton != oMouse.LeftButton){
 			//Press
-			Sauce::Global::Mouse->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
 			oMouse.LeftButton=xMouse->LeftButton;
 			*oMouse.Position=*xMouse->Position;
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
 			}
 		}else if(xMouse->LeftButton){
 			//Drag
-			Sauce::Global::Mouse->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
 			}
 		}else if(xMouse->LeftButton != oMouse.LeftButton){
 			//Release
-			Sauce::Global::Mouse->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
+			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
 			oMouse.LeftButton=xMouse->LeftButton;
-			for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-				Sauce::Global::Windows[i]->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
+			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
 			}
 		}
 	}
@@ -265,11 +265,11 @@ namespace Sauce{
 	void Kernel_cl::DrawUI(){
 		InterruptsOff();
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::DrawUI",_NAMESPACE_,_ALLOW_PRINT_);
-		for(size_t i=0;i<Sauce::Global::Windows.Size();i++){
-			Sauce::Global::Terminal->CopyFrom(Sauce::Global::Windows[i]);
+		for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+			Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Windows[i]);
 		}
-		Sauce::Global::Terminal->CopyFrom(Sauce::Global::Mouse);
-		Sauce::Global::Screen->CopyFrom(Sauce::Global::Terminal);
+		Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Mouse);
+		Sauce::Global::Graphics::Screen->CopyFrom(Sauce::Global::Graphics::Terminal);
 		InterruptsOn();
 	}
 	void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){

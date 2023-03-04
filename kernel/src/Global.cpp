@@ -5,14 +5,23 @@
 namespace Sauce{
 	namespace Global{
 		Sauce::Kernel_cl* Kernel;
-		Sauce::Graphics::Basic::Terminal_cl* Terminal=nullptr;
-		Sauce::Graphics::Basic::Terminal_cl* Screen;
-		Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
-		Sauce::Graphics::Shell_cl* Shell;
-		Sauce::Memory::Management::PageFrameAllocator_cl PageFrameAllocator;
-		Sauce::Graphics::Mouse_cl* Mouse=nullptr;
-		Sauce::Memory::Management::PageTableManager_cl PageTableManager=NULL;
-		Sauce::Storage::AHCIDriver_cl* AHCIDriver=nullptr;
+		namespace Graphics{
+			Sauce::Graphics::Basic::Terminal_cl* Terminal=nullptr;
+			Sauce::Graphics::Basic::Terminal_cl* Screen;
+			Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
+			Sauce::Graphics::Shell_cl* Shell;
+			Sauce::Graphics::Mouse_cl* Mouse=nullptr;
+		};
+		namespace Memory{
+			Sauce::Memory::Management::PageFrameAllocator_cl PageFrameAllocator;
+			Sauce::Memory::Management::PageTableManager_cl PageTableManager=NULL;
+		};
+		namespace Storage{
+			Sauce::Memory::List_cl<Sauce::Storage::AHCIDriver_cl*> AHCIDrivers;
+		};
+		namespace Network{
+			Sauce::Memory::List_cl<Sauce::Network::AM78C973::Driver_cl*> AM78C973Drivers;
+		};
 	};
 };
 
