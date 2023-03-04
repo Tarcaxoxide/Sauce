@@ -4,6 +4,7 @@ namespace Sauce{
 	namespace Network{
 		namespace AM78C973{
 			Driver_cl::Driver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress){
+				this->pciBaseAddress=pciBaseAddress;
 				//Sauce::IO::Port16Bit_cl MACAddress0Port(/*??*/);
 				//Sauce::IO::Port16Bit_cl MACAddress2Port(/*??*/);
 				//Sauce::IO::Port16Bit_cl MACAddress4Port(/*??*/);
