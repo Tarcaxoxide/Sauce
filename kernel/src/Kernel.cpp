@@ -195,20 +195,20 @@ namespace Sauce{
 			*oMouse.Position=*xMouse->Position;
 			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
 			}
 		}else if(xMouse->CenterButton){
 			//Drag
 			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
 			}
 		}else if(xMouse->CenterButton != oMouse.CenterButton){
 			//Release
 			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
 			oMouse.CenterButton=xMouse->CenterButton;
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
 			}
 		}
 		if(xMouse->RightButton && xMouse->RightButton != oMouse.RightButton){
@@ -217,20 +217,20 @@ namespace Sauce{
 			oMouse.RightButton=xMouse->RightButton;
 			*oMouse.Position=*xMouse->Position;
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
 			}
 		}else if(xMouse->RightButton){
 			//Drag
 			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
 			}
 		}else if(xMouse->RightButton != oMouse.RightButton){
 			//Release
 			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
 			oMouse.RightButton=xMouse->RightButton;
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
 			}
 		}
 		if(xMouse->LeftButton && xMouse->LeftButton != oMouse.LeftButton){
@@ -239,20 +239,20 @@ namespace Sauce{
 			oMouse.LeftButton=xMouse->LeftButton;
 			*oMouse.Position=*xMouse->Position;
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
 			}
 		}else if(xMouse->LeftButton){
 			//Drag
 			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
 			}
 		}else if(xMouse->LeftButton != oMouse.LeftButton){
 			//Release
 			Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
 			oMouse.LeftButton=xMouse->LeftButton;
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
+				Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
 			}
 		}
 	}

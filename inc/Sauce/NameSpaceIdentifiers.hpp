@@ -36,7 +36,7 @@ namespace Sauce{
 		};
 		namespace PCI{
 			const static char* _NAMESPACE_="::Sauce::IO::PCI";
-			const static bool _ALLOW_PRINT_=true;
+			const static bool _ALLOW_PRINT_=false;
 		};
 	};
 	namespace Math{
