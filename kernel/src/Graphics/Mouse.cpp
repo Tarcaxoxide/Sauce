@@ -218,10 +218,47 @@ namespace Sauce{
 		}
 		bool Mouse_cl::Move(Sauce::Point64_st Offset){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::Move",_NAMESPACE_,_ALLOW_PRINT_);
-			if(Offset.X<MyOffset.X && Offset.Y<MyOffset.Y)DirectionalCue=0;
-			else if(Offset.X>MyOffset.X && Offset.Y<MyOffset.Y)DirectionalCue=2;
-			else if(Offset.X>MyOffset.X && Offset.Y>MyOffset.Y)DirectionalCue=4;
-			else if(Offset.X<MyOffset.X && Offset.Y>MyOffset.Y)DirectionalCue=6;
+			if(DirectionalCue == 0){
+				if(Offset.X<MyOffset.X){
+					DirectionalCue=0;
+				}else if(Offset.X>MyOffset.X){
+					DirectionalCue=2;
+				}else if(Offset.Y>MyOffset.Y){
+						DirectionalCue=0;
+				}else if(Offset.Y<MyOffset.Y){
+					DirectionalCue=6;
+				}
+			}else if(DirectionalCue == 2){
+				if(Offset.X<MyOffset.X){
+					DirectionalCue=0;
+				}else if(Offset.X>MyOffset.X){
+					DirectionalCue=2;
+				}else if(Offset.Y>MyOffset.Y){
+					DirectionalCue=4;
+				}else if(Offset.Y<MyOffset.Y){
+					DirectionalCue=2;
+				}
+			}else if(DirectionalCue == 4){
+				if(Offset.X<MyOffset.X){
+					DirectionalCue=6;
+				}else if(Offset.X>MyOffset.X){
+					DirectionalCue=4;
+				}else if(Offset.Y>MyOffset.Y){
+					DirectionalCue=4;
+				}else if(Offset.Y<MyOffset.Y){
+					DirectionalCue=2;
+				}
+			}else if(DirectionalCue == 6){
+				if(Offset.X<MyOffset.X){
+					DirectionalCue=6;
+				}else if(Offset.X>MyOffset.X){
+					DirectionalCue=4;
+				}else if(Offset.Y>MyOffset.Y){
+					DirectionalCue=6;
+				}else if(Offset.Y<MyOffset.Y){
+					DirectionalCue=0;
+				}
+			}
 			
 			static size_t OldDirectionalCue=0;
 			if(DirectionalCue!=OldDirectionalCue){
