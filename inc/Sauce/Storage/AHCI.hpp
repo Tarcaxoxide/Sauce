@@ -137,13 +137,13 @@ namespace Sauce{
 		};
 		ParsedHBAPort_st CheckPortType(HBAPort_st* port);
 		class AHCIDriver_cl{
-			Sauce::IO::PCIDeviceHeader_st* pciBaseAddress;
+			Sauce::IO::PCI::PCIDeviceHeader_st* pciBaseAddress;
 			HBAMemory_st* ABAR;
 			Sauce::Memory::List_cl<ParsedHBAPort_st> HBAPorts;
 			public:
 				size_t sector_size{512};
 			public:
-				AHCIDriver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress);
+				AHCIDriver_cl(Sauce::IO::PCI::PCIDeviceHeader_st* pciBaseAddress);
 				~AHCIDriver_cl();
 				void ProbePorts();
 				std::string ListPorts();

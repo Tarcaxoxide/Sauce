@@ -6,9 +6,9 @@ namespace Sauce{
 	namespace Network{
 		namespace AM78C973{
 			class Driver_cl{
-				Sauce::IO::PCIDeviceHeader_st* pciBaseAddress;
+				Sauce::IO::PCI::PCIDeviceHeader_st* pciBaseAddress;
 				public:
-					Driver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress);
+					Driver_cl(Sauce::IO::PCI::PCIDeviceHeader_st* pciBaseAddress);
 					~Driver_cl();
 			};
 		};

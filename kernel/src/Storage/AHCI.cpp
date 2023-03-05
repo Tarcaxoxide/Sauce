@@ -129,10 +129,10 @@ namespace Sauce{
 			HBAPorts[portNumber].Read(SectorToRead,1,HBAPorts[portNumber].buffer);
 			return HBAPorts[portNumber].buffer[SectorOffset];
 		}
-		AHCIDriver_cl::AHCIDriver_cl(Sauce::IO::PCIDeviceHeader_st* pciBaseAddress){
+		AHCIDriver_cl::AHCIDriver_cl(Sauce::IO::PCI::PCIDeviceHeader_st* pciBaseAddress){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"AHCIDriver_cl::AHCIDriver_cl",_NAMESPACE_,_ALLOW_PRINT_);
 			this->pciBaseAddress=pciBaseAddress;
-			ABAR = (HBAMemory_st*)((uint64_t)((Sauce::IO::PCIHeader0_st*)pciBaseAddress)->BAR5);
+			ABAR = (HBAMemory_st*)((uint64_t)((Sauce::IO::PCI::PCIHeader0_st*)pciBaseAddress)->BAR5);
 			Sauce::Global::Memory::PageTableManager.MapMemory(ABAR,ABAR);
 			ProbePorts();
 		}

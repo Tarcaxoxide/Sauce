@@ -151,7 +151,7 @@ namespace Sauce{
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_ACPI",_NAMESPACE_,_ALLOW_PRINT_);
 		Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
 		Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
-		Sauce::IO::EnumeratePCI(mcfg);
+		Sauce::IO::PCI::EnumeratePCI(mcfg);
 	}
 	void Kernel_cl::oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_KeyPress",_NAMESPACE_,_ALLOW_PRINT_);

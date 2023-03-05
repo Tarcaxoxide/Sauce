@@ -13,7 +13,7 @@ namespace Sauce{
 	const static bool _ALLOW_PRINT_=false;
 	namespace Graphics{
 		const static char* _NAMESPACE_="::Sauce::Graphics";
-		const static bool _ALLOW_PRINT_=true;
+		const static bool _ALLOW_PRINT_=false;
 		namespace Basic{
 			const static char* _NAMESPACE_="::Sauce::Graphics::Basic";
 			const static bool _ALLOW_PRINT_=false;
@@ -33,6 +33,10 @@ namespace Sauce{
 		namespace ACPI{
 			const static char* _NAMESPACE_="::Sauce::IO::ACPI";
 			const static bool _ALLOW_PRINT_=false;
+		};
+		namespace PCI{
+			const static char* _NAMESPACE_="::Sauce::IO::PCI";
+			const static bool _ALLOW_PRINT_=true;
 		};
 	};
 	namespace Math{
@@ -59,7 +63,7 @@ namespace Sauce{
 			const static bool _ALLOW_PRINT_=false;
 			namespace FAT{
 				const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::FAT";
-				const static bool _ALLOW_PRINT_=true;
+				const static bool _ALLOW_PRINT_=false;
 			};
 			namespace VirtualFileSystem{
 				const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::VirtualFileSystem";
