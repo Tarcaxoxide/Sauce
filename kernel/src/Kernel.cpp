@@ -66,19 +66,26 @@ namespace Sauce{
 	}
 	void Kernel_cl::Prep_Windows(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Windows",_NAMESPACE_,_ALLOW_PRINT_);
+		//Construct
 		Sauce::Global::Graphics::Terminal=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
 		Sauce::Global::Graphics::Screen=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
 		Sauce::Global::Graphics::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
-		Sauce::Global::Graphics::Mouse->SetID((char*)"Mouse");
-		Sauce::Global::Graphics::Terminal->SetColor({0x19,0x19,0x19,0x00},{0x19,0x19,0x19,0x00});
-		Sauce::Global::Graphics::Mouse->SetColor({0xFF,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
-		//Sauce::Global::Graphics::Terminal->SetID((char*)"Terminator");
-		Sauce::Global::Graphics::Terminal->Clear();
 		Sauce::Global::Graphics::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
+		//Set IDs
+		Sauce::Global::Graphics::Mouse->SetID((char*)"Mouse");
 		Sauce::Global::Graphics::Shell->SetID((char*)"Shell");
+		//set Colors
+		Sauce::Global::Graphics::Screen->SetColor({0x00,0x00,0x00,0x00},{0x00,0x00,0x00,0x00});
+		Sauce::Global::Graphics::Terminal->SetColor({0x00,0x00,0x00,0x00},{0x00,0x00,0x00,0x00});
+		Sauce::Global::Graphics::Mouse->SetColor({0xFF,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
 		Sauce::Global::Graphics::Shell->SetColor({0x00,0xFF,0x00,0xF0},{0x00,0x00,0x00,0x00});
-		Sauce::Global::Graphics::Shell->ShellClear(true);
+		//Add the appropriate items to the appropriate lists
 		Sauce::Global::Graphics::Windows.AddLast((Sauce::Graphics::Window_cl*)Sauce::Global::Graphics::Shell);
+		//Clear
+		Sauce::Global::Graphics::Screen->Clear();
+		Sauce::Global::Graphics::Terminal->Clear();
+		Sauce::Global::Graphics::Shell->ShellClear(true);
+
 	}
 	void Kernel_cl::MainLoop(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::MainLoop",_NAMESPACE_,_ALLOW_PRINT_);

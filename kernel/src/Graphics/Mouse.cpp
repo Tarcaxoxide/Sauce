@@ -219,47 +219,61 @@ namespace Sauce{
 		bool Mouse_cl::Move(Sauce::Point64_st Offset){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::Move",_NAMESPACE_,_ALLOW_PRINT_);
 			if(DirectionalCue == 0){
-				if(Offset.X<MyOffset.X){
+				if(Offset.X<MyOffset.X && XCue--<-DirectionalSensitivity){
 					DirectionalCue=0;
-				}else if(Offset.X>MyOffset.X){
+					XCue=0;
+				}else if(Offset.X>MyOffset.X && XCue++>DirectionalSensitivity){
 					DirectionalCue=2;
-				}else if(Offset.Y>MyOffset.Y){
-						DirectionalCue=0;
-				}else if(Offset.Y<MyOffset.Y){
-					DirectionalCue=6;
+					XCue=0;
+				}else if(Offset.Y>MyOffset.Y && YCue++>DirectionalSensitivity){
+						DirectionalCue=6;
+						YCue=0;
+				}else if(Offset.Y<MyOffset.Y && YCue--<-DirectionalSensitivity){
+					DirectionalCue=0;
+					YCue=0;
 				}
 			}else if(DirectionalCue == 2){
-				if(Offset.X<MyOffset.X){
+				if(Offset.X<MyOffset.X && XCue--<-DirectionalSensitivity){
 					DirectionalCue=0;
-				}else if(Offset.X>MyOffset.X){
+					XCue=0;
+				}else if(Offset.X>MyOffset.X && XCue++>DirectionalSensitivity){
 					DirectionalCue=2;
-				}else if(Offset.Y>MyOffset.Y){
+					XCue=0;
+				}else if(Offset.Y>MyOffset.Y && YCue++>DirectionalSensitivity){
 					DirectionalCue=4;
-				}else if(Offset.Y<MyOffset.Y){
+				}else if(Offset.Y<MyOffset.Y && YCue--<-DirectionalSensitivity){
 					DirectionalCue=2;
+					YCue=0;
 				}
 			}else if(DirectionalCue == 4){
-				if(Offset.X<MyOffset.X){
+				if(Offset.X<MyOffset.X && XCue--<-DirectionalSensitivity){
 					DirectionalCue=6;
-				}else if(Offset.X>MyOffset.X){
+					XCue=0;
+				}else if(Offset.X>MyOffset.X && XCue++>DirectionalSensitivity){
 					DirectionalCue=4;
-				}else if(Offset.Y>MyOffset.Y){
+					XCue=0;
+				}else if(Offset.Y>MyOffset.Y && YCue++>DirectionalSensitivity){
 					DirectionalCue=4;
-				}else if(Offset.Y<MyOffset.Y){
+					YCue=0;
+				}else if(Offset.Y<MyOffset.Y && YCue--<-DirectionalSensitivity){
 					DirectionalCue=2;
+					YCue=0;
 				}
 			}else if(DirectionalCue == 6){
-				if(Offset.X<MyOffset.X){
+				if(Offset.X<MyOffset.X && XCue--<-DirectionalSensitivity){
 					DirectionalCue=6;
-				}else if(Offset.X>MyOffset.X){
+					XCue=0;
+				}else if(Offset.X>MyOffset.X && XCue++>DirectionalSensitivity){
 					DirectionalCue=4;
-				}else if(Offset.Y>MyOffset.Y){
+					XCue=0;
+				}else if(Offset.Y>MyOffset.Y && YCue++>DirectionalSensitivity){
 					DirectionalCue=6;
-				}else if(Offset.Y<MyOffset.Y){
+					YCue=0;
+				}else if(Offset.Y<MyOffset.Y && YCue--<-DirectionalSensitivity){
 					DirectionalCue=0;
+					YCue=0;
 				}
 			}
-			static size_t OldDirectionalCue=0;
 			if(DirectionalCue!=OldDirectionalCue){
 				OldDirectionalCue=DirectionalCue;
 				Clear();
