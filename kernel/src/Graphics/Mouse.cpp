@@ -181,11 +181,9 @@ namespace Sauce{
 		}
 		void Mouse_cl::Notify_Of_Mouse_Left_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
 		void Mouse_cl::Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location){
-			if(CurrentChr==0){
+			if(--CurrentChr==0){
 				Clear();
 				PutChar(DirectionalCue+0);
-			}else{
-				CurrentChr--;
 			}
 		}
 		void Mouse_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){
@@ -195,11 +193,9 @@ namespace Sauce{
 		}
 		void Mouse_cl::Notify_Of_Mouse_Center_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
 		void Mouse_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){
-			if(CurrentChr==0){
+			if(--CurrentChr==0){
 				Clear();
 				PutChar(DirectionalCue+0);
-			}else{
-				CurrentChr--;
 			}
 		}
 		void Mouse_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){
@@ -209,11 +205,9 @@ namespace Sauce{
 		}
 		void Mouse_cl::Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation){}
 		void Mouse_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){
-			if(CurrentChr==0){
+			if(--CurrentChr==0){
 				Clear();
 				PutChar(DirectionalCue+0);
-			}else{
-				CurrentChr--;
 			}
 		}
 		bool Mouse_cl::Move(Sauce::Point64_st Offset){
