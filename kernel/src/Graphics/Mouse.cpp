@@ -259,7 +259,6 @@ namespace Sauce{
 					DirectionalCue=0;
 				}
 			}
-			
 			static size_t OldDirectionalCue=0;
 			if(DirectionalCue!=OldDirectionalCue){
 				OldDirectionalCue=DirectionalCue;
@@ -276,24 +275,3 @@ namespace Sauce{
 	};
 
 };
-
-
-/* Offset.X<MyOffset.X && Offset.Y<MyOffset.Y
-Offset
-   MyOffset
-*/
-
-/* Offset.X>MyOffset.X && Offset.Y<MyOffset.Y
-	Offset
-MyOffset
-*/
-
-/* Offset.X>MyOffset.X && Offset.Y>MyOffset.Y
-MyOffset
-   Offset
-*/
-
-/* Offset.X<MyOffset.X && Offset.Y>MyOffset.Y
-	MyOffset
-Offset
-*/
