@@ -18,7 +18,7 @@ namespace Sauce{
 		//#define MATH_CONSTANT_GOLDEN_RATIO 1.2020569031595942853997381615114499907649862923404
 		//#define MATH_CONSTANT_K 2.6854520010653064453097148354817956938203822939944
 		//#define MATH_CONSTANT_A 1.2824271291006226368753425688697917277676889273250
-		double inverse_sqrt(double number,int steps=2);
+		double inverse_sqrt(double number);
 		double sqrt(double number);
 		size_t index(size_t X,size_t Y,size_t MaxX);
 		long double round(long double number,long double medium=0.5);
@@ -31,6 +31,11 @@ namespace Sauce{
 		size_t random_get(size_t max);
 		void random_seed(size_t seed=0);
 		inline int abs(int number){return make_positive(number);}
+		int64_t circular_add(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
+		int64_t circular_subtract(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
+		int64_t circular_multiply(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
+		int64_t circular_divide(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
+		int64_t circular_shortest_difference(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
 	};
 };
 #endif

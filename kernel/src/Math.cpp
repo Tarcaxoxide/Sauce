@@ -8,26 +8,18 @@
 
 namespace Sauce{
 	namespace Math{
-		#define SQRT_MAGIC_F 0x5fe6eb50c7b537a9
-		double inverse_sqrt(double number,int steps){
-			double y = number;
-		  	double x2 = y * 0.5f;
-		  	union{
-				double x;
-				int i;
-		  	} u;
-		  	u.x = y;
-		  	u.i = SQRT_MAGIC_F - (u.i >> 1);  // gives initial guess y0
-			while(steps--)u.x = u.x * (1.5 - (x2 * u.x * u.x));// Newton step, repeating increases accuracy
-			return u.x;
-		}
 		double sqrt (double number){
+			if(number==2)return (double)ROOT2;
+			if(number==3)return (double)ROOT3;
 			bool negative=false;
 			if(number<0){number=-number;negative=true;}
 			double res;
 			asm volatile("fsqrt" : "=t" (res) : "0" (number));
 			if(negative)res=-res;
 			return res;
+		}
+		double inverse_sqrt(double number){
+			return 1/sqrt(number);
 		}
 		size_t index(size_t X,size_t Y,size_t MaxX){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"index",_NAMESPACE_,_ALLOW_PRINT_);
@@ -82,6 +74,39 @@ namespace Sauce{
 		void random_seed(size_t seed){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"random_seed",_NAMESPACE_,_ALLOW_PRINT_);
 			next = (seed?seed:(Sauce::Interrupts::PIT::GetTimeSinceBoot()*10000));
+		}
+		int64_t circular_add(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
+			int64_t result = leftHandSide+rightHandSide;
+			int64_t range = circumferenceMaximal-circumferenceMinimal;
+			while(result>=circumferenceMaximal)result-=range;
+			while(result<circumferenceMinimal)result+=range;
+			return result;
+		}
+		int64_t circular_subtract(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
+			int64_t result = leftHandSide-rightHandSide;
+			int64_t range = circumferenceMaximal-circumferenceMinimal;
+			while(result>=circumferenceMaximal)result-=range;
+			while(result<circumferenceMinimal)result+=range;
+			return result;
+		}
+		int64_t circular_multiply(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
+			int64_t result = leftHandSide*rightHandSide;
+			int64_t range = circumferenceMaximal-circumferenceMinimal;
+			while(result>=circumferenceMaximal)result-=range;
+			while(result<circumferenceMinimal)result+=range;
+			return result;
+		}
+		int64_t circular_divide(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
+			int64_t result = leftHandSide/rightHandSide;
+			int64_t range = circumferenceMaximal-circumferenceMinimal;
+			while(result>=circumferenceMaximal)result-=range;
+			while(result<circumferenceMinimal)result+=range;
+			return result;
+		}
+		int64_t circular_shortest_difference(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
+			int64_t counter_clockwise = circular_subtract(rightHandSide,leftHandSide,circumferenceMinimal,circumferenceMaximal);
+			int64_t clockwise = circular_subtract(leftHandSide,rightHandSide,circumferenceMinimal,circumferenceMaximal);
+			return counter_clockwise>clockwise?clockwise:-counter_clockwise;
 		}
 	};
 };

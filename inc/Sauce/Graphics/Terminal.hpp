@@ -23,7 +23,8 @@ namespace Sauce{
 					bool ShiftUp(int64_t Rows);
 					bool ShiftDown(int64_t Rows);
 					bool Fill(GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
-					bool PutPixel(Sauce::Point64_st Location,GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF});
+					bool PutPixel(Sauce::Point64_st Location,GOP_PixelStructure TheColor={0xFF,0xFF,0xFF,0xFF},bool blend=true);
+					bool PullPixel(Sauce::Point64_st Location,GOP_PixelStructure& ThatColor);
 					GOP_PixelStructure Blend(GOP_PixelStructure Front,GOP_PixelStructure Back);
 					bool RowClear(int64_t RowIndex);
 					bool ColumnClear(int64_t ColumnIndex);

@@ -137,8 +137,13 @@ namespace Sauce{
 
 			if(CharBuffer.Compare(new const char*[]{"hi","Hi","HI","hI","hello","Hello","HEllo","HELlo","HELLo","HELLO",nullptr})){
 				PutString("The kernel says hi!\n\r",false);
+				PutString("Root of 3:",false);
 				PutString(Sauce::Utility::Conversion::ToString((long double)Sauce::Math::sqrt(3)),false);
 				PutString("\n\r",false);
+				PutString("Inverse Root of 3:",false);
+				PutString(Sauce::Utility::Conversion::ToString((long double)Sauce::Math::inverse_sqrt(3)),false);
+				PutString("\n\r",false);
+
 			}
 			
 			ShellClear(false);

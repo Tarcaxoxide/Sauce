@@ -48,9 +48,17 @@ namespace Sauce{
 				}
 				return true;
 			}
-			bool Terminal_cl::PutPixel(Sauce::Point64_st Location,GOP_PixelStructure TheColor){
+			bool Terminal_cl::PutPixel(Sauce::Point64_st Location,GOP_PixelStructure TheColor,bool blend){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::PutPixel",_NAMESPACE_,_ALLOW_PRINT_);
-				PixelBuffer[Sauce::Math::index(Location.X,Location.Y,PixelsPerLine)]=Blend(TheColor,BackgroundColor);
+				if(Location.X > PixelsPerLine||Location.Y > PixelsBufferHeight)return false;
+				if(Location.X < 0||Location.Y < 0)return false;
+				PixelBuffer[Sauce::Math::index(Location.X,Location.Y,PixelsPerLine)]=blend?Blend(TheColor,BackgroundColor):TheColor;
+				return true;
+			}
+			bool Terminal_cl::PullPixel(Sauce::Point64_st Location,GOP_PixelStructure& ThatColor){
+				if(Location.X > PixelsPerLine||Location.Y > PixelsBufferHeight)return false;
+				if(Location.X < 0||Location.Y < 0)return false;
+				ThatColor=PixelBuffer[Sauce::Math::index(Location.X,Location.Y,PixelsPerLine)];
 				return true;
 			}
 			GOP_PixelStructure Terminal_cl::Blend(GOP_PixelStructure Front,GOP_PixelStructure Back){
