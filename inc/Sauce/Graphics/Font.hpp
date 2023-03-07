@@ -6,10 +6,10 @@
 namespace Sauce{
 	namespace Graphics{
 		namespace SauceFont{
-			const static size_t GlyphWidth=13;
-			const static size_t GlyphHeight=13;
-			const static size_t GlyphSize=GlyphWidth*GlyphHeight;
-			const static size_t EncodingSize=(GlyphWidth*2)+((GlyphHeight-2)*2);
+			const static int64_t GlyphWidth=13;
+			const static int64_t GlyphHeight=13;
+			const static int64_t GlyphSize=GlyphWidth*GlyphHeight;
+			const static int64_t EncodingSize=(GlyphWidth*2)+((GlyphHeight-2)*2);
 			extern uint8_t Glyphs[][GlyphSize];
 
 			inline void Encode(std::ustring& Data,std::ustring& Glyph){

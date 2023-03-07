@@ -137,12 +137,12 @@ namespace Sauce{
 	namespace Graphics{
 		void Mouse_cl::PutChar(size_t chr){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
-			for(size_t X=0;X<13;X++){
-				for(size_t Y=0;Y<13;Y++){
-					GOP_PixelStructure FGC_Text = ForegroundColor;
-					FGC_Text.Alpha=(ForegroundColor.Alpha/9)*Glyphs[chr][Sauce::Math::index(X,Y,13)];
+			for(int64_t X=0;X<13;X++){
+				for(int64_t Y=0;Y<13;Y++){
+					GOP_PixelStructure FGC_Text = Frame.ForegroundColor;
+					FGC_Text.Alpha=(FGC_Text.Alpha/9)*Glyphs[chr][Sauce::Math::index(X,Y,13)];
 					if(FGC_Text.Alpha)FGC_Text.Alpha+=1;//if it's not 0 then add 1 because division always rounds down and 0xFF isn't evenly dividable by 9
-					PixelBuffer[Sauce::Math::index(X,Y,PixelsPerLine)]=Blend(FGC_Text,BackgroundColor);
+					Frame.PutPixel({X,Y,0},Blend(FGC_Text,Frame.BackgroundColor));
 				}
 			}
 		}
@@ -160,19 +160,19 @@ namespace Sauce{
 		Sauce::Point64_st Mouse_cl::Focus(){
 			switch(DirectionalCue){
 				case 0:{
-					return MyOffset;
+					return Frame.Offset;
 				}break;
 				case 2:{
-					return {MyOffset.X+13,MyOffset.Y,MyOffset.Z};
+					return {Frame.Offset.X+13,Frame.Offset.Y,Frame.Offset.Z};
 				}break;
 				case 4:{
-					return {MyOffset.X+13,MyOffset.Y+13,MyOffset.Z};
+					return {Frame.Offset.X+13,Frame.Offset.Y+13,Frame.Offset.Z};
 				}break;
 				case 6:{
-					return {MyOffset.X,MyOffset.Y+13,MyOffset.Z};
+					return {Frame.Offset.X,Frame.Offset.Y+13,Frame.Offset.Z};
 				}break;
 			}
-			return MyOffset;
+			return Frame.Offset;
 		}
 		void Mouse_cl::Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location){
 			CurrentChr++;
@@ -214,57 +214,57 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::Move",_NAMESPACE_,_ALLOW_PRINT_);
 			if(DirectionalSensitivity > 1){
 				if(DirectionalCue == 0){
-					if(Offset.X<MyOffset.X && XCue--<-DirectionalSensitivity){
+					if(Offset.X<Frame.Offset.X && XCue--<-DirectionalSensitivity){
 						DirectionalCue=0;
 						XCue=0;
-					}else if(Offset.X>MyOffset.X && XCue++>DirectionalSensitivity){
+					}else if(Offset.X>Frame.Offset.X && XCue++>DirectionalSensitivity){
 						DirectionalCue=2;
 						XCue=0;
-					}else if(Offset.Y>MyOffset.Y && YCue++>DirectionalSensitivity){
+					}else if(Offset.Y>Frame.Offset.Y && YCue++>DirectionalSensitivity){
 							DirectionalCue=6;
 							YCue=0;
-					}else if(Offset.Y<MyOffset.Y && YCue--<-DirectionalSensitivity){
+					}else if(Offset.Y<Frame.Offset.Y && YCue--<-DirectionalSensitivity){
 						DirectionalCue=0;
 						YCue=0;
 					}
 				}else if(DirectionalCue == 2){
-					if(Offset.X<MyOffset.X && XCue--<-DirectionalSensitivity){
+					if(Offset.X<Frame.Offset.X && XCue--<-DirectionalSensitivity){
 						DirectionalCue=0;
 						XCue=0;
-					}else if(Offset.X>MyOffset.X && XCue++>DirectionalSensitivity){
+					}else if(Offset.X>Frame.Offset.X && XCue++>DirectionalSensitivity){
 						DirectionalCue=2;
 						XCue=0;
-					}else if(Offset.Y>MyOffset.Y && YCue++>DirectionalSensitivity){
+					}else if(Offset.Y>Frame.Offset.Y && YCue++>DirectionalSensitivity){
 						DirectionalCue=4;
-					}else if(Offset.Y<MyOffset.Y && YCue--<-DirectionalSensitivity){
+					}else if(Offset.Y<Frame.Offset.Y && YCue--<-DirectionalSensitivity){
 						DirectionalCue=2;
 						YCue=0;
 					}
 				}else if(DirectionalCue == 4){
-					if(Offset.X<MyOffset.X && XCue--<-DirectionalSensitivity){
+					if(Offset.X<Frame.Offset.X && XCue--<-DirectionalSensitivity){
 						DirectionalCue=6;
 						XCue=0;
-					}else if(Offset.X>MyOffset.X && XCue++>DirectionalSensitivity){
+					}else if(Offset.X>Frame.Offset.X && XCue++>DirectionalSensitivity){
 						DirectionalCue=4;
 						XCue=0;
-					}else if(Offset.Y>MyOffset.Y && YCue++>DirectionalSensitivity){
+					}else if(Offset.Y>Frame.Offset.Y && YCue++>DirectionalSensitivity){
 						DirectionalCue=4;
 						YCue=0;
-					}else if(Offset.Y<MyOffset.Y && YCue--<-DirectionalSensitivity){
+					}else if(Offset.Y<Frame.Offset.Y && YCue--<-DirectionalSensitivity){
 						DirectionalCue=2;
 						YCue=0;
 					}
 				}else if(DirectionalCue == 6){
-					if(Offset.X<MyOffset.X && XCue--<-DirectionalSensitivity){
+					if(Offset.X<Frame.Offset.X && XCue--<-DirectionalSensitivity){
 						DirectionalCue=6;
 						XCue=0;
-					}else if(Offset.X>MyOffset.X && XCue++>DirectionalSensitivity){
+					}else if(Offset.X>Frame.Offset.X && XCue++>DirectionalSensitivity){
 						DirectionalCue=4;
 						XCue=0;
-					}else if(Offset.Y>MyOffset.Y && YCue++>DirectionalSensitivity){
+					}else if(Offset.Y>Frame.Offset.Y && YCue++>DirectionalSensitivity){
 						DirectionalCue=6;
 						YCue=0;
-					}else if(Offset.Y<MyOffset.Y && YCue--<-DirectionalSensitivity){
+					}else if(Offset.Y<Frame.Offset.Y && YCue--<-DirectionalSensitivity){
 						DirectionalCue=0;
 						YCue=0;
 					}
@@ -274,7 +274,7 @@ namespace Sauce{
 				OldDirectionalCue=DirectionalCue;
 				ReDraw();
 			}
-			MyOffset=Offset;
+			Frame.Offset=Offset;
 			return true;
 		}
 		void Mouse_cl::ReDraw(){

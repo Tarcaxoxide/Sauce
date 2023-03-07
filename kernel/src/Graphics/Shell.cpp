@@ -29,7 +29,7 @@ namespace Sauce{
 						ParseAndRunCommand();
 					}
 					if(!GoDown()){
-						ShiftUp(2*Sauce::Graphics::SauceFont::GlyphHeight);
+						//ShiftUp(2*Sauce::Graphics::SauceFont::GlyphHeight);
 						GoUp();
 						Debugger.Print("Reached Bottoom.");
 					}
@@ -53,12 +53,13 @@ namespace Sauce{
 				}break;
 				default:{
 					if(AddToBuffer)CharBuffer.AddLast(chr);
-					for(size_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
-						for(size_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
-							GOP_PixelStructure FGC_Text = ForegroundColor;
-							FGC_Text.Alpha=(ForegroundColor.Alpha/9)*Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+					for(int64_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
+						for(int64_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
+							GOP_PixelStructure FGC_Text = Frame.ForegroundColor;
+							FGC_Text.Alpha=(FGC_Text.Alpha/9)*Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
 							if(FGC_Text.Alpha)FGC_Text.Alpha+=1;//if it's not 0 then add 1 because division always rounds down and 0xFF isn't evenly dividable by 9
-							PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=Blend(FGC_Text,BackgroundColor);
+							//PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=Blend(FGC_Text,BackgroundColor);
+							Frame.PutPixel({X+Cursor.X,Y+Cursor.Y,0},Blend(FGC_Text,Frame.BackgroundColor));
 						}
 					}
 					if(!GoRight()){
@@ -66,7 +67,7 @@ namespace Sauce{
 							GoFarLeft();
 						}else{
 							//at bottom?
-							ShiftUp(2*Sauce::Graphics::SauceFont::GlyphHeight);
+							//ShiftUp(2*Sauce::Graphics::SauceFont::GlyphHeight);
 							GoUp();
 						}
 					}
@@ -82,7 +83,7 @@ namespace Sauce{
 		}
 		bool Shell_cl::GoDown(size_t amount){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoDown",_NAMESPACE_,_ALLOW_PRINT_);
-			if((Cursor.Y+(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) > (PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) ){
+			if((Cursor.Y+(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) > (Frame.PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) ){
 				return false;
 			}
 			Cursor.Y+=(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount;
@@ -98,7 +99,7 @@ namespace Sauce{
 		}
 		bool Shell_cl::GoRight(size_t amount){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoRight",_NAMESPACE_,_ALLOW_PRINT_);
-			if((Cursor.X+(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) > (PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) ){
+			if((Cursor.X+(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) > (Frame.PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) ){
 				return false;
 			}
 			Cursor.X+=(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount;
@@ -114,7 +115,7 @@ namespace Sauce{
 		}
 		void Shell_cl::GoFarDown(){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoFarDown",_NAMESPACE_,_ALLOW_PRINT_);
-			Cursor.Y=PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2);
+			Cursor.Y=Frame.PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2);
 		}
 		void Shell_cl::GoFarUp(){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoFarUp",_NAMESPACE_,_ALLOW_PRINT_);
@@ -122,7 +123,7 @@ namespace Sauce{
 		}
 		void Shell_cl::GoFarRight(){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoFarRight",_NAMESPACE_,_ALLOW_PRINT_);
-			Cursor.X=PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2);
+			Cursor.X=Frame.PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2);
 		}
 		void Shell_cl::GoFarLeft(){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoFarLeft",_NAMESPACE_,_ALLOW_PRINT_);
