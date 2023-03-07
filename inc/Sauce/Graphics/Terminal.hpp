@@ -31,6 +31,7 @@ namespace Sauce{
 					bool Move(Sauce::Point64_st Offset);
 					void SetID(std::string nID);
 					bool Is_Over(Sauce::Point64_st Location);
+					bool BorderSet(GOP_PixelStructure TheColor);
 			};
 		};
 	};

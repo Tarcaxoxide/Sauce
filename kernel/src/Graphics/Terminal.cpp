@@ -94,6 +94,10 @@ namespace Sauce{
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Is_Mouse_Over",_NAMESPACE_,_ALLOW_PRINT_);
 				return Frame.Is_Over(Location);
 			}
+			bool Terminal_cl::BorderSet(GOP_PixelStructure TheColor){
+				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::BorderSet",_NAMESPACE_,_ALLOW_PRINT_);
+				return Frame.BorderSet(TheColor);
+			}
 		};
 	};
 };

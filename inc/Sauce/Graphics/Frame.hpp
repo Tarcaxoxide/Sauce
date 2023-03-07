@@ -11,7 +11,7 @@ namespace Sauce{
 			struct Frame_st{
 				GOP_PixelStructure* PixelBuffer=nullptr;
 				int64_t PixelBufferTotalSize,PixelsPerLine,PixelsBufferHeight;
-				GOP_PixelStructure ForegroundColor{0xFF,0xFF,0xFF,0xFF},BackgroundColor{0x00,0x00,0x00,0x00};
+				GOP_PixelStructure ForegroundColor{0xFF,0xFF,0xFF,0xFF},BackgroundColor{0x00,0x00,0x00,0x00},BorderColor{0x00,0x00,0x00,0x00};
 				Sauce::Point64_st PixelPointer{0,0,0};
 				Sauce::Point64_st Offset{0,0,0};
 				Frame_st(int64_t PixelBufferTotalSize,int64_t PixelsPerLine,GOP_PixelStructure* Buffer=nullptr){
@@ -71,21 +71,19 @@ namespace Sauce{
 					return true;
 				}
 				inline bool RowFill(int64_t RowIndex,GOP_PixelStructure TheColor){
-					if(RowIndex > PixelsPerLine){
-						return false;
-					}
-					PixelPointer.X=RowIndex;
-					for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
+					if(RowIndex >= PixelsBufferHeight || RowIndex < 0)return false;
+					PixelPointer.Y=RowIndex;
+					for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
 						PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
 					}
 					return true;
 				}
 				inline bool ColumnFill(int64_t ColumnIndex,GOP_PixelStructure TheColor){
-					if(ColumnIndex > PixelsPerLine){
+					if(ColumnIndex >= PixelsPerLine || ColumnIndex < 0){
 						return false;
 					}
-					PixelPointer.Y=ColumnIndex;
-					for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
+					PixelPointer.X=ColumnIndex;
+					for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
 						PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)]=TheColor;
 					}
 					return true;
@@ -103,13 +101,18 @@ namespace Sauce{
 					PixelPointer.X=0;
 					PixelPointer.Y=0;
 					PixelPointer.Z=0;
+					if(!BorderDraw())return false;
 					return true;
 				}
 				inline bool RowClear(int64_t RowIndex){
-					return RowFill(RowIndex,BackgroundColor);
+					if(!RowFill(RowIndex,BackgroundColor))return false;
+					if(!BorderDraw())return false;
+					return true;
 				}
 				inline bool ColumnClear(int64_t ColumnIndex){
-					return ColumnFill(ColumnIndex,BackgroundColor);
+					if(!ColumnFill(ColumnIndex,BackgroundColor))return false;
+					if(!BorderDraw())return false;
+					return true;
 				}
 				inline bool PutPixel(Sauce::Point64_st Location,GOP_PixelStructure TheColor){
 					if(Location.X > PixelsPerLine||Location.Y > PixelsBufferHeight)return false;
@@ -161,7 +164,19 @@ namespace Sauce{
 					PixelsPerLine=tmp.PixelsPerLine;
 					PixelsBufferHeight=tmp.PixelsBufferHeight;
 					SetPointer({0,0,0});
+					if(!BorderDraw())return false;
 					return true;
+				}
+				inline bool BorderDraw(){
+					if(!RowFill(0,BorderColor))return false;
+					if(!RowFill(PixelsBufferHeight-1,BorderColor))return false;
+					if(!ColumnFill(0,BorderColor))return false;
+					if(!ColumnFill(PixelsPerLine-1,BorderColor))return false;
+					return true;
+				}
+				inline bool BorderSet(GOP_PixelStructure TheColor){
+					BorderColor=TheColor;
+					return BorderDraw();
 				}
 			};
 		};
