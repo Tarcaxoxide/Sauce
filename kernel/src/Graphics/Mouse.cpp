@@ -270,15 +270,18 @@ namespace Sauce{
 			}
 			if(DirectionalCue!=OldDirectionalCue){
 				OldDirectionalCue=DirectionalCue;
-				Clear();
-				if(CurrentChr==0){
-					PutChar(DirectionalCue+0);
-				}else{
-					PutChar(DirectionalCue+1);
-				}
+				ReDraw();
 			}
 			MyOffset=Offset;
 			return true;
+		}
+		void Mouse_cl::ReDraw(){
+			Clear();
+			if(CurrentChr==0){
+				PutChar(DirectionalCue+0);
+			}else{
+				PutChar(DirectionalCue+1);
+			}
 		}
 	};
 

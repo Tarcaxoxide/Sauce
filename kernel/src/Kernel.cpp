@@ -169,6 +169,8 @@ namespace Sauce{
 				switch(xKeyboard.Key){
 					case 0xF8:/*KeyboardAsMouseMode Toggle, aka scroll lock*/{
 						KeyboardAsMouseMode=!KeyboardAsMouseMode;
+						Sauce::Global::Graphics::Mouse->SetColor({0x00,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
+						Sauce::Global::Graphics::Mouse->ReDraw();
 					}break;
 					case 0xD6:{
 						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\n',true);
@@ -192,6 +194,8 @@ namespace Sauce{
 				switch(xKeyboard.Key){
 					case 0xF8:/*KeyboardAsMouseMode Toggle, aka scroll lock*/{
 						KeyboardAsMouseMode=!KeyboardAsMouseMode;
+						Sauce::Global::Graphics::Mouse->SetColor({0xFF,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
+						Sauce::Global::Graphics::Mouse->ReDraw();
 					}break;
 					case 0xB6:/*left arrow press*/{
 						if(xKeyboard.Capital){

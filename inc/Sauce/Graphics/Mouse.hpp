@@ -25,6 +25,7 @@ namespace Sauce{
 				void Notify_Of_Mouse_Right_Drag(Sauce::Point64_st Location,Sauce::Point64_st OldLocation);
 				void Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location);
 				bool Move(Sauce::Point64_st Offset);
+				void ReDraw();
 		};
 	};
 };
