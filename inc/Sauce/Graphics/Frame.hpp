@@ -141,6 +141,28 @@ namespace Sauce{
 				inline bool CopyFrom(Frame_st* Other){
 					return Other->CopyTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,Offset);
 				}
+				inline bool Resize(Sauce::Point64_st nSize){
+					Frame_st tmp(nSize.X*nSize.Y,nSize.X);
+					if(!tmp.SetColor(ForegroundColor,BackgroundColor))return false;
+					for(tmp.PixelPointer.X=0;tmp.PixelPointer.X<tmp.PixelsPerLine;tmp.PixelPointer.X++){
+						for(tmp.PixelPointer.Y=0;tmp.PixelPointer.Y<tmp.PixelsBufferHeight;tmp.PixelPointer.Y++){
+							__float128 intermediateX=((__float128)tmp.PixelPointer.X)/((__float128)tmp.PixelsPerLine);
+							__float128 intermediateY=((__float128)tmp.PixelPointer.Y)/((__float128)tmp.PixelsBufferHeight);
+							int64_t sourceX=intermediateX*PixelsPerLine;
+							int64_t sourceY=intermediateY*PixelsBufferHeight;
+							GOP_PixelStructure Pixel;
+							if(!PullPixel({sourceX,sourceY,0},Pixel))return false;
+							if(!tmp.PutPixel({tmp.PixelPointer.X,tmp.PixelPointer.Y,0},Pixel))return false;
+						}
+					}
+					delete PixelBuffer;
+					PixelBuffer=tmp.PixelBuffer;
+					PixelBufferTotalSize=tmp.PixelBufferTotalSize;
+					PixelsPerLine=tmp.PixelsPerLine;
+					PixelsBufferHeight=tmp.PixelsBufferHeight;
+					SetPointer({0,0,0});
+					return true;
+				}
 			};
 		};
 	};
