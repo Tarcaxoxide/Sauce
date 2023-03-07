@@ -32,6 +32,7 @@ namespace Sauce{
 	Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
 	Sauce::Mouse_st oMouse;
 	Sauce::Point64_st oMousePosition;
+	bool KeyboardAsMouseMode=false;
 	Kernel_cl::Kernel_cl(DataStructure* DFBL){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Kernel_cl",_NAMESPACE_,_ALLOW_PRINT_);
 		asm volatile("cli");
@@ -163,27 +164,74 @@ namespace Sauce{
 	}
 	void Kernel_cl::oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_KeyPress",_NAMESPACE_,_ALLOW_PRINT_);
-		if(xKeyboard.Press){
-			switch(xKeyboard.Key){
-				case 0xD6:{
-					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\n',true);
-					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\r',true);
-				}break;
-				case 0x1C:{
-					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\b',true);
-				}break;
-				default:{   
-					if(xKeyboard.visible){
-						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar(xKeyboard.Display,true);
-					}else{
-					   Debugger.Print(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
-					}
-				}break;
+		if(!KeyboardAsMouseMode){
+			if(xKeyboard.Press){
+				switch(xKeyboard.Key){
+					case 0xF8:/*KeyboardAsMouseMode Toggle, aka scroll lock*/{
+						KeyboardAsMouseMode=!KeyboardAsMouseMode;
+					}break;
+					case 0xD6:{
+						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\n',true);
+						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\r',true);
+					}break;
+					case 0x1C:{
+						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\b',true);
+					}break;
+					
+					default:{   
+						if(xKeyboard.visible){
+							/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar(xKeyboard.Display,true);
+						}else{
+						   Debugger.Print(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
+						}
+					}break;
+				}
+			}
+		}else{
+			if(xKeyboard.Press){
+				switch(xKeyboard.Key){
+					case 0xF8:/*KeyboardAsMouseMode Toggle, aka scroll lock*/{
+						KeyboardAsMouseMode=!KeyboardAsMouseMode;
+					}break;
+					case 0xB6:/*left arrow press*/{
+						if(xKeyboard.Capital){
+							CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X-1,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
+						}else{
+							CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X-10,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
+						}
+						Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
+					}break;
+					case 0xCA:/*right arrow press*/{
+						if(xKeyboard.Capital){
+							CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X+1,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
+						}else{
+							CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X+10,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
+						}
+						Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
+					}break;
+					case 0xBE:/*up arrow press*/{
+						if(xKeyboard.Capital){
+							CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y-1,CurrentMouseCursorPosition.Z};
+						}else{
+							CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y-10,CurrentMouseCursorPosition.Z};
+						}
+						Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
+					}break;
+					case 0xC2:/*down arrow press*/{
+						if(xKeyboard.Capital){
+							CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y+1,CurrentMouseCursorPosition.Z};
+						}else{
+							CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y+10,CurrentMouseCursorPosition.Z};
+						}
+						Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
+					}break;
+				}
 			}
 		}
 	}
 	void Kernel_cl::oNotify_Of_Mouse(Sauce::Mouse_st* xMouse){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_Mouse",_NAMESPACE_,_ALLOW_PRINT_);
+		if(KeyboardAsMouseMode)return;
 		if(xMouse->Position->Y < 0){xMouse->Position->Y=0;}
 		if(xMouse->Position->X < 0){xMouse->Position->X=0;}
 		if((xMouse->Position->Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
