@@ -28,13 +28,27 @@
 extern "C" int64_t _start(DataStructure* DFBL);
 
 namespace Sauce{
-	int testcount=0;
-	Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
-	Sauce::Mouse_st oMouse;
-	Sauce::Point64_st oMousePosition;
-	Sauce::Mouse_st iMouse;
-	Sauce::Point64_st iMousePosition;
-	bool KeyboardAsMouseMode=false;
+
+	//Input Statics
+		Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
+		Sauce::Mouse_st oMouse;
+		Sauce::Point64_st oMousePosition;
+		Sauce::Mouse_st iMouse;
+		Sauce::Point64_st iMousePosition;
+		bool KeyboardAsMouseMode=false;
+		bool KeyboardCtrl=false;
+		bool KeyboardAlt=false;
+		bool KeyboardDel=false;
+		bool KeyboardIns=false;
+		bool KeyboardEnd=false;
+		bool KeyboardHome=false;
+		bool KeyboardPageDown=false;
+		bool KeyboardPageUp=false;
+		bool KeyboardPause=false;
+		bool KeyboardBreak=false;
+		
+
+
 	Kernel_cl::Kernel_cl(DataStructure* DFBL){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Kernel_cl",_NAMESPACE_,_ALLOW_PRINT_);
 		asm volatile("cli");
@@ -171,29 +185,59 @@ namespace Sauce{
 	void Kernel_cl::oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_KeyPress",_NAMESPACE_,true);
 		if(!KeyboardAsMouseMode){
-			if(xKeyboard.Press){
-				switch(xKeyboard.Key){
-					case 0xF8:/*KeyboardAsMouseMode Toggle, aka scroll lock*/{
-						KeyboardAsMouseMode=!KeyboardAsMouseMode;
-						Sauce::Global::Graphics::Mouse->SetColor({0x00,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
-						Sauce::Global::Graphics::Mouse->ReDraw();
-					}break;
-					case 0xD6:{
-						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\n',true);
-						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\r',true);
-					}break;
-					case 0x1C:{
-						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\b',true);
-					}break;
-					default:{   
-						if(xKeyboard.visible){
-							/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar(xKeyboard.Display,true);
-						}else{
-						   Debugger.Print(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
-						}
-					}break;
+			switch(xKeyboard.Key){
+				case 0xF8:/*KeyboardAsMouseMode Toggle, aka scroll lock*/{
+					if(!xKeyboard.Press)return;
+					KeyboardAsMouseMode=!KeyboardAsMouseMode;
+					Sauce::Global::Graphics::Mouse->SetColor({0x00,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
+					Sauce::Global::Graphics::Mouse->ReDraw();
+				}break;
+				case 0xD6:{
+					if(!xKeyboard.Press)return;
+					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\n',true);
+					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\r',true);
+				}break;
+				case 0x1C:{
+					if(!xKeyboard.Press)return;
+					/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\b',true);
+				}break;
+				case 0x7E:/*ctrl*/{
+					if(xKeyboard.Press){KeyboardCtrl=true;}else{KeyboardCtrl=false;}
+				}break;
+				case 0x7A:/*alt*/{
+					if(xKeyboard.Press){KeyboardAlt=true;}else{KeyboardAlt=false;}
+				}break;
+				case 0xCE:/*del*/{
+					if(xKeyboard.Press){KeyboardDel=true;}else{KeyboardDel=false;}
+				}break;
+				case 0xC4:/*ins*/{
+					if(xKeyboard.Press){KeyboardIns=true;}else{KeyboardIns=false;}
+				}break;
+				case 0xB8:/*end*/{
+					if(xKeyboard.Press){KeyboardEnd=true;}else{KeyboardEnd=false;}
+				}break;
+				case 0xB4:/*home*/{
+					if(xKeyboard.Press){KeyboardHome=true;}else{KeyboardHome=false;}
+				}break;
+				case 0xCC:/*page down*/{
+					if(xKeyboard.Press){KeyboardPageDown=true;}else{KeyboardPageDown=false;}
+				}break;
+				case 0xC8:/*page up*/{
+					if(xKeyboard.Press){KeyboardPageUp=true;}else{KeyboardPageUp=false;}
+				}break;
+				case 0xB2:/*pause/break, also triggers 0x7E?*/{
+					if(xKeyboard.Press){KeyboardBreak=true;}else{KeyboardBreak=false;}
 				}
+				default:{
+					if(!xKeyboard.Press)return;
+					if(xKeyboard.visible){
+						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar(xKeyboard.Display,true);
+					}else{
+					   Debugger.Print(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
+					}
+				}break;
 			}
+			
 		}else{
 			switch(xKeyboard.Key){
 				case 0xF8:/*KeyboardAsMouseMode Toggle, aka scroll lock*/{
@@ -204,6 +248,12 @@ namespace Sauce{
 				}break;
 				case 0xB6:/*left*/{
 					if(!xKeyboard.Press)return;
+					if(KeyboardCtrl && !KeyboardAlt && !KeyboardDel && !KeyboardIns && !KeyboardEnd && !KeyboardHome && !KeyboardPageDown && !KeyboardPageUp && !KeyboardPause && !KeyboardBreak){
+						Sauce::Global::Graphics::Mouse->CycleDirectionCounterClockwise();
+						Sauce::Global::Graphics::Mouse->ReDraw();
+						return;
+					}
+
 					if(xKeyboard.Capital){
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X-1,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
 					}else{
@@ -280,6 +330,12 @@ namespace Sauce{
 				}break;
 				case 0xCA:/*right*/{
 					if(!xKeyboard.Press)return;
+					if(KeyboardCtrl && !KeyboardAlt && !KeyboardDel && !KeyboardIns && !KeyboardEnd && !KeyboardHome && !KeyboardPageDown && !KeyboardPageUp && !KeyboardPause && !KeyboardBreak){
+						Sauce::Global::Graphics::Mouse->CycleDirectionClockwise();
+						Sauce::Global::Graphics::Mouse->ReDraw();
+						return;
+					}
+
 					if(xKeyboard.Capital){
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X+1,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
 					}else{
@@ -356,6 +412,11 @@ namespace Sauce{
 				}break;
 				case 0xBE:/*up*/{
 					if(!xKeyboard.Press)return;
+					if(KeyboardCtrl && !KeyboardAlt && !KeyboardDel && !KeyboardIns && !KeyboardEnd && !KeyboardHome && !KeyboardPageDown && !KeyboardPageUp && !KeyboardPause && !KeyboardBreak){
+						Sauce::Global::Graphics::Mouse->DirectionalSensitivity++;
+						return;
+					}
+
 					if(xKeyboard.Capital){
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y-1,CurrentMouseCursorPosition.Z};
 					}else{
@@ -432,6 +493,11 @@ namespace Sauce{
 				}break;
 				case 0xC2:/*down*/{
 					if(!xKeyboard.Press)return;
+					if(KeyboardCtrl && !KeyboardAlt && !KeyboardDel && !KeyboardIns && !KeyboardEnd && !KeyboardHome && !KeyboardPageDown && !KeyboardPageUp && !KeyboardPause && !KeyboardBreak){
+						Sauce::Global::Graphics::Mouse->DirectionalSensitivity=Sauce::Global::Graphics::Mouse->DirectionalSensitivity>0?Sauce::Global::Graphics::Mouse->DirectionalSensitivity-1:0;
+						return;
+					}
+
 					if(xKeyboard.Capital){
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y+1,CurrentMouseCursorPosition.Z};
 					}else{
@@ -515,6 +581,33 @@ namespace Sauce{
 				case 0x24:/*right click*/{
 					if(xKeyboard.Press){iMouse.RightButton=true;}else{iMouse.RightButton=false;}
 				}break;
+				case 0x7E:/*ctrl*/{
+					if(xKeyboard.Press){KeyboardCtrl=true;}else{KeyboardCtrl=false;}
+				}break;
+				case 0x7A:/*alt*/{
+					if(xKeyboard.Press){KeyboardAlt=true;}else{KeyboardAlt=false;}
+				}break;
+				case 0xCE:/*del*/{
+					if(xKeyboard.Press){KeyboardDel=true;}else{KeyboardDel=false;}
+				}break;
+				case 0xC4:/*ins*/{
+					if(xKeyboard.Press){KeyboardIns=true;}else{KeyboardIns=false;}
+				}break;
+				case 0xB8:/*end*/{
+					if(xKeyboard.Press){KeyboardEnd=true;}else{KeyboardEnd=false;}
+				}break;
+				case 0xB4:/*home*/{
+					if(xKeyboard.Press){KeyboardHome=true;}else{KeyboardHome=false;}
+				}break;
+				case 0xCC:/*page down*/{
+					if(xKeyboard.Press){KeyboardPageDown=true;}else{KeyboardPageDown=false;}
+				}break;
+				case 0xC8:/*page up*/{
+					if(xKeyboard.Press){KeyboardPageUp=true;}else{KeyboardPageUp=false;}
+				}break;
+				case 0xB2:/*pause/break, also triggers 0x7E?*/{
+					if(xKeyboard.Press){KeyboardBreak=true;}else{KeyboardBreak=false;}
+				}
 				default:{
 					if(!xKeyboard.Press)return;
 					Debugger.Print(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));

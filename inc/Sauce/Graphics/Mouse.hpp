@@ -8,10 +8,11 @@ namespace Sauce{
 			void PutChar(size_t chr);
 			size_t CurrentChr=0;
 			int64_t DirectionalCue=0;
-			int64_t DirectionalSensitivity=8;
 			int64_t YCue=0;
 			int64_t XCue=0;
 			int64_t OldDirectionalCue=0;
+			public:
+				int64_t DirectionalSensitivity=8;
 			public:
 				Mouse_cl(Sauce::Point64_st InitialPosition);
 				Sauce::Point64_st Focus();
@@ -26,6 +27,8 @@ namespace Sauce{
 				void Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location);
 				bool Move(Sauce::Point64_st Offset);
 				void ReDraw();
+				void CycleDirectionClockwise();
+				void CycleDirectionCounterClockwise();
 		};
 	};
 };
