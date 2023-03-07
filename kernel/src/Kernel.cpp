@@ -261,8 +261,8 @@ namespace Sauce{
 					//BorderCheck
 					if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
 					if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
-					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
-					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height-1){CurrentMouseCursorPosition.Y=(DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y)-1;}
+					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width-1){CurrentMouseCursorPosition.X=(DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X)-1;}
 					//move
 					Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 					//faux click detection
@@ -348,8 +348,8 @@ namespace Sauce{
 					//BorderCheck
 					if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
 					if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
-					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
-					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height-1){CurrentMouseCursorPosition.Y=(DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y)-1;}
+					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width-1){CurrentMouseCursorPosition.X=(DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X)-1;}
 					//move
 					Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 					//faux click detection
@@ -434,8 +434,8 @@ namespace Sauce{
 					//BorderCheck
 					if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
 					if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
-					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
-					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height-1){CurrentMouseCursorPosition.Y=(DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y)-1;}
+					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width-1){CurrentMouseCursorPosition.X=(DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X)-1;}
 					//move
 					Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 					//faux click detection
@@ -520,8 +520,8 @@ namespace Sauce{
 					//BorderCheck
 					if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
 					if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
-					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
-					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height-1){CurrentMouseCursorPosition.Y=(DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y)-1;}
+					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width-1){CurrentMouseCursorPosition.X=(DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X)-1;}
 					//move
 					Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 					//faux click detection
@@ -643,8 +643,8 @@ namespace Sauce{
 			//BorderCheck
 			if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
 			if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
-			if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
-			if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+			if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height-1){CurrentMouseCursorPosition.Y=(DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y)-1;}
+			if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width-1){CurrentMouseCursorPosition.X=(DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X)-1;}
 			//move
 			Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 		}
