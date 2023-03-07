@@ -19,7 +19,7 @@ namespace Sauce{
 		}
 		void Window_cl::Notify_Of_Mouse_Left_Up(Sauce::Point64_st Location){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Window_cl::Notify_Of_Mouse_Left_Up",_NAMESPACE_,_ALLOW_PRINT_);
-			PutPixel(Location,{0xFF,0x00,0x00,0xFF});
+			//PutPixel(Location,{0xFF,0x00,0x00,0xFF});
 		}
 		void Window_cl::Notify_Of_Mouse_Center_Down(Sauce::Point64_st Location){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Window_cl::Notify_Of_Mouse_Left_Down",_NAMESPACE_,_ALLOW_PRINT_);
@@ -31,7 +31,7 @@ namespace Sauce{
 		}
 		void Window_cl::Notify_Of_Mouse_Center_Up(Sauce::Point64_st Location){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Window_cl::Notify_Of_Mouse_Left_Up",_NAMESPACE_,_ALLOW_PRINT_);
-			PutPixel(Location,{0x00,0xFF,0x00,0xFF});
+			//PutPixel(Location,{0x00,0xFF,0x00,0xFF});
 		}
 		void Window_cl::Notify_Of_Mouse_Right_Down(Sauce::Point64_st Location){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Window_cl::Notify_Of_Mouse_Left_Down",_NAMESPACE_,_ALLOW_PRINT_);
@@ -43,7 +43,7 @@ namespace Sauce{
 		}
 		void Window_cl::Notify_Of_Mouse_Right_Up(Sauce::Point64_st Location){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Window_cl::Notify_Of_Mouse_Left_Up",_NAMESPACE_,_ALLOW_PRINT_);
-			PutPixel(Location,{0x00,0x00,0xFF,0xFF});
+			//PutPixel(Location,{0x00,0x00,0xFF,0xFF});
 		}
 	};
 };

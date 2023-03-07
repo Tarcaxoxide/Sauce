@@ -253,12 +253,17 @@ namespace Sauce{
 						Sauce::Global::Graphics::Mouse->ReDraw();
 						return;
 					}
-
 					if(xKeyboard.Capital){
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X-1,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
 					}else{
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X-10,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
 					}
+					//BorderCheck
+					if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
+					if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
+					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
+					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+					//move
 					Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 					//faux click detection
 					if(iMouse.CenterButton && iMouse.CenterButton != oMouse.CenterButton){
@@ -335,12 +340,17 @@ namespace Sauce{
 						Sauce::Global::Graphics::Mouse->ReDraw();
 						return;
 					}
-
 					if(xKeyboard.Capital){
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X+1,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
 					}else{
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X+10,CurrentMouseCursorPosition.Y,CurrentMouseCursorPosition.Z};
 					}
+					//BorderCheck
+					if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
+					if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
+					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
+					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+					//move
 					Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 					//faux click detection
 					if(iMouse.CenterButton && iMouse.CenterButton != oMouse.CenterButton){
@@ -416,12 +426,17 @@ namespace Sauce{
 						Sauce::Global::Graphics::Mouse->DirectionalSensitivity++;
 						return;
 					}
-
 					if(xKeyboard.Capital){
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y-1,CurrentMouseCursorPosition.Z};
 					}else{
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y-10,CurrentMouseCursorPosition.Z};
 					}
+					//BorderCheck
+					if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
+					if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
+					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
+					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+					//move
 					Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 					//faux click detection
 					if(iMouse.CenterButton && iMouse.CenterButton != oMouse.CenterButton){
@@ -497,12 +512,17 @@ namespace Sauce{
 						Sauce::Global::Graphics::Mouse->DirectionalSensitivity=Sauce::Global::Graphics::Mouse->DirectionalSensitivity>0?Sauce::Global::Graphics::Mouse->DirectionalSensitivity-1:0;
 						return;
 					}
-
 					if(xKeyboard.Capital){
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y+1,CurrentMouseCursorPosition.Z};
 					}else{
 						CurrentMouseCursorPosition = Sauce::Point64_st{CurrentMouseCursorPosition.X,CurrentMouseCursorPosition.Y+10,CurrentMouseCursorPosition.Z};
 					}
+					//BorderCheck
+					if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
+					if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
+					if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
+					if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+					//move
 					Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 					//faux click detection
 					if(iMouse.CenterButton && iMouse.CenterButton != oMouse.CenterButton){
@@ -617,13 +637,15 @@ namespace Sauce{
 	}
 	void Kernel_cl::oNotify_Of_Mouse(Sauce::Mouse_st* xMouse){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_Mouse",_NAMESPACE_,_ALLOW_PRINT_);
-		if(KeyboardAsMouseMode)return;
-		if(xMouse->Position->Y < 0){xMouse->Position->Y=0;}
-		if(xMouse->Position->X < 0){xMouse->Position->X=0;}
-		if((xMouse->Position->Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){xMouse->Position->Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
-		if((xMouse->Position->X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){xMouse->Position->X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+		if(KeyboardAsMouseMode)return;//if we are in keyboard as mouse mode ignore the real mouse.
 		if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
 			CurrentMouseCursorPosition = Sauce::Point64_st{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
+			//BorderCheck
+			if(CurrentMouseCursorPosition.Y < 0){CurrentMouseCursorPosition.Y=0;}
+			if(CurrentMouseCursorPosition.X < 0){CurrentMouseCursorPosition.X=0;}
+			if((CurrentMouseCursorPosition.Y+Sauce::Global::Graphics::Mouse->Size().Y) > DFBL->FrameBuffer->Height){CurrentMouseCursorPosition.Y=DFBL->FrameBuffer->Height-Sauce::Global::Graphics::Mouse->Size().Y;}
+			if((CurrentMouseCursorPosition.X+Sauce::Global::Graphics::Mouse->Size().X) > DFBL->FrameBuffer->Width){CurrentMouseCursorPosition.X=DFBL->FrameBuffer->Width-Sauce::Global::Graphics::Mouse->Size().X;}
+			//move
 			Sauce::Global::Graphics::Mouse->Move(CurrentMouseCursorPosition);
 		}
 		static int safety=8;//discards the first 8 events, they are likely noise.
