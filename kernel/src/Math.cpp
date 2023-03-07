@@ -108,5 +108,30 @@ namespace Sauce{
 			int64_t clockwise = circular_subtract(leftHandSide,rightHandSide,circumferenceMinimal,circumferenceMaximal);
 			return counter_clockwise>clockwise?clockwise:-counter_clockwise;
 		}
+		//Memory Math
+		size_t kb_to_b(size_t kb){
+			return kb*1024;
+		}
+		size_t mb_to_b(size_t mb){
+			return kb_to_b(mb*1024);
+		}
+		size_t gb_to_b(size_t gb){
+			return mb_to_b(gb*1024);
+		}
+		size_t tb_to_b(size_t tb){
+			return gb_to_b(tb*1024);
+		}
+		size_t b_to_kb(size_t b){
+			return b/1024;
+		}
+		size_t b_to_mb(size_t b){
+			return b_to_kb(b/1024);
+		}
+		size_t b_to_gb(size_t b){
+			return b_to_mb(b/1024);
+		}
+		size_t b_to_tb(size_t b){
+			return b_to_gb(b/1024);
+		}
 	};
 };

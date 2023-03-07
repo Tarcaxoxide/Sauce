@@ -11,16 +11,17 @@ namespace Sauce{
 			std::string HexToString(uint8_t value){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
+				Result.Clear();
 				uint8_t* valPtr = &value;
 				uint8_t* ptr{nullptr};
 				uint8_t temp;
 				uint8_t size = ((sizeof(uint8_t) * 2) - 1);
 				uint8_t i;
 				for(i = 0;i < size;i++){
-					ptr = ((uint8_t*)valPtr+i);
-					temp = ((*ptr & 0x0F));
-					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
+					ptr = ((uint8_t*)valPtr+((size-1)-i));
 					temp = ((*ptr & 0xF0) >> 4);
+					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
+					temp = ((*ptr & 0x0F));
 					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
 				}
 				Debugger.Print(Result);
@@ -29,16 +30,17 @@ namespace Sauce{
 			std::string HexToString(uint16_t value){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
-				uint16_t* valPtr = &value;
+				Result.Clear();
+				uint8_t* valPtr = (uint8_t*)&value;
 				uint8_t* ptr{nullptr};
 				uint8_t temp;
-				uint8_t size = ((sizeof(uint8_t) * 2) - 1);
+				uint8_t size = ((sizeof(uint16_t) * 2) - 1);
 				uint8_t i;
 				for(i = 0;i < size;i++){
-					ptr = ((uint8_t*)valPtr+i);
-					temp = ((*ptr & 0x0F));
-					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
+					ptr = ((uint8_t*)valPtr+((size-1)-i));
 					temp = ((*ptr & 0xF0) >> 4);
+					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
+					temp = ((*ptr & 0x0F));
 					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
 				}
 				Debugger.Print(Result);
@@ -47,16 +49,17 @@ namespace Sauce{
 			std::string HexToString(uint32_t value){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
-				uint32_t* valPtr = &value;
+				Result.Clear();
+				uint8_t* valPtr = (uint8_t*)&value;
 				uint8_t* ptr{nullptr};
 				uint8_t temp;
-				uint8_t size = ((sizeof(uint8_t) * 2) - 1);
+				uint8_t size = ((sizeof(uint32_t) * 2) - 1);
 				uint8_t i;
 				for(i = 0;i < size;i++){
-					ptr = ((uint8_t*)valPtr+i);
-					temp = ((*ptr & 0x0F));
-					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
+					ptr = ((uint8_t*)valPtr+((size-1)-i));
 					temp = ((*ptr & 0xF0) >> 4);
+					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
+					temp = ((*ptr & 0x0F));
 					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
 				}
 				Debugger.Print(Result);
@@ -65,16 +68,17 @@ namespace Sauce{
 			std::string HexToString(uint64_t value){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
-				uint64_t* valPtr = &value;
+				Result.Clear();
+				uint8_t* valPtr = (uint8_t*)&value;
 				uint8_t* ptr{nullptr};
 				uint8_t temp;
-				uint8_t size = ((sizeof(uint8_t) * 2) - 1);
+				uint8_t size = ((sizeof(uint64_t) * 2) - 1);
 				uint8_t i;
 				for(i = 0;i < size;i++){
-					ptr = ((uint8_t*)valPtr+i);
-					temp = ((*ptr & 0x0F));
-					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
+					ptr = ((uint8_t*)valPtr+((size-1)-i));
 					temp = ((*ptr & 0xF0) >> 4);
+					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
+					temp = ((*ptr & 0x0F));
 					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
 				}
 				Debugger.Print(Result);

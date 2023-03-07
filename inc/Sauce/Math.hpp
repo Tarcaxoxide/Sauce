@@ -36,6 +36,15 @@ namespace Sauce{
 		int64_t circular_multiply(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
 		int64_t circular_divide(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
 		int64_t circular_shortest_difference(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
+		//Memory Math
+		size_t kb_to_b(size_t kb);
+		size_t mb_to_b(size_t mb);
+		size_t gb_to_b(size_t gb);
+		size_t tb_to_b(size_t tb);
+		size_t b_to_kb(size_t b);
+		size_t b_to_mb(size_t b);
+		size_t b_to_gb(size_t b);
+		size_t b_to_tb(size_t b);
 	};
 };
 #endif
