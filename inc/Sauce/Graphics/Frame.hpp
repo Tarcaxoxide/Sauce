@@ -22,6 +22,20 @@ namespace Sauce{
 					PixelsBufferHeight=(PixelBufferTotalSize/PixelsPerLine);
 					this->Offset=Offset;
 				}
+				Frame_st(const Frame_st& Other){
+					PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];
+					PixelBufferTotalSize=Other.PixelBufferTotalSize;
+					PixelsPerLine=Other.PixelsPerLine;
+					PixelsBufferHeight=Other.PixelsBufferHeight;
+					BorderColor=Other.BorderColor;
+					std::memcpy(Other.PixelBuffer,PixelBuffer,PixelBufferTotalSize);
+					SetPointer({0,0,0});
+					BorderDraw();
+				}
+				~Frame_st(){
+					delete PixelBuffer;
+					PixelBuffer=nullptr;
+				}
 				inline bool SetPointer(Sauce::Point64_st pointer){
 					if(pointer.X>PixelsPerLine || pointer.X < 0)return false;
 					if(pointer.Y>PixelsBufferHeight || pointer.Y < 0)return false;
@@ -159,10 +173,11 @@ namespace Sauce{
 						}
 					}
 					delete PixelBuffer;
-					PixelBuffer=tmp.PixelBuffer;
+					PixelBuffer=new GOP_PixelStructure[PixelBufferTotalSize];
 					PixelBufferTotalSize=tmp.PixelBufferTotalSize;
 					PixelsPerLine=tmp.PixelsPerLine;
 					PixelsBufferHeight=tmp.PixelsBufferHeight;
+					std::memcpy(tmp.PixelBuffer,PixelBuffer,PixelBufferTotalSize);
 					SetPointer({0,0,0});
 					if(!BorderDraw())return false;
 					return true;
