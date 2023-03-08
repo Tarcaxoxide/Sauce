@@ -59,11 +59,11 @@ namespace Sauce{
 					return Vertical && Horizontal;
 				}
 				inline GOP_PixelStructure Blend(GOP_PixelStructure Front,GOP_PixelStructure Back){
-					double Alpha = ((double)Front.Alpha)/2.55;
-					uint8_t Rnew = (Front.Red * Alpha) + (Back.Red * (1.0 - Alpha));
-					uint8_t Gnew = (Front.Green * Alpha) + (Back.Green * (1.0 - Alpha));
-					uint8_t Bnew = (Front.Blue * Alpha) + (Back.Blue * (1.0 - Alpha));
-					return {Bnew,Gnew,Rnew,(uint8_t)Sauce::Math::average((long double)Back.Alpha,(long double)Front.Alpha)};
+					long double Alpha = ((long double)Front.Alpha)/((long double)0xFF);
+					uint8_t Rnew = (Front.Red * Alpha) + (Back.Red * ((1.0+Sauce::Math::MINIMAL_LONG_DOUBLE) - Alpha));
+					uint8_t Gnew = (Front.Green * Alpha) + (Back.Green * ((1.0+Sauce::Math::MINIMAL_LONG_DOUBLE) - Alpha));
+					uint8_t Bnew = (Front.Blue * Alpha) + (Back.Blue * ((1.0+Sauce::Math::MINIMAL_LONG_DOUBLE) - Alpha));
+					return {Bnew,Gnew,Rnew,(uint8_t)Sauce::Math::maximum((long double)Back.Alpha,(long double)Front.Alpha)};
 				}
 				inline Sauce::Point64_st Size(){
 					return {PixelsPerLine,PixelsBufferHeight,0};

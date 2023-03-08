@@ -140,8 +140,7 @@ namespace Sauce{
 			for(int64_t X=0;X<13;X++){
 				for(int64_t Y=0;Y<13;Y++){
 					GOP_PixelStructure FGC_Text = Frame.ForegroundColor;
-					FGC_Text.Alpha=(FGC_Text.Alpha/9)*Glyphs[chr][Sauce::Math::index(X,Y,13)];
-					if(FGC_Text.Alpha)FGC_Text.Alpha+=1;//if it's not 0 then add 1 because division always rounds down and 0xFF isn't evenly dividable by 9
+					FGC_Text.Alpha=((Glyphs[chr][Sauce::Math::index(X,Y,13)]*0x1C)+3)==3?0:((Glyphs[chr][Sauce::Math::index(X,Y,13)]*0x1C)+3);
 					Frame.PutPixel({X,Y,0},Blend(FGC_Text,Frame.BackgroundColor));
 				}
 			}

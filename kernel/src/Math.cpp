@@ -29,9 +29,9 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"round",_NAMESPACE_,_ALLOW_PRINT_);
 			int A1=(int)number;
 			long double A2=number-A1;
-			long double A=0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+			long double A=MINIMAL_LONG_DOUBLE;
 			A=(long double)A1;
-			if(A2 > medium)A+=1.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+			if(A2 > medium)A+=(1.0+MINIMAL_LONG_DOUBLE);
 			return (long double)A;
 		}
 		long double maximum(long double number1,long double number2){

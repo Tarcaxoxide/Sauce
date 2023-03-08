@@ -57,9 +57,7 @@ namespace Sauce{
 					for(int64_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
 						for(int64_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
 							GOP_PixelStructure FGC_Text = Frame.ForegroundColor;
-							FGC_Text.Alpha=(FGC_Text.Alpha/9)*Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-							if(FGC_Text.Alpha)FGC_Text.Alpha+=1;//if it's not 0 then add 1 because division always rounds down and 0xFF isn't evenly dividable by 9
-							//PixelBuffer[Sauce::Math::index(X+Cursor.X,Y+Cursor.Y,PixelsPerLine)]=Blend(FGC_Text,BackgroundColor);
+							FGC_Text.Alpha=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
 							Frame.PutPixel({X+Cursor.X,Y+Cursor.Y,0},Blend(FGC_Text,Frame.BackgroundColor));
 						}
 					}
