@@ -5,6 +5,7 @@
 #include<Sauce/Global.hpp>
 #include<Sauce/Utility/Manipulations.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<Sauce/Math.hpp>
 namespace Sauce{
 	namespace Graphics{
 		namespace Basic{
@@ -42,7 +43,7 @@ namespace Sauce{
 				uint8_t Rnew = (Front.Red * Alpha) + (Back.Red * (1.0 - Alpha));
 				uint8_t Gnew = (Front.Green * Alpha) + (Back.Green * (1.0 - Alpha));
 				uint8_t Bnew = (Front.Blue * Alpha) + (Back.Blue * (1.0 - Alpha));
-				return {Bnew,Gnew,Rnew,Back.Alpha};
+				return {Bnew,Gnew,Rnew,(uint8_t)Sauce::Math::average((long double)Back.Alpha,(long double)Front.Alpha)};
 			}
 			bool Terminal_cl::ColumnFill(int64_t ColumnIndex,GOP_PixelStructure TheColor){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::ColumnFill",_NAMESPACE_,_ALLOW_PRINT_);

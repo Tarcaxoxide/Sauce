@@ -12,7 +12,7 @@ namespace Sauce{
 			int64_t XCue=0;
 			int64_t OldDirectionalCue=0;
 			public:
-				int64_t DirectionalSensitivity=8;
+				int64_t DirectionalSensitivity=0;
 			public:
 				Mouse_cl(Sauce::Point64_st InitialPosition);
 				Sauce::Point64_st Focus();

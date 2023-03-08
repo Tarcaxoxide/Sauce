@@ -212,7 +212,7 @@ namespace Sauce{
 		}
 		bool Mouse_cl::Move(Sauce::Point64_st Offset){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::Move",_NAMESPACE_,_ALLOW_PRINT_);
-			if(DirectionalSensitivity > 1){
+			if(DirectionalSensitivity > 0){
 				if(DirectionalCue == 0){
 					if(Offset.X<Frame.Offset.X && XCue--<-DirectionalSensitivity){
 						DirectionalCue=0;
