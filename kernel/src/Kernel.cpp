@@ -46,8 +46,6 @@ namespace Sauce{
 		bool KeyboardPageUp=false;
 		bool KeyboardPause=false;
 		bool KeyboardBreak=false;
-		
-
 
 	Kernel_cl::Kernel_cl(DataStructure* DFBL){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Kernel_cl",_NAMESPACE_,_ALLOW_PRINT_);
