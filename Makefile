@@ -1,5 +1,10 @@
 .PHONY:
 
+compile: clean
+	cd gnu-efi &&\
+	make bootloader
+	cd kernel &&\
+	make
 
 clean:
 	cd kernel &&\
@@ -10,12 +15,6 @@ purge: clean
 	make clean &&\
 	make &&\
 	make  bootloader
-
-compile: clean
-	cd gnu-efi &&\
-	make bootloader
-	cd kernel &&\
-	make
 
 restore:
 	git restore .

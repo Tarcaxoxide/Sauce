@@ -38,6 +38,10 @@ namespace Sauce{
 			const static char* _NAMESPACE_="::Sauce::IO::PCI";
 			const static bool _ALLOW_PRINT_=false;
 		};
+		namespace RTC{
+			const static char* _NAMESPACE_="::Sauce::IO::RTC";
+			const static bool _ALLOW_PRINT_=false;
+		};
 	};
 	namespace Math{
 		const static char* _NAMESPACE_="::Sauce::Math";
@@ -47,13 +51,21 @@ namespace Sauce{
 		const static char* _NAMESPACE_="::Sauce::Memory";
 		const static bool _ALLOW_PRINT_=false;
 		namespace Management{
-			const static char* _NAMESPACE_="::Sauce::Management";
+			const static char* _NAMESPACE_="::Sauce::Memory::Management";
 			const static bool _ALLOW_PRINT_=false;
 		};
-	};
-	namespace Commands{
-		const static char* _NAMESPACE_="::Sauce::Commands";
-		const static bool _ALLOW_PRINT_=false;
+		namespace Filesystem{
+			const static char* _NAMESPACE_="::Sauce::Memory::Filesystem";
+			const static bool _ALLOW_PRINT_=false;
+			namespace File{
+				const static char* _NAMESPACE_="::Sauce::Memory::Filesystem::File";
+				const static bool _ALLOW_PRINT_=false;
+			};
+			namespace Directory{
+				const static char* _NAMESPACE_="::Sauce::Memory::Filesystem::Directory";
+				const static bool _ALLOW_PRINT_=false;
+			};
+		};
 	};
 	namespace Storage{
 		const static char* _NAMESPACE_="::Sauce::Storage";
@@ -63,10 +75,6 @@ namespace Sauce{
 			const static bool _ALLOW_PRINT_=false;
 			namespace FAT{
 				const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::FAT";
-				const static bool _ALLOW_PRINT_=false;
-			};
-			namespace VirtualFileSystem{
-				const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::VirtualFileSystem";
 				const static bool _ALLOW_PRINT_=false;
 			};
 		};
