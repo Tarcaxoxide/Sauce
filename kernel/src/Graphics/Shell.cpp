@@ -9,6 +9,7 @@
 #include<std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<Sauce/Memory/List.hpp>
+#include<Sauce/IO/RTC.hpp>
 
 namespace Sauce{
 	namespace Graphics{
@@ -137,7 +138,8 @@ namespace Sauce{
 
 			if(CharBuffer.Compare(new const char*[]{"hi","Hi","HI","hI","hello","Hello","HEllo","HELlo","HELLo","HELLO",nullptr})){
 				PutString("The kernel says hi!\n\r",false);
-				PutString(Sauce::Utility::Conversion::HexToString((uint16_t)0x1234567890ABCDEF),false);
+				Sauce::IO::RTC::RTC_cl TestRTC;
+				PutString(TestRTC.ToString(),false);
 				PutString("\n\r",false);
 			}
 			
