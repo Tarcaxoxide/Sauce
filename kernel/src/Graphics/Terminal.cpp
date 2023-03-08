@@ -27,27 +27,19 @@ namespace Sauce{
 			}
 			bool Terminal_cl::RowFill(int64_t RowIndex,GOP_PixelStructure TheColor){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::RowFill",_NAMESPACE_,_ALLOW_PRINT_);
-				return Frame.RowFill(RowIndex,Blend(TheColor,Frame.BackgroundColor));
+				return Frame.RowFill(RowIndex,Frame.Blend(TheColor,Frame.BackgroundColor));
 			}
 			bool Terminal_cl::PutPixel(Sauce::Point64_st Location,GOP_PixelStructure TheColor,bool blend){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::PutPixel",_NAMESPACE_,_ALLOW_PRINT_);
-				return Frame.PutPixel(Location,blend?Blend(TheColor,Frame.BackgroundColor):TheColor);
+				return Frame.PutPixel(Location,blend?Frame.Blend(TheColor,Frame.BackgroundColor):TheColor);
 			}
 			bool Terminal_cl::PullPixel(Sauce::Point64_st Location,GOP_PixelStructure& ThatColor){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::PullPixel",_NAMESPACE_,_ALLOW_PRINT_);
 				return Frame.PullPixel(Location,ThatColor);
 			}
-			GOP_PixelStructure Terminal_cl::Blend(GOP_PixelStructure Front,GOP_PixelStructure Back){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Blend",_NAMESPACE_,_ALLOW_PRINT_);
-				double Alpha = ((double)Front.Alpha)/2.55;
-				uint8_t Rnew = (Front.Red * Alpha) + (Back.Red * (1.0 - Alpha));
-				uint8_t Gnew = (Front.Green * Alpha) + (Back.Green * (1.0 - Alpha));
-				uint8_t Bnew = (Front.Blue * Alpha) + (Back.Blue * (1.0 - Alpha));
-				return {Bnew,Gnew,Rnew,(uint8_t)Sauce::Math::average((long double)Back.Alpha,(long double)Front.Alpha)};
-			}
 			bool Terminal_cl::ColumnFill(int64_t ColumnIndex,GOP_PixelStructure TheColor){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::ColumnFill",_NAMESPACE_,_ALLOW_PRINT_);
-				return Frame.ColumnFill(ColumnIndex,Blend(TheColor,Frame.BackgroundColor));
+				return Frame.ColumnFill(ColumnIndex,Frame.Blend(TheColor,Frame.BackgroundColor));
 			}
 			
 			bool Terminal_cl::Fill(GOP_PixelStructure TheColor){

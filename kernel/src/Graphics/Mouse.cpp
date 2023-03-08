@@ -141,7 +141,7 @@ namespace Sauce{
 				for(int64_t Y=0;Y<13;Y++){
 					GOP_PixelStructure FGC_Text = Frame.ForegroundColor;
 					FGC_Text.Alpha=((Glyphs[chr][Sauce::Math::index(X,Y,13)]*0x1C)+3)==3?0:((Glyphs[chr][Sauce::Math::index(X,Y,13)]*0x1C)+3);
-					Frame.PutPixel({X,Y,0},Blend(FGC_Text,Frame.BackgroundColor));
+					Frame.PutPixel({X,Y,0},Frame.Blend(FGC_Text,Frame.BackgroundColor));
 				}
 			}
 		}

@@ -56,9 +56,13 @@ namespace Sauce{
 					if(AddToBuffer)CharBuffer.AddLast(chr);
 					for(int64_t X=2;X<Sauce::Graphics::SauceFont::GlyphWidth;X++){
 						for(int64_t Y=2;Y<Sauce::Graphics::SauceFont::GlyphHeight;Y++){
+							//GOP_PixelStructure FGC_Text = Frame.ForegroundColor;
+							//FGC_Text.Alpha=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
+							//Frame.PutPixel({X+Cursor.X,Y+Cursor.Y,0},Frame.Blend(FGC_Text,Frame.BackgroundColor));
+
 							GOP_PixelStructure FGC_Text = Frame.ForegroundColor;
-							FGC_Text.Alpha=Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)];
-							Frame.PutPixel({X+Cursor.X,Y+Cursor.Y,0},Blend(FGC_Text,Frame.BackgroundColor));
+							FGC_Text.Alpha=((Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)]*0x1C)+3)==3?0:((Sauce::Graphics::SauceFont::Glyphs[chrindex][Sauce::Math::index(X-1,Y-1,Sauce::Graphics::SauceFont::GlyphWidth)]*0x1C)+3);
+							Frame.PutPixel({X+Cursor.X,Y+Cursor.Y,0},Frame.Blend(FGC_Text,Frame.BackgroundColor));
 						}
 					}
 					if(!GoRight()){
