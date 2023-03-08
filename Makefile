@@ -1,24 +1,27 @@
 .PHONY:
 
-compile:
-	cd gnu-efi &&\
-	make bootloader
-	cd kernel &&\
-	make clean &&\
-	make
 
-purge:
+clean:
+	cd kernel &&\
+	make clean
+
+purge: clean
 	cd gnu-efi &&\
 	make clean &&\
 	make &&\
 	make  bootloader
+
+compile: clean
+	cd gnu-efi &&\
+	make bootloader
 	cd kernel &&\
-	make clean
+	make
 
 restore:
 	git restore .
 
 commit: compile
+	make clean
 	git add .
 	git commit -am "$(shell date)" 
 
