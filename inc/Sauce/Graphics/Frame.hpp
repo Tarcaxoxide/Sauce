@@ -58,6 +58,13 @@ namespace Sauce{
 					*/
 					return Vertical && Horizontal;
 				}
+				inline GOP_PixelStructure Blend(GOP_PixelStructure Front,GOP_PixelStructure Back){
+					double Alpha = ((double)Front.Alpha)/2.55;
+					uint8_t Rnew = (Front.Red * Alpha) + (Back.Red * (1.0 - Alpha));
+					uint8_t Gnew = (Front.Green * Alpha) + (Back.Green * (1.0 - Alpha));
+					uint8_t Bnew = (Front.Blue * Alpha) + (Back.Blue * (1.0 - Alpha));
+					return {Bnew,Gnew,Rnew,(uint8_t)Sauce::Math::average((long double)Back.Alpha,(long double)Front.Alpha)};
+				}
 				inline Sauce::Point64_st Size(){
 					return {PixelsPerLine,PixelsBufferHeight,0};
 				}
@@ -139,6 +146,25 @@ namespace Sauce{
 					if(Location.X < 0||Location.Y < 0)return false;
 					ThatColor=PixelBuffer[Sauce::Math::index(Location.X,Location.Y,PixelsPerLine)];
 					return true;
+				}
+				inline bool DrawTo(GOP_PixelStructure* OtherPixelBuffer,int64_t OtherPixelBufferTotalSize,int64_t OtherPixelsPerLine,Sauce::Point64_st OtherOffset){
+					OtherOffset.X+=Offset.X;
+					OtherOffset.Y+=Offset.Y;
+					OtherOffset.Z+=Offset.Z;
+					if(OtherPixelBufferTotalSize < PixelBufferTotalSize+(OtherOffset.X*OtherOffset.Y))return false;
+					for(PixelPointer.Y=0;PixelPointer.Y<PixelsBufferHeight;PixelPointer.Y++){
+						for(PixelPointer.X=0;PixelPointer.X<PixelsPerLine;PixelPointer.X++){
+							if(PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)].Alpha == 0x00)continue;
+							OtherPixelBuffer[Sauce::Math::index(PixelPointer.X+OtherOffset.X,PixelPointer.Y+OtherOffset.Y,OtherPixelsPerLine)]=Blend(PixelBuffer[Sauce::Math::index(PixelPointer.X,PixelPointer.Y,PixelsPerLine)],OtherPixelBuffer[Sauce::Math::index(PixelPointer.X+OtherOffset.X,PixelPointer.Y+OtherOffset.Y,OtherPixelsPerLine)]);
+						}
+					}
+					return true;
+				}
+				inline bool DrawTo(Frame_st* Other){
+					return CopyTo(Other->PixelBuffer,Other->PixelBufferTotalSize,Other->PixelsPerLine,Other->Offset);
+				}
+				inline bool DrawFrom(Frame_st* Other){
+					return Other->DrawTo(PixelBuffer,PixelBufferTotalSize,PixelsPerLine,Offset);
 				}
 				inline bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,int64_t OtherPixelBufferTotalSize,int64_t OtherPixelsPerLine,Sauce::Point64_st OtherOffset){
 					OtherOffset.X+=Offset.X;

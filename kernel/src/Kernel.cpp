@@ -734,7 +734,7 @@ namespace Sauce{
 		for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
 			Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Windows[i]);
 		}
-		Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Mouse);
+		Sauce::Global::Graphics::Terminal->DrawFrom(Sauce::Global::Graphics::Mouse);
 		Sauce::Global::Graphics::Screen->CopyFrom(Sauce::Global::Graphics::Terminal);
 		InterruptsOn();
 	}

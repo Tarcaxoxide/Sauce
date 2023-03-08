@@ -27,6 +27,8 @@ namespace Sauce{
 					bool SetCursor(int64_t X,int64_t Y,int64_t Z=0);
 					bool CopyTo(GOP_PixelStructure* OtherPixelBuffer,int64_t OtherPixelBufferTotalSize,int64_t OtherPixelsPerLine,Sauce::Point64_st Offset={0,0,0});
 					bool CopyFrom(Terminal_cl* OtherTerminal);
+					bool DrawTo(GOP_PixelStructure* OtherPixelBuffer,int64_t OtherPixelBufferTotalSize,int64_t OtherPixelsPerLine,Sauce::Point64_st Offset={0,0,0});
+					bool DrawFrom(Terminal_cl* OtherTerminal);
 					Sauce::Point64_st Size();
 					bool Move(Sauce::Point64_st Offset);
 					void SetID(std::string nID);
