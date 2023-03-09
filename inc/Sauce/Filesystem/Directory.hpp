@@ -6,6 +6,14 @@
 namespace Sauce{
 	namespace Filesystem{
 		namespace Directory{
+			enum FilesystemOnDiskType_en{
+				RAW_DATA=0,
+				FAT12,
+				FAT16,
+				FAT28, // aka "FAT32"
+				FAT32, // aka "ExFAT"
+				VFAT
+			};
 			struct Directory_st{
 				Sauce::Filesystem::File::Header_st Header;
 				std::string Name;
