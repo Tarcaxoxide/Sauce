@@ -74,6 +74,9 @@ namespace Sauce{
       			}
 			}
 			RTC_cl::RTC_cl(){
+				Update();
+			}
+			void RTC_cl::Update(){
 				read_rtc();
 			}
 			std::string RTC_cl::ToString(){

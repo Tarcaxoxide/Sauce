@@ -23,6 +23,7 @@ namespace Sauce{
 					void read_rtc();
 				public:
 					RTC_cl();
+					void Update();
 					std::string ToString();
 			};
 		};

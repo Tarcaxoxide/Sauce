@@ -1,7 +1,5 @@
 #include <Sauce/Global.hpp>
 
-
-
 namespace Sauce{
 	namespace Global{
 		Sauce::Kernel_cl* Kernel;
@@ -15,6 +13,12 @@ namespace Sauce{
 		namespace Memory{
 			Sauce::Memory::Management::PageFrameAllocator_cl PageFrameAllocator;
 			Sauce::Memory::Management::PageTableManager_cl PageTableManager=NULL;
+		};
+		namespace Filesystem{
+			Sauce::Memory::List_cl<Sauce::Filesystem::Directory::Directory_st> Directories;
+		};
+		namespace Hardware{
+			Sauce::IO::RTC::RTC_cl RTC;
 		};
 		namespace Storage{
 			Sauce::Memory::List_cl<Sauce::Storage::AHCIDriver_cl*> AHCIDrivers;

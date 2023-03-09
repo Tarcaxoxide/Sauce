@@ -136,8 +136,7 @@ namespace Sauce{
 
 			if(CharBuffer.Compare(new const char*[]{"hi","Hi","HI","hI","hello","Hello","HEllo","HELlo","HELLo","HELLO",nullptr})){
 				PutString("The kernel says hi!\n\r",false);
-				Sauce::IO::RTC::RTC_cl TestRTC;
-				PutString(TestRTC.ToString(),false);
+				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
 				PutString("\n\r",false);
 			}
 			

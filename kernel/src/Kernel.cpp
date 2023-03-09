@@ -115,6 +115,7 @@ namespace Sauce{
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::MainLoop",_NAMESPACE_,_ALLOW_PRINT_);
 		asm volatile("sti");
 		while(true){
+			Sauce::Global::Hardware::RTC.Update();
 			DrawUI();
 		}
 	}
