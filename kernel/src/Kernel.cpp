@@ -82,6 +82,7 @@ namespace Sauce{
 		iMouse.RightButton=false;
 		iMouse.LeftButton=false;
 		Prep_ACPI();
+		Prep_Filesystem();
 		MainLoop();
 	}
 	void Kernel_cl::Prep_Windows(){
@@ -184,6 +185,12 @@ namespace Sauce{
 		Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
 		Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
 		Sauce::IO::PCI::EnumeratePCI(mcfg);
+	}
+	void Kernel_cl::Prep_Filesystem(){
+		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Filesystem",_NAMESPACE_,_ALLOW_PRINT_);
+		Sauce::Global::Filesystem::Root.AddFileEntry("File1");
+		//Sauce::Global::Filesystem::Root.AddFileEntry("File2");
+		//Sauce::Global::Filesystem::Root.AddFileEntry("File3");
 	}
 	void Kernel_cl::oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_KeyPress",_NAMESPACE_,true);
