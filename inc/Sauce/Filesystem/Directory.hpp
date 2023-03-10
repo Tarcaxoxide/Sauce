@@ -2,12 +2,16 @@
 #define __Sauce_Filesystem_Directory
 #include<std/list.hpp>
 #include<Sauce/Filesystem/File.hpp>
+#include<Sauce/Filesystem/Header.hpp>
 #include<std/string.hpp>
 namespace Sauce{
 	namespace Filesystem{
 		namespace Directory{
 			struct Directory_st{
-				const char* Name;/*there is some kind of weird behaviour here when using a std::string aka a Sauce::Memory::List_cl<char>, this should only be set once anyways.*/
+				Sauce::Filesystem::Header::Header_st Header;
+				Directory_st(const char* name){
+					Header.Name=name;
+				}
 				std::list<Sauce::Filesystem::Directory::Directory_st> Directories;
 				std::list<Sauce::Filesystem::File::File_st> Files;
 				void AddFile(const char* fileName);

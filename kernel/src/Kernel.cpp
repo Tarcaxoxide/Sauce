@@ -187,8 +187,10 @@ namespace Sauce{
 	}
 	void Kernel_cl::Prep_Filesystem(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Filesystem",_NAMESPACE_,_ALLOW_PRINT_);
-		Sauce::Global::Filesystem::RootDirectory.Directories.AddLast(Sauce::Filesystem::Directory::Directory_st{"SubDirectory1"});
-		Sauce::Global::Filesystem::RootDirectory.Directories.AddLast(Sauce::Filesystem::Directory::Directory_st{"SubDirectory2"});
+		Sauce::Global::Filesystem::RootDirectory.AddDirectory("FictitiousDirectory1");
+		Sauce::Global::Filesystem::RootDirectory.AddDirectory("FictitiousDirectory2");
+		Sauce::Global::Filesystem::RootDirectory.AddFile("FictitiousFile1");
+		Sauce::Global::Filesystem::RootDirectory.AddFile("FictitiousFile2");
 	}
 	void Kernel_cl::oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_KeyPress",_NAMESPACE_,true);
