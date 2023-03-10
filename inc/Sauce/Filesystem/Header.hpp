@@ -5,7 +5,7 @@ namespace Sauce{
 	namespace Filesystem{
 		namespace Header{
 			enum Classification:uint8_t{
-				Classification_Unset=0,
+				Classification_Data=0,
 				Classification_File,
 				Classification_Directory,
 				Classification_Descriptor
@@ -24,7 +24,7 @@ namespace Sauce{
 					PermitWrite=1;
 					PermitUserland=0;
 					Empty=1;
-					Classification=Classification::Classification_Unset;
+					Classification=Classification::Classification_Data;
 					BlankAttributes=0;
 					Size=0;
 				}
