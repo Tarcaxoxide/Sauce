@@ -20,7 +20,7 @@ namespace Sauce{
 			}__attribute__((packed));
 			struct Header_st{
 				Attributes_st Attributes;
-				std::list<std::string> Tags;
+				std::list<std::string*> Tags;
 			};
 		};
 	};

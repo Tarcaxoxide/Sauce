@@ -17,11 +17,13 @@ namespace Sauce{
 			};
 			struct Directory_st{
 				Sauce::Filesystem::Header::Header_st Header;
-				std::string Name;
+				inline std::string Name(){/*the filename is just the first tag*/return *(Header.Tags.First());}
 				std::list<Directory_st> Directories;
 				std::list<Sauce::Filesystem::File::File_st> Files;
 				Directory_st();
 				Directory_st(const std::string& name);
+				Directory_st(const Directory_st& other);
+				~Directory_st();
 				std::string ListFiles();
 				std::string ListDirectories();
 				std::string List();
