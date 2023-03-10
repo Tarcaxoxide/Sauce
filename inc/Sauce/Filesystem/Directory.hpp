@@ -1,34 +1,43 @@
 #ifndef __Sauce_Filesystem_Directory
 #define __Sauce_Filesystem_Directory
-#include<std/string.hpp>
 #include<std/list.hpp>
 #include<Sauce/Filesystem/File.hpp>
-#include<Sauce/Filesystem/Header.hpp>
+#include<std/string.hpp>
 namespace Sauce{
 	namespace Filesystem{
 		namespace Directory{
-			enum FilesystemOnDiskType_en{
-				RAW_DATA=0,
-				FAT12,
-				FAT16,
-				FAT28, // aka "FAT32"
-				FAT32, // aka "ExFAT"
-				VFAT
-			};
 			struct Directory_st{
-				Sauce::Filesystem::Header::Header_st Header;
-				inline std::string Name(){/*the filename is just the first tag*/return *(Header.Tags.First());}
-				std::list<Directory_st> Directories;
+				const char* Name;
+				std::list<Sauce::Filesystem::Directory::Directory_st> Directories;
 				std::list<Sauce::Filesystem::File::File_st> Files;
-				Directory_st();
-				Directory_st(const std::string& name);
-				Directory_st(const Directory_st& other);
-				~Directory_st();
-				std::string ListFiles();
-				std::string ListDirectories();
-				std::string List();
-				void AddDirectoryEntry(std::string directoryName);
-				void AddFileEntry(std::string fileName);
+				inline void AddFile(const char* fileName){Files.AddLast(Sauce::Filesystem::File::File_st{fileName});}
+				inline void AddDirectory(const char* directoryName){Directories.AddLast(Sauce::Filesystem::Directory::Directory_st{directoryName});}
+				inline std::string ListFiles(){
+					std::string Result="[";
+					for(size_t i=0;i<Files.Size();i++){
+						Result+=Files[i].Name;
+						if(i<Files.Size()-1)Result+=",";
+					}
+					Result+="]";
+					return Result;
+				}
+				inline std::string ListDirectories(){
+					std::string Result="[";
+					for(size_t i=0;i<Directories.Size();i++){
+						Result+=Directories[i].Name;
+						if(i<Directories.Size()-1)Result+=",";
+					}
+					Result+="]";
+					return Result;
+				}
+				inline std::string List(){
+					std::string Result="[";
+					Result+=ListDirectories();
+					Result+=",";
+					Result+=ListFiles();
+					Result+="]";
+					return Result;
+				}
 			};
 		};
 	};

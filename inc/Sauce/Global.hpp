@@ -12,8 +12,8 @@
 #include<Sauce/Memory/List.hpp>
 #include<Sauce/Kernel.hpp>
 #include<Sauce/Network/AM78C973/Driver.hpp>
-#include<Sauce/Filesystem/Directory.hpp>
 #include<Sauce/IO/RTC.hpp>
+#include<Sauce/Filesystem/Directory.hpp>
 namespace Sauce{
 	namespace Global{
 		extern Sauce::Kernel_cl* Kernel;
@@ -29,7 +29,7 @@ namespace Sauce{
 			extern Sauce::Memory::Management::PageTableManager_cl PageTableManager;
 		};
 		namespace Filesystem{
-			extern Sauce::Filesystem::Directory::Directory_st* Root;
+			extern Sauce::Filesystem::Directory::Directory_st RootDirectory;
 		};
 		namespace Hardware{
 			extern Sauce::IO::RTC::RTC_cl RTC;

@@ -15,7 +15,7 @@ namespace Sauce{
 			Sauce::Memory::Management::PageTableManager_cl PageTableManager=NULL;
 		};
 		namespace Filesystem{
-			Sauce::Filesystem::Directory::Directory_st* Root=nullptr;
+			Sauce::Filesystem::Directory::Directory_st RootDirectory{"Root"};
 		};
 		namespace Hardware{
 			Sauce::IO::RTC::RTC_cl RTC;

@@ -71,7 +71,7 @@ clean:
 
 run: $(BUILDDIR)/$(OSNAME).img
 	@echo "log can be found at ./kernel/$(BUILDDIR)/log.txt"
-	@qemu-system-x86_64 -no-reboot -display gtk,zoom-to-fit=on -smp 2 -serial file:$(BUILDDIR)/log.txt -machine q35 -s -drive format=raw,file=$< -m 512M -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
+	@qemu-system-x86_64 -no-reboot -display gtk,zoom-to-fit=on -smp 2 -serial file:$(BUILDDIR)/log.txt -machine q35 -s -drive format=raw,file=$< -m 1G -cpu qemu64 -drive if=pflash,format=raw,unit=0,file="$(OVMFDIR)/OVMF_CODE-pure-efi.fd",readonly=on -drive if=pflash,format=raw,unit=1,file="$(OVMFDIR)/OVMF_VARS-pure-efi.fd"
 	@read -p "press enter to continue..."
 	@reset
 
