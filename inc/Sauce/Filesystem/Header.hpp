@@ -4,20 +4,27 @@
 namespace Sauce{
 	namespace Filesystem{
 		namespace Header{
+			enum Classification:uint8_t{
+				Classification_Unset=0,
+				Classification_File,
+				Classification_Directory,
+				Classification_Descriptor
+			};
 			struct Header_st{
 				uint64_t PermitRead:1;
 				uint64_t PermitWrite:1;
 				uint64_t PermitUserland:1;
 				uint64_t Empty:1;
-				uint64_t BlankAttributes:60;
+				uint64_t Classification:2;
+				uint64_t BlankAttributes:58;
 				uint64_t Size;
 				const char* Name;
-				
 				Header_st(){
 					PermitRead=0;
 					PermitWrite=1;
 					PermitUserland=0;
 					Empty=1;
+					Classification=Classification::Classification_Unset;
 					BlankAttributes=0;
 					Size=0;
 				}
