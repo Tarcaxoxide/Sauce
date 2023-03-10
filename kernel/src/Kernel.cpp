@@ -57,7 +57,6 @@ namespace Sauce{
 		Prep_GDT();
 		//Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
 		Sauce::Memory::InitalizeHeap((void*)Sauce::Math::mb_to_b(512),0x512);
-		//Sauce::Memory::InitalizeHeap((void*)DFBL->TestNumber,0x512);
 		Sauce::Interrupts::PIT::SetDivisor(65535/6);
 		Debugger.Print("The kernel says hi!");
 		Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelEndRef));
@@ -188,7 +187,8 @@ namespace Sauce{
 	}
 	void Kernel_cl::Prep_Filesystem(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Filesystem",_NAMESPACE_,_ALLOW_PRINT_);
-		Sauce::Global::Filesystem::Root.AddFileEntry("File1");
+		Sauce::Global::Filesystem::Root = new Sauce::Filesystem::Directory::Directory_st("Root");
+		Sauce::Global::Filesystem::Root->AddFileEntry("File1");
 		//Sauce::Global::Filesystem::Root.AddFileEntry("File2");
 		//Sauce::Global::Filesystem::Root.AddFileEntry("File3");
 	}

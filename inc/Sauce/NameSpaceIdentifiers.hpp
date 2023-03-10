@@ -54,30 +54,22 @@ namespace Sauce{
 			const static char* _NAMESPACE_="::Sauce::Memory::Management";
 			const static bool _ALLOW_PRINT_=false;
 		};
-		namespace Filesystem{
-			const static char* _NAMESPACE_="::Sauce::Memory::Filesystem";
-			const static bool _ALLOW_PRINT_=false;
-			namespace File{
-				const static char* _NAMESPACE_="::Sauce::Memory::Filesystem::File";
-				const static bool _ALLOW_PRINT_=false;
-			};
-			namespace Directory{
-				const static char* _NAMESPACE_="::Sauce::Memory::Filesystem::Directory";
-				const static bool _ALLOW_PRINT_=false;
-			};
+	};
+	namespace Filesystem{
+		const static char* _NAMESPACE_="::Sauce::Filesystem";
+		const static bool _ALLOW_PRINT_=true;
+		namespace File{
+			const static char* _NAMESPACE_="::Sauce::Filesystem::File";
+			const static bool _ALLOW_PRINT_=true;
+		};
+		namespace Directory{
+			const static char* _NAMESPACE_="::Sauce::Filesystem::Directory";
+			const static bool _ALLOW_PRINT_=true;
 		};
 	};
 	namespace Storage{
 		const static char* _NAMESPACE_="::Sauce::Storage";
 		const static bool _ALLOW_PRINT_=false;
-		namespace FileSystem{
-			const static char* _NAMESPACE_="::Sauce::Storage::Filesystem";
-			const static bool _ALLOW_PRINT_=false;
-			namespace FAT{
-				const static char* _NAMESPACE_="::Sauce::Storage::Filesystem::FAT";
-				const static bool _ALLOW_PRINT_=false;
-			};
-		};
 	};
 	namespace Utility{
 		const static char* _NAMESPACE_="::Sauce::Utility";

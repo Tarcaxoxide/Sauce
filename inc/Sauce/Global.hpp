@@ -29,7 +29,7 @@ namespace Sauce{
 			extern Sauce::Memory::Management::PageTableManager_cl PageTableManager;
 		};
 		namespace Filesystem{
-			extern Sauce::Filesystem::Directory::Directory_st Root;
+			extern Sauce::Filesystem::Directory::Directory_st* Root;
 		};
 		namespace Hardware{
 			extern Sauce::IO::RTC::RTC_cl RTC;
