@@ -35,7 +35,8 @@ namespace Sauce{
 		int64_t circular_shortest_difference(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
 		long double pythagoras_hypotenuse(long double a,long double b);
 		long double pythagoras_side(long double a,long double c);
-		void normalize(std::list<long double> values);
+		long double normalize(std::list<long double> values);
+		long double denormalize(std::list<long double> values,long double factor);
 		//Memory Math
 		size_t kb_to_b(size_t kb);
 		size_t mb_to_b(size_t mb);

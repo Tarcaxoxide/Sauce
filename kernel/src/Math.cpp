@@ -126,11 +126,18 @@ namespace Sauce{
 		long double pythagoras_side(long double a,long double c){
 			return square_root(square(c)-square(a));
 		}
-		void normalize(std::list<long double> values){
+		long double normalize(std::list<long double> values){
 			//I wonder if this will work *shrugs*
 			long double maxValue=MINIMAL_LONG_DOUBLE;
 			for(size_t i=0;i<values.Size();i++)maxValue=maximum(values[i],maxValue);
 			for(size_t i=0;i<values.Size();i++)values[i]/=maxValue;
+			return maxValue;
+		}
+		long double denormalize(std::list<long double> values,long double factor){
+			long double maxValue=MINIMAL_LONG_DOUBLE;
+			for(size_t i=0;i<values.Size();i++)values[i]*=factor;
+			for(size_t i=0;i<values.Size();i++)maxValue=maximum(values[i],maxValue);
+			return maxValue;
 		}
 		//Memory Math
 		size_t kb_to_b(size_t kb){
