@@ -13,8 +13,10 @@ namespace Sauce{
 		static const __float128 A=1.2824271291006226368753425688697917277676889273250;
 		static const long double MINIMAL_LONG_DOUBLE=0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
 		
-		double inverse_sqrt(double number);
-		double sqrt(double number);
+		double inverse_square_root(double number);
+		double square_root(double number);
+		long double power(long double number,int64_t of);
+		long double square(long double number);
 		size_t index(size_t X,size_t Y,size_t MaxX);
 		long double round(long double number,long double medium=0.5);
 		long double maximum(long double number1,long double number2);
@@ -31,6 +33,8 @@ namespace Sauce{
 		int64_t circular_multiply(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
 		int64_t circular_divide(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
 		int64_t circular_shortest_difference(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal=0,int64_t circumferenceMaximal=360);
+		long double pythagoras_hypotenuse(long double a,long double b);
+		long double pythagoras_side(long double a,long double c);
 		//Memory Math
 		size_t kb_to_b(size_t kb);
 		size_t mb_to_b(size_t mb);
