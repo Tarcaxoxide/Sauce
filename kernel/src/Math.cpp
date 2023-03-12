@@ -187,11 +187,11 @@ namespace Sauce{
 			return b_to_gb(b/1024);
 		}
 		//Graphical math
-		Sauce::Graphics::Basic::Frame_st draw_line(long double length,long double angle,GOP_PixelStructure color){
+		Sauce::Graphics::Basic::Frame_st draw_line(long double length,long double angle,GOP_PixelStructure foregroundColor,GOP_PixelStructure backgroundColor){
 			Sauce::Point64_st startingPoint{0,0,0};
 			Sauce::Point64_st endingPoint{(int64_t)(degrees_to_radians(cosine_degree(angle))*length),(int64_t)(degrees_to_radians(sine_degree(angle))*length),0};
 			Sauce::Graphics::Basic::Frame_st Result(make_positive(endingPoint.X)*make_positive(endingPoint.Y),make_positive(endingPoint.X));
-			Result.SetColor(color,{0x05,0x05,0x05,0x00});
+			Result.SetColor(foregroundColor,backgroundColor);
 			Result.Clear();
 			//Draw the line
 			Result.PutPixel(startingPoint);
@@ -201,7 +201,6 @@ namespace Sauce{
 			long double y=maximum(startingPoint.Y,endingPoint.Y)/max;
 			long double x0=0,y0=0;
 			for (long double n=0.0; n < max; n+=1.0){
-    		    // draw pixel at ( x0, y0 )
 				Result.PutPixel({(int64_t)x0,(int64_t)y0,0});
     		    x0 += x; y0 += y;
     		}

@@ -141,7 +141,7 @@ namespace Sauce{
 				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
 				PutString("\n\r",false);
 
-				Sauce::Graphics::Basic::Frame_st testLine = Sauce::Math::draw_line(100,20.0,{0xFF,0xAA,0x55,0xFF});
+				Sauce::Graphics::Basic::Frame_st testLine = Sauce::Math::draw_line(100,10.0);
 				testLine.Move({100,100,0});
 				testLine.DrawTo(Frame);
 				
