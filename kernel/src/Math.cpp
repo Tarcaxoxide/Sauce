@@ -206,7 +206,55 @@ namespace Sauce{
 				Result.PutPixel({(int64_t)x0,(int64_t)y0,0});
     		    if(!negative){x0 += x; y0 += y;}else{x0 += x; y0 -= y;}
     		}
+			return Result;
+		}
+		Sauce::Graphics::Basic::Frame_st draw_circle(long double radius,GOP_PixelStructure foregroundColor,GOP_PixelStructure backgroundColor){
+			long double diameter=(radius*2)+1;
+			Sauce::Graphics::Basic::Frame_st Result(square(diameter),diameter);
+			Result.SetColor(foregroundColor,backgroundColor);
+			Result.Clear();
 			
+			int yc=(int)diameter/2;
+			int xc=(int)diameter/2;
+
+			int x = 0, y = radius;
+    		int d = 3 - 2 * radius;
+			Result.PutPixel({xc+x, yc+y,0});
+    		Result.PutPixel({xc-x, yc+y,0});
+    		Result.PutPixel({xc+x, yc-y,0});
+    		Result.PutPixel({xc-x, yc-y,0});
+    		Result.PutPixel({xc+y, yc+x,0});
+    		Result.PutPixel({xc-y, yc+x,0});
+    		Result.PutPixel({xc+y, yc-x,0});
+    		Result.PutPixel({xc-y, yc-x,0});
+
+
+
+			while (y >= x){
+			        // for each pixel we will
+			        // draw all eight pixels
+			        x++;
+			        // check for decision parameter
+			        // and correspondingly
+			        // update d, x, y
+			        if (d > 0)
+			        {
+			            y--;
+			            d = d + 4 * (x - y) + 10;
+			        }
+			        else
+			            d = d + 4 * x + 6;
+			        Result.PutPixel({xc+x, yc+y,0});
+    				Result.PutPixel({xc-x, yc+y,0});
+    				Result.PutPixel({xc+x, yc-y,0});
+    				Result.PutPixel({xc-x, yc-y,0});
+    				Result.PutPixel({xc+y, yc+x,0});
+    				Result.PutPixel({xc-y, yc+x,0});
+    				Result.PutPixel({xc+y, yc-x,0});
+    				Result.PutPixel({xc-y, yc-x,0});
+			    }
+
+
 			return Result;
 		}
 	};

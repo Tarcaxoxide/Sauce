@@ -56,6 +56,7 @@ namespace Sauce{
 		size_t b_to_tb(size_t b);
 		//Graphical math
 		Sauce::Graphics::Basic::Frame_st draw_line(long double length,long double angle,GOP_PixelStructure foregroundColor={0xFF,0xFF,0xFF,0xFF},GOP_PixelStructure backgroundColor={0x00,0x00,0x00,0x00});
+		Sauce::Graphics::Basic::Frame_st draw_circle(long double radius,GOP_PixelStructure foregroundColor={0xFF,0xFF,0xFF,0xFF},GOP_PixelStructure backgroundColor={0x00,0x00,0x00,0x00});
 	};
 };
 #endif

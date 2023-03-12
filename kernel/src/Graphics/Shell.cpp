@@ -141,9 +141,9 @@ namespace Sauce{
 				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
 				PutString("\n\r",false);
 
-				Sauce::Graphics::Basic::Frame_st blueLine = Sauce::Math::draw_line(100,1.0,{0xFF,0x00,0x00,0xFF});
-				blueLine.Move({100,100,0});
-				blueLine.DrawTo(Frame);
+				Sauce::Graphics::Basic::Frame_st blueCircle = Sauce::Math::draw_circle(10,{0xFF,0x00,0x00,0xFF},Frame.BackgroundColor);
+				blueCircle.Move({100,100,0});
+				blueCircle.DrawTo(Frame);
 				
 				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
 				PutString("\n\r",false);
