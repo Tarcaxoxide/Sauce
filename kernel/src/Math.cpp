@@ -189,6 +189,7 @@ namespace Sauce{
 		//Graphical math
 		Sauce::Graphics::Basic::Frame_st draw_line(long double length,long double angle,GOP_PixelStructure foregroundColor,GOP_PixelStructure backgroundColor){
 			Sauce::Point64_st startingPoint{0,0,0};
+			angle=circular_adjust(angle,MINIMAL_ANGLE,MAXIMAL_ANGLE);
 			Sauce::Point64_st endingPoint{(int64_t)(degrees_to_radians(cosine_degree(angle))*length),(int64_t)(degrees_to_radians(sine_degree(angle))*length),0};
 			Sauce::Graphics::Basic::Frame_st Result(make_positive(endingPoint.X)*make_positive(endingPoint.Y),make_positive(endingPoint.X));
 			Result.SetColor(foregroundColor,backgroundColor);
