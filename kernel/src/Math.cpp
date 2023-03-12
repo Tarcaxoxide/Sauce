@@ -189,21 +189,21 @@ namespace Sauce{
 		//Graphical math
 		Sauce::Graphics::Basic::Frame_st draw_line(long double length,long double angle,GOP_PixelStructure foregroundColor,GOP_PixelStructure backgroundColor){
 			Sauce::Point64_st startingPoint{0,0,0};
+			bool negative=(angle<0);
 			angle=circular_adjust(angle*4,0.0,359.0);
 			Sauce::Point64_st endingPoint{(int64_t)(degrees_to_radians(cosine_degree(angle))*length),(int64_t)(degrees_to_radians(sine_degree(angle))*length),0};
 			Sauce::Graphics::Basic::Frame_st Result(make_positive(endingPoint.X)*make_positive(endingPoint.Y),make_positive(endingPoint.X));
 			Result.SetColor(foregroundColor,backgroundColor);
 			Result.Clear();
 			//Draw the line
-			Result.PutPixel(startingPoint);
-			Result.PutPixel(endingPoint);
 			const long double max = maximum(maximum(startingPoint.X,endingPoint.X),maximum(startingPoint.Y,endingPoint.Y));
 			long double x=maximum(startingPoint.X,endingPoint.X)/max;
 			long double y=maximum(startingPoint.Y,endingPoint.Y)/max;
 			long double x0=0,y0=0;
+			if(negative)y0=maximum(startingPoint.Y,endingPoint.Y);
 			for (long double n=0.0; n < max; n+=1.0){
 				Result.PutPixel({(int64_t)x0,(int64_t)y0,0});
-    		    x0 += x; y0 += y;
+    		    if(!negative){x0 += x; y0 += y;}else{x0 += x; y0 -= y;}
     		}
 			
 			return Result;
