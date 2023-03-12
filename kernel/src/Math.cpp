@@ -67,6 +67,12 @@ namespace Sauce{
 			return Sauce::Math::maximum(number1,number2)/Sauce::Math::minimum(number1,number2);
 			//I can't remember why i'm doing division here and not substraction.
 		}
+		long double degrees_to_radians(long double degree){
+			return degree*(PI/180);
+		}
+		long double radians_to_degrees(long double radian){
+			return radian*(180/PI);
+		}
 		int make_positive(int number){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"make_positive",_NAMESPACE_,_ALLOW_PRINT_);
 			if(number < 0)return -number;
@@ -87,37 +93,35 @@ namespace Sauce{
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"random_seed",_NAMESPACE_,_ALLOW_PRINT_);
 			next = (seed?seed:(Sauce::Interrupts::PIT::GetTimeSinceBoot()*10000));
 		}
-		int64_t circular_add(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
-			int64_t result = leftHandSide+rightHandSide;
-			int64_t range = circumferenceMaximal-circumferenceMinimal;
-			while(result>=circumferenceMaximal)result-=range;
-			while(result<circumferenceMinimal)result+=range;
+		long double circular_adjust(long double value,long double circumferenceMinimal,long double circumferenceMaximal){
+			long double range = circumferenceMaximal-circumferenceMinimal;
+			while(value>=circumferenceMaximal)value-=range;
+			while(value<circumferenceMinimal)value+=range;
+			return value;
+		}
+		long double circular_add(long double leftHandSide,long double rightHandSide,long double circumferenceMinimal,long double circumferenceMaximal){
+			long double result = leftHandSide+rightHandSide;
+			result=circular_adjust(result,circumferenceMinimal,circumferenceMaximal);
 			return result;
 		}
-		int64_t circular_subtract(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
-			int64_t result = leftHandSide-rightHandSide;
-			int64_t range = circumferenceMaximal-circumferenceMinimal;
-			while(result>=circumferenceMaximal)result-=range;
-			while(result<circumferenceMinimal)result+=range;
+		long double circular_subtract(long double leftHandSide,long double rightHandSide,long double circumferenceMinimal,long double circumferenceMaximal){
+			long double result = leftHandSide-rightHandSide;
+			result=circular_adjust(result,circumferenceMinimal,circumferenceMaximal);
 			return result;
 		}
-		int64_t circular_multiply(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
-			int64_t result = leftHandSide*rightHandSide;
-			int64_t range = circumferenceMaximal-circumferenceMinimal;
-			while(result>=circumferenceMaximal)result-=range;
-			while(result<circumferenceMinimal)result+=range;
+		long double circular_multiply(long double leftHandSide,long double rightHandSide,long double circumferenceMinimal,long double circumferenceMaximal){
+			long double result = leftHandSide*rightHandSide;
+			result=circular_adjust(result,circumferenceMinimal,circumferenceMaximal);
 			return result;
 		}
-		int64_t circular_divide(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
-			int64_t result = leftHandSide/rightHandSide;
-			int64_t range = circumferenceMaximal-circumferenceMinimal;
-			while(result>=circumferenceMaximal)result-=range;
-			while(result<circumferenceMinimal)result+=range;
+		long double circular_divide(long double leftHandSide,long double rightHandSide,long double circumferenceMinimal,long double circumferenceMaximal){
+			long double result = leftHandSide/rightHandSide;
+			result=circular_adjust(result,circumferenceMinimal,circumferenceMaximal);
 			return result;
 		}
-		int64_t circular_shortest_difference(int64_t leftHandSide,int64_t rightHandSide,int64_t circumferenceMinimal,int64_t circumferenceMaximal){
-			int64_t counter_clockwise = circular_subtract(rightHandSide,leftHandSide,circumferenceMinimal,circumferenceMaximal);
-			int64_t clockwise = circular_subtract(leftHandSide,rightHandSide,circumferenceMinimal,circumferenceMaximal);
+		long double circular_shortest_difference(long double leftHandSide,long double rightHandSide,long double circumferenceMinimal,long double circumferenceMaximal){
+			long double counter_clockwise = circular_subtract(rightHandSide,leftHandSide,circumferenceMinimal,circumferenceMaximal);
+			long double clockwise = circular_subtract(leftHandSide,rightHandSide,circumferenceMinimal,circumferenceMaximal);
 			return counter_clockwise>clockwise?clockwise:-counter_clockwise;
 		}
 		long double pythagoras_hypotenuse(long double a,long double b){
@@ -138,6 +142,24 @@ namespace Sauce{
 			for(size_t i=0;i<values.Size();i++)values[i]*=factor;
 			for(size_t i=0;i<values.Size();i++)maxValue=maximum(values[i],maxValue);
 			return maxValue;
+		}
+		long double sine_degree(long double angle){
+			return circular_add(360.0,angle);
+		}
+		long double cosine_degree(long double angle){
+			return circular_subtract(360.0,angle);//?
+		}
+		long double sine_radian(long double angle){
+			angle=radians_to_degrees(angle);
+			angle=sine_degree(angle);
+			angle=degrees_to_radians(angle);
+			return angle;
+		}
+		long double cosine_radian(long double angle){
+			angle=radians_to_degrees(angle);
+			angle=cosine_degree(angle);
+			angle=degrees_to_radians(angle);
+			return angle;
 		}
 		//Memory Math
 		size_t kb_to_b(size_t kb){
@@ -163,6 +185,28 @@ namespace Sauce{
 		}
 		size_t b_to_tb(size_t b){
 			return b_to_gb(b/1024);
+		}
+		//Graphical math
+		Sauce::Graphics::Basic::Frame_st draw_line(long double length,long double angle,GOP_PixelStructure color){
+			Sauce::Point64_st startingPoint{0,0,0};
+			Sauce::Point64_st endingPoint{(int64_t)(degrees_to_radians(cosine_degree(angle))*length),(int64_t)(degrees_to_radians(sine_degree(angle))*length),0};
+			Sauce::Graphics::Basic::Frame_st Result(make_positive(endingPoint.X)*make_positive(endingPoint.Y),make_positive(endingPoint.X));
+			Result.SetColor(color,{0x05,0x05,0x05,0x00});
+			Result.Clear();
+			//Draw the line
+			Result.PutPixel(startingPoint);
+			Result.PutPixel(endingPoint);
+			const long double max = maximum(maximum(startingPoint.X,endingPoint.X),maximum(startingPoint.Y,endingPoint.Y));
+			long double x=maximum(startingPoint.X,endingPoint.X)/max;
+			long double y=maximum(startingPoint.Y,endingPoint.Y)/max;
+			long double x0=0,y0=0;
+			for (long double n=0.0; n < max; n+=1.0){
+    		    // draw pixel at ( x0, y0 )
+				Result.PutPixel({(int64_t)x0,(int64_t)y0,0});
+    		    x0 += x; y0 += y;
+    		}
+			
+			return Result;
 		}
 	};
 };

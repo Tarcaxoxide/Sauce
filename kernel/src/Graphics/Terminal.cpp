@@ -68,7 +68,7 @@ namespace Sauce{
 			}
 			bool Terminal_cl::CopyFrom(Terminal_cl* OtherTerminal){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::CopyFrom",_NAMESPACE_,_ALLOW_PRINT_);
-				return Frame.CopyFrom(&OtherTerminal->Frame);
+				return Frame.CopyFrom(OtherTerminal->Frame);
 			}
 			bool Terminal_cl::DrawTo(GOP_PixelStructure* OtherPixelBuffer,int64_t OtherPixelBufferTotalSize,int64_t OtherPixelsPerLine,Sauce::Point64_st Offset){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::CopyTo",_NAMESPACE_,_ALLOW_PRINT_);
@@ -76,7 +76,7 @@ namespace Sauce{
 			}
 			bool Terminal_cl::DrawFrom(Terminal_cl* OtherTerminal){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::CopyFrom",_NAMESPACE_,_ALLOW_PRINT_);
-				return Frame.DrawFrom(&OtherTerminal->Frame);
+				return Frame.DrawFrom(OtherTerminal->Frame);
 			}
 			Sauce::Point64_st Terminal_cl::Size(){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Terminal_cl::Size",_NAMESPACE_,_ALLOW_PRINT_);

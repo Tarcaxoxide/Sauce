@@ -10,6 +10,7 @@
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<Sauce/Memory/List.hpp>
 #include<Sauce/IO/RTC.hpp>
+#include<Sauce/Graphics/Frame.hpp>
 
 namespace Sauce{
 	namespace Graphics{
@@ -139,6 +140,10 @@ namespace Sauce{
 				
 				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
 				PutString("\n\r",false);
+
+				Sauce::Graphics::Basic::Frame_st testLine = Sauce::Math::draw_line(100,20.0,{0xFF,0xAA,0x55,0xFF});
+				testLine.Move({100,100,0});
+				testLine.DrawTo(Frame);
 				
 				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
 				PutString("\n\r",false);
