@@ -152,7 +152,6 @@ namespace Sauce{
 				
 				template<typename STRUT>
 				inline void Read(size_t portNumber,size_t startingSector,STRUT& STR){
-					//TODO: Test.
 					std::ustring Buf;
 					size_t SizeInBytes=sizeof(STRUT);
 					size_t SizeInSectors=(SizeInBytes/sector_size)+((SizeInBytes%sector_size)==0?0:1);

@@ -11,17 +11,16 @@ namespace Sauce{
 				Classification_Descriptor
 			};
 			struct Header_st{
-				size_t StartingSector;
-				size_t Size;
+				std::list<size_t> Sectors;
 				size_t PortNumber;
 				Classification_en Classification;
 				char* Ext;
 				char* Name;
 				Header_st(){
 					Classification=Classification_en::Classification_Data;
-					Size=0;
+					Sectors.Clear();
 				}
-			}__attribute__((packed));
+			};
 		};
 	};
 };
