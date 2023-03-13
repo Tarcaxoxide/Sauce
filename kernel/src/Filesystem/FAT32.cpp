@@ -9,7 +9,8 @@ namespace Sauce{
 		namespace FAT32{
 			FAT32_cl::FAT32_cl(size_t portNumber,size_t partitionNumber):Sauce::Filesystem::MsDosPartition::MsDosPartition_cl(portNumber),PartitionTableEntry(MasterBootRecord.PrimaryPartitionTableEntries[partitionNumber]){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::FAT32_cl",_NAMESPACE_,_ALLOW_PRINT_);
-				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,PartitionTableEntry.LbaStart,BiosParameterBlock);
+				Directory.Header.StartingSector=PartitionTableEntry.LbaStart;
+				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,Directory.Header.StartingSector,BiosParameterBlock);
 				std::string buff;
 				buff.Clear();
 				buff+="Jump:";
@@ -63,7 +64,7 @@ namespace Sauce{
 				buff+=",VolumeId:";
 				buff+=Sauce::Utility::Conversion::HexToString(BiosParameterBlock.VolumeId);
 				buff+=",VolumeLabel:";
-				for(int i=0;i<11;i++)buff+=(char)BiosParameterBlock.VolumeLabel[i];
+				for(int i=0;i<11;i++){Directory.Header.Name[i]=(char)BiosParameterBlock.VolumeLabel[i];buff+=(char)BiosParameterBlock.VolumeLabel[i];}
 				buff+=",FatTypeLabel:";
 				for(int i=0;i<8;i++)buff+=(char)BiosParameterBlock.FatTypeLabel[i];
 				Debugger.Print(buff);
@@ -73,19 +74,23 @@ namespace Sauce{
 				uint32_t rootStart = dataStart + BiosParameterBlock.SectorsPerCluster*(BiosParameterBlock.RootCluster-2);
 				DirectoryEntry_st dirent[16];
 				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,rootStart,dirent);
+				Directory.Header.Size=0;
 				buff.Clear();
+				char NameContainer[9]{0};
+				char ExtContainer[4]{0};
 				for(int i=0;i<16;i++){
 					DirectoryEntry_st& cdirent=dirent[i];
 					buff.Clear();
 					if(cdirent.Name[0] == 0x00)break;//No more entries.
 					if((cdirent.Attributes & 0x0F) == 0x0F)continue;//long name entry
+					Directory.Header.Size++;
 					buff+="Entry[";
 					buff+=Sauce::Utility::Conversion::ToString(i);
 					buff+="]";
 					buff+=",Name:";
-					for(int z=0;z<8;z++)buff+=(char)cdirent.Name[z];
+					for(int z=0;z<8;z++){buff+=(char)cdirent.Name[z];NameContainer[z]=(char)cdirent.Name[z];}
 					buff+=",Extension:";
-					for(int z=0;z<3;z++)buff+=(char)cdirent.Extension[z];
+					for(int z=0;z<3;z++){buff+=(char)cdirent.Extension[z];ExtContainer[z]=(char)cdirent.Extension[z];}
 					buff+=",Attributes:";
 					buff+=Sauce::Utility::Conversion::HexToString(cdirent.Attributes);
 					buff+=",CreationTimeTenth:";
@@ -109,13 +114,12 @@ namespace Sauce{
 					Debugger.Print(buff);
 					if((cdirent.Attributes & 0x10) == 0x10/*directory*/)continue;
 					if((cdirent.Attributes & 0x20) == 0x20/*file*/){
+						Directory.AddFile((const char*)NameContainer,(const char*)ExtContainer);
 						uint32_t fileCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);
 						uint32_t fileSector = dataStart + BiosParameterBlock.SectorsPerCluster*(fileCluster-2);
-						uint8_t fileBuffer[512]{0};
-						Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,fileSector,fileBuffer);
-						buff.Clear();
-						for(int z=0;z<512;z++)buff+=(char)fileBuffer[z];
-						Debugger.Print(buff);
+						Directory.Sub.Last().Header.StartingSector=fileSector;
+						Directory.Sub.Last().Header.Size=cdirent.Size;
+						Directory.Sub.Last().Header.PortNumber=PortNumber;
 					}
 				}
 			}

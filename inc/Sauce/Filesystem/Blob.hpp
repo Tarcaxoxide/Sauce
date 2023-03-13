@@ -8,12 +8,19 @@ namespace Sauce{
 			struct Blob_st{
 				Sauce::Filesystem::Header::Header_st Header;
 				std::list<Blob_st> Sub;
-				Blob_st(const char* name,Sauce::Filesystem::Header::Classification classification){
-					Header.Name=name;
+				Blob_st(const char* name,const char* ext,Sauce::Filesystem::Header::Classification_en classification){
+					if(classification == Sauce::Filesystem::Header::Classification_en::Classification_File){
+						Header.Name=(char*)name;
+						Header.Ext=(char*)ext;
+					}else if(classification == Sauce::Filesystem::Header::Classification_en::Classification_Directory){
+						Header.Name=new char[11]{0};
+						Header.Name=(char*)name;
+						Header.Ext=(char*)ext;
+					}
 					Header.Classification=classification;
 				}
-				inline void Add(const char* name,Sauce::Filesystem::Header::Classification classification){
-					Sub.AddLast(Blob_st(name,classification));
+				inline void Add(const char* name,const char* ext,Sauce::Filesystem::Header::Classification_en classification){
+					Sub.AddLast(Blob_st(name,ext,classification));
 				}
 			};
 		};

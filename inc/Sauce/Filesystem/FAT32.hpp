@@ -1,6 +1,9 @@
 #ifndef __Sauce_Filesystem_FAT32
 #define __Sauce_Filesystem_FAT32
 #include<Sauce/Filesystem/MsDosPartition.hpp>
+#include<std/list.hpp>
+#include<Sauce/Filesystem/File.hpp>
+#include<Sauce/Filesystem/Directory.hpp>
 namespace Sauce{
 	namespace Filesystem{
 		namespace FAT32{
@@ -48,9 +51,11 @@ namespace Sauce{
 				uint16_t FirstClusterLow;
 				uint32_t Size;
 			}__attribute__((packed));
+
 			class FAT32_cl: public Sauce::Filesystem::MsDosPartition::MsDosPartition_cl {
 				Sauce::Filesystem::MsDosPartition::PartitionTableEntry_st& PartitionTableEntry;
 				BiosParameterBlock_st BiosParameterBlock;
+				Sauce::Filesystem::Directory::Directory_st Directory{"SubRoot"};
 				public:
 				FAT32_cl(size_t portNumber,size_t partitionNumber);
 			};
