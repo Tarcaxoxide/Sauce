@@ -129,7 +129,7 @@ namespace Sauce{
 								uint8_t fatBuffer[512];
 								Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,fatStart+fatSectorForCurrentCluster,fatBuffer);
 								uint32_t fatOffsetInSectorForCurrentCluster = nextFileCluster%(512/sizeof(uint32_t));
-								nextFileCluster = (((uint32_t*)fatBuffer))[fatOffsetInSectorForCurrentCluster];
+								nextFileCluster = (((uint32_t*)fatBuffer))[fatOffsetInSectorForCurrentCluster] & 0x0FFFFFFF;
 							}
 						}
 						Directory.Sub.Last().Header.PortNumber=PortNumber;
