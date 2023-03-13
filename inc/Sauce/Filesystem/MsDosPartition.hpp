@@ -25,6 +25,7 @@ namespace Sauce{
 				uint16_t MagicNumber;
 			}__attribute__((packed));
 			class MsDosPartition_cl{
+				protected:
 				MasterBootRecord_st MasterBootRecord;
 				size_t PortNumber;
 				public:

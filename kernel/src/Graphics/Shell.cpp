@@ -12,7 +12,7 @@
 #include<Sauce/IO/RTC.hpp>
 #include<Sauce/Graphics/Frame.hpp>
 
-#include<Sauce/Filesystem/MsDosPartition.hpp>
+#include<Sauce/Filesystem/FAT32.hpp>
 
 namespace Sauce{
 	namespace Graphics{
@@ -147,7 +147,7 @@ namespace Sauce{
 				blueCircle.Move({100,100,0});
 				blueCircle.DrawTo(Frame);
 
-				Sauce::Filesystem::MsDosPartition::MsDosPartition_cl TestMsDosPartitionRead(0);
+				Sauce::Filesystem::FAT32::FAT32_cl FAT32Test(0,0);
 				
 				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
 				PutString("\n\r",false);
