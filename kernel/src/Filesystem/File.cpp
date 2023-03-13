@@ -4,7 +4,7 @@
 namespace Sauce{
 	namespace Filesystem{
 		namespace File{
-			uint8_t File_st::ReadByte(size_t byte){
+			uint8_t& File_st::operator[](size_t byte){
 				CurrentByte=byte%Header.BytesPerSector;// we get the offset the byte is at within the sector
 				size_t sector=Header.Sectors[(byte/Header.BytesPerSector)%Header.Sectors.Size()];// we get the sector number the byte is in (note:loops back around)
 				if(sector != CurrentSector){// if we are reading from a different sector
