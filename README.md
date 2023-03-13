@@ -18,6 +18,28 @@
 	- gnu make
 		- to run the Makefiles ;)
 
+# working on...
+- Currently
+	- Filesystem
+		- FAT32
+		- VFS
+- Planned
+    - fix the timer (not really urgent since nothing i do is really time sensitive, but i suppose it would be nice to have a sane relative time XD).
+	- Userland (can't really do this without the filesystem in place first)
+		- do research on (~wasm?)
+		- (~wasm?) interpreter
+		- desktop GUI in (~wasm?)
+	- DAVAS (much much later)
+		- Natural langauge processing
+		- Generic hook function for DAVAS to execute different features.
+			- probing functions for gathering information about the hardware
+			- probing functions for gathering information about the software
+			- disk read and write functions
+			- math functions to perform redumentary calculations
+			- Graphics functions to draw images such as graphs and diagrams
+			- Ethernet functions for querying data from various places (maybe? implement an optional crawler but that wont be untill quite far into the future indeed). 
+		- DAVAS (the AI itself needs to be created, obviously)
+	
 # About the architecture
 
 Firstly the kernel architecture is what is known as a megalithic kernel which means there is no task switching or user-mode.
