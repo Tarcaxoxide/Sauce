@@ -12,6 +12,7 @@ namespace Sauce{
 			};
 			struct Header_st{
 				std::list<size_t> Sectors;
+				size_t BytesPerSector;
 				size_t PortNumber;
 				Classification_en Classification;
 				char* Ext;

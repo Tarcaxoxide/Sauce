@@ -133,6 +133,7 @@ namespace Sauce{
 							}
 						}
 						Directory.Sub.Last().Header.PortNumber=PortNumber;
+						Directory.Sub.Last().Header.BytesPerSector=BiosParameterBlock.BytesPerSector;
 					}
 				}
 			}

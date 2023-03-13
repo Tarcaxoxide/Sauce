@@ -6,24 +6,12 @@ namespace Sauce{
 	namespace Filesystem{
 		namespace File{
 			struct File_st:public Sauce::Filesystem::Blob::Blob_st{
+				size_t CurrentByte=0;
+				size_t CurrentSector=0;
+				std::ustring CurrentSectorData;
 				File_st(const char* name,const char* ext): Sauce::Filesystem::Blob::Blob_st(name,ext,Sauce::Filesystem::Header::Classification_en::Classification_File){}
-				inline void AddData(const char* data){Add(data,Header.Ext,Sauce::Filesystem::Header::Classification_en::Classification_Data);}
-				
-				inline std::string List(){
-					std::string Result="[";
-					for(size_t i=0;i<Sub.Size();i++){
-						switch(Sub[i].Header.Classification){
-							case Sauce::Filesystem::Header::Classification_en::Classification_Data:{Result+="Data:";}break;
-							case Sauce::Filesystem::Header::Classification_en::Classification_File:{Result+="File:";}break;
-							case Sauce::Filesystem::Header::Classification_en::Classification_Directory:{Result+="Directory:";}break;
-							case Sauce::Filesystem::Header::Classification_en::Classification_Descriptor:{Result+="Descriptor:";}break;
-						}
-						Result+=Sub[i].Header.Name;
-						if(i<Sub.Size()-1)Result+=",";
-					}
-					Result+="]";
-					return Result;
-				}
+			
+				uint8_t operator[](size_t byte);
 			};
 		};
 	};
