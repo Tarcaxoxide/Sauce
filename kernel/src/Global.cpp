@@ -23,9 +23,7 @@ namespace Sauce{
 		namespace Storage{
 			Sauce::Memory::List_cl<Sauce::Storage::AHCIDriver_cl*> AHCIDrivers;
 		};
-		namespace Network{
-			Sauce::Memory::List_cl<Sauce::Network::AM78C973::Driver_cl*> AM78C973Drivers;
-		};
+		namespace Network{};
 	};
 };
 

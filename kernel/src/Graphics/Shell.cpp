@@ -12,6 +12,8 @@
 #include<Sauce/IO/RTC.hpp>
 #include<Sauce/Graphics/Frame.hpp>
 
+#include<Sauce/Filesystem/MsDosPartition.hpp>
+
 namespace Sauce{
 	namespace Graphics{
 		Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
@@ -144,6 +146,8 @@ namespace Sauce{
 				Sauce::Graphics::Basic::Frame_st blueCircle = Sauce::Math::draw_circle(10,{0xFF,0x00,0x00,0xFF},Frame.BackgroundColor);
 				blueCircle.Move({100,100,0});
 				blueCircle.DrawTo(Frame);
+
+				Sauce::Filesystem::MsDosPartition::MsDosPartition_cl TestMsDosPartitionRead(0);
 				
 				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
 				PutString("\n\r",false);

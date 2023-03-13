@@ -57,7 +57,7 @@ namespace Sauce{
 	};
 	namespace Filesystem{
 		const static char* _NAMESPACE_="::Sauce::Filesystem";
-		const static bool _ALLOW_PRINT_=false;
+		const static bool _ALLOW_PRINT_=true;
 		namespace File{
 			const static char* _NAMESPACE_="::Sauce::Filesystem::File";
 			const static bool _ALLOW_PRINT_=false;

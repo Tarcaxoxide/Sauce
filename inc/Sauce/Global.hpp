@@ -11,7 +11,6 @@
 #include<Sauce/Storage/AHCI.hpp>
 #include<Sauce/Memory/List.hpp>
 #include<Sauce/Kernel.hpp>
-#include<Sauce/Network/AM78C973/Driver.hpp>
 #include<Sauce/IO/RTC.hpp>
 #include<Sauce/Filesystem/Directory.hpp>
 namespace Sauce{
@@ -37,9 +36,7 @@ namespace Sauce{
 		namespace Storage{
 			extern Sauce::Memory::List_cl<Sauce::Storage::AHCIDriver_cl*> AHCIDrivers;
 		};
-		namespace Network{
-			extern Sauce::Memory::List_cl<Sauce::Network::AM78C973::Driver_cl*> AM78C973Drivers;
-		};
+		namespace Network{};
 	};
 };
 #endif

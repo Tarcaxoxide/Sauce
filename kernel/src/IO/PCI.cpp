@@ -5,34 +5,11 @@
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-#include<Sauce/Network/AM78C973/Driver.hpp>
 #include<std/string.hpp>
 
 namespace Sauce{
 	namespace IO{
 		namespace PCI{
-			//const char* DeviceClasses[]{
-			//	"Unclassified",
-			//	"Mass Storage Controller",
-			//	"Network Controller",
-			//	"Display Controller",
-			//	"Multimedia Controller",
-			//	"Memory Controller",
-			//	"Bridge Device",
-			//	"Simple Communication Controller",
-			//	"Base System Peripheral",
-			//	"Input Device Controller",
-			//	"Docking Station",
-			//	"Processor",
-			//	"Serial Bus Controller",
-			//	"Wireless Controller",
-			//	"Intelligent Controller",
-			//	"Satellite Communication Controller",
-			//	"Encryption Controller",
-			//	"Signal Processing Controller",
-			//	"Processing Accelerator",
-			//	"Non Essential Instrumentation"
-			//};
 			void EnemerateFunction(uint64_t deviceAddress,uint64_t function){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"EnemerateFunction",_NAMESPACE_,_ALLOW_PRINT_);
 				uint64_t offset = function << 12;
@@ -50,9 +27,7 @@ namespace Sauce{
 				switch(pciDeviceHeader->VendorID){
 					case 0x1022:/*AMD*/{
 						switch(pciDeviceHeader->DeviceID){
-							case 0x2000:/*AM78C973*/{
-								Sauce::Global::Network::AM78C973Drivers.AddLast(new Sauce::Network::AM78C973::Driver_cl(pciDeviceHeader));
-							}break;
+							case 0x2000:/*AM78C973*/{}break;
 						}
 					}break;
 					case 0x8086:/*INTEL*/{}break;

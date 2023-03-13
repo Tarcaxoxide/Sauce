@@ -1,9 +1,12 @@
 # UEFI_Master - so i decided to try and convert my OS to uefi
 
 - Requirements
-	- mtools
-		- mcopy copying files over to the .img file
-		- mmd for creating directories in the .img file
+	- sudo
+		- create the disk image.
+		- we create the image and make the partition table, then mount it to `/mnt/img` as a loopback device, then we just copy the files over and umount it.
+	- kpartx
+		- tool used to create the loopback device from the file in order to mount the partition the image contains.
+	
 	- nasm
 		- for compiling the assembly files
 	- gcc/clang
@@ -12,8 +15,6 @@
 		- qemu-system-x86_64 to run the produced .img file
 	- dosfstools
 		- mkfs.fat for generating the fat32 filesystem on the .img file
-	- cdrtools
-		- mkisofs for producing the final .img file.
 	- gnu make
 		- to run the Makefiles ;)
 
