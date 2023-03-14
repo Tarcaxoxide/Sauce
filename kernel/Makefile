@@ -28,18 +28,9 @@ OBJS = $(patsubst $(SRCDIR)/%.asm, $(OBJDIR)/%_asm.o, $(ASMSRC))
 OBJS += $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%_cpp.o, $(SRC))
 DIRS = $(wildcard $(SRCDIR)/*)
 
-#$(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
-#	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=400000
-#	mkfs.fat -F32 $(BUILDDIR)/$(OSNAME).img
-#	#mkfs.exfat -n $(OSNAME) $(BUILDDIR)/$(OSNAME).img
-#	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI
-#	mmd -i $(BUILDDIR)/$(OSNAME).img ::/EFI/BOOT
-#	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BOOTEFI) ::/EFI/BOOT
-#	mcopy -i $(BUILDDIR)/$(OSNAME).img startup.nsh ::/
-#	mcopy -i $(BUILDDIR)/$(OSNAME).img $(BUILDDIR)/kernel.elf ::/
-#	mcopy -i $(BUILDDIR)/$(OSNAME).img $(INCDIR)/Sauce/Fonts/zap-light16.psf ::/
-
 $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
+	sudo umount /mnt/img || true
+	sudo kpartx -d -v $(BUILDDIR)/$(OSNAME).img || true
 	dd if=/dev/zero of=$(BUILDDIR)/$(OSNAME).img bs=512 count=400000
 	echo "type=83" | sudo sfdisk $(BUILDDIR)/$(OSNAME).img
 	sudo sfdisk -A $(BUILDDIR)/$(OSNAME).img 1
@@ -51,7 +42,7 @@ $(BUILDDIR)/$(OSNAME).img: $(BUILDDIR)/kernel.elf
 	sudo cp $(BOOTEFI) /mnt/img/EFI/BOOT/
 	sudo cp startup.nsh /mnt/img/
 	sudo cp $(BUILDDIR)/kernel.elf /mnt/img/
-	sudo cp $(INCDIR)/Sauce/Fonts/zap-light16.psf /mnt/img/
+	sudo cp -r $(INCDIR)/Resources/* /mnt/img/
 	sudo umount /mnt/img
 	sudo kpartx -d -v $(BUILDDIR)/$(OSNAME).img
 
