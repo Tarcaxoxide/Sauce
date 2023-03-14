@@ -53,11 +53,13 @@ namespace Sauce{
 			}__attribute__((packed));
 
 			class FAT32_cl: public Sauce::Filesystem::MsDosPartition::MsDosPartition_cl {
-				Sauce::Filesystem::MsDosPartition::PartitionTableEntry_st& PartitionTableEntry;
+				Sauce::Filesystem::MsDosPartition::PartitionTableEntry_st* PartitionTableEntry;
+				size_t PartitionNumber;
 				BiosParameterBlock_st BiosParameterBlock;
-				Sauce::Filesystem::Directory::Directory_st Directory{"SubRoot"};
+				std::list<Sauce::Filesystem::Directory::Directory_st> Directories;
 				public:
 				FAT32_cl(size_t portNumber,size_t partitionNumber);
+				Sauce::Filesystem::Directory::Directory_st ReadDirectory(size_t Offset,const char* directoryName);
 			};
 		};
 	};

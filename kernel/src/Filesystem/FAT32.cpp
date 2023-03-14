@@ -7,9 +7,16 @@
 namespace Sauce{
 	namespace Filesystem{
 		namespace FAT32{
-			FAT32_cl::FAT32_cl(size_t portNumber,size_t partitionNumber):Sauce::Filesystem::MsDosPartition::MsDosPartition_cl(portNumber),PartitionTableEntry(MasterBootRecord.PrimaryPartitionTableEntries[partitionNumber]){
+			FAT32_cl::FAT32_cl(size_t portNumber,size_t partitionNumber):Sauce::Filesystem::MsDosPartition::MsDosPartition_cl(portNumber){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::FAT32_cl",_NAMESPACE_,_ALLOW_PRINT_);
-				Directory.Header.Sectors.AddLast(PartitionTableEntry.LbaStart);
+				PartitionNumber=partitionNumber;
+				PartitionTableEntry= &MasterBootRecord.PrimaryPartitionTableEntries[partitionNumber];
+				Directories.AddLast(ReadDirectory(PartitionTableEntry->LbaStart,"SubRootDirectory"));
+			}
+			Sauce::Filesystem::Directory::Directory_st FAT32_cl::ReadDirectory(size_t Offset,const char* directoryName){
+				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::ReadDirectory",_NAMESPACE_,_ALLOW_PRINT_);
+				Sauce::Filesystem::Directory::Directory_st Directory{directoryName};
+				Directory.Header.Sectors.AddLast(Offset);
 				Directory.Header.PortNumber=PortNumber;
 				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,Directory.Header.Sectors.First(),BiosParameterBlock);
 				std::string buff;
@@ -69,7 +76,7 @@ namespace Sauce{
 				buff+=",FatTypeLabel:";
 				for(int i=0;i<8;i++)buff+=(char)BiosParameterBlock.FatTypeLabel[i];
 				Debugger.Print(buff);
-				uint32_t fatStart = PartitionTableEntry.LbaStart + BiosParameterBlock.ReservedSectors;
+				uint32_t fatStart = PartitionTableEntry->LbaStart + BiosParameterBlock.ReservedSectors;
 				uint32_t fatSize = BiosParameterBlock.TableSize;
 				uint32_t dataStart = fatStart+fatSize*BiosParameterBlock.FatCopies;
 				uint32_t rootStart = dataStart + BiosParameterBlock.SectorsPerCluster*(BiosParameterBlock.RootCluster-2);
@@ -111,8 +118,31 @@ namespace Sauce{
 					buff+=",Size:";
 					buff+=Sauce::Utility::Conversion::HexToString(cdirent.Size);
 					Debugger.Print(buff);
-					if((cdirent.Attributes & 0x10) == 0x10/*directory*/)continue;
-					if((cdirent.Attributes & 0x20) == 0x20/*file*/){
+					if((cdirent.Attributes & 0x10) == 0x10/*directory*/){
+						Directory.AddDirectory((const char*)NameContainer);
+						uint32_t firstDirectoryCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);
+						int64_t directorySize=(int64_t)cdirent.Size;
+						uint32_t nextDirectoryCluster = firstDirectoryCluster;
+						while(directorySize>0){
+							uint32_t directorySector = dataStart + BiosParameterBlock.SectorsPerCluster*(nextDirectoryCluster-2);
+							uint32_t sectorOffset=0;
+							for(;directorySize>0;directorySize-=BiosParameterBlock.BytesPerSector){
+								//I wonder if this is correct XD...
+								Directory.Sub.Last().Sub.AddLast(ReadDirectory(directorySector+sectorOffset,(const char*)NameContainer));
+								if(++sectorOffset > BiosParameterBlock.SectorsPerCluster)break;
+							}
+							if(directorySize>0){
+								uint32_t fatSectorForCurrentCluster = nextDirectoryCluster/(BiosParameterBlock.BytesPerSector/sizeof(uint32_t));
+								std::ustring fatBuffer;
+								Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,fatStart+fatSectorForCurrentCluster,1/*read 1 sector*/,fatBuffer);
+								uint32_t fatOffsetInSectorForCurrentCluster = nextDirectoryCluster%(BiosParameterBlock.BytesPerSector/sizeof(uint32_t));
+								nextDirectoryCluster = (((uint32_t*)fatBuffer.Raw()))[fatOffsetInSectorForCurrentCluster] & 0x0FFFFFFF;
+							}
+						}
+						Directory.Sub.Last().Header.PortNumber=PortNumber;
+						Directory.Sub.Last().Header.BytesPerSector=BiosParameterBlock.BytesPerSector;
+					}
+					else if((cdirent.Attributes & 0x20) == 0x20/*file*/){
 						Directory.AddFile((const char*)NameContainer,(const char*)ExtContainer);
 						uint32_t firstFileCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);
 						int64_t fileSize=(int64_t)cdirent.Size;
@@ -136,6 +166,7 @@ namespace Sauce{
 						Directory.Sub.Last().Header.BytesPerSector=BiosParameterBlock.BytesPerSector;
 					}
 				}
+				return Directory;
 			}
 		};
 	};
