@@ -15,11 +15,12 @@ namespace Sauce{
 				std::ustring CurrentSectorData;
 				Blob_st(const char* name,const char* ext,Sauce::Filesystem::Header::Classification_en classification){
 					if(classification == Sauce::Filesystem::Header::Classification_en::Classification_File){
-						Header.Name=(char*)name;
+						Header.Name=new char[sizeof(name)+1]{0};
+						for(size_t i=0;i<sizeof(name);i++)Header.Name[i]=name[i];
 						Header.Ext=(char*)ext;
 					}else if(classification == Sauce::Filesystem::Header::Classification_en::Classification_Directory){
-						Header.Name=new char[11]{0};
-						Header.Name=(char*)name;
+						Header.Name=new char[sizeof(name)+1]{0};
+						for(size_t i=0;i<sizeof(name);i++)Header.Name[i]=name[i];
 						Header.Ext=(char*)ext;
 					}
 					Header.Classification=classification;
