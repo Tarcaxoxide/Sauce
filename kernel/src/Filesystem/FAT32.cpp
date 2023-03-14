@@ -15,11 +15,19 @@ namespace Sauce{
 			}
 			Sauce::Filesystem::Blob::Blob_st FAT32_cl::ReadDirectory(size_t Offset,const char* directoryName){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::ReadDirectory",_NAMESPACE_,_ALLOW_PRINT_);
+				std::string buff;
+				buff.Clear();
+				buff+="Reading:{";
+				buff+=directoryName;
+				buff+=",";
+				buff+=Sauce::Utility::Conversion::HexToString(Offset);
+				buff+="}";
+				Debugger.Print(buff);
 				Sauce::Filesystem::Blob::Blob_st Directory(directoryName,nullptr,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 				Directory.Header.Sectors.AddLast(Offset);
 				Directory.Header.PortNumber=PortNumber;
 				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,Directory.Header.Sectors.First(),BiosParameterBlock);
-				std::string buff;
+				
 				buff.Clear();
 				buff+="Jump:";
 				for(int i=0;i<3;i++)buff+=Sauce::Utility::Conversion::HexToString(BiosParameterBlock.Jump[i]);
@@ -121,24 +129,9 @@ namespace Sauce{
 					if((cdirent.Attributes & 0x10) == 0x10/*directory*/){
 						Directory.Add((const char*)NameContainer,nullptr,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 						uint32_t firstDirectoryCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);
-						int64_t directorySize=(int64_t)cdirent.Size;
 						uint32_t nextDirectoryCluster = firstDirectoryCluster;
-						while(directorySize>0){
-							uint32_t directorySector = dataStart + BiosParameterBlock.SectorsPerCluster*(nextDirectoryCluster-2);
-							uint32_t sectorOffset=0;
-							for(;directorySize>0;directorySize-=BiosParameterBlock.BytesPerSector){
-								//I wonder if this is correct XD...
-								Directory.Sub.Last().Sub.AddLast(ReadDirectory(directorySector+sectorOffset,(const char*)NameContainer));
-								if(++sectorOffset > BiosParameterBlock.SectorsPerCluster)break;
-							}
-							if(directorySize>0){
-								uint32_t fatSectorForCurrentCluster = nextDirectoryCluster/(BiosParameterBlock.BytesPerSector/sizeof(uint32_t));
-								std::ustring fatBuffer;
-								Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,fatStart+fatSectorForCurrentCluster,1/*read 1 sector*/,fatBuffer);
-								uint32_t fatOffsetInSectorForCurrentCluster = nextDirectoryCluster%(BiosParameterBlock.BytesPerSector/sizeof(uint32_t));
-								nextDirectoryCluster = (((uint32_t*)fatBuffer.Raw()))[fatOffsetInSectorForCurrentCluster] & 0x0FFFFFFF;
-							}
-						}
+						uint32_t directorySector = dataStart + BiosParameterBlock.SectorsPerCluster*(nextDirectoryCluster-2);
+						Directory.Sub.Last().Sub.AddLast(ReadDirectory(directorySector,(const char*)NameContainer));
 						Directory.Sub.Last().Header.PortNumber=PortNumber;
 						Directory.Sub.Last().Header.BytesPerSector=BiosParameterBlock.BytesPerSector;
 					}

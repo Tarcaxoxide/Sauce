@@ -144,6 +144,8 @@ namespace Sauce{
 				PutString("\n\r",false);
 				PutString(Sauce::Global::Filesystem::RootDirectory.GetSub(0).List(),false);
 				PutString("\n\r",false);
+				PutString(Sauce::Global::Filesystem::RootDirectory.GetSub(0).GetSub(0).List(),false);
+				PutString("\n\r",false);
 				
 				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
 				PutString("\n\r",false);
