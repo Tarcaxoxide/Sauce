@@ -13,9 +13,9 @@ namespace Sauce{
 				PartitionTableEntry= &MasterBootRecord.PrimaryPartitionTableEntries[partitionNumber];
 				Sauce::Global::Filesystem::RootDirectory.Sub.AddLast(ReadDirectory(PartitionTableEntry->LbaStart,"           "));
 			}
-			Sauce::Filesystem::Directory::Directory_st FAT32_cl::ReadDirectory(size_t Offset,const char* directoryName){
+			Sauce::Filesystem::Blob::Blob_st FAT32_cl::ReadDirectory(size_t Offset,const char* directoryName){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::ReadDirectory",_NAMESPACE_,_ALLOW_PRINT_);
-				Sauce::Filesystem::Directory::Directory_st Directory{directoryName};
+				Sauce::Filesystem::Blob::Blob_st Directory(directoryName,nullptr,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 				Directory.Header.Sectors.AddLast(Offset);
 				Directory.Header.PortNumber=PortNumber;
 				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,Directory.Header.Sectors.First(),BiosParameterBlock);
@@ -119,7 +119,7 @@ namespace Sauce{
 					buff+=Sauce::Utility::Conversion::HexToString(cdirent.Size);
 					Debugger.Print(buff);
 					if((cdirent.Attributes & 0x10) == 0x10/*directory*/){
-						Directory.AddDirectory((const char*)NameContainer);
+						Directory.Add((const char*)NameContainer,nullptr,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 						uint32_t firstDirectoryCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);
 						int64_t directorySize=(int64_t)cdirent.Size;
 						uint32_t nextDirectoryCluster = firstDirectoryCluster;
@@ -143,7 +143,7 @@ namespace Sauce{
 						Directory.Sub.Last().Header.BytesPerSector=BiosParameterBlock.BytesPerSector;
 					}
 					else if((cdirent.Attributes & 0x20) == 0x20/*file*/){
-						Directory.AddFile((const char*)NameContainer,(const char*)ExtContainer);
+						Directory.Add((const char*)NameContainer,(const char*)ExtContainer,Sauce::Filesystem::Header::Classification_en::Classification_File);
 						uint32_t firstFileCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);
 						int64_t fileSize=(int64_t)cdirent.Size;
 						uint32_t nextFileCluster = firstFileCluster;

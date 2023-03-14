@@ -2,8 +2,7 @@
 #define __Sauce_Filesystem_FAT32
 #include<Sauce/Filesystem/MsDosPartition.hpp>
 #include<std/list.hpp>
-#include<Sauce/Filesystem/File.hpp>
-#include<Sauce/Filesystem/Directory.hpp>
+#include<Sauce/Filesystem/Blob.hpp>
 namespace Sauce{
 	namespace Filesystem{
 		namespace FAT32{
@@ -58,7 +57,7 @@ namespace Sauce{
 				BiosParameterBlock_st BiosParameterBlock;
 				public:
 				FAT32_cl(size_t portNumber,size_t partitionNumber);
-				Sauce::Filesystem::Directory::Directory_st ReadDirectory(size_t Offset,const char* directoryName);
+				Sauce::Filesystem::Blob::Blob_st ReadDirectory(size_t Offset,const char* directoryName);
 			};
 		};
 	};

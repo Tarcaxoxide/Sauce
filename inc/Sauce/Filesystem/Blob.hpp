@@ -10,6 +10,9 @@ namespace Sauce{
 			struct Blob_st{
 				Sauce::Filesystem::Header::Header_st Header;
 				std::list<Blob_st> Sub;
+				size_t CurrentByte{0};
+				size_t CurrentSector{0};
+				std::ustring CurrentSectorData;
 				Blob_st(const char* name,const char* ext,Sauce::Filesystem::Header::Classification_en classification){
 					if(classification == Sauce::Filesystem::Header::Classification_en::Classification_File){
 						Header.Name=(char*)name;
@@ -21,28 +24,10 @@ namespace Sauce{
 					}
 					Header.Classification=classification;
 				}
-				inline std::string List(){
-					std::string Result="[";
-					for(size_t i=0;i<Sub.Size();i++){
-						switch(Sub[i].Header.Classification){
-							case Sauce::Filesystem::Header::Classification_en::Classification_Data:{Result+="Data:";}break;
-							case Sauce::Filesystem::Header::Classification_en::Classification_File:{Result+="File:";}break;
-							case Sauce::Filesystem::Header::Classification_en::Classification_Directory:{Result+="Directory:";}break;
-							case Sauce::Filesystem::Header::Classification_en::Classification_Descriptor:{Result+="Descriptor:";}break;
-						}
-						Result+="`";
-						Result+=Sub[i].Header.Name;
-						Result+="`:";
-						Result+=std::to_string(i);
-						
-						if(i<Sub.Size()-1)Result+=",";
-					}
-					Result+="]";
-					return Result;
-				}
-				inline void Add(const char* name,const char* ext,Sauce::Filesystem::Header::Classification_en classification){
-					Sub.AddLast(Blob_st(name,ext,classification));
-				}
+				std::string List();
+				Blob_st& GetSub(size_t index);
+				uint8_t& GetByte(size_t byte);
+				void Add(const char* name,const char* ext,Sauce::Filesystem::Header::Classification_en classification);
 			};
 		};
 	};
