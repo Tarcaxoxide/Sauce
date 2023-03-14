@@ -9,7 +9,7 @@ namespace Sauce{
 				Directory_st(const char* name): Sauce::Filesystem::Blob::Blob_st(name,nullptr,Sauce::Filesystem::Header::Classification_en::Classification_Directory){}
 				inline void AddFile(const char* name,const char* ext){Add(name,ext,Sauce::Filesystem::Header::Classification_en::Classification_File);}
 				inline void AddDirectory(const char* name){Add(name,nullptr,Sauce::Filesystem::Header::Classification_en::Classification_Directory);}
-				std::string List();
+				Sauce::Filesystem::Blob::Blob_st& operator[](size_t index);
 			};
 		};
 	};

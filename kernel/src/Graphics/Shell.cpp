@@ -12,6 +12,9 @@
 #include<Sauce/IO/RTC.hpp>
 #include<Sauce/Graphics/Frame.hpp>
 
+#include<Sauce/Filesystem/File.hpp>
+#include<Sauce/Filesystem/Directory.hpp>
+
 namespace Sauce{
 	namespace Graphics{
 		Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
@@ -141,6 +144,8 @@ namespace Sauce{
 				blueCircle.Move({100,100,0});
 				blueCircle.DrawTo(Frame);
 				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
+				PutString("\n\r",false);
+				PutString(Sauce::Global::Filesystem::RootDirectory[0].List(),false);
 				PutString("\n\r",false);
 				
 				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
