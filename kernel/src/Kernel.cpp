@@ -24,6 +24,7 @@
 #include<Sauce/IO/Keyboard.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<std/to_string.hpp>
+#include<Sauce/Filesystem/FAT32.hpp>
 
 extern "C" int64_t _start(DataStructure* DFBL);
 
@@ -187,7 +188,7 @@ namespace Sauce{
 	}
 	void Kernel_cl::Prep_Filesystem(){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Filesystem",_NAMESPACE_,_ALLOW_PRINT_);
-		
+		Sauce::Filesystem::FAT32::FAT32_cl PrimaryDrive_PrimaryPartition(0,0);
 	}
 	void Kernel_cl::oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard){
 		Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_KeyPress",_NAMESPACE_,true);

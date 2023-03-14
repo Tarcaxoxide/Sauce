@@ -11,7 +11,7 @@ namespace Sauce{
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::FAT32_cl",_NAMESPACE_,_ALLOW_PRINT_);
 				PartitionNumber=partitionNumber;
 				PartitionTableEntry= &MasterBootRecord.PrimaryPartitionTableEntries[partitionNumber];
-				Directories.AddLast(ReadDirectory(PartitionTableEntry->LbaStart,"SubRootDirectory"));
+				Sauce::Global::Filesystem::RootDirectory.Sub.AddLast(ReadDirectory(PartitionTableEntry->LbaStart,"           "));
 			}
 			Sauce::Filesystem::Directory::Directory_st FAT32_cl::ReadDirectory(size_t Offset,const char* directoryName){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::ReadDirectory",_NAMESPACE_,_ALLOW_PRINT_);

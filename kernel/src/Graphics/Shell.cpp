@@ -12,8 +12,6 @@
 #include<Sauce/IO/RTC.hpp>
 #include<Sauce/Graphics/Frame.hpp>
 
-#include<Sauce/Filesystem/FAT32.hpp>
-
 namespace Sauce{
 	namespace Graphics{
 		Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
@@ -139,15 +137,11 @@ namespace Sauce{
 
 			if(CharBuffer.Compare(new const char*[]{"hi","Hi","HI","hI","hello","Hello","HEllo","HELlo","HELLo","HELLO",nullptr})){
 				PutString("The kernel says hi!\n\r",false);
-				
-				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
-				PutString("\n\r",false);
-
 				Sauce::Graphics::Basic::Frame_st blueCircle = Sauce::Math::draw_circle(10,{0xFF,0x00,0x00,0xFF},Frame.BackgroundColor);
 				blueCircle.Move({100,100,0});
 				blueCircle.DrawTo(Frame);
-
-				Sauce::Filesystem::FAT32::FAT32_cl FAT32Test(0,0);
+				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
+				PutString("\n\r",false);
 				
 				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
 				PutString("\n\r",false);

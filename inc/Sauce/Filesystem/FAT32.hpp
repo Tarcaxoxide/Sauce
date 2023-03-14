@@ -56,7 +56,6 @@ namespace Sauce{
 				Sauce::Filesystem::MsDosPartition::PartitionTableEntry_st* PartitionTableEntry;
 				size_t PartitionNumber;
 				BiosParameterBlock_st BiosParameterBlock;
-				std::list<Sauce::Filesystem::Directory::Directory_st> Directories;
 				public:
 				FAT32_cl(size_t portNumber,size_t partitionNumber);
 				Sauce::Filesystem::Directory::Directory_st ReadDirectory(size_t Offset,const char* directoryName);
