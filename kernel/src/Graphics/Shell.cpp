@@ -140,6 +140,11 @@ namespace Sauce{
 				Sauce::Graphics::Basic::Frame_st blueCircle = Sauce::Math::draw_circle(10,{0xFF,0x00,0x00,0xFF},Frame.BackgroundColor);
 				blueCircle.Move({100,100,0});
 				blueCircle.DrawTo(Frame);
+				Sauce::Graphics::Basic::Frame_st blueLine = Sauce::Math::draw_line({120,120,0},{180,180,0},{0xFF,0x00,0x00,0xFF},Frame.BackgroundColor);
+				blueLine.DrawTo(Frame);
+				Sauce::Graphics::Basic::Frame_st redLine = Sauce::Math::draw_line(100,-45,{0x00,0x00,0xFF,0xFF},Frame.BackgroundColor);
+				redLine.Move({180,180,0});
+				redLine.DrawTo(Frame);
 				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
 				PutString("\n\r",false);
 				PutString(Sauce::Global::Filesystem::RootDirectory.GetSub(0).List(),false);

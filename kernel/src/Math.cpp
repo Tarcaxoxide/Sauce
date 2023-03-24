@@ -187,16 +187,15 @@ namespace Sauce{
 			return b_to_gb(b/1024);
 		}
 		//Graphical math
-		Sauce::Graphics::Basic::Frame_st draw_line(long double length,long double angle,GOP_PixelStructure foregroundColor,GOP_PixelStructure backgroundColor){
-			Sauce::Point64_st startingPoint{0,0,0};
-			bool negative=(angle<0);
-			angle=make_positive(circular_adjust(angle*4)-1.0);
-			
-			Sauce::Point64_st endingPoint{(int64_t)(degrees_to_radians(cosine_degree(angle))*length),(int64_t)(degrees_to_radians(sine_degree(angle))*length),0};
-			Sauce::Graphics::Basic::Frame_st Result(make_positive(endingPoint.X)*make_positive(endingPoint.Y),make_positive(endingPoint.X));
+		Sauce::Graphics::Basic::Frame_st draw_line(Sauce::Point64_st startingPoint,Sauce::Point64_st endingPoint,GOP_PixelStructure foregroundColor,GOP_PixelStructure backgroundColor){
+			bool negative=startingPoint.Y>endingPoint.Y;
+			Sauce::Point64_st length{0,0,0};
+			length.X=startingPoint.X>endingPoint.X?startingPoint.X-endingPoint.X:endingPoint.X-startingPoint.X;
+			length.Y=startingPoint.Y>endingPoint.Y?startingPoint.Y-endingPoint.Y:endingPoint.Y-startingPoint.Y;
+			length.Z=startingPoint.Z>endingPoint.Z?startingPoint.Z-endingPoint.Z:endingPoint.Z-startingPoint.Z;
+			Sauce::Graphics::Basic::Frame_st Result(make_positive(length.X)*make_positive(length.Y),make_positive(length.X));
 			Result.SetColor(foregroundColor,backgroundColor);
 			Result.Clear();
-			//Draw the line
 			const long double max = maximum(maximum(startingPoint.X,endingPoint.X),maximum(startingPoint.Y,endingPoint.Y));
 			long double x=maximum(startingPoint.X,endingPoint.X)/max;
 			long double y=maximum(startingPoint.Y,endingPoint.Y)/max;
@@ -206,7 +205,30 @@ namespace Sauce{
 				Result.PutPixel({(int64_t)x0,(int64_t)y0,0});
     		    if(!negative){x0 += x; y0 += y;}else{x0 += x; y0 -= y;}
     		}
+			Result.Move(startingPoint);
 			return Result;
+		}
+		Sauce::Graphics::Basic::Frame_st draw_line(long double length,long double angle,GOP_PixelStructure foregroundColor,GOP_PixelStructure backgroundColor){
+			Sauce::Point64_st startingPoint{0,0,0};
+			bool negative=(angle<0);
+			angle=make_positive(circular_adjust(angle*4)-1.0);
+			Sauce::Point64_st endingPoint{(int64_t)(degrees_to_radians(cosine_degree(angle))*length),(int64_t)(degrees_to_radians(sine_degree(angle))*length),0};
+			if(negative){int64_t Y=endingPoint.Y;endingPoint.Y=startingPoint.Y;startingPoint.Y=Y;}
+			return draw_line(startingPoint,endingPoint,foregroundColor,backgroundColor);
+			//Sauce::Graphics::Basic::Frame_st Result(make_positive(endingPoint.X)*make_positive(endingPoint.Y),make_positive(endingPoint.X));
+			//Result.SetColor(foregroundColor,backgroundColor);
+			//Result.Clear();
+			////Draw the line
+			//const long double max = maximum(maximum(startingPoint.X,endingPoint.X),maximum(startingPoint.Y,endingPoint.Y));
+			//long double x=maximum(startingPoint.X,endingPoint.X)/max;
+			//long double y=maximum(startingPoint.Y,endingPoint.Y)/max;
+			//long double x0=0,y0=0;
+			//if(negative)y0=maximum(startingPoint.Y,endingPoint.Y);
+			//for (long double n=0.0; n < max; n+=1.0){
+			//	Result.PutPixel({(int64_t)x0,(int64_t)y0,0});
+    		//    if(!negative){x0 += x; y0 += y;}else{x0 += x; y0 -= y;}
+    		//}
+			//return Result;
 		}
 		Sauce::Graphics::Basic::Frame_st draw_circle(long double radius,GOP_PixelStructure foregroundColor,GOP_PixelStructure backgroundColor){
 			long double diameter=(radius*2)+1;
