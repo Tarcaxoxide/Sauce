@@ -17,7 +17,7 @@ namespace Sauce{
 			Sauce::Memory::Management::PageTableManager_cl PageTableManager=NULL;
 		};
 		namespace Filesystem{
-			Sauce::Filesystem::Blob::Blob_st RootDirectory(Sauce::Memory::SmartPtr_cl<char,9>('\0'),Sauce::Memory::SmartPtr_cl<char,4>('\0'),Sauce::Filesystem::Header::Classification_en::Classification_Directory);
+			Sauce::Filesystem::Blob::Blob_st RootDirectory(Sauce::Memory::SmartPtr_cl<char,9>('.'),Sauce::Memory::SmartPtr_cl<char,4>('\0'),Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 		};
 		namespace Hardware{
 			Sauce::IO::RTC::RTC_cl RTC;

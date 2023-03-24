@@ -134,6 +134,10 @@ namespace Sauce{
 			PutString("\n\r",false);
 			if(CharBuffer.Compare(new const char*[]{"hi","Hi","hello","Hello",nullptr})){
 				PutString("The kernel says hello.\n\r",false);
+				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
+				PutString("\n\r",false);
+				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
+				PutString("\n\r",false);
 			}
 			ShellClear(false);
 		}

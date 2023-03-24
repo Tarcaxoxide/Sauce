@@ -13,7 +13,7 @@ namespace Sauce{
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::FAT32_cl",_NAMESPACE_,_ALLOW_PRINT_);
 				PartitionNumber=partitionNumber;
 				PartitionTableEntry= &MasterBootRecord.PrimaryPartitionTableEntries[partitionNumber];
-				Sauce::Memory::SmartPtr_cl<char,9> NameContainer('\0');
+				Sauce::Memory::SmartPtr_cl<char,9> NameContainer('.');
 				Sauce::Global::Filesystem::RootDirectory.Sub.AddLast(ReadDirectory(PartitionTableEntry->LbaStart,NameContainer));
 			}
 			Sauce::Filesystem::Blob::Blob_st FAT32_cl::ReadDirectory(size_t Offset,Sauce::Memory::SmartPtr_cl<char, 9> directoryName){
@@ -26,7 +26,7 @@ namespace Sauce{
 				buff+=Sauce::Utility::Conversion::HexToString(Offset);
 				buff+="}";
 				Debugger.Print(buff);
-				Sauce::Memory::SmartPtr_cl<char,4> ExtContainer('\0');
+				Sauce::Memory::SmartPtr_cl<char,4> ExtContainer('.');
 				Sauce::Filesystem::Blob::Blob_st Directory(directoryName,ExtContainer,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 				Directory.Header.Sectors.AddLast(Offset);
 				Directory.Header.PortNumber=PortNumber;
@@ -95,10 +95,7 @@ namespace Sauce{
 				DirectoryEntry_st dirent[16];
 				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,rootStart,dirent);
 				buff.Clear();
-				Sauce::Memory::SmartPtr_cl<char,9> NameContainer('\0');
-				//Sauce::Memory::SmartPtr_cl<char,4> ExtContainer('\0');
-
-
+				Sauce::Memory::SmartPtr_cl<char,9> NameContainer('.');
 				for(int i=0;i<16;i++){
 					DirectoryEntry_st& cdirent=dirent[i];
 					buff.Clear();
