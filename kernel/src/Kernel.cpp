@@ -16,7 +16,7 @@
 #include<Sauce/IO/Debug/Serial.hpp>
 #include<Sauce/Graphics/Terminal.hpp>
 #include<Sauce/Graphics/Window.hpp>
-#include<Sauce/Graphics/Shell.hpp>
+#include<Sauce/Graphics/Shell/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/Math.hpp>

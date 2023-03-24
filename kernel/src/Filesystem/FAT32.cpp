@@ -4,6 +4,8 @@
 #include<std/string.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 
+#include<Sauce/Memory/SmartPtr.hpp>
+
 namespace Sauce{
 	namespace Filesystem{
 		namespace FAT32{
@@ -11,19 +13,21 @@ namespace Sauce{
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::FAT32_cl",_NAMESPACE_,_ALLOW_PRINT_);
 				PartitionNumber=partitionNumber;
 				PartitionTableEntry= &MasterBootRecord.PrimaryPartitionTableEntries[partitionNumber];
-				Sauce::Global::Filesystem::RootDirectory.Sub.AddLast(ReadDirectory(PartitionTableEntry->LbaStart,"           "));
+				Sauce::Memory::SmartPtr_cl<char,9> NameContainer('\0');
+				Sauce::Global::Filesystem::RootDirectory.Sub.AddLast(ReadDirectory(PartitionTableEntry->LbaStart,NameContainer));
 			}
-			Sauce::Filesystem::Blob::Blob_st FAT32_cl::ReadDirectory(size_t Offset,const char* directoryName){
+			Sauce::Filesystem::Blob::Blob_st FAT32_cl::ReadDirectory(size_t Offset,Sauce::Memory::SmartPtr_cl<char, 9> directoryName){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::ReadDirectory",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string buff;
 				buff.Clear();
 				buff+="Reading:{";
-				buff+=directoryName;
+				buff+=directoryName.Dumb();
 				buff+=",";
 				buff+=Sauce::Utility::Conversion::HexToString(Offset);
 				buff+="}";
 				Debugger.Print(buff);
-				Sauce::Filesystem::Blob::Blob_st Directory(directoryName,nullptr,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
+				Sauce::Memory::SmartPtr_cl<char,4> ExtContainer('\0');
+				Sauce::Filesystem::Blob::Blob_st Directory(directoryName,ExtContainer,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 				Directory.Header.Sectors.AddLast(Offset);
 				Directory.Header.PortNumber=PortNumber;
 				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,Directory.Header.Sectors.First(),BiosParameterBlock);
@@ -91,8 +95,10 @@ namespace Sauce{
 				DirectoryEntry_st dirent[16];
 				Sauce::Global::Storage::AHCIDrivers.First()->Read(PortNumber,rootStart,dirent);
 				buff.Clear();
-				char NameContainer[9]{0};
-				char ExtContainer[4]{0};
+				Sauce::Memory::SmartPtr_cl<char,9> NameContainer('\0');
+				//Sauce::Memory::SmartPtr_cl<char,4> ExtContainer('\0');
+
+
 				for(int i=0;i<16;i++){
 					DirectoryEntry_st& cdirent=dirent[i];
 					buff.Clear();
@@ -127,16 +133,16 @@ namespace Sauce{
 					buff+=Sauce::Utility::Conversion::HexToString(cdirent.Size);
 					Debugger.Print(buff);
 					if((cdirent.Attributes & 0x10) == 0x10/*directory*/){
-						Directory.Add((const char*)NameContainer,nullptr,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
+						Directory.Add(NameContainer,ExtContainer,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 						uint32_t firstDirectoryCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);
 						uint32_t nextDirectoryCluster = firstDirectoryCluster;
 						uint32_t directorySector = dataStart + BiosParameterBlock.SectorsPerCluster*(nextDirectoryCluster-2);
-						Directory.Sub.Last().Sub.AddLast(ReadDirectory(directorySector,(const char*)NameContainer));
+						Directory.Sub.Last().Sub.AddLast(ReadDirectory(directorySector,NameContainer));
 						Directory.Sub.Last().Header.PortNumber=PortNumber;
 						Directory.Sub.Last().Header.BytesPerSector=BiosParameterBlock.BytesPerSector;
 					}
 					else if((cdirent.Attributes & 0x20) == 0x20/*file*/){
-						Directory.Add((const char*)NameContainer,(const char*)ExtContainer,Sauce::Filesystem::Header::Classification_en::Classification_File);
+						Directory.Add(NameContainer,ExtContainer,Sauce::Filesystem::Header::Classification_en::Classification_File);
 						uint32_t firstFileCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);
 						int64_t fileSize=(int64_t)cdirent.Size;
 						uint32_t nextFileCluster = firstFileCluster;

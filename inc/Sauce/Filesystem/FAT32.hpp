@@ -57,7 +57,7 @@ namespace Sauce{
 				BiosParameterBlock_st BiosParameterBlock;
 				public:
 				FAT32_cl(size_t portNumber,size_t partitionNumber);
-				Sauce::Filesystem::Blob::Blob_st ReadDirectory(size_t Offset,const char* directoryName);
+				Sauce::Filesystem::Blob::Blob_st ReadDirectory(size_t Offset,Sauce::Memory::SmartPtr_cl<char, 9> directoryName);
 			};
 		};
 	};

@@ -1,4 +1,4 @@
-#include<Sauce/Graphics/Shell.hpp>
+#include<Sauce/Graphics/Shell/Shell.hpp>
 #include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Types.hpp>
 #include<Sauce/Math.hpp>
@@ -132,28 +132,9 @@ namespace Sauce{
 		void Shell_cl::ParseAndRunCommand(){
 			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
 			PutString("\n\r",false);
-			
-			//PutString(CharBuffer,false);
-
-			if(CharBuffer.Compare(new const char*[]{"hi","Hi","HI","hI","hello","Hello","HEllo","HELlo","HELLo","HELLO",nullptr})){
-				PutString("The kernel says hi!\n\r",false);
-				Sauce::Graphics::Basic::Frame_st blueCircle = Sauce::Math::draw_circle(10,{0xFF,0x00,0x00,0xFF},Frame.BackgroundColor);
-				blueCircle.Move({100,100,0});
-				blueCircle.DrawTo(Frame);
-				Sauce::Graphics::Basic::Frame_st blueLine = Sauce::Math::draw_line({120,120,0},{180,180,0},{0xFF,0x00,0x00,0xFF},Frame.BackgroundColor);
-				blueLine.DrawTo(Frame);
-				Sauce::Graphics::Basic::Frame_st redLine = Sauce::Math::draw_line(100,-45,{0x00,0x00,0xFF,0xFF},Frame.BackgroundColor);
-				redLine.Move({180,180,0});
-				redLine.DrawTo(Frame);
-				PutString(Sauce::Global::Filesystem::RootDirectory.List(),false);
-				PutString("\n\r",false);
-				PutString(Sauce::Global::Filesystem::RootDirectory.GetSub(0).List(),false);
-				PutString("\n\r",false);
-				
-				PutString(Sauce::Global::Hardware::RTC.ToString(),false);
-				PutString("\n\r",false);
+			if(CharBuffer.Compare(new const char*[]{"hi","Hi","hello","Hello",nullptr})){
+				PutString("The kernel says hello.\n\r",false);
 			}
-			
 			ShellClear(false);
 		}
 		void Shell_cl::ShellClear(bool ClearScreen){

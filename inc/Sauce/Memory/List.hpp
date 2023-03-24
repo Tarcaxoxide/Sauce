@@ -97,6 +97,26 @@ namespace Sauce{
 					Array = nArray;
 					return true;
 				}
+				bool RemoveAt(size_t index){
+					if(Array_Size == 0)return false;
+					if(Array_Size < index)return false;
+					if(index == 0)return RemoveFirst();
+					if(index == Array_Size-1)return RemoveLast();
+					size_t oArray_Capacity;
+					TT* oArray = Sauce::Memory::malloc(Array_Capacity*(sizeof(TT)));
+					Sauce::Memory::memcpy(Array,oArray,Array_Capacity);
+					Clear();
+					for(size_t i=0;i<oArray_Capacity;i++){
+						if(i==index)continue;
+						AddLast(oArray[i]);
+					}
+					delete oArray;
+					//index=5
+					//1234[5]6789
+				}
+				//bool AddAt(size_t index){
+				//	//Todo
+				//}
 			public://Secondary functions
 				bool AddFirst(const TT* nValue){
 					List_cl<TT> tmp(nValue);

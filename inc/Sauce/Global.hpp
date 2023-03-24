@@ -3,7 +3,7 @@
 #include<stddef.h>
 #include<stdint.h>
 #include<Sauce/Graphics/Terminal.hpp>
-#include<Sauce/Graphics/Shell.hpp>
+#include<Sauce/Graphics/Shell/Shell.hpp>
 #include<Sauce/Graphics/Window.hpp>
 #include<Sauce/Memory/PageFrameAllocator.hpp>
 #include<Sauce/Graphics/Mouse.hpp>

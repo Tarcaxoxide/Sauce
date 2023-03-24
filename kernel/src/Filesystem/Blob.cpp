@@ -13,7 +13,7 @@ namespace Sauce{
 						case Sauce::Filesystem::Header::Classification_en::Classification_Descriptor:{Result+="Descriptor:";}break;
 					}
 					Result+="`";
-					Result+=Sub[i].Header.Name;
+					Result+=*Sub[i].Header.Name;
 					Result+="`:";
 					Result+=std::to_string(i);
 					
@@ -35,7 +35,7 @@ namespace Sauce{
 				}
 				return CurrentSectorData[CurrentByte]; // we return the read byte.
 			}
-			void Blob_st::Add(const char* name,const char* ext,Sauce::Filesystem::Header::Classification_en classification){
+			void Blob_st::Add(Sauce::Memory::SmartPtr_cl<char,9> name,Sauce::Memory::SmartPtr_cl<char,4> ext,Sauce::Filesystem::Header::Classification_en classification){
 				Sub.AddLast(Blob_st(name,ext,classification));
 			}
 		};

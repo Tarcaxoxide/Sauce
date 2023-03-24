@@ -1,6 +1,7 @@
 #ifndef __Sauce_Filesystem_Header
 #define __Sauce_Filesystem_Header
 #include<std/list.hpp>
+#include<Sauce/Memory/SmartPtr.hpp>
 namespace Sauce{
 	namespace Filesystem{
 		namespace Header{
@@ -15,12 +16,9 @@ namespace Sauce{
 				size_t BytesPerSector;
 				size_t PortNumber;
 				Classification_en Classification;
-				char* Ext;
-				char* Name;
-				Header_st(){
-					Classification=Classification_en::Classification_Data;
-					Sectors.Clear();
-				}
+				Sauce::Memory::SmartPtr_cl<char,9> Name;
+				Sauce::Memory::SmartPtr_cl<char,4> Ext;
+				Header_st(Sauce::Memory::SmartPtr_cl<char,9> name,Sauce::Memory::SmartPtr_cl<char,4> ext):Name(name),Ext(ext){}
 			};
 		};
 	};
