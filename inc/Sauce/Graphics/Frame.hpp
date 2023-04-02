@@ -2,8 +2,6 @@
 #define __Sauce_Graphics_Basic_Frame
 #include<Sauce/Common.hpp>
 #include<Sauce/Types.hpp>
-
-
 namespace Sauce{
 	namespace Graphics{
 		namespace Basic{

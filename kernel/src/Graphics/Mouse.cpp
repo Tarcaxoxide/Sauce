@@ -1,5 +1,4 @@
 #include<Sauce/Graphics/Mouse.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<Sauce/Math.hpp>

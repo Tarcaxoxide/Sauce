@@ -1,7 +1,4 @@
 #include <Sauce/Global.hpp>
-
-#include<Sauce/Memory/SmartPtr.hpp>
-
 namespace Sauce{
 	namespace Global{
 		Sauce::Core::Kernel_cl* Kernel;

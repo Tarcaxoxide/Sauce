@@ -3,9 +3,7 @@
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<std/string.hpp>
 #include<Sauce/Utility/Conversion.hpp>
-
 #include<Sauce/Memory/SmartPtr.hpp>
-
 namespace Sauce{
 	namespace Filesystem{
 		namespace FAT32{

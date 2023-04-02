@@ -1,6 +1,7 @@
 #ifndef __Sauce_Memory_efiMemory
 #define __Sauce_Memory_efiMemory
-#include<Sauce/Types.hpp>
+#include<stddef.h>
+#include<stdint.h>
 namespace Sauce{
 	namespace Memory{
 		struct EFI_MEMORY_DESCRIPTOR{

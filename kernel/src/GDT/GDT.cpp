@@ -1,6 +1,4 @@
 #include<Sauce/GDT/GDT.hpp>
-
-
 namespace Sauce{
 	namespace GDT{
 		__attribute__((aligned(0x1000)))

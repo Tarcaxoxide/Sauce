@@ -2,6 +2,8 @@
 #define __Sauce_Memory_List
 #include<Sauce/Memory/Heap.hpp>
 #include<Sauce/Memory/Memory.hpp>
+#include<stddef.h>
+#include<stdint.h>
 namespace Sauce{
 	namespace Memory{
 		template<typename TT,size_t StageSize=16>

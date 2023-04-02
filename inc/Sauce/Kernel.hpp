@@ -5,6 +5,7 @@
 #include<Sauce/GDT/GDT.hpp>
 #include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Interrupts/Interrupts.hpp>
+#include<Sauce/Types.hpp>
 extern uint64_t* _KernelStartRef;
 extern uint64_t* _KernelEndRef;
 namespace Sauce{

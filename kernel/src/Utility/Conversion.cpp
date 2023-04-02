@@ -1,10 +1,5 @@
 #include<Sauce/Utility/Conversion.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-#include<std/memset.hpp>
-#include<std/string.hpp>
-
-
 namespace Sauce{
 	namespace Utility{
 		namespace Conversion{

@@ -1,8 +1,9 @@
 #ifndef __Sauce_IO_PCI
 #define __Sauce_IO_PCI
-#include<Sauce/Types.hpp>
 #include<Sauce/IO/ACPI.hpp>
 #include<std/string.hpp>
+#include<stddef.h>
+#include<stdint.h>
 namespace Sauce{
 	namespace IO{
 		namespace PCI{

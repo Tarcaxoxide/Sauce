@@ -1,6 +1,4 @@
 #include<Sauce/IO/Keyboard.hpp>
-
-
 namespace Sauce{
 	namespace IO{
 		// this is the qwert keyboard layout.

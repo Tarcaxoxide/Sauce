@@ -1,12 +1,8 @@
 #include<Sauce/IO/PCI.hpp>
-#include<Sauce/Memory/PageTableManager.hpp>
 #include<Sauce/Utility/Conversion.hpp>
-#include<Sauce/Memory/Heap.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<std/string.hpp>
-
 namespace Sauce{
 	namespace IO{
 		namespace PCI{

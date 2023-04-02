@@ -1,11 +1,7 @@
 
 #include<Sauce/Math.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utility/Conversion.hpp>
-#include<std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
-
 namespace Sauce{
 	namespace Math{
 		double square_root (double number){

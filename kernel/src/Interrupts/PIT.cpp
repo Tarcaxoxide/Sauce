@@ -1,8 +1,7 @@
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/IO/IO.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<std/to_string.hpp>
 
 namespace Sauce{
 	namespace Interrupts{
@@ -11,7 +10,7 @@ namespace Sauce{
 			uint16_t Divisor=65535;
 			void Sleepd(long double seconds){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Sleepd",_NAMESPACE_,_ALLOW_PRINT_);
-				Debugger.Print(Sauce::Utility::Conversion::ToString(seconds));
+				Debugger.Print(std::to_string(seconds));
 				long double startTime = TimeSinceBoot;
 				while(TimeSinceBoot < startTime+seconds){
 					asm("hlt");

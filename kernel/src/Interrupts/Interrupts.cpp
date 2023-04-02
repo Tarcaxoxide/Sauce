@@ -1,11 +1,7 @@
 #include<Sauce/Interrupts/Interrupts.hpp>
 #include<Sauce/Kernel.hpp>
-#include<Sauce/IO/Debug/Panic.hpp>
 #include<Sauce/IO/IO.hpp>
 #include<Sauce/Interrupts/PIT.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Math.hpp>
-#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{

@@ -1,12 +1,5 @@
 #ifndef __Sauce_Common
 #define __Sauce_Common
-#include<stdbool.h>
-#include<stddef.h>
-#include<stdint.h>
-#include<float.h>
-#include<iso646.h>
-#include<limits.h>
-#include<stdarg.h>
 #include<Sauce/Memory/efiMemory.hpp>
 #include<Sauce/IO/ACPI.hpp>
 typedef struct {

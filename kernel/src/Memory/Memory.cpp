@@ -1,8 +1,5 @@
 #include<Sauce/Memory/Memory.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-
 namespace Sauce{
 	namespace Memory{
 		size_t GetMemorySize(Sauce::Memory::EFI_MEMORY_DESCRIPTOR*mMap,size_t mMapEntries,size_t mDescriptorSize){

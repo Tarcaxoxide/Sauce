@@ -2,6 +2,8 @@
 #define __Sauce_Memory_SmartPtr
 #include<Sauce/Memory/List.hpp>
 #include<Sauce/Memory/Heap.hpp>
+#include<stddef.h>
+#include<stdint.h>
 namespace Sauce{
 	namespace Memory{
 		struct DumbPtr_str{

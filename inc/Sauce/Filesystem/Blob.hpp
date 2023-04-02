@@ -1,10 +1,7 @@
 #ifndef __Sauce_Filesystem_Blob
 #define __Sauce_Filesystem_Blob
 #include<Sauce/Filesystem/Header.hpp>
-#include<std/list.hpp>
 #include<std/string.hpp>
-#include<std/to_string.hpp>
-#include<Sauce/Memory/SmartPtr.hpp>
 namespace Sauce{
 	namespace Filesystem{
 		namespace Blob{

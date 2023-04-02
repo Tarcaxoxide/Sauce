@@ -1,8 +1,8 @@
 #ifndef __Sauce_IO_RTC
 #define __Sauce_IO_RTC
-#include<Sauce/Types.hpp>
-#include<Sauce/IO/IO.hpp>
 #include<std/string.hpp>
+#include<stddef.h>
+#include<stdint.h>
 namespace Sauce{
 	namespace IO{
 		namespace RTC{

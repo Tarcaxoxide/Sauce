@@ -1,8 +1,9 @@
 #ifndef __Sauce_Filesystem_FAT32
 #define __Sauce_Filesystem_FAT32
 #include<Sauce/Filesystem/MsDosPartition.hpp>
-#include<std/list.hpp>
 #include<Sauce/Filesystem/Blob.hpp>
+#include<stddef.h>
+#include<stdint.h>
 namespace Sauce{
 	namespace Filesystem{
 		namespace FAT32{

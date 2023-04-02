@@ -1,6 +1,6 @@
 #include<Sauce/IO/RTC.hpp>
 #include<std/to_string.hpp>
-
+#include<Sauce/IO/IO.hpp>
 namespace Sauce{
 	namespace IO{
 		namespace RTC{

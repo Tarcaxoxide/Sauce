@@ -1,7 +1,7 @@
 #include<Sauce/Interrupts/IDT.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
+#include<stddef.h>
+#include<stdint.h>
 
 namespace Sauce{
 	namespace Interrupts{

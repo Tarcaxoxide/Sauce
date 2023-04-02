@@ -1,7 +1,6 @@
 #ifndef __Sauce_Math
 #define __Sauce_Math
 #include<std/list.hpp>
-#include<std/string.hpp>
 #include<Sauce/Graphics/Frame.hpp>
 namespace Sauce{
 	namespace Math{

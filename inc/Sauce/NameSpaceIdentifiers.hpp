@@ -1,7 +1,5 @@
 #ifndef __Sauce_NameSpaceIdentifiers
 #define __Sauce_NameSpaceIdentifiers
-#include<Sauce/Memory/List.hpp>
-#include<std/string.hpp>
 const static char* _NAMESPACE_="::";
 const static bool _ALLOW_PRINT_=false;
 namespace std{

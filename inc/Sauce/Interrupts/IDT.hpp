@@ -2,7 +2,6 @@
 #define __Sauce_Interrupts_IDT
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/IO/Debug/Debug.hpp>
 #define IDT_TA_InterruptGate 0b10001110
 #define IDT_TA_CallGate 0b10001100
 #define IDT_TA_TrapGate 0b10001111

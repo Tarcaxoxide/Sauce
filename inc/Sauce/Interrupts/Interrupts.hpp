@@ -2,9 +2,6 @@
 #define __Sauce_Interrupts_Interrupts
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/Memory/List.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
-#pragma once
 #define PIC1_COMMAND 0X20
 #define PIC1_DATA 0x21
 #define PIC2_COMMAND 0XA0

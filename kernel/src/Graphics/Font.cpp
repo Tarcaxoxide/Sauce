@@ -1,8 +1,5 @@
 #include<Sauce/Graphics/Font.hpp>
 
-
-
-
 namespace Sauce{
 	namespace Graphics{
 		namespace SauceFont{

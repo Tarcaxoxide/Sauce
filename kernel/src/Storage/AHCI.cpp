@@ -1,10 +1,6 @@
 #include<Sauce/Storage/AHCI.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/Global.hpp>
-#include<Sauce/Utility/Conversion.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
-
-
+#include<std/to_string.hpp>
 namespace Sauce{
 	namespace Storage{
 		ParsedHBAPort_st CheckPortType(HBAPort_st* port){
@@ -170,7 +166,7 @@ namespace Sauce{
 			std::string Result;
 			for(size_t i=0;i<HBAPorts.Size();i++){
 				Result.AddLast((char*)"[");
-				Result.AddLast(Sauce::Utility::Conversion::ToString(i));
+				Result.AddLast(std::to_string(i));
 				Result.AddLast((char*)",");
 				switch(HBAPorts[i].Type){
 					case HBAPortType::NONE:{

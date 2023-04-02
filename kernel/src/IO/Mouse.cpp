@@ -1,11 +1,6 @@
 #include<Sauce/IO/Mouse.hpp>
-#include<Sauce/Kernel.hpp>
 #include<Sauce/IO/IO.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-
-
 namespace Sauce{
 	namespace IO{
 		Sauce::Point64_st MousePosition {0,0,0};

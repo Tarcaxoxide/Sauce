@@ -1,11 +1,5 @@
 #include<Sauce/Graphics/Terminal.hpp>
-#include<Sauce/Utility/Conversion.hpp>
-#include<Sauce/Memory/Memory.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Global.hpp>
-#include<Sauce/Utility/Manipulations.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-#include<Sauce/Math.hpp>
 namespace Sauce{
 	namespace Graphics{
 		namespace Basic{

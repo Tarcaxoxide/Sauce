@@ -1,17 +1,8 @@
 #include<Sauce/Graphics/Shell/Shell.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
-#include<Sauce/Types.hpp>
 #include<Sauce/Math.hpp>
-#include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
-#include<std/deque.hpp>
-#include<std/functional.hpp>
-#include<std/iostream.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
-#include<Sauce/Memory/List.hpp>
-#include<Sauce/IO/RTC.hpp>
-#include<Sauce/Graphics/Frame.hpp>
-#include<Sauce/Graphics/Shell/Lisp/Lisp.hpp>
+#include<Sauce/Graphics/Font.hpp>
 
 namespace Sauce{
 	namespace Graphics{
@@ -134,9 +125,7 @@ namespace Sauce{
 			void Shell_cl::ParseAndRunCommand(){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
 				PutString("\n\r",false);
-				std::string X=Sauce::Graphics::Shell::Lisp::Exec(CharBuffer);
-				Debugger.Print(X);
-				PutString(X,false);
+				
 				ShellClear(false);
 			}
 			void Shell_cl::ShellClear(bool ClearScreen){

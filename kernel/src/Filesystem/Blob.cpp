@@ -1,5 +1,7 @@
 #include<Sauce/Filesystem/Blob.hpp>
 #include<Sauce/Global.hpp>
+#include<std/string.hpp>
+#include<std/to_string.hpp>
 namespace Sauce{
 	namespace Filesystem{
 		namespace Blob{

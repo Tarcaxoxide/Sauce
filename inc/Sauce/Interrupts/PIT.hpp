@@ -2,7 +2,6 @@
 #define __Sauce_Interrupts_PIT
 #include<stddef.h>
 #include<stdint.h>
-#include<Sauce/IO/Debug/Debug.hpp>
 namespace Sauce{
 	namespace Interrupts{
 		namespace PIT{

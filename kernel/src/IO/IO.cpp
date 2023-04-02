@@ -1,5 +1,4 @@
 #include<Sauce/IO/IO.hpp>
-
 namespace Sauce{
 	namespace IO{
 		void io_wait(){

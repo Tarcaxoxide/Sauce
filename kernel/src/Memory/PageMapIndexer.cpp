@@ -1,5 +1,4 @@
 #include<Sauce/Memory/PageMapIndexer.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 
 namespace Sauce{
