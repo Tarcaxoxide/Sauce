@@ -20,6 +20,6 @@ extern "C" int64_t _start(DataStructure* DFBL){
 	if(Sauce::IO::Debug::COM6_Good)Sauce::IO::Debug::COM6_Console.Initialize(Sauce::IO::Debug::COM6);
 	if(Sauce::IO::Debug::COM7_Good)Sauce::IO::Debug::COM7_Console.Initialize(Sauce::IO::Debug::COM7);
 	if(Sauce::IO::Debug::COM8_Good)Sauce::IO::Debug::COM8_Console.Initialize(Sauce::IO::Debug::COM8);
-	Sauce::Kernel_cl Kernel(DFBL);
+	Sauce::Core::Kernel_cl Kernel(DFBL);
 	return DFBL->TestNumber;
 }

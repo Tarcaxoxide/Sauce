@@ -4,7 +4,7 @@
 
 namespace Sauce{
 	namespace Global{
-		Sauce::Kernel_cl* Kernel;
+		Sauce::Core::Kernel_cl* Kernel;
 		namespace Graphics{
 			Sauce::Graphics::Basic::Terminal_cl* Terminal=nullptr;
 			Sauce::Graphics::Basic::Terminal_cl* Screen;

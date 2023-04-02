@@ -11,6 +11,10 @@ namespace std{
 namespace Sauce{
 	const static char* _NAMESPACE_="::Sauce";
 	const static bool _ALLOW_PRINT_=false;
+	namespace Core{
+		const static char* _NAMESPACE_="::Sauce::Core";
+		const static bool _ALLOW_PRINT_=false;
+	};
 	namespace Graphics{
 		const static char* _NAMESPACE_="::Sauce::Graphics";
 		const static bool _ALLOW_PRINT_=false;

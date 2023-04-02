@@ -15,7 +15,7 @@
 #include<Sauce/Filesystem/Blob.hpp>
 namespace Sauce{
 	namespace Global{
-		extern Sauce::Kernel_cl* Kernel;
+		extern Sauce::Core::Kernel_cl* Kernel;
 		namespace Graphics{
 			extern Sauce::Graphics::Basic::Terminal_cl* Terminal; //<- represents the entire screen. effectively a "double buffer"
 			extern Sauce::Graphics::Basic::Terminal_cl* Screen; //<- the actual screen(hopefully).
