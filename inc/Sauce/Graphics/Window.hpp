@@ -4,7 +4,7 @@
 #include<Sauce/Graphics/Font.hpp>
 namespace Sauce{
 	namespace Graphics{
-		class Window_cl : public Shell_cl {
+		class Window_cl : public Shell::Shell_cl {
 			public:
 			Window_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset={0,0,0});
 			void Notify_Of_Mouse_Left_Down(Sauce::Point64_st Location);

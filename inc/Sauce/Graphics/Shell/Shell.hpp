@@ -3,6 +3,7 @@
 #include<Sauce/Graphics/Terminal.hpp>
 namespace Sauce{
 	namespace Graphics{
+		namespace Shell{
 		class Shell_cl : public Basic::Terminal_cl {
 			Sauce::Point64_st Cursor{0,0,0};
 			std::string CharBuffer;
@@ -20,8 +21,7 @@ namespace Sauce{
 				void GoFarLeft();
 				void ParseAndRunCommand();
 				void ShellClear(bool ClearScreen);
-				///
-				
+			};
 		};
 	};
 };

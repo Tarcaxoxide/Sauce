@@ -14,6 +14,14 @@ namespace Sauce{
 	namespace Graphics{
 		const static char* _NAMESPACE_="::Sauce::Graphics";
 		const static bool _ALLOW_PRINT_=false;
+		namespace Shell{
+			const static char* _NAMESPACE_="::Sauce::Graphics::Shell";
+			const static bool _ALLOW_PRINT_=true;
+			namespace Lisp{
+				const static char* _NAMESPACE_="::Sauce::Graphics::Shell:Lisp";
+				const static bool _ALLOW_PRINT_=true;
+			};
+		};
 		namespace Basic{
 			const static char* _NAMESPACE_="::Sauce::Graphics::Basic";
 			const static bool _ALLOW_PRINT_=false;
@@ -57,7 +65,7 @@ namespace Sauce{
 	};
 	namespace Filesystem{
 		const static char* _NAMESPACE_="::Sauce::Filesystem";
-		const static bool _ALLOW_PRINT_=true;
+		const static bool _ALLOW_PRINT_=false;
 		namespace File{
 			const static char* _NAMESPACE_="::Sauce::Filesystem::File";
 			const static bool _ALLOW_PRINT_=false;

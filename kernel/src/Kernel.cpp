@@ -29,7 +29,6 @@
 extern "C" int64_t _start(DataStructure* DFBL);
 
 namespace Sauce{
-
 	//Input Statics
 		Sauce::Point64_st CurrentMouseCursorPosition{0,0,0};
 		Sauce::Mouse_st oMouse;
@@ -57,7 +56,7 @@ namespace Sauce{
 		Prep_VirtualAddresses();
 		Prep_GDT();
 		//Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
-		Sauce::Memory::InitalizeHeap((void*)Sauce::Math::mb_to_b(512),1);
+		Sauce::Memory::InitalizeHeap((void*)Sauce::Math::gb_to_b(1),1);
 		Sauce::Interrupts::PIT::SetDivisor(65535/6);
 		Debugger.Print("The kernel says hi!");
 		Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelEndRef));
@@ -91,7 +90,7 @@ namespace Sauce{
 		Sauce::Global::Graphics::Terminal=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
 		Sauce::Global::Graphics::Screen=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
 		Sauce::Global::Graphics::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
-		Sauce::Global::Graphics::Shell=new Sauce::Graphics::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
+		Sauce::Global::Graphics::Shell=new Sauce::Graphics::Shell::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
 		//Set IDs
 		Sauce::Global::Graphics::Mouse->SetID((char*)"Mouse");
 		Sauce::Global::Graphics::Shell->SetID((char*)"Shell");

@@ -20,7 +20,7 @@ namespace Sauce{
 			extern Sauce::Graphics::Basic::Terminal_cl* Terminal; //<- represents the entire screen. effectively a "double buffer"
 			extern Sauce::Graphics::Basic::Terminal_cl* Screen; //<- the actual screen(hopefully).
 			extern Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
-			extern Sauce::Graphics::Shell_cl* Shell;
+			extern Sauce::Graphics::Shell::Shell_cl* Shell;
 			extern Sauce::Graphics::Mouse_cl* Mouse;
 		};
 		namespace Memory{

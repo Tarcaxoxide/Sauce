@@ -9,7 +9,7 @@ namespace Sauce{
 			Sauce::Graphics::Basic::Terminal_cl* Terminal=nullptr;
 			Sauce::Graphics::Basic::Terminal_cl* Screen;
 			Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
-			Sauce::Graphics::Shell_cl* Shell;
+			Sauce::Graphics::Shell::Shell_cl* Shell;
 			Sauce::Graphics::Mouse_cl* Mouse=nullptr;
 		};
 		namespace Memory{
