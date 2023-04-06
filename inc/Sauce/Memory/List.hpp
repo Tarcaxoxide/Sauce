@@ -18,12 +18,7 @@ namespace Sauce{
 				}
 				List_cl(const List_cl<TT>& nValue){
 					Clear();
-					Array_Capacity=nValue.Array_Capacity;
-					Array_Size=nValue.Array_Size;
-					Shift_Value=nValue.Shift_Value;
-					Array = Sauce::Memory::malloc(Array_Capacity*(sizeof(TT)));
-					Sauce::Memory::memset(Array,0,Array_Capacity*(sizeof(TT)));
-					Sauce::Memory::memcpy(nValue.Array,Array,Array_Size*(sizeof(TT)));
+					AddLast(nValue);
 				}
 				List_cl(const TT * nValue){
 					Clear();
@@ -226,7 +221,6 @@ namespace Sauce{
 					}
 				}
 				inline void Clear(){
-					Sauce::Memory::memset(Array,0,Array_Capacity);// we'll be a good neighbor and clean up our mess.
 					if(Array != nullptr){
 						delete[] ((TT*)Array);
 						Array=nullptr;
