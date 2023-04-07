@@ -24,7 +24,7 @@
 		- FAT32
 		- VFS
 - Currently
-	- trying out creating a Lisp (if successfull i might use this instead of wasm)
+	- making custom shell.
 - Planned
     - fix the timer (not really urgent since nothing i do is really time sensitive, but i suppose it would be nice to have a sane relative time XD).
 	- Userland (can't really do this without the filesystem in place first)
