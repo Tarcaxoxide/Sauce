@@ -31,6 +31,9 @@
 		- do research on (~wasm?)
 		- (~wasm?) interpreter
 		- desktop GUI in (~wasm?)
+	- Cleanup
+		- remove the debuggers from the code because they themselves have become a little buggy XD
+		- double check that i haven't included any header files i don't actually need.
 	- DAVAS (much much later)
 		- Natural langauge processing
 		- Generic hook function for DAVAS to execute different features.
@@ -41,6 +44,8 @@
 			- Graphics functions to draw images such as graphs and diagrams
 			- Ethernet functions for querying data from various places (maybe? implement an optional crawler but that wont be untill quite far into the future indeed). 
 		- DAVAS (the AI itself needs to be created, obviously)
+	- bootloader
+		- once the kernel is mostly operational by itself and could hypothetically be placed on real hardware, i'll do some research on bootloaders and replace the gnu-efi i've been using so i can have 100% of the code as MIT licensed.
 	
 # About the architecture
 
