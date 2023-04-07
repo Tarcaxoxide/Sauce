@@ -26,7 +26,7 @@ namespace Sauce{
 								size_t length=m_index-start;m_index++;
 								return m_input.Substr(start,length+1);
 							}break;
-							case '(':case ')':case '{':case '}':case '<':case '>':case '[':case ']':{
+							case '+':case '-':case '*':case '/':case '=':case '(':case ')':case '{':case '}':case '<':case '>':case '[':case ']':{
 								return m_input.Substr(m_index++,1);
 							}break;
 							default:{
@@ -46,6 +46,11 @@ namespace Sauce{
 																||m_input[m_index]=='>'
 																||m_input[m_index]=='['
 																||m_input[m_index]==']'
+																||m_input[m_index]=='+'
+																||m_input[m_index]=='-'
+																||m_input[m_index]=='*'
+																||m_input[m_index]=='/'
+																||m_input[m_index]=='='
 																)){}
 								size_t length=m_index-start;
 								return m_input.Substr(start,length);
