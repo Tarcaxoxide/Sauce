@@ -66,6 +66,7 @@ for the virtual machine i am thinking of possibly using wasm for the binaries li
 this will allow me to have the simplicity of a megalithic kernel with the flexibility of a monolithic kernel while also keeping the speed of the megalithic kernel. and if i do indeed do wasm instead of something else than my "userland" will be pretty portable as well,  it could run on any platform with a browser basically.
 
 # notes/quirks
+- 'frame' a struct whoms soul purpose is to house the framebuffer and has some very minor convenience functions.
 - 'terminal' in this context is basically an object that manages a framebuffer, it holds the framebuffer and data about the framebuffer such as it's size and offset and were it's pixel cursor and it's responsible for actually putting the framebuffer onto the screen which is also a framebuffer and this process is done through copying the data over to the screen (using memcpy of course).
 - 'cursor' there are 3 distinct types of cursor, you have the mouse cursor which is the one you click with, you have the text cursor which shell object has for placing text, and you have the pixel cursor for graphics drawing.
 - 'shell' inherits from 'terminal' and is responsible for drawing text to the framebuffer housed by the 'terminal' object class.
