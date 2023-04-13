@@ -3,7 +3,7 @@
 #include<Sauce/Global.hpp>
 #include<Sauce/IO/Debug/Debug.hpp>
 #include<Sauce/Graphics/Font.hpp>
-#include<Sauce/Graphics/Shell/Language/Lexer.hpp>
+#include<Sauce/Graphics/Shell/Language/Exec.hpp>
 namespace Sauce{
 	namespace Graphics{
 		namespace Shell{
@@ -125,13 +125,7 @@ namespace Sauce{
 			void Shell_cl::ParseAndRunCommand(){
 				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
 				PutString("\n\r",false);
-				Sauce::Graphics::Shell::Language::Lexer_cl Lexer(CharBuffer);
-				std::string token = Lexer.Next();
-				while(token.Size()){
-					PutString(token,false);
-					PutString("\n\r",false);
-					token = Lexer.Next();
-				}
+				PutString(Sauce::Graphics::Shell::Language::Exec(CharBuffer),false);
 				ShellClear(false);
 			}
 			void Shell_cl::ShellClear(bool ClearScreen){
