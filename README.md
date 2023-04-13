@@ -25,15 +25,13 @@
 		- VFS
 - Currently
 	- making custom shell language.
+		- ~debugging 
 - Planned
     - fix the timer (not really urgent since nothing i do is really time sensitive, but i suppose it would be nice to have a sane relative time XD).
 	- Userland (can't really do this without the filesystem in place first)
 		- do research on (~wasm?)
 		- (~wasm?) interpreter
 		- desktop GUI in (~wasm?)
-	- Cleanup
-		- remove the debuggers from the code because they themselves have become a little buggy XD
-		- double check that i haven't included any header files i don't actually need.
 	- DAVAS (much much later)
 		- Natural langauge processing
 		- Generic hook function for DAVAS to execute different features.

@@ -9,7 +9,7 @@ namespace Sauce{
 			namespace Language{
 				class Lexer_cl{
 					std::string m_input;
-					size_t m_index;
+					int64_t m_index;
 					public:
 						Lexer_cl(std::string input):m_input(input),m_index(0){}
 						std::string Next();

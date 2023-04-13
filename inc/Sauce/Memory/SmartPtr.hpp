@@ -16,9 +16,21 @@ namespace Sauce{
 			constexpr static Sauce::Memory::List_cl<DumbPtr_str>& DumbPtrs=_DumbPtrs;
 			size_t DumbPtrId{0};
 			public:
+				//SmartPtr_cl(void){
+				//	for(size_t i=0;i<DumbPtrs.Size();i++){
+				//		if(DumbPtrs[i].Ptr == nullptr && DumbPtrs[i].ReferenceCount == 0){
+				//			//DumbPtrs[i].Ptr=Sauce::Memory::malloc(count*(sizeof(PtrType)));
+				//			DumbPtrs[i].ReferenceCount++;
+				//			DumbPtrId=i;
+				//			return;
+				//		}
+				//	}
+				//	DumbPtrs.push_back(DumbPtr_str{nullptr,1});
+				//	DumbPtrId=DumbPtrs.Size()-1;
+				//}
 				SmartPtr_cl(PtrType v){
 					for(size_t i=0;i<DumbPtrs.Size();i++){
-						if(DumbPtrs[i].Ptr == nullptr){
+						if(DumbPtrs[i].Ptr == nullptr && DumbPtrs[i].ReferenceCount == 0){
 							DumbPtrs[i].Ptr=Sauce::Memory::malloc(count*(sizeof(PtrType)));
 							DumbPtrs[i].ReferenceCount++;
 							DumbPtrId=i;
@@ -35,9 +47,8 @@ namespace Sauce{
 					DumbPtrs[DumbPtrId].ReferenceCount++;
 				}
 				~SmartPtr_cl(){
-					if(DumbPtrs[DumbPtrId].Ptr == nullptr)return;//sus
 					DumbPtrs[DumbPtrId].ReferenceCount--;
-					if(DumbPtrs[DumbPtrId].ReferenceCount==0){
+					if(DumbPtrs[DumbPtrId].ReferenceCount==0 && DumbPtrs[DumbPtrId].Ptr != nullptr){
 						delete ((PtrType*)DumbPtrs[DumbPtrId].Ptr);
 						DumbPtrs[DumbPtrId].Ptr=nullptr;
 					}
@@ -46,6 +57,10 @@ namespace Sauce{
 				inline PtrType* operator->(){return ((PtrType*)DumbPtrs[DumbPtrId].Ptr);}
 				inline PtrType& operator[](size_t index){return ((PtrType*)DumbPtrs[DumbPtrId].Ptr)[index];}
 				inline PtrType* Dumb(){return ((PtrType*)DumbPtrs[DumbPtrId].Ptr);}
+				template<typename NewPtrType>
+				inline SmartPtr_cl<NewPtrType> As(){
+					return *((SmartPtr_cl<NewPtrType>*)this);
+				}
 		};
 	};
 };

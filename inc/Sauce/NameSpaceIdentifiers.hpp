@@ -19,8 +19,8 @@ namespace Sauce{
 		namespace Shell{
 			const static char* _NAMESPACE_="::Sauce::Graphics::Shell";
 			const static bool _ALLOW_PRINT_=true;
-			namespace Lisp{
-				const static char* _NAMESPACE_="::Sauce::Graphics::Shell:Lisp";
+			namespace Language{
+				const static char* _NAMESPACE_="::Sauce::Graphics::Shell:Language";
 				const static bool _ALLOW_PRINT_=true;
 			};
 		};
