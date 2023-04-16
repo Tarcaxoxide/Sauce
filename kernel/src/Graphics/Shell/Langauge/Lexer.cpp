@@ -52,7 +52,7 @@ namespace Sauce{
 								Debugger.Print(Result);
 								return Result;
 							}break;
-							case '.':case '~':case '+':case '-':case '*':case '/':case '=':case '(':case ')':case '{':case '}':case '<':case '>':case '[':case ']':{
+							case ',':case '.':case '~':case '+':case '-':case '*':case '/':case '=':case '(':case ')':case '{':case '}':case '<':case '>':case '[':case ']':{
 								std::string Result = m_input.Substr(m_index++,1);
 								if(m_input[m_index] == '@' && m_input[m_index-1] == '~')Result+=m_input.Substr(m_index++,1);
 								Debugger.Print(Result);
@@ -64,6 +64,7 @@ namespace Sauce{
 																||m_input[m_index]=='\n'
 																||m_input[m_index]=='\t'
 																||m_input[m_index]=='\r'
+																||m_input[m_index]==','
 																||m_input[m_index]=='"'
 																||m_input[m_index]=='`'
 																||m_input[m_index]=='\''
