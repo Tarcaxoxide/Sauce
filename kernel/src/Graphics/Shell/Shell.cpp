@@ -1,7 +1,6 @@
 #include<Sauce/Graphics/Shell/Shell.hpp>
 #include<Sauce/Math.hpp>
 #include<Sauce/Global.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Graphics/Shell/Language/Exec.hpp>
 namespace Sauce{
@@ -9,11 +8,9 @@ namespace Sauce{
 		namespace Shell{
 			Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
 			:Terminal_cl((Size.X*Size.Y),Size.X,Offset){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::Shell_cl",_NAMESPACE_,_ALLOW_PRINT_);
 				ShellClear(true);
 			}
 			void Shell_cl::PutChar(char chr,bool AddToBuffer){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t chrindex = (size_t)chr;
 				if(AddToBuffer)Sauce::Global::Kernel->DrawUI();
 				switch(chrindex){
@@ -26,7 +23,6 @@ namespace Sauce{
 						if(!GoDown()){
 							//ShiftUp(2*Sauce::Graphics::SauceFont::GlyphHeight);
 							GoUp();
-							Debugger.Print("Reached Bottoom.");
 						}
 					}break;
 					case '\b':{
@@ -68,14 +64,12 @@ namespace Sauce{
 				}
 			}
 			void Shell_cl::PutString(std::string str,bool AddToBuffer){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::PutString",_NAMESPACE_,_ALLOW_PRINT_);
 				for(size_t i=0;i<str.Size();i++){
 					PutChar(str[i],AddToBuffer);
 				}
 				Sauce::Global::Kernel->DrawUI();
 			}
 			bool Shell_cl::GoDown(size_t amount){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoDown",_NAMESPACE_,_ALLOW_PRINT_);
 				if((Cursor.Y+(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) > (Frame.PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) ){
 					return false;
 				}
@@ -83,7 +77,6 @@ namespace Sauce{
 				return true;
 			}
 			bool Shell_cl::GoUp(size_t amount){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoUp",_NAMESPACE_,_ALLOW_PRINT_);
 				if((Cursor.Y-(Sauce::Graphics::SauceFont::GlyphHeight-2)*amount) < 0){
 					return false;
 				}
@@ -91,7 +84,6 @@ namespace Sauce{
 				return true;
 			}
 			bool Shell_cl::GoRight(size_t amount){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoRight",_NAMESPACE_,_ALLOW_PRINT_);
 				if((Cursor.X+(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) > (Frame.PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) ){
 					return false;
 				}
@@ -99,7 +91,6 @@ namespace Sauce{
 				return true;
 			}
 			bool Shell_cl::GoLeft(size_t amount){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoLeft",_NAMESPACE_,_ALLOW_PRINT_);
 				if((Cursor.X-(Sauce::Graphics::SauceFont::GlyphWidth-2)*amount) < 0){
 					return false;
 				}
@@ -107,29 +98,23 @@ namespace Sauce{
 				return true;
 			}
 			void Shell_cl::GoFarDown(){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoFarDown",_NAMESPACE_,_ALLOW_PRINT_);
 				Cursor.Y=Frame.PixelsBufferHeight-(Sauce::Graphics::SauceFont::GlyphHeight-2);
 			}
 			void Shell_cl::GoFarUp(){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoFarUp",_NAMESPACE_,_ALLOW_PRINT_);
 				Cursor.Y=0;
 			}
 			void Shell_cl::GoFarRight(){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoFarRight",_NAMESPACE_,_ALLOW_PRINT_);
 				Cursor.X=Frame.PixelsPerLine-(Sauce::Graphics::SauceFont::GlyphWidth-2);
 			}
 			void Shell_cl::GoFarLeft(){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::GoFarLeft",_NAMESPACE_,_ALLOW_PRINT_);
 				Cursor.X=0;
 			}
 			void Shell_cl::ParseAndRunCommand(){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ParseAndRunCommand",_NAMESPACE_,_ALLOW_PRINT_);
 				PutString("\n\r",false);
 				PutString(Sauce::Graphics::Shell::Language::Exec(CharBuffer),false);
 				ShellClear(false);
 			}
 			void Shell_cl::ShellClear(bool ClearScreen){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Shell_cl::ShellClear",_NAMESPACE_,_ALLOW_PRINT_);
 				CharBuffer.Clear();
 				if(ClearScreen){
 					Cursor.X=0;

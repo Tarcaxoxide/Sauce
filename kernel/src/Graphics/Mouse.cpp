@@ -1,6 +1,5 @@
 #include<Sauce/Graphics/Mouse.hpp>
 #include<Sauce/IO/Mouse.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #include<Sauce/Math.hpp>
 
 
@@ -135,7 +134,6 @@ uint8_t Glyphs[][13*13]={
 namespace Sauce{
 	namespace Graphics{
 		void Mouse_cl::PutChar(size_t chr){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::PutChar",_NAMESPACE_,_ALLOW_PRINT_);
 			for(int64_t X=0;X<13;X++){
 				for(int64_t Y=0;Y<13;Y++){
 					GOP_PixelStructure FGC_Text = Frame.ForegroundColor;
@@ -146,7 +144,6 @@ namespace Sauce{
 		}
 		Mouse_cl::Mouse_cl(Sauce::Point64_st InitialPosition)
 		:Terminal_cl((13*13),13,InitialPosition){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::Mouse_cl",_NAMESPACE_,_ALLOW_PRINT_);
 			if(CurrentChr==0){
 				Clear();
 				PutChar(DirectionalCue+0);
@@ -209,7 +206,6 @@ namespace Sauce{
 			}
 		}
 		bool Mouse_cl::Move(Sauce::Point64_st Offset){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Mouse_cl::Move",_NAMESPACE_,_ALLOW_PRINT_);
 			if(DirectionalSensitivity > 0){
 				if(DirectionalCue == 0){
 					if(Offset.X<Frame.Offset.X && XCue--<-DirectionalSensitivity){

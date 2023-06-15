@@ -1,8 +1,7 @@
 #include<Sauce/IO/Debug/Serial.hpp>
-#include<Sauce/IO/Debug/Console.hpp>
 #include<std/terminate.hpp>
 
-#define DoNotCare(X,Y) extern "C" void X(){Sauce::IO::Debug::COM1_Console.Write((char*)"[\0");Sauce::IO::Debug::COM1_Console.Write((char*)Y);Sauce::IO::Debug::COM1_Console.Write((char*)"]\n\0");asm volatile("cli;hlt");}
+#define DoNotCare(X,Y) extern "C" void X(){/*print Y*/asm volatile("cli;hlt");}
 
 
 DoNotCare(__stack_chk_fail,"__stack_chk_fail\0");

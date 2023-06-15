@@ -1,6 +1,5 @@
 #include<Sauce/Filesystem/FAT32.hpp>
 #include<Sauce/Global.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #include<std/string.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Memory/SmartPtr.hpp>
@@ -8,14 +7,12 @@ namespace Sauce{
 	namespace Filesystem{
 		namespace FAT32{
 			FAT32_cl::FAT32_cl(size_t portNumber,size_t partitionNumber):Sauce::Filesystem::MsDosPartition::MsDosPartition_cl(portNumber){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::FAT32_cl",_NAMESPACE_,_ALLOW_PRINT_);
 				PartitionNumber=partitionNumber;
 				PartitionTableEntry= &MasterBootRecord.PrimaryPartitionTableEntries[partitionNumber];
 				Sauce::Memory::SmartPtr_cl<char,9> NameContainer('.');
 				Sauce::Global::Filesystem::RootDirectory.Sub.AddLast(ReadDirectory(PartitionTableEntry->LbaStart,NameContainer));
 			}
 			Sauce::Filesystem::Blob::Blob_st FAT32_cl::ReadDirectory(size_t Offset,Sauce::Memory::SmartPtr_cl<char, 9> directoryName){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"FAT32_cl::ReadDirectory",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string buff;
 				buff.Clear();
 				buff+="Reading:{";
@@ -23,7 +20,6 @@ namespace Sauce{
 				buff+=",";
 				buff+=Sauce::Utility::Conversion::HexToString(Offset);
 				buff+="}";
-				Debugger.Print(buff);
 				Sauce::Memory::SmartPtr_cl<char,4> ExtContainer('.');
 				Sauce::Filesystem::Blob::Blob_st Directory(directoryName,ExtContainer,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 				Directory.Header.Sectors.AddLast(Offset);
@@ -85,7 +81,6 @@ namespace Sauce{
 				for(int i=0;i<11;i++){Directory.Header.Name[i]=(char)BiosParameterBlock.VolumeLabel[i];buff+=(char)BiosParameterBlock.VolumeLabel[i];}
 				buff+=",FatTypeLabel:";
 				for(int i=0;i<8;i++)buff+=(char)BiosParameterBlock.FatTypeLabel[i];
-				Debugger.Print(buff);
 				uint32_t fatStart = PartitionTableEntry->LbaStart + BiosParameterBlock.ReservedSectors;
 				uint32_t fatSize = BiosParameterBlock.TableSize;
 				uint32_t dataStart = fatStart+fatSize*BiosParameterBlock.FatCopies;
@@ -126,7 +121,6 @@ namespace Sauce{
 					buff+=Sauce::Utility::Conversion::HexToString(cdirent.FirstClusterLow);
 					buff+=",Size:";
 					buff+=Sauce::Utility::Conversion::HexToString(cdirent.Size);
-					Debugger.Print(buff);
 					if((cdirent.Attributes & 0x10) == 0x10/*directory*/){
 						Directory.Add(NameContainer,ExtContainer,Sauce::Filesystem::Header::Classification_en::Classification_Directory);
 						uint32_t firstDirectoryCluster = (((uint32_t)cdirent.FirstClusterHigh) << 16) | ((uint32_t)cdirent.FirstClusterLow);

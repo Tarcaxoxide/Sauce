@@ -1,25 +1,17 @@
 #include<Sauce/IO/PCI.hpp>
 #include<Sauce/Utility/Conversion.hpp>
 #include<Sauce/Global.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #include<std/string.hpp>
 namespace Sauce{
 	namespace IO{
 		namespace PCI{
 			void EnemerateFunction(uint64_t deviceAddress,uint64_t function){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"EnemerateFunction",_NAMESPACE_,_ALLOW_PRINT_);
 				uint64_t offset = function << 12;
 				uint64_t functionAddress = deviceAddress + offset;
 				Sauce::Global::Memory::PageTableManager.MapMemory((void*)functionAddress,(void*)functionAddress);
 				PCIDeviceHeader_st* pciDeviceHeader = (PCIDeviceHeader_st*)functionAddress;
 				if(pciDeviceHeader->DeviceID == 0x0000)return;
 				if(pciDeviceHeader->DeviceID == 0xFFFF)return;
-				Debugger.Print("'EnemerateFunction' Log Start.");
-				Debugger.Print(std::string("VendorName:",GetVenderName(pciDeviceHeader->VendorID)));
-				Debugger.Print(std::string("DeviceName:",GetDeviceName(pciDeviceHeader->VendorID,pciDeviceHeader->DeviceID)));
-				Debugger.Print(std::string("Class:",GetDeviceClassName(pciDeviceHeader->Class)));
-				Debugger.Print(std::string("SubClass:",GetSubClassName(pciDeviceHeader->Class,pciDeviceHeader->Subclass)));
-				Debugger.Print("'EnemerateFunction' Log Done.");
 				switch(pciDeviceHeader->VendorID){
 					case 0x1022:/*AMD*/{
 						switch(pciDeviceHeader->DeviceID){
@@ -43,7 +35,6 @@ namespace Sauce{
 				}
 			}
 			void EnumerateDevice(uint64_t busAddress,uint64_t device){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"EnumerateDevice",_NAMESPACE_,_ALLOW_PRINT_);
 				uint64_t offset = device << 15;
 				uint64_t deviceAddress = busAddress + offset;
 				Sauce::Global::Memory::PageTableManager.MapMemory((void*)deviceAddress,(void*)deviceAddress);
@@ -55,7 +46,6 @@ namespace Sauce{
 				}
 			}
 			void EnumerateBus(uint64_t baseAddress,uint64_t bus){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"EnumerateBus",_NAMESPACE_,_ALLOW_PRINT_);
 				uint64_t offset = bus << 20;
 				uint64_t busAddress = baseAddress + offset;
 				Sauce::Global::Memory::PageTableManager.MapMemory((void*)busAddress,(void*)busAddress);
@@ -67,7 +57,6 @@ namespace Sauce{
 				}
 			}
 			void EnumeratePCI(Sauce::IO::ACPI::MCFGHeader* mcfg){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"EnumeratePCI",_NAMESPACE_,_ALLOW_PRINT_);
 				int entries = ((mcfg->Header.Length) - sizeof(Sauce::IO::ACPI::MCFGHeader)) / sizeof(Sauce::IO::ACPI::DeviceConfig);
 				for(int t=0;t<entries;t++){
 					Sauce::IO::ACPI::DeviceConfig *nDeviceConfig = (Sauce::IO::ACPI::DeviceConfig*)((uint64_t)mcfg + sizeof(Sauce::IO::ACPI::MCFGHeader) + (sizeof(Sauce::IO::ACPI::DeviceConfig)*t));
@@ -77,7 +66,6 @@ namespace Sauce{
 				}
 			}
 			const std::string GetVenderName(uint16_t VendorID){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"GetVenderName",_NAMESPACE_,_ALLOW_PRINT_);
 				switch(VendorID){
 					case 0x8086:{return "Intel Corperation";}
 					case 0x1022:{return "AMD";}
@@ -86,7 +74,6 @@ namespace Sauce{
 				}
 			}
 			const std::string GetDeviceName(uint16_t VendorID,uint16_t DeviceID){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"GetDeviceName",_NAMESPACE_,_ALLOW_PRINT_);
 				switch(VendorID){
 					case 0x8086:{
 						switch(DeviceID){
@@ -138,7 +125,6 @@ namespace Sauce{
 				}
 			}
 			const std::string GetSubClassName(uint8_t ClassCode,uint8_t SubClassCode){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"GetSubClassName",_NAMESPACE_,_ALLOW_PRINT_);
 				switch(ClassCode){
 					case 0x01:{
 						switch(SubClassCode){
@@ -212,7 +198,6 @@ namespace Sauce{
 				}
 			}
 			const std::string GetProgIFName(uint8_t ClassCode, uint8_t SubClassCode, uint8_t ProgIFCode){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"GetProgIFName",_NAMESPACE_,_ALLOW_PRINT_);
 				switch (ClassCode){
 					case 0x01:{
 						switch (SubClassCode){

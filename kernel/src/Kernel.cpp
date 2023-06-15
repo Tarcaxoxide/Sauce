@@ -22,7 +22,6 @@
 #include<Sauce/Math.hpp>
 #include<Sauce/IO/Mouse.hpp>
 #include<Sauce/IO/Keyboard.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 #include<std/to_string.hpp>
 #include<Sauce/Filesystem/FAT32.hpp>
 
@@ -48,7 +47,6 @@ namespace Sauce{
 		bool KeyboardBreak=false;
 	namespace Core{
 		Kernel_cl::Kernel_cl(DataStructure* DFBL){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Kernel_cl",_NAMESPACE_,_ALLOW_PRINT_);
 			asm volatile("cli");
 			this->DFBL=DFBL;
 			Sauce::Global::Kernel=this;
@@ -58,11 +56,6 @@ namespace Sauce{
 			//Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
 			Sauce::Memory::InitalizeHeap((void*)Sauce::Math::gb_to_b(1),1);
 			Sauce::Interrupts::PIT::SetDivisor(65535/6);
-			Debugger.Print("The kernel says hi!");
-			Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelEndRef));
-			Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)_KernelStartRef));
-			Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)this));
-			Debugger.Print(Sauce::Utility::Conversion::HexToString((uint64_t)DFBL->TestNumber));
 			Prep_Interrupts();
 			asm volatile("sti");
 			Prep_IO();
@@ -85,7 +78,6 @@ namespace Sauce{
 			MainLoop();
 		}
 		void Kernel_cl::Prep_Windows(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Windows",_NAMESPACE_,_ALLOW_PRINT_);
 			//Construct
 			Sauce::Global::Graphics::Terminal=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
 			Sauce::Global::Graphics::Screen=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
@@ -112,7 +104,6 @@ namespace Sauce{
 
 		}
 		void Kernel_cl::MainLoop(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::MainLoop",_NAMESPACE_,_ALLOW_PRINT_);
 			asm volatile("sti");
 			while(true){
 				Sauce::Global::Hardware::RTC.Update();
@@ -120,7 +111,6 @@ namespace Sauce{
 			}
 		}
 		void Kernel_cl::Prep_GlobalAllocator(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_GlobalAllocator",_NAMESPACE_,_ALLOW_PRINT_);
 			Sauce::Global::Memory::PageFrameAllocator = Sauce::Memory::Management::PageFrameAllocator_cl();
 			mMapEntries = DFBL->mMapSize/DFBL->mDescriptorSize;
 			Sauce::Global::Memory::PageFrameAllocator.ReadEfiMemoryMap((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,DFBL->mMapSize,DFBL->mDescriptorSize);
@@ -132,7 +122,6 @@ namespace Sauce{
 			Sauce::Global::Memory::PageTableManager = Sauce::Memory::Management::PageTableManager_cl(PML4);
 		}
 		void Kernel_cl::Prep_VirtualAddresses(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_VirtualAddresses",_NAMESPACE_,_ALLOW_PRINT_);
 			for(uint64_t t=0;t<Sauce::Memory::GetMemorySize((Sauce::Memory::EFI_MEMORY_DESCRIPTOR*)DFBL->mMap,mMapEntries,DFBL->mDescriptorSize);t+=0x1000){
 				Sauce::Global::Memory::PageTableManager.MapMemory((void*)t,(void*)t);
 			}
@@ -145,52 +134,39 @@ namespace Sauce{
 			asm volatile("mov %0, %%cr3" : : "r" (PML4));
 		}
 		void Kernel_cl::Prep_GDT(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_GDT",_NAMESPACE_,_ALLOW_PRINT_);
 			gdtDescriptor.Size= sizeof(Sauce::GDT::GDT_st)-1;
 			gdtDescriptor.Offset= (uint64_t)&Sauce::GDT::DefaultGDT;
 			LoadGDT(&gdtDescriptor);
 		}
 		void Kernel_cl::Add_Interrupt(void* Interrupt_Handler,uint8_t Interrupt_Number,uint8_t type_attr,uint8_t selector){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Add_Interrupt",_NAMESPACE_,_ALLOW_PRINT_);
 			Sauce::Interrupts::IDTDescriptorEntry* Interrupt = (Sauce::Interrupts::IDTDescriptorEntry*)(idtr.Offset + Interrupt_Number * sizeof(Sauce::Interrupts::IDTDescriptorEntry));
 			Interrupt->SetOffset((uint64_t)Interrupt_Handler);
 			Interrupt->type_attr = type_attr;
 			Interrupt->selector=selector;
 		}
 		void Kernel_cl::Prep_Interrupts(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Interrupts",_NAMESPACE_,_ALLOW_PRINT_);
 			idtr.Limit = 0x0FFF;
 			idtr.Offset= (uint64_t)Sauce::Global::Memory::PageFrameAllocator.RequestPage();
 			Add_Interrupt((void*)&Sauce::Interrupts::PageFault_handler,0xE,IDT_TA_InterruptGate,0x08);
-			Debugger.Print("PageFault_handler");
 			Add_Interrupt((void*)&Sauce::Interrupts::DoubleFault_handler,0x8,IDT_TA_InterruptGate,0x08);
-			Debugger.Print("DoubleFault_handler");
 			Add_Interrupt((void*)&Sauce::Interrupts::GeneralProtectionFault_handler,0xD,IDT_TA_InterruptGate,0x08);
-			Debugger.Print("GeneralProtectionFault_handler");
 			Add_Interrupt((void*)&Sauce::Interrupts::KeyboardInterrupt_handler,0x21,IDT_TA_InterruptGate,0x08);
-			Debugger.Print("KeyboardInterrupt_handler");
 			Add_Interrupt((void*)&Sauce::Interrupts::MouseInterrupt_handler,0x2C,IDT_TA_InterruptGate,0x08);
-			Debugger.Print("MouseInterrupt_handler");
 			Add_Interrupt((void*)&Sauce::Interrupts::PITInterrupt_handler,0x20,IDT_TA_InterruptGate,0x08);
-			Debugger.Print("PITInterrupt_handler");
 			asm volatile("lidt %0" : : "m" (idtr));
 		}
 		void Kernel_cl::Prep_IO(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_IO",_NAMESPACE_,_ALLOW_PRINT_);
 			Sauce::Interrupts::RemapPic();
 		}
 		void Kernel_cl::Prep_ACPI(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_ACPI",_NAMESPACE_,_ALLOW_PRINT_);
 			Sauce::IO::ACPI::SDTHeader* xsdt = (Sauce::IO::ACPI::SDTHeader*)DFBL->rsdp->XSDT_Address;
 			Sauce::IO::ACPI::MCFGHeader* mcfg = (Sauce::IO::ACPI::MCFGHeader*)Sauce::IO::ACPI::FindTable(xsdt,(char*)"MCFG");
 			Sauce::IO::PCI::EnumeratePCI(mcfg);
 		}
 		void Kernel_cl::Prep_Filesystem(){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Prep_Filesystem",_NAMESPACE_,_ALLOW_PRINT_);
 			Sauce::Filesystem::FAT32::FAT32_cl PrimaryDrive_PrimaryPartition(0,0);
 		}
 		void Kernel_cl::oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_KeyPress",_NAMESPACE_,true);
 			if(!KeyboardAsMouseMode){
 				switch(xKeyboard.Key){
 					case 0xF8:/*KeyboardAsMouseMode Toggle, aka scroll lock*/{
@@ -240,7 +216,7 @@ namespace Sauce{
 						if(xKeyboard.visible){
 							/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar(xKeyboard.Display,true);
 						}else{
-						   Debugger.Print(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
+						   //?print?(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
 						}
 					}break;
 				}
@@ -636,13 +612,11 @@ namespace Sauce{
 					}
 					default:{
 						if(!xKeyboard.Press)return;
-						Debugger.Print(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
 					}break;
 				}
 			}
 		}
 		void Kernel_cl::oNotify_Of_Mouse(Sauce::Mouse_st* xMouse){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::oNotify_Of_Mouse",_NAMESPACE_,_ALLOW_PRINT_);
 			if(KeyboardAsMouseMode)return;//if we are in keyboard as mouse mode ignore the real mouse.
 			if(CurrentMouseCursorPosition.X != xMouse->Position->X || CurrentMouseCursorPosition.Y != xMouse->Position->Y){
 				CurrentMouseCursorPosition = Sauce::Point64_st{xMouse->Position->X,xMouse->Position->Y,xMouse->Position->Z};
@@ -734,7 +708,6 @@ namespace Sauce{
 		}
 		void Kernel_cl::DrawUI(){
 			InterruptsOff();
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::DrawUI",_NAMESPACE_,_ALLOW_PRINT_);
 			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
 				Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Windows[i]);
 			}
@@ -743,47 +716,26 @@ namespace Sauce{
 			InterruptsOn();
 		}
 		void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
-			Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"Kernel_cl::Notify",_NAMESPACE_,_ALLOW_PRINT_);
 			Sauce::Global::Kernel->InterruptsOff();
 			switch(InterruptData.TypeCode){
 				case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
-					Debugger.Print("ITC__Mouse");
 					Sauce::IO::HandlePS2Mouse(InterruptData.RawInterruptData);
 					Sauce::Global::Kernel->oNotify_Of_Mouse(Sauce::IO::ProcessMousePacket());
 				}break;
 				case Sauce::Interrupts::InterruptTypeCode::ITC__Keyboard:{
-					Debugger.Print("ITC__Keyboard");
 					Sauce::Global::Kernel->oNotify_Of_KeyPress(Sauce::IO::Code_To_Key(Sauce::IO::Translate_KeyCode(InterruptData.RawInterruptData)));
 				}break;
 				case Sauce::Interrupts::InterruptTypeCode::ITC__NULL:{
-					Debugger.Print("ITC__NULL");
 				}break;
 				case Sauce::Interrupts::InterruptTypeCode::ITC__Time:{
-					Debugger.Print("ITC__Time");
-					Debugger.Print(std::to_string(Sauce::Interrupts::PIT::GetTimeSinceBoot()));
 				}break;
 				case Sauce::Interrupts::InterruptTypeCode::ITC__DoubleFault:{
-					Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ip));
-					Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.cs));
-					Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.flags));
-					Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.sp));
-					Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ss));
 					Sauce::IO::Panic("Double Fault Detected!");
 				}break;
 				case Sauce::Interrupts::InterruptTypeCode::ITC__GeneralProtectionFault:{
-					Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ip));
-					Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.cs));
-					Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.flags));
-					Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.sp));
-					Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ss));
 					Sauce::IO::Panic("General Protection Fault Detected!");
 				}break;
 				case Sauce::Interrupts::InterruptTypeCode::ITC__PageFault:{
-					Debugger.Print(std::string("ip:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ip));
-					Debugger.Print(std::string("cs:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.cs));
-					Debugger.Print(std::string("flags:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.flags));
-					Debugger.Print(std::string("sp:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.sp));
-					Debugger.Print(std::string("ss:")+Sauce::Utility::Conversion::HexToString(InterruptData.Frame.ss));
 					Sauce::IO::Panic("Page Fault Detected!");
 				}break;
 			}

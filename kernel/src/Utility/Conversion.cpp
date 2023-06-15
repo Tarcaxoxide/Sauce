@@ -1,10 +1,8 @@
 #include<Sauce/Utility/Conversion.hpp>
-#include<Sauce/IO/Debug/Debug.hpp>
 namespace Sauce{
 	namespace Utility{
 		namespace Conversion{
 			std::string HexToString(uint8_t value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
 				Result.Clear();
 				uint8_t* valPtr = &value;
@@ -19,11 +17,9 @@ namespace Sauce{
 					temp = ((*ptr & 0x0F));
 					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
 				}
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string HexToString(uint16_t value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
 				Result.Clear();
 				uint8_t* valPtr = (uint8_t*)&value;
@@ -38,11 +34,9 @@ namespace Sauce{
 					temp = ((*ptr & 0x0F));
 					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
 				}
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string HexToString(uint32_t value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
 				Result.Clear();
 				uint8_t* valPtr = (uint8_t*)&value;
@@ -57,11 +51,9 @@ namespace Sauce{
 					temp = ((*ptr & 0x0F));
 					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
 				}
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string HexToString(uint64_t value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"HexToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
 				Result.Clear();
 				uint8_t* valPtr = (uint8_t*)&value;
@@ -76,7 +68,6 @@ namespace Sauce{
 					temp = ((*ptr & 0x0F));
 					Result.AddLast((char)(temp + (temp > 9 ? 55 : 48)));
 				}
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(uint8_t value){
@@ -101,7 +92,6 @@ namespace Sauce{
 				return ToString((int64_t)value);
 			}
 			std::string ToString(int64_t value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result;
 				uint8_t isNegative = 0;
 				if(value < 0){
@@ -117,11 +107,9 @@ namespace Sauce{
 				uint8_t remainder = (newValue % 10);
 				Result.AddFirst((char)(remainder + 48));
 				if(isNegative)Result.AddFirst('-');
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(float value,uint16_t decimalPlaces){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result = ToString((int)value);
 				if(value < 0){
 					value *= -1;
@@ -133,11 +121,9 @@ namespace Sauce{
 					Result+= (char)((int)newValue +48);
 					newValue -= (int)newValue;
 				}
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(long double value,uint16_t decimalPlaces){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result = ToString((int)value);
 				if(value < 0){
 					value *= -1;
@@ -149,101 +135,83 @@ namespace Sauce{
 					Result+= (char)((int)newValue +48);
 					newValue -= (int)newValue;
 				}
-				Debugger.Print(Result);
 				return Result;
 			}
 			///
 			std::string ToString(Sauce::uPoint8_st value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result="";
 				Result+=ToString(value.X);
 				Result+=".";
 				Result+=ToString(value.Y);
 				Result+=".";
 				Result+=ToString(value.Z);
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(Sauce::uPoint16_st value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result="";
 				Result+=ToString(value.X);
 				Result+=".";
 				Result+=ToString(value.Y);
 				Result+=".";
 				Result+=ToString(value.Z);
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(Sauce::uPoint32_st value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result="";
 				Result+=ToString(value.X);
 				Result+=".";
 				Result+=ToString(value.Y);
 				Result+=".";
 				Result+=ToString(value.Z);
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(Sauce::uPoint64_st value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result="";
 				Result+=ToString(value.X);
 				Result+=".";
 				Result+=ToString(value.Y);
 				Result+=".";
 				Result+=ToString(value.Z);
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(Sauce::Point8_st value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result="";
 				Result+=ToString(value.X);
 				Result+=".";
 				Result+=ToString(value.Y);
 				Result+=".";
 				Result+=ToString(value.Z);
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(Sauce::Point16_st value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result="";
 				Result+=ToString(value.X);
 				Result+=".";
 				Result+=ToString(value.Y);
 				Result+=".";
 				Result+=ToString(value.Z);
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(Sauce::Point32_st value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result="";
 				Result+=ToString(value.X);
 				Result+=".";
 				Result+=ToString(value.Y);
 				Result+=".";
 				Result+=ToString(value.Z);
-				Debugger.Print(Result);
 				return Result;
 			}
 			std::string ToString(Sauce::Point64_st value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToString",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string Result="";
 				Result+=ToString(value.X);
 				Result+=".";
 				Result+=ToString(value.Y);
 				Result+=".";
 				Result+=ToString(value.Z);
-				Debugger.Print(Result);
 				return Result;
 			}
 			///
 			int64_t ToInt64(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToInt64",_NAMESPACE_,_ALLOW_PRINT_);
 				uint64_t Result=0;
 				bool negative=(value.First() == '-');
 				if(value.First() == '-'||value.First() == '+')value.RemoveFirst();
@@ -254,11 +222,9 @@ namespace Sauce{
 					Result+=(_char-0x30)*Mag;
 				}
 				if(negative)return -Result;
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			uint64_t ToUint64(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToUint64",_NAMESPACE_,_ALLOW_PRINT_);
 				uint64_t Result=0;
 				if(value.First() == '-'||value.First() == '+')value.RemoveFirst();
 				for(size_t i=0;(i<30&&i<value.Size());i++){
@@ -267,11 +233,9 @@ namespace Sauce{
 					char _char=value[value.Size()-(i+1)];
 					Result+=(_char-0x30)*Mag;
 				}
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			long double ToDouble(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToDouble",_NAMESPACE_,_ALLOW_PRINT_);
 				std::string PreDot="";
 				std::string PostDot="";
 				bool AfterDot=false;
@@ -289,11 +253,9 @@ namespace Sauce{
 					PostDotNumber/=10;
 				}
 				long double Result=PostDotNumber+PreDotNumber;
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			Sauce::uPoint8_st TouPoint8(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TouPoint8",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t dot_counter=0;
 				uint8_t X=0,Y=0,Z=0;
 				std::string tmp="";
@@ -322,11 +284,9 @@ namespace Sauce{
 					}
 				}
 				Sauce::uPoint8_st Result{X,Y,Z};
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			Sauce::uPoint16_st TouPoint16(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TouPoint16",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t dot_counter=0;
 				uint16_t X=0,Y=0,Z=0;
 				std::string tmp="";
@@ -355,11 +315,9 @@ namespace Sauce{
 					}
 				}
 				Sauce::uPoint16_st Result{X,Y,Z};
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			Sauce::uPoint32_st TouPoint32(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TouPoint32",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t dot_counter=0;
 				uint32_t X=0,Y=0,Z=0;
 				std::string tmp="";
@@ -388,11 +346,9 @@ namespace Sauce{
 					}
 				}
 				Sauce::uPoint32_st Result{X,Y,Z};
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			Sauce::uPoint64_st TouPoint64(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"TouPoint64",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t dot_counter=0;
 				uint64_t X=0,Y=0,Z=0;
 				std::string tmp="";
@@ -421,11 +377,9 @@ namespace Sauce{
 					}
 				}
 				Sauce::uPoint64_st Result{X,Y,Z};
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			Sauce::Point8_st ToPoint8(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToPoint8",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t dot_counter=0;
 				int8_t X=0,Y=0,Z=0;
 				std::string tmp="";
@@ -454,11 +408,9 @@ namespace Sauce{
 					}
 				}
 				Sauce::Point8_st Result{X,Y,Z};
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			Sauce::Point16_st ToPoint16(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToPoint16",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t dot_counter=0;
 				int16_t X=0,Y=0,Z=0;
 				std::string tmp="";
@@ -487,11 +439,9 @@ namespace Sauce{
 					}
 				}
 				Sauce::Point16_st Result{X,Y,Z};
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			Sauce::Point32_st ToPoint32(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToPoint32",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t dot_counter=0;
 				int32_t X=0,Y=0,Z=0;
 				std::string tmp="";
@@ -520,11 +470,9 @@ namespace Sauce{
 					}
 				}
 				Sauce::Point32_st Result{X,Y,Z};
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 			Sauce::Point64_st ToPoint64(std::string value){
-				Sauce::IO::Debug::Debugger_st Debugger(__FILE__,"ToPoint64",_NAMESPACE_,_ALLOW_PRINT_);
 				size_t dot_counter=0;
 				int64_t X=0,Y=0,Z=0;
 				std::string tmp="";
@@ -553,7 +501,6 @@ namespace Sauce{
 					}
 				}
 				Sauce::Point64_st Result{X,Y,Z};
-				Debugger.Print(ToString(Result));
 				return Result;
 			}
 		};
