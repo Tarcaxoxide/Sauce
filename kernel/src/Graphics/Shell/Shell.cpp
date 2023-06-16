@@ -3,6 +3,7 @@
 #include<Sauce/Global.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Graphics/Shell/Language/Exec.hpp>
+#include<Sauce/IO/Debug/Serial.hpp>
 namespace Sauce{
 	namespace Graphics{
 		namespace Shell{

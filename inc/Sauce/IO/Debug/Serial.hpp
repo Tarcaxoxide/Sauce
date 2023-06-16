@@ -49,4 +49,7 @@ namespace Sauce{
 		};
 	};
 };
+
+#define DefaultSerialWrite(a) Sauce::IO::Debug::write_string_serial(a,Sauce::IO::Debug::LowestAvailablePort())
+
 #endif
