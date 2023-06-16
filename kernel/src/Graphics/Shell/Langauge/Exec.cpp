@@ -11,7 +11,11 @@ namespace Sauce{
 					Sauce::Graphics::Shell::Language::Lexer_cl Lexer(input);
 					std::string token = Lexer.Next();
 					std::string Result="";
+
 					while(token.Size()){
+						if(token == "0")token="zero";
+						if(token == "1")token="one";
+
 						Result+=token;
 						if(token.Size())Result+="\n\r";
 						token = Lexer.Next();
