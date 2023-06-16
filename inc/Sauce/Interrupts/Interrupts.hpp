@@ -20,7 +20,12 @@ namespace Sauce{
 			ITC__Mouse,
 			ITC__GeneralProtectionFault,
 			ITC__DoubleFault,
-			ITC__PageFault
+			ITC__PageFault,
+			ITC__Request_Memory_B,
+			ITC__Request_Memory_KB,
+			ITC__Request_Memory_MB,
+			ITC__Request_Memory_GB,
+			ITC__Request_Memory_TB
 		};
 
 		struct interrupt_frame{

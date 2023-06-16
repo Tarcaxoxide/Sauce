@@ -715,7 +715,7 @@ namespace Sauce{
 			Sauce::Global::Graphics::Screen->CopyFrom(Sauce::Global::Graphics::Terminal);
 			InterruptsOn();
 		}
-		void Kernel_cl::Notify(Sauce::Interrupts::InterruptDataStruct InterruptData){
+		void* Kernel_cl::Notify(const Sauce::Interrupts::InterruptDataStruct& InterruptData){
 			Sauce::Global::Kernel->InterruptsOff();
 			switch(InterruptData.TypeCode){
 				case Sauce::Interrupts::InterruptTypeCode::ITC__Mouse:{
@@ -738,8 +738,14 @@ namespace Sauce{
 				case Sauce::Interrupts::InterruptTypeCode::ITC__PageFault:{
 					Sauce::IO::Panic("Page Fault Detected!");
 				}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_B:{/*Nothing yet*/}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_KB:{/*Nothing yet*/}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_MB:{/*Nothing yet*/}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_GB:{/*Nothing yet*/}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_TB:{/*Nothing yet*/}break;
 			}
 			Sauce::Global::Kernel->InterruptsOn();
+			return nullptr;
 		}
 	};
 };

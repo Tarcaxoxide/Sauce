@@ -13,7 +13,7 @@ namespace Sauce{
 					std::string Result="";
 					while(token.Size()){
 						Result+=token;
-						Result+="\n\r";
+						if(token.Size())Result+="\n\r";
 						token = Lexer.Next();
 					}
 					return Result;

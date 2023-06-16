@@ -33,7 +33,7 @@ namespace Sauce{
 			public: //public variables
 			public: //public functions
 				Kernel_cl(DataStructure* DFBL);
-				static void Notify(Sauce::Interrupts::InterruptDataStruct InterruptData);
+				static void* Notify(const Sauce::Interrupts::InterruptDataStruct& InterruptData);
 				void oNotify_Of_KeyPress(Sauce::Keyboard_st xKeyboard);
 				void oNotify_Of_Mouse(Sauce::Mouse_st* xMouse);
 				void DrawUI();
