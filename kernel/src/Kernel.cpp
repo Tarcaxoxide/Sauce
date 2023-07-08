@@ -724,11 +724,26 @@ namespace Sauce{
 				case Sauce::Interrupts::InterruptTypeCode::ITC__PageFault:{
 					Sauce::IO::Panic("Page Fault Detected!");
 				}break;
-				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_B:{/*Nothing yet*/}break;
-				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_KB:{/*Nothing yet*/}break;
-				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_MB:{/*Nothing yet*/}break;
-				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_GB:{/*Nothing yet*/}break;
-				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_TB:{/*Nothing yet*/}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_B:{
+					if(InterruptData.ExtraData==0x00)return Sauce::Memory::malloc(InterruptData.RawInterruptData);
+					return Sauce::Memory::malloc(InterruptData.RawInterruptData*InterruptData.ExtraData);
+				}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_KB:{
+					if(InterruptData.ExtraData==0x00)return Sauce::Memory::malloc(Sauce::Math::kb_to_b(InterruptData.RawInterruptData));
+					return Sauce::Memory::malloc(Sauce::Math::kb_to_b(InterruptData.RawInterruptData)*InterruptData.ExtraData);
+				}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_MB:{
+					if(InterruptData.ExtraData==0x00)return Sauce::Memory::malloc(Sauce::Math::mb_to_b(InterruptData.RawInterruptData));
+					return Sauce::Memory::malloc(Sauce::Math::mb_to_b(InterruptData.RawInterruptData)*InterruptData.ExtraData);
+				}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_GB:{
+					if(InterruptData.ExtraData==0x00)return Sauce::Memory::malloc(Sauce::Math::gb_to_b(InterruptData.RawInterruptData));
+					return Sauce::Memory::malloc(Sauce::Math::gb_to_b(InterruptData.RawInterruptData)*InterruptData.ExtraData);
+				}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_Memory_TB:{
+					if(InterruptData.ExtraData==0x00)return Sauce::Memory::malloc(Sauce::Math::tb_to_b(InterruptData.RawInterruptData));
+					return Sauce::Memory::malloc(Sauce::Math::tb_to_b(InterruptData.RawInterruptData)*InterruptData.ExtraData);
+				}break;
 			}
 			Sauce::Global::Kernel->InterruptsOn();
 			return nullptr;

@@ -13,7 +13,7 @@
 
 namespace Sauce{
 	namespace Interrupts{
-		enum InterruptTypeCode{
+		enum InterruptTypeCode:uint8_t{
 			ITC__NULL=0,
 			ITC__Time,
 			ITC__Keyboard,
@@ -34,12 +34,13 @@ namespace Sauce{
 			uint8_t flags;
 			uint8_t sp;
 			uint8_t ss;
-		};
+		}__attribute__((packed));
 		struct InterruptDataStruct{
 			InterruptTypeCode TypeCode;
 			uint8_t RawInterruptData;
 			interrupt_frame Frame;
-		};
+			uint8_t ExtraData{0x00};
+		}__attribute__((packed));
 		__attribute__((interrupt)) void PageFault_handler(interrupt_frame* frame);
 		__attribute__((interrupt)) void DoubleFault_handler(interrupt_frame* frame);
 		__attribute__((interrupt)) void GeneralProtectionFault_handler(interrupt_frame* frame);
