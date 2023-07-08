@@ -1,12 +1,16 @@
 #ifndef __Sauce_Graphics_Shell
 #define __Sauce_Graphics_Shell
-#include<Sauce/Graphics/Terminal.hpp>
+#include<Sauce/Graphics/Frame.hpp>
+#include<std/string.hpp>
 namespace Sauce{
 	namespace Graphics{
 		namespace Shell{
-		class Shell_cl : public Basic::Terminal_cl {
-			Sauce::Point64_st Cursor{0,0,0};
-			std::string CharBuffer;
+		class Shell_cl {
+			public:
+				Sauce::Graphics::Basic::Frame_st Frame;
+			private:
+				Sauce::Point64_st Cursor{0,0,0};
+				std::string CharBuffer;
 			public:
 				Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset={0,0,0});
 				void PutChar(char chr,bool AddToBuffer);
@@ -21,6 +25,8 @@ namespace Sauce{
 				void GoFarLeft();
 				void ParseAndRunCommand();
 				void ShellClear(bool ClearScreen);
+				bool Clear();
+				Sauce::Point64_st Size();
 			};
 		};
 	};

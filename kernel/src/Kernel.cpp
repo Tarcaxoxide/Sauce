@@ -14,8 +14,6 @@
 #include<Sauce/Interrupts/PIT.hpp>
 #include<Sauce/Memory/List.hpp>
 #include<Sauce/IO/Debug/Serial.hpp>
-#include<Sauce/Graphics/Terminal.hpp>
-#include<Sauce/Graphics/Window.hpp>
 #include<Sauce/Graphics/Shell/Shell.hpp>
 #include<Sauce/Graphics/Font.hpp>
 #include<Sauce/Global.hpp>
@@ -79,29 +77,14 @@ namespace Sauce{
 		}
 		void Kernel_cl::Prep_Windows(){
 			//Construct
-			Sauce::Global::Graphics::Terminal=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
-			Sauce::Global::Graphics::Screen=new Sauce::Graphics::Basic::Terminal_cl((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,{0,0,0},DFBL->FrameBuffer->BaseAddress);
+			Sauce::Global::Graphics::Screen=new Sauce::Graphics::Basic::Frame_st((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->BaseAddress);
+			Sauce::Global::Graphics::ScreenBuffer=new Sauce::Graphics::Basic::Frame_st((size_t)(DFBL->FrameBuffer->Height*DFBL->FrameBuffer->Width),(size_t)DFBL->FrameBuffer->PixelsPerScanLine);
 			Sauce::Global::Graphics::Mouse=new Sauce::Graphics::Mouse_cl({DFBL->FrameBuffer->PixelsPerScanLine/2,DFBL->FrameBuffer->Height/2,0});
-			Sauce::Global::Graphics::Shell=new Sauce::Graphics::Shell::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0},{0,0,0});
-			//Set IDs
-			Sauce::Global::Graphics::Mouse->SetID((char*)"Mouse");
-			Sauce::Global::Graphics::Shell->SetID((char*)"Shell");
+			Sauce::Global::Graphics::Shell=new Sauce::Graphics::Shell::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0});
 			//set Colors
-			Sauce::Global::Graphics::Screen->SetColor({0x00,0x00,0x00,0x00},{0x00,0x00,0x00,0x00});
-			Sauce::Global::Graphics::Terminal->SetColor({0x00,0x00,0x00,0x00},{0x00,0x00,0x00,0x00});
 			Sauce::Global::Graphics::Mouse->SetColor({0xFF,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
-			Sauce::Global::Graphics::Shell->SetColor({0x00,0xFF,0x00,0xF0},{0x00,0x00,0x00,0x00});
-			//border sets
-			Sauce::Global::Graphics::Screen->BorderSet({0xFF,0x00,0xFF,0x00});
-			Sauce::Global::Graphics::Terminal->BorderSet({0xFF,0x00,0xFF,0x00});
-			Sauce::Global::Graphics::Shell->BorderSet({0xFF,0x00,0xFF,0x00});
-			//Add the appropriate items to the appropriate lists
-			Sauce::Global::Graphics::Windows.AddLast((Sauce::Graphics::Window_cl*)Sauce::Global::Graphics::Shell);
 			//Clear
-			Sauce::Global::Graphics::Screen->Clear();
-			Sauce::Global::Graphics::Terminal->Clear();
 			Sauce::Global::Graphics::Shell->ShellClear(true);
-
 		}
 		void Kernel_cl::MainLoop(){
 			asm volatile("sti");
@@ -177,12 +160,12 @@ namespace Sauce{
 					}break;
 					case 0xD6:{
 						if(!xKeyboard.Press)return;
-						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\n',true);
-						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\r',true);
+						Sauce::Global::Graphics::Shell->PutChar('\n',true);
+						Sauce::Global::Graphics::Shell->PutChar('\r',true);
 					}break;
 					case 0x1C:{
 						if(!xKeyboard.Press)return;
-						/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar('\b',true);
+						Sauce::Global::Graphics::Shell->PutChar('\b',true);
 					}break;
 					case 0x7E:/*ctrl*/{
 						if(xKeyboard.Press){KeyboardCtrl=true;}else{KeyboardCtrl=false;}
@@ -214,7 +197,7 @@ namespace Sauce{
 					default:{
 						if(!xKeyboard.Press)return;
 						if(xKeyboard.visible){
-							/*Sauce::Global::Graphics::Shell*/Sauce::Global::Graphics::Windows[0]->PutChar(xKeyboard.Display,true);
+							Sauce::Global::Graphics::Shell->PutChar(xKeyboard.Display,true);
 						}else{
 						   //?print?(Sauce::Utility::Conversion::HexToString(xKeyboard.Key));
 						}
@@ -253,66 +236,66 @@ namespace Sauce{
 							oMouse.CenterButton=iMouse.CenterButton;
 							*oMouse.Position=*iMouse.Position;
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.CenterButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.CenterButton != oMouse.CenterButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
 							oMouse.CenterButton=iMouse.CenterButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 						if(iMouse.RightButton && iMouse.RightButton != oMouse.RightButton){
 							//Press
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
 							oMouse.RightButton=iMouse.RightButton;
 							*oMouse.Position=*iMouse.Position;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.RightButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.RightButton != oMouse.RightButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
 							oMouse.RightButton=iMouse.RightButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 						if(iMouse.LeftButton && iMouse.LeftButton != oMouse.LeftButton){
 							//Press
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
 							oMouse.LeftButton=iMouse.LeftButton;
 							*oMouse.Position=*iMouse.Position;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.LeftButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.LeftButton != oMouse.LeftButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
 							oMouse.LeftButton=iMouse.LeftButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 					}break;
 					case 0xCA:/*right*/{
@@ -340,66 +323,66 @@ namespace Sauce{
 							oMouse.CenterButton=iMouse.CenterButton;
 							*oMouse.Position=*iMouse.Position;
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.CenterButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.CenterButton != oMouse.CenterButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
 							oMouse.CenterButton=iMouse.CenterButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 						if(iMouse.RightButton && iMouse.RightButton != oMouse.RightButton){
 							//Press
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
 							oMouse.RightButton=iMouse.RightButton;
 							*oMouse.Position=*iMouse.Position;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.RightButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.RightButton != oMouse.RightButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
 							oMouse.RightButton=iMouse.RightButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 						if(iMouse.LeftButton && iMouse.LeftButton != oMouse.LeftButton){
 							//Press
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
 							oMouse.LeftButton=iMouse.LeftButton;
 							*oMouse.Position=*iMouse.Position;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.LeftButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.LeftButton != oMouse.LeftButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
 							oMouse.LeftButton=iMouse.LeftButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 					}break;
 					case 0xBE:/*up*/{
@@ -426,66 +409,66 @@ namespace Sauce{
 							oMouse.CenterButton=iMouse.CenterButton;
 							*oMouse.Position=*iMouse.Position;
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.CenterButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.CenterButton != oMouse.CenterButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
 							oMouse.CenterButton=iMouse.CenterButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 						if(iMouse.RightButton && iMouse.RightButton != oMouse.RightButton){
 							//Press
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
 							oMouse.RightButton=iMouse.RightButton;
 							*oMouse.Position=*iMouse.Position;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.RightButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.RightButton != oMouse.RightButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
 							oMouse.RightButton=iMouse.RightButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 						if(iMouse.LeftButton && iMouse.LeftButton != oMouse.LeftButton){
 							//Press
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
 							oMouse.LeftButton=iMouse.LeftButton;
 							*oMouse.Position=*iMouse.Position;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.LeftButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.LeftButton != oMouse.LeftButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
 							oMouse.LeftButton=iMouse.LeftButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 					}break;
 					case 0xC2:/*down*/{
@@ -512,66 +495,66 @@ namespace Sauce{
 							oMouse.CenterButton=iMouse.CenterButton;
 							*oMouse.Position=*iMouse.Position;
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.CenterButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.CenterButton != oMouse.CenterButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
 							oMouse.CenterButton=iMouse.CenterButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 						if(iMouse.RightButton && iMouse.RightButton != oMouse.RightButton){
 							//Press
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
 							oMouse.RightButton=iMouse.RightButton;
 							*oMouse.Position=*iMouse.Position;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.RightButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.RightButton != oMouse.RightButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
 							oMouse.RightButton=iMouse.RightButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 						if(iMouse.LeftButton && iMouse.LeftButton != oMouse.LeftButton){
 							//Press
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
 							oMouse.LeftButton=iMouse.LeftButton;
 							*oMouse.Position=*iMouse.Position;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}else if(iMouse.LeftButton){
 							//Drag
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+							//}
 						}else if(iMouse.LeftButton != oMouse.LeftButton){
 							//Release
 							Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
 							oMouse.LeftButton=iMouse.LeftButton;
-							for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-								Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
-							}
+							//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+							//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
+							//}
 						}
 					}break;
 					case 0x20:/*left click*/{
@@ -638,66 +621,66 @@ namespace Sauce{
 				oMouse.CenterButton=xMouse->CenterButton;
 				*oMouse.Position=*xMouse->Position;
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Down(CurrentMouseCursorPosition);
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
+				//}
 			}else if(xMouse->CenterButton){
 				//Drag
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+				//}
 			}else if(xMouse->CenterButton != oMouse.CenterButton){
 				//Release
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Up(CurrentMouseCursorPosition);
 				oMouse.CenterButton=xMouse->CenterButton;
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
+				//}
 			}
 			if(xMouse->RightButton && xMouse->RightButton != oMouse.RightButton){
 				//Press
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Down(CurrentMouseCursorPosition);
 				oMouse.RightButton=xMouse->RightButton;
 				*oMouse.Position=*xMouse->Position;
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
+				//}
 			}else if(xMouse->RightButton){
 				//Drag
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+				//}
 			}else if(xMouse->RightButton != oMouse.RightButton){
 				//Release
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Up(CurrentMouseCursorPosition);
 				oMouse.RightButton=xMouse->RightButton;
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
+				//}
 			}
 			if(xMouse->LeftButton && xMouse->LeftButton != oMouse.LeftButton){
 				//Press
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Down(CurrentMouseCursorPosition);
 				oMouse.LeftButton=xMouse->LeftButton;
 				*oMouse.Position=*xMouse->Position;
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
+				//}
 			}else if(xMouse->LeftButton){
 				//Drag
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Drag(CurrentMouseCursorPosition,*oMouse.Position);
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*oMouse.Position);
+				//}
 			}else if(xMouse->LeftButton != oMouse.LeftButton){
 				//Release
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Up(CurrentMouseCursorPosition);
 				oMouse.LeftButton=xMouse->LeftButton;
-				for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-					Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
-				}
+				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
+				//}
 			}
 		}
 		void Kernel_cl::InterruptsOff(){
@@ -708,11 +691,12 @@ namespace Sauce{
 		}
 		void Kernel_cl::DrawUI(){
 			InterruptsOff();
-			for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Windows[i]);
-			}
-			Sauce::Global::Graphics::Terminal->DrawFrom(Sauce::Global::Graphics::Mouse);
-			Sauce::Global::Graphics::Screen->CopyFrom(Sauce::Global::Graphics::Terminal);
+			//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
+			//	Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Windows[i]);
+			//}
+			Sauce::Global::Graphics::ScreenBuffer->Clear();
+			Sauce::Global::Graphics::ScreenBuffer->DrawFrom(Sauce::Global::Graphics::Mouse->Frame);
+			Sauce::Global::Graphics::Screen->CopyFrom(*Sauce::Global::Graphics::ScreenBuffer);
 			InterruptsOn();
 		}
 		void* Kernel_cl::Notify(const Sauce::Interrupts::InterruptDataStruct& InterruptData){

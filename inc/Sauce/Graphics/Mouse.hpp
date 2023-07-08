@@ -1,16 +1,20 @@
 #ifndef __Sauce_Graphics_Mouse
 #define __Sauce_Graphics_Mouse
-#include<Sauce/Graphics/Terminal.hpp>
+#include<Sauce/Graphics/Frame.hpp>
+#include<std/string.hpp>
 namespace Sauce{
 	namespace Graphics{
-		class Mouse_cl : public Basic::Terminal_cl {
-			Sauce::Point64_st Cursor{0,0,0};
-			void PutChar(size_t chr);
-			size_t CurrentChr=0;
-			int64_t DirectionalCue=0;
-			int64_t YCue=0;
-			int64_t XCue=0;
-			int64_t OldDirectionalCue=0;
+		class Mouse_cl {
+			public:
+				Sauce::Graphics::Basic::Frame_st Frame;
+			private:
+				Sauce::Point64_st Cursor{0,0,0};
+				void PutChar(size_t chr);
+				size_t CurrentChr=0;
+				int64_t DirectionalCue=0;
+				int64_t YCue=0;
+				int64_t XCue=0;
+				int64_t OldDirectionalCue=0;
 			public:
 				int64_t DirectionalSensitivity=1;
 			public:
@@ -29,6 +33,9 @@ namespace Sauce{
 				void ReDraw();
 				void CycleDirectionClockwise();
 				void CycleDirectionCounterClockwise();
+				bool Clear();
+				bool SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor);
+				Sauce::Point64_st Size();
 		};
 	};
 };

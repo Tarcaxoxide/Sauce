@@ -143,7 +143,7 @@ namespace Sauce{
 			}
 		}
 		Mouse_cl::Mouse_cl(Sauce::Point64_st InitialPosition)
-		:Terminal_cl((13*13),13,InitialPosition){
+		:Frame((13*13),13,nullptr){
 			if(CurrentChr==0){
 				Clear();
 				PutChar(DirectionalCue+0);
@@ -310,6 +310,15 @@ namespace Sauce{
 					DirectionalCue=4;
 				}break;
 			}
+		}
+		bool Mouse_cl::Clear(){
+			return Frame.Clear();
+		}
+		bool Mouse_cl::SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor){
+			return Frame.SetColor(ForegroundColor,BackgroundColor);
+		}
+		Sauce::Point64_st Mouse_cl::Size(){
+			return Frame.Size();
 		}
 	};
 

@@ -3,11 +3,10 @@ namespace Sauce{
 	namespace Global{
 		Sauce::Core::Kernel_cl* Kernel;
 		namespace Graphics{
-			Sauce::Graphics::Basic::Terminal_cl* Terminal=nullptr;
-			Sauce::Graphics::Basic::Terminal_cl* Screen;
-			Sauce::Memory::List_cl<Sauce::Graphics::Window_cl*> Windows;
-			Sauce::Graphics::Shell::Shell_cl* Shell;
 			Sauce::Graphics::Mouse_cl* Mouse=nullptr;
+			Sauce::Graphics::Shell::Shell_cl* Shell=nullptr;
+			Sauce::Graphics::Basic::Frame_st* Screen=nullptr;
+			Sauce::Graphics::Basic::Frame_st* ScreenBuffer=nullptr;
 		};
 		namespace Memory{
 			Sauce::Memory::Management::PageFrameAllocator_cl PageFrameAllocator;

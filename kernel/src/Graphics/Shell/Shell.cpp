@@ -8,7 +8,7 @@ namespace Sauce{
 	namespace Graphics{
 		namespace Shell{
 			Shell_cl::Shell_cl(Sauce::Point64_st Size,Sauce::Point64_st Offset)
-			:Terminal_cl((Size.X*Size.Y),Size.X,Offset){
+			:Frame((Size.X*Size.Y),Size.X,nullptr){
 				ShellClear(true);
 			}
 			void Shell_cl::PutChar(char chr,bool AddToBuffer){
@@ -123,6 +123,12 @@ namespace Sauce{
 					Cursor.Z=0;
 					Clear();
 				}
+			}
+			bool Shell_cl::Clear(){
+				return Frame.Clear();
+			}
+			Sauce::Point64_st Shell_cl::Size(){
+				return Frame.Size();
 			}
 		};
 	};
