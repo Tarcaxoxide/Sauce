@@ -83,6 +83,7 @@ namespace Sauce{
 			Sauce::Global::Graphics::Shell=new Sauce::Graphics::Shell::Shell_cl({DFBL->FrameBuffer->PixelsPerScanLine,DFBL->FrameBuffer->Height,0});
 			//set Colors
 			Sauce::Global::Graphics::Mouse->SetColor({0xFF,0xFF,0xFF,0xF0},{0x00,0x00,0x00,0x00});
+			Sauce::Global::Graphics::Shell->SetColor({0x00,0xFF,0x00,0xF0},{0x00,0x00,0x00,0x00});
 			//Clear
 			Sauce::Global::Graphics::Shell->ShellClear(true);
 		}
@@ -695,6 +696,7 @@ namespace Sauce{
 			//	Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Windows[i]);
 			//}
 			Sauce::Global::Graphics::ScreenBuffer->Clear();
+			Sauce::Global::Graphics::ScreenBuffer->DrawFrom(Sauce::Global::Graphics::Shell->Frame);
 			Sauce::Global::Graphics::ScreenBuffer->DrawFrom(Sauce::Global::Graphics::Mouse->Frame);
 			Sauce::Global::Graphics::Screen->CopyFrom(*Sauce::Global::Graphics::ScreenBuffer);
 			InterruptsOn();

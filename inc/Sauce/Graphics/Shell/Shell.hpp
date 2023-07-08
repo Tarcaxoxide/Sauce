@@ -26,6 +26,7 @@ namespace Sauce{
 				void ParseAndRunCommand();
 				void ShellClear(bool ClearScreen);
 				bool Clear();
+				bool SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor);
 				Sauce::Point64_st Size();
 			};
 		};

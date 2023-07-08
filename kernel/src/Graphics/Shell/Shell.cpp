@@ -127,6 +127,9 @@ namespace Sauce{
 			bool Shell_cl::Clear(){
 				return Frame.Clear();
 			}
+			bool Shell_cl::SetColor(GOP_PixelStructure ForegroundColor,GOP_PixelStructure BackgroundColor){
+				return Frame.SetColor(ForegroundColor,BackgroundColor);
+			}
 			Sauce::Point64_st Shell_cl::Size(){
 				return Frame.Size();
 			}
