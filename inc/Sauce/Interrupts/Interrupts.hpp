@@ -25,7 +25,8 @@ namespace Sauce{
 			ITC__Request_Memory_KB,
 			ITC__Request_Memory_MB,
 			ITC__Request_Memory_GB,
-			ITC__Request_Memory_TB
+			ITC__Request_Memory_TB,
+			ITC__Request_KeyboardKey
 		};
 
 		struct interrupt_frame{

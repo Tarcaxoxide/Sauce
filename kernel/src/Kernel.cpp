@@ -172,66 +172,39 @@ namespace Sauce{
 				Sauce::Input_Data::oMouse.CenterButton=xMouse->CenterButton;
 				*Sauce::Input_Data::oMouse.Position=*xMouse->Position;
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Down(Sauce::Input_Data::CurrentMouseCursorPosition);
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Down(Sauce::Global::Graphics::Mouse->Focus());
-				//}
 			}else if(xMouse->CenterButton){
 				//Drag
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Drag(Sauce::Input_Data::CurrentMouseCursorPosition,*Sauce::Input_Data::oMouse.Position);
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Drag(Sauce::Global::Graphics::Mouse->Focus(),*Sauce::Input_Data::oMouse.Position);
-				//}
 			}else if(xMouse->CenterButton != Sauce::Input_Data::oMouse.CenterButton){
 				//Release
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Center_Up(Sauce::Input_Data::CurrentMouseCursorPosition);
 				Sauce::Input_Data::oMouse.CenterButton=xMouse->CenterButton;
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Center_Up(Sauce::Global::Graphics::Mouse->Focus());
-				//}
 			}
 			if(xMouse->RightButton && xMouse->RightButton != Sauce::Input_Data::oMouse.RightButton){
 				//Press
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Down(Sauce::Input_Data::CurrentMouseCursorPosition);
 				Sauce::Input_Data::oMouse.RightButton=xMouse->RightButton;
 				*Sauce::Input_Data::oMouse.Position=*xMouse->Position;
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Down(Sauce::Global::Graphics::Mouse->Focus());
-				//}
 			}else if(xMouse->RightButton){
 				//Drag
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Drag(Sauce::Input_Data::CurrentMouseCursorPosition,*Sauce::Input_Data::oMouse.Position);
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Drag(Sauce::Global::Graphics::Mouse->Focus(),*Sauce::Input_Data::oMouse.Position);
-				//}
 			}else if(xMouse->RightButton != Sauce::Input_Data::oMouse.RightButton){
 				//Release
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Right_Up(Sauce::Input_Data::CurrentMouseCursorPosition);
 				Sauce::Input_Data::oMouse.RightButton=xMouse->RightButton;
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Right_Up(Sauce::Global::Graphics::Mouse->Focus());
-				//}
 			}
 			if(xMouse->LeftButton && xMouse->LeftButton != Sauce::Input_Data::oMouse.LeftButton){
 				//Press
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Down(Sauce::Input_Data::CurrentMouseCursorPosition);
 				Sauce::Input_Data::oMouse.LeftButton=xMouse->LeftButton;
 				*Sauce::Input_Data::oMouse.Position=*xMouse->Position;
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Down(Sauce::Global::Graphics::Mouse->Focus());
-				//}
 			}else if(xMouse->LeftButton){
 				//Drag
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Drag(Sauce::Input_Data::CurrentMouseCursorPosition,*Sauce::Input_Data::oMouse.Position);
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Drag(Sauce::Global::Graphics::Mouse->Focus(),*Sauce::Input_Data::oMouse.Position);
-				//}
 			}else if(xMouse->LeftButton != Sauce::Input_Data::oMouse.LeftButton){
 				//Release
 				Sauce::Global::Graphics::Mouse->Notify_Of_Mouse_Left_Up(Sauce::Input_Data::CurrentMouseCursorPosition);
 				Sauce::Input_Data::oMouse.LeftButton=xMouse->LeftButton;
-				//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-				//	Sauce::Global::Graphics::Windows[i]->Notify_Of_Mouse_Left_Up(Sauce::Global::Graphics::Mouse->Focus());
-				//}
 			}
 		}
 		void Kernel_cl::InterruptsOff(){
@@ -242,9 +215,6 @@ namespace Sauce{
 		}
 		void Kernel_cl::DrawUI(){
 			InterruptsOff();
-			//for(size_t i=0;i<Sauce::Global::Graphics::Windows.Size();i++){
-			//	Sauce::Global::Graphics::Terminal->CopyFrom(Sauce::Global::Graphics::Windows[i]);
-			//}
 			Sauce::Global::Graphics::ScreenBuffer->Clear();
 			Sauce::Global::Graphics::ScreenBuffer->DrawFrom(Sauce::Global::Graphics::Shell->Frame);
 			Sauce::Global::Graphics::ScreenBuffer->DrawFrom(Sauce::Global::Graphics::Mouse->Frame);
@@ -294,6 +264,13 @@ namespace Sauce{
 					if(InterruptData.ExtraData==0x00)return Sauce::Memory::malloc(Sauce::Math::tb_to_b(InterruptData.RawInterruptData));
 					return Sauce::Memory::malloc(Sauce::Math::tb_to_b(InterruptData.RawInterruptData)*InterruptData.ExtraData);
 				}break;
+				case Sauce::Interrupts::InterruptTypeCode::ITC__Request_KeyboardKey:{
+					void* KeyPress = Sauce::Memory::malloc(sizeof(Sauce::Keyboard_st));
+					*((Sauce::Keyboard_st*)KeyPress)=Sauce::Input_Data::KeyboardBuffer.First();
+					Sauce::Input_Data::KeyboardBuffer.RemoveFirst();
+					//Potential memory leak? (fix in std::cin? this just has to be generic here because this function does many things.)
+					return KeyPress;
+				};
 			}
 			Sauce::Global::Kernel->InterruptsOn();
 			return nullptr;
