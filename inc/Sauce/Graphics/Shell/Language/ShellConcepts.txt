@@ -15,7 +15,7 @@
 
 
 
-.....
+-basic example of the concept of the Language representing a basic mathematical formula (though it will not follow all mathematical rules like pemdas, it will only do left to right)-
 `1+2/3=a+5=b`
 
 - 1+2 (3 is pushed into the stack)
@@ -23,3 +23,16 @@
 - (1 is pulled from the stack) (1 is assigned to a variable named 'a') ('a' is pushed into the stack)
 - ('a' is pulled from the stack) ('a' is looked up in the variable table resulting in 1) 1+5 (6 is pushed onto the stack)
 - (6 is pulled from the stack) (6 is assigned to a variable named 'b')
+
+
+-what i think each variable would look like on the variable table (approximation)-
+struct Variable_st{
+    enum Type_en{
+        VT_Null,
+        VT_Number,
+        VT_Block
+    };
+    std::string Name;
+    std::List<std::string> Value;
+    Type_en Type;
+};
