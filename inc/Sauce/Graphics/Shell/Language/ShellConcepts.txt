@@ -12,3 +12,14 @@
 -"running" assignments and equations-
     1+2=Variable1+5=Variable2/Variable1=Variable3
 
+
+
+
+.....
+`1+2/3=a+5=b`
+
+- 1+2 (3 is pushed into the stack)
+- (3 is pulled from the stack) 3/3 (1 is pushed onto the stack)
+- (1 is pulled from the stack) (1 is assigned to a variable named 'a') ('a' is pushed into the stack)
+- ('a' is pulled from the stack) ('a' is looked up in the variable table resulting in 1) 1+5 (6 is pushed onto the stack)
+- (6 is pulled from the stack) (6 is assigned to a variable named 'b')
