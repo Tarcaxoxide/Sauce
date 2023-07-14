@@ -1,0 +1,14 @@
+-Code blocks and assignment to variable to be executed later-
+    {
+        -Code-
+    }=CodeBlockVariable
+
+-equations and assignment-
+    1+2/2=-VariableName-
+
+-executing a code block-
+    CodeBlockVariable(ParameterVariable1,ParameterVariable2,ParameterVariable3)
+
+-"running" assignments and equations-
+    1+2=Variable1+5=Variable2/Variable1=Variable3
+
