@@ -13,6 +13,7 @@ namespace Sauce{
 					Sauce::Graphics::Shell::Language::Lexer_cl Lexer(input);
 					std::string token = Lexer.Next();
 					std::string Result="";
+					
 					while(token.Size()){
 						Result+=token;
 
@@ -20,7 +21,7 @@ namespace Sauce{
 						if(token == "1"){Result+=" (one).";}
 						if(token == "2"){Result+=" (two).";}
 						if(token == "3"){Result+=" (three).";}
-
+						
 						if(token.Size())Result+="\n\r";
 						token = Lexer.Next();
 					}

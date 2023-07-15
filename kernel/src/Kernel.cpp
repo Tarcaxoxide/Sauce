@@ -51,7 +51,6 @@ namespace Sauce{
 			Prep_GlobalAllocator();
 			Prep_VirtualAddresses();
 			Prep_GDT();
-			//Sauce::Memory::InitalizeHeap((void*)0x0000100000000000,0x512);
 			Sauce::Memory::InitalizeHeap((void*)Sauce::Math::gb_to_b(1),1);
 			Sauce::Interrupts::PIT::SetDivisor(65535/6);
 			Prep_Interrupts();
