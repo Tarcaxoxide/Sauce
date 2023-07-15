@@ -15,6 +15,12 @@ namespace Sauce{
 					std::string Result="";
 					while(token.Size()){
 						Result+=token;
+
+						//Why! Are! You! Like! This! <(?.?)>
+						if(token == "1"){Result+=" (one).";}
+						if(token == "2"){Result+=" (two).";}
+						if(token == "3"){Result+=" (three).";}
+
 						if(token.Size())Result+="\n\r";
 						token = Lexer.Next();
 					}
