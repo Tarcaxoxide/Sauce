@@ -45,6 +45,7 @@ namespace Sauce{
 		bool KeyboardBreak=false;
 	namespace Core{
 		Kernel_cl::Kernel_cl(DataStructure* DFBL){
+			//DefaultSerialWrite("?");
 			asm volatile("cli");
 			this->DFBL=DFBL;
 			Sauce::Global::Kernel=this;
