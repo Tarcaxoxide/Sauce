@@ -5,3 +5,4 @@ USBdir/*
 ISOdir/*
 OVMFbin/*
 OVMFbin/*
+./*.tar.xz
