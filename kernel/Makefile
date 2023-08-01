@@ -9,9 +9,10 @@ ASMC=nasm
 
 INCDIR=inc
 OPTIMIZATION_FLAGS=-O0 -fno-elide-constructors -fno-aggressive-loop-optimizations -fno-allocation-dce -fno-asynchronous-unwind-tables -fno-auto-inc-dec -fno-bit-tests -fno-dce -fno-delete-null-pointer-checks -fno-early-inlining -fno-fp-int-builtin-inexact -fno-function-cse -fno-gcse-lm -fno-handle-exceptions -fno-inline-atomics -fno-ipa-stack-alignment -fno-ipa-strict-aliasing -fno-ira-hoist-pressure -fno-ira-share-save-slots -fno-ira-share-spill-slots -fno-ivopts -fno-jump-tables
+DEBUG_FLAGS=-g -fverbose-asm
 WARNING_FLAGS=-Werror -Wall -Wno-unused-variable
 PLATFORM_FLAGS=-ffreestanding -fshort-wchar -mno-red-zone -fno-exceptions -fno-rtti
-CFLAGS = -I$(INCDIR) $(OPTIMIZATION_FLAGS) $(WARNING_FLAGS) $(PLATFORM_FLAGS) 
+CFLAGS = -I$(INCDIR) $(OPTIMIZATION_FLAGS) $(WARNING_FLAGS) $(PLATFORM_FLAGS) $(DEBUG_FLAGS)
 ASMFLAGS = -I$(INCDIR)
 LDFLAGS = -T $(LDS) -static -Bsymbolic -nostdlib
 
